@@ -1,9 +1,8 @@
-# Laravel10.x公式ドキュメント翻訳リポジトリ
+# Laravel1.x公式ドキュメント翻訳リポジトリ
 
-このリポジトリはPHP Webアプリフレームワーク、Laravel10.xの公式英文ドキュメントを日本語へ翻訳しています。
+このリポジトリはPHP Webアプリフレームワーク、Laravel11.xの公式英文ドキュメントを日本語へ翻訳しています。
 
-
-This is a Japanese translation repository for Laravel 10.x official documentations.
+This is a Japanese translation repository for Laravel 11.x official documentations.
 
 > 注意：Laravel開発者のTaylor Otwell氏は、英語のネイティプスピーカーです。英語しか理解できません。
 > 自分の理解できないものには責任が持てないと言う理由から、
@@ -47,7 +46,9 @@ GitHubがオープンソース貢献者を支援する方々を金銭面で支�
 
 Issueで報告していただくのが、一番簡単です。
 
-<https://github.com/laravel-ja/ja-docs-10.x/issues>のページで、"New issue"ボタンをクリックし、issueを発行してご報告ください。
+> 注意！ 只今翻訳中ですので、翻訳抜け、不具合等の報告はご遠慮ください。
+
+<https://github.com/laravel-ja/ja-docs-11.x/issues>のページで、"New issue"ボタンをクリックし、issueを発行してご報告ください。
 
 > 2ndパーティーパッケージとして取り入れられたCashier-mollieのドキュメントは、オリジナル英語並びに本翻訳リポジトリに含まれていません。そもそもCashierのドキュメント利用者は少ないため、mollieドキュメントなど3rdパーティパッケージの説明は原則翻訳しません。
 
@@ -63,24 +64,24 @@ Issueで報告していただくのが、一番簡単です。
 
 ### ディレクトリ構造
 
-| ディレクトリ／ファイル  | 内容                               |
-| ----------------------- | ---------------------------------- |
-| original-en    | 翻訳対象原文ブランチの内容                  |
-| translation-ja | 日本語翻訳Markdownファイル                  |
-| scripts        | 用語統一、文章構造確認などの補助スクリプト   |
+| ディレクトリ／ファイル | 内容                                       |
+| ---------------------- | ------------------------------------------ |
+| original-en            | 翻訳対象原文ブランチの内容                 |
+| translation-ja         | 日本語翻訳Markdownファイル                 |
+| scripts                | 用語統一、文章構造確認などの補助スクリプト |
 
 
 ### タグ
 
-| タグ形式               | 内容                                                       |
-| ---------------------- | -----------------------------------------------------------|
-| published.YYMMDD.HHMM  | readouble.comへ公開したコミット                            |
+| タグ形式              | 内容                            |
+| --------------------- | ------------------------------- |
+| published.YYMMDD.HHMM | readouble.comへ公開したコミット |
 
 `published.YYMMDD.HHMM`形式のタグは、readouble.comなどで翻訳文を読む利用者向けのタグです。この形式のタグ間でdiffを確認してもらうことで、前回のリリース時の原文／翻訳文と次回の変更点／差分を確認できます。
 
 ### メンテナンス期間
 
-原則、Laravel10.xのメンテ（バグフィックス）期間である１年６ヶ月間。次回のバージョンのリリースまで。
+原則、Laravel1１.xのメンテ（バグフィックス）期間である１年６ヶ月間。
 
 ### メンテナンス方針
 
