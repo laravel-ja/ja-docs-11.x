@@ -31,7 +31,7 @@ Laravelのイベントは、単純なオブザーバーパターンの実装を�
 <a name="generating-events-and-listeners"></a>
 ## イベントとリスナの生成
 
-イベントとリスナーを素早く生成するには、`make:event`と`make:listener`のArtisanコマンドを使います。
+イベントとリスナを素早く生成するには、`make:event`と`make:listener`のArtisanコマンドを使います。
 
 ```shell
 php artisan make:event PodcastProcessed
@@ -39,7 +39,7 @@ php artisan make:event PodcastProcessed
 php artisan make:listener SendPodcastNotification --event=PodcastProcessed
 ```
 
-使いやすいように、引数を指定せずに`make:event`と`make:listener` Artisanコマンドを呼び出すこともできます。その場合、Laravelは自動的にクラス名、リスナーを作成する場合はクラス名と、そのリスナーがリッスンするイベントのクラス名を求めるプロンプトを表示します。
+使いやすいように、引数を指定せずに`make:event`と`make:listener` Artisanコマンドを呼び出すこともできます。その場合、Laravelは自動的にクラス名、リスナを作成する場合はクラス名と、そのリスナがリッスンするイベントのクラス名を求めるプロンプトを表示します。
 
 ```shell
 php artisan make:event
@@ -53,7 +53,7 @@ php artisan make:listener
 <a name="event-discovery"></a>
 ### イベント追跡
 
-Laravelはデフォルトで、アプリケーションの`Listeners`ディレクトリをスキャンして、イベントリスナを自動的に見つけて登録します。`handle`または`__invoke`で始まるリスナークラスのメソッドが見つかると、Laravelはそれらのメソッドを、メソッドのシグネチャでタイプヒントしてあるイベントのイベントリスナとして登録します。
+Laravelはデフォルトで、アプリケーションの`Listeners`ディレクトリをスキャンして、イベントリスナを自動的に見つけて登録します。`handle`または`__invoke`で始まるリスナクラスのメソッドが見つかると、Laravelはそれらのメソッドを、メソッドのシグネチャでタイプヒントしてあるイベントのイベントリスナとして登録します。
 
     use App\Events\PodcastProcessed;
 
@@ -68,13 +68,13 @@ Laravelはデフォルトで、アプリケーションの`Listeners`ディレ�
         }
     }
 
-リスナーを別のディレクトリや複数のディレクトリへ保存する場合は、アプリケーションの`bootstrap/app.php`ファイルで`withEvents`メソッドを使用し、それらのディレクトリをスキャンするようにLaravelに指示してください。
+リスナを別のディレクトリや複数のディレクトリへ保存する場合は、アプリケーションの`bootstrap/app.php`ファイルで`withEvents`メソッドを使用し、それらのディレクトリをスキャンするようにLaravelに指示してください。
 
     ->withEvents(discover: [
         __DIR__.'/../app/Domain/Listeners',
     ])
 
-`event:list`コマンドは、アプリケーションに登録したすべてのリスナーをリストアップするために使用します。
+`event:list`コマンドは、アプリケーションに登録したすべてのリスナをリストアップするために使用します。
 
 ```shell
 php artisan event:list
@@ -105,7 +105,7 @@ php artisan event:list
         );
     }
 
-`event:list`コマンドは、アプリケーションに登録しているすべてのリスナーをリストアップするために使用します。
+`event:list`コマンドは、アプリケーションに登録しているすべてのリスナをリストアップするために使用します。
 
 ```shell
 php artisan event:list

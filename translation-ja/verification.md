@@ -124,7 +124,7 @@
 
 デフォルトの電子メール確認通知はほとんどのアプリケーションの要件を満たすと思いますが、Laravelでは電子メール確認メールメッセージの構築をカスタマイズできます。
 
-利用を開始するには、`Illuminate\Auth\Notifications\VerifyEmail`通知が提供する、`toMailUsing`メソッドへクロージャを渡します。クロージャは、通知を受け取るNotifiableなモデルインスタンスと、ユーザが自分のメールアドレスを証明するためにアクセスしなければならない署名付きメール検証URLを受け取ります。クロージャは`Illuminate\Notifications\Messages\MailMessage`のインスタンスを返す必要があります。通常、アプリケーションの`AppServiceProvider`クラスの`boot`メソッドで、`toMailUsing`メソッドを呼び出します。
+利用を開始するには、`Illuminate\Auth\Notifications\VerifyEmail`通知が提供する、`toMailUsing`メソッドへクロージャを渡します。クロージャは、通知を受け取るNotifiableなモデルインスタンスと、ユーザーが自分のメールアドレスを証明するためにアクセスしなければならない署名付きメール検証URLを受け取ります。クロージャは`Illuminate\Notifications\Messages\MailMessage`のインスタンスを返す必要があります。通常、アプリケーションの`AppServiceProvider`クラスの`boot`メソッドで、`toMailUsing`メソッドを呼び出します。
 
     use Illuminate\Auth\Notifications\VerifyEmail;
     use Illuminate\Notifications\Messages\MailMessage;

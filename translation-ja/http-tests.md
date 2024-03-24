@@ -106,7 +106,7 @@ class ExampleTest extends TestCase
 ```php tab=Pest
 <?php
 
-tesst('interacting with headers', function () {
+test('interacting with headers', function () {
     $response = $this->withHeaders([
         'X-Header' => 'Value',
     ])->post('/user', ['name' => 'Sally']);

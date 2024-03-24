@@ -100,7 +100,7 @@ Monologはデフォルトで、現在の環境にマッチする「チャンネ�
 <a name="configuring-the-papertrail-channel"></a>
 #### Papertrailチャンネルの設定
 
-`papertrail`チャネルは、`host`と`port`の設定オプションが必要です。これらは`LOG_PAPERTRAIL_URL`と`LOG_PAPERTRAIL_PORT`環境変数で定義できます。これらの値は[Papertrail](https://help.papertrailapp.com/kb/configuration/configuring-centralized-logging-from-php-apps/#send-events-from-php-app)から取得できます。
+`papertrail`チャネルは、`host`と`port`の設定オプションが必要です。これらは`PAPERTRAIL_URL`と`PAPERTRAIL_PORT`環境変数で定義できます。これらの値は[Papertrail](https://help.papertrailapp.com/kb/configuration/configuring-centralized-logging-from-php-apps/#send-events-from-php-app)から取得できます。
 
 <a name="configuring-the-slack-channel"></a>
 #### Slackチャンネルの設定

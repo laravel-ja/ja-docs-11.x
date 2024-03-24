@@ -553,6 +553,10 @@ class ExampleTest extends DuskTestCase
 
     $browser->responsiveScreenshots('filename');
 
+`screenshotElement`は、ページ上の特定の要素のスクリーンショットを撮ります。
+
+    $browser->screenshotElement('#selector', 'filename');
+
 <a name="storing-console-output-to-disk"></a>
 ### コンソール出力をディスクへ保存
 

@@ -139,6 +139,22 @@ AWSの[一時的な認証情報](https://docs.aws.amazon.com/IAM/latest/UserGuid
         'token' => env('AWS_SESSION_TOKEN'),
     ],
 
+SESの[サブスクリプション管理機能](https://docs.aws.amazon.com/ses/latest/dg/sending-email-subscription-management.html)を操作するため、メールメッセージの[`headers`](#headers)メソッドが返す配列の中で、`X-Ses-List-Management-Options`ヘッダを返してください。
+
+```php
+/**
+ * メッセージヘッダの取得
+ */
+public function headers(): Headers
+{
+    return new Headers(
+        text: [
+            'X-Ses-List-Management-Options' => 'contactListName=MyContactList;topicName=MyTopic',
+        ],
+    );
+}
+```
+
 Laravelがメール送信時に、AWS SDKの`SendEmail`メソッドへ渡す、[追加オプション](https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-sesv2-2019-09-27.html#sendemail)を定義したい場合は、`ses`設定に`options`配列を定義します。
 
     'ses' => [
@@ -630,7 +646,7 @@ Laravelは、添付ファイルをカスタマイズするために使用でき�
 <a name="tags-and-metadata"></a>
 ### タグとメタデータ
 
-MailgunやPostmarkなどのサードパーティのメールプロバイダーは、メッセージの「タグ」や「メタデータ」をサポートしており、アプリケーションが送信したメールをグループ化し、追跡しするために使用できます。タグやメタデータは、`Envelope`定義により、メールメッセージへ追加します。
+MailgunやPostmarkなどのサードパーティのメールプロバイダは、メッセージの「タグ」や「メタデータ」をサポートしており、アプリケーションが送信したメールをグループ化し、追跡しするために使用できます。タグやメタデータは、`Envelope`定義により、メールメッセージへ追加します。
 
     use Illuminate\Mail\Mailables\Envelope;
 

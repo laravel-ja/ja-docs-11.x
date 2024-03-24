@@ -179,7 +179,7 @@ php artisan make:controller PhotoController --resource
     ]);
 
 <a name="actions-handled-by-resource-controller"></a>
-#### リソースコントローラにより処理されるアクション
+#### リソースコントローラが処理するアクション
 
 | 動詞      | URI                    | アクション | ルート名       |
 | --------- | ---------------------- | ---------- | -------------- |

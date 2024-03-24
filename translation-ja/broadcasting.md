@@ -103,23 +103,6 @@ php artisan reverb:install
 
 Reverbのインストールと使い方の詳しい説明は、[Reverbのドキュメント](/docs/{{version}}/reverb)にあります。
 
-<a name="reverb"></a>
-### Reverb
-
-Reverbは、Composerパッケージマネージャーを使いインストールできます。Reverbは現在ベータ版なので、明示的にベータ版をインストールする必要があります。
-
-```sh
-composer require laravel/reverb:@beta
-```
-
-パッケージをインストールしたら、Reverbのインストールコマンドを実行して、設定をリソース公開し、アプリケーションのブロードキャスト設定を更新し、Reverbの必要な環境変数を追加してください。
-
-```sh
-php artisan reverb:install
-```
-
-Reverbのインストールと使い方の詳しい説明は、[Reverbのドキュメント](/docs/{{version}}/reverb)にあります。
-
 <a name="pusher-channels"></a>
 ### Pusherチャンネル
 
@@ -216,45 +199,6 @@ npm run build
 
 > [!WARNING]
 > Laravel Echoの`reverb`ブロードキャスターには、laravel-echo v1.16.0以上が必要です。
-
-<a name="client-pusher-channels"></a>
-### Pusherチャンネル
-
-[Laravel Echo](https://github.com/laravel/echo)は、サーバサイドのブロードキャストドライバにより、ブロードキャストされるチャンネルやイベントを簡単にサブスクライブできるJavaScriptライブラリです。また、Echoは`pusher-js` NPMパッケージを利用して、WebSocketサブスクリプション、チャンネル、メッセージ用のPusherプロトコルを実装しています。
-
-`install:broadcasting` Artisanコマンドは、自動的に`laravel-echo`と`pusher-js`パッケージをインストールしますが、NPMを使用し手作業で行うこともできます。
-
-```shell
-npm install --save-dev laravel-echo pusher-js
-```
-
-`laravel-echo`と`pusher-js`をインストールしたら、アプリケーションのJavaScriptで、新しいEchoインスタンスを生成する準備が整いました。`install:broadcasting`のArtisanコマンドは、これを扱う`resources/js/echo.js`ファイルを作成します。
-
-```js
-import Echo from 'laravel-echo';
-
-import Pusher from 'pusher-js';
-window.Pusher = Pusher;
-
-window.Echo = new Echo({
-    broadcaster: 'reverb',
-    key: import.meta.env.VITE_REVERB_APP_KEY,
-    wsHost: import.meta.env.VITE_REVERB_HOST,
-    wsPort: import.meta.env.VITE_REVERB_PORT,
-    wssPort: import.meta.env.VITE_REVERB_PORT,
-    forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
-    enabledTransports: ['ws', 'wss'],
-});
-```
-
-次に必要なことは、アプリケーションのアセットをコンパイルすることだけです。
-
-```shell
-npm run build
-```
-
-> [!NOTE]
-> アプリケーションで使用しているJavaScriptリソースのコンパイルについて詳しく知りたい場合は、[Vite](/docs/{{version}}/vite)ドキュメントを参照してください。
 
 <a name="client-pusher-channels"></a>
 ### Pusherチャンネル

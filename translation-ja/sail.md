@@ -3,6 +3,7 @@
 - [イントロダクション](#introduction)
 - [インストールと準備](#installation)
     - [既存アプリケーションへのSailインストール](#installing-sail-into-existing-applications)
+    - [Sailイメージの再構築](#rebuilding-sail-images)
     - [シェルエイリアスの設定](#configuring-a-shell-alias)
 - [Sailの開始と停止](#starting-and-stopping-sail)
 - [コマンドの実行](#executing-sail-commands)
@@ -82,6 +83,19 @@ php artisan sail:add
 
 ```shell
 php artisan sail:install --devcontainer
+```
+
+<a name="rebuilding-sail-images"></a>
+### Sailイメージの再構築
+
+すべてのパッケージやソフトウェアが最新であることを確認するために、セイルイメージを完全に作り直したいと思うこともあるでしょう。それには、`build`コマンドを使用します。
+
+```shell
+docker compose down -v
+
+sail build --no-cache
+
+sail up
 ```
 
 <a name="configuring-a-shell-alias"></a>

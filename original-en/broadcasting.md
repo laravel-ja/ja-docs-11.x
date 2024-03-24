@@ -103,23 +103,6 @@ php artisan reverb:install
 
 You can find detailed Reverb installation and usage instructions in the [Reverb documentation](/docs/{{version}}/reverb).
 
-<a name="reverb"></a>
-### Reverb
-
-You may install Reverb using the Composer package manager. Since Reverb is currently in beta, you will need to explicitly install the beta release:
-
-```sh
-composer require laravel/reverb:@beta
-```
-
-Once the package is installed, you may run Reverb's installation command to publish the configuration, update your applications's broadcasting configuration, and add Reverb's required environment variables:
-
-```sh
-php artisan reverb:install
-```
-
-You can find detailed Reverb installation and usage instructions in the [Reverb documentation](/docs/{{version}}/reverb).
-
 <a name="pusher-channels"></a>
 ### Pusher Channels
 
@@ -216,45 +199,6 @@ npm run build
 
 > [!WARNING]  
 > The Laravel Echo `reverb` broadcaster requires laravel-echo v1.16.0+.
-
-<a name="client-pusher-channels"></a>
-### Pusher Channels
-
-[Laravel Echo](https://github.com/laravel/echo) is a JavaScript library that makes it painless to subscribe to channels and listen for events broadcast by your server-side broadcasting driver. Echo also leverages the `pusher-js` NPM package to implement the Pusher protocol for WebSocket subscriptions, channels, and messages.
-
-The `install:broadcasting` Artisan command automatically installs the `laravel-echo` and `pusher-js` packages for you; however, you may also install these packages manually via NPM:
-
-```shell
-npm install --save-dev laravel-echo pusher-js
-```
-
-Once `laravel-echo` and `pusher-js` are installed, you are ready to create a fresh Echo instance in your application's JavaScript. The `install:broadcasting` Artisan command creates a `resources/js/echo.js` file that handles this for you:
-
-```js
-import Echo from 'laravel-echo';
-
-import Pusher from 'pusher-js';
-window.Pusher = Pusher;
-
-window.Echo = new Echo({
-    broadcaster: 'reverb',
-    key: import.meta.env.VITE_REVERB_APP_KEY,
-    wsHost: import.meta.env.VITE_REVERB_HOST,
-    wsPort: import.meta.env.VITE_REVERB_PORT,
-    wssPort: import.meta.env.VITE_REVERB_PORT,
-    forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
-    enabledTransports: ['ws', 'wss'],
-});
-```
-
-Next, you only need to compile your application's assets:
-
-```shell
-npm run build
-```
-
-> [!NOTE]
-> To learn more about compiling your application's JavaScript assets, please consult the documentation on [Vite](/docs/{{version}}/vite).
 
 <a name="client-pusher-channels"></a>
 ### Pusher Channels

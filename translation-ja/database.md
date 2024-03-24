@@ -75,7 +75,7 @@ mysql://root:password@127.0.0.1/forge?charset=UTF-8
 driver://username:password@host:port/database?options
 ```
 
-便利が良いように、Laravelは複数の設定オプションを使用してデータベースを構成する代わりに、こうしたURLをサポートしています。`url`(または対応する`DATABASE_URL`環境変数)設定オプションが存在する場合は、データベース接続と接続情報を抽出するためにそれを使用します。
+便利が良いように、Laravelは複数の設定オプションを使用してデータベースを構成する代わりに、こうしたURLをサポートしています。`url`(または対応する`DB_URL`環境変数)設定オプションが存在する場合は、データベース接続と接続情報を抽出するためにそれを使用します。
 
 <a name="read-and-write-connections"></a>
 ### 読み／書き接続

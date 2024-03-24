@@ -58,7 +58,7 @@ Before creating your first Laravel project, make sure that your local machine ha
 After you have installed PHP and Composer, you may create a new Laravel project via Composer's `create-project` command:
 
 ```nothing
-composer create-project laravel/laravel:^10.0 example-app
+composer create-project laravel/laravel:^11.0 example-app
 ```
 
 Or, you may create new Laravel projects by globally installing [the Laravel installer](https://github.com/laravel/installer) via Composer:
@@ -164,7 +164,13 @@ cd example-app
 ./vendor/bin/sail up
 ```
 
-Once the application's Docker containers have been started, you can access the application in your web browser at: http://localhost.
+Once the application's Docker containers have started, you should run your application's [database migrations](/docs/{{version}}/migrations):
+
+```shell
+./vendor/bin/sail artisan migrate
+```
+
+Finally, you can access the application in your web browser at: http://localhost.
 
 > [!NOTE]  
 > To continue learning more about Laravel Sail, review its [complete documentation](/docs/{{version}}/sail).
@@ -195,7 +201,13 @@ cd example-app
 ./vendor/bin/sail up
 ```
 
-Once the application's Docker containers have been started, you can access the application in your web browser at: http://localhost.
+Once the application's Docker containers have started, you should run your application's [database migrations](/docs/{{version}}/migrations):
+
+```shell
+./vendor/bin/sail artisan migrate
+```
+
+Finally, you can access the application in your web browser at: http://localhost.
 
 > [!NOTE]  
 > To continue learning more about Laravel Sail, review its [complete documentation](/docs/{{version}}/sail).
@@ -235,7 +247,13 @@ cd example-app
 ./vendor/bin/sail up
 ```
 
-Once the application's Docker containers have been started, you can access the application in your web browser at: http://localhost.
+Once the application's Docker containers have started, you should run your application's [database migrations](/docs/{{version}}/migrations):
+
+```shell
+./vendor/bin/sail artisan migrate
+```
+
+Finally, you can access the application in your web browser at: http://localhost.
 
 > [!NOTE]  
 > To continue learning more about Laravel Sail, review its [complete documentation](/docs/{{version}}/sail).

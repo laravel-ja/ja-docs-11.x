@@ -71,7 +71,7 @@ php artisan install:api --passport
 
 さらに、このコマンドは、Passport `Client`モデルの主キー値として、自動インクリメントの整数の代わりに、UUIDを使用するかを尋ねます。
 
-`install:api`コマンドを実行した後に、`App\Models\User`モデルへ`Laravel\Passport\HasApiTokens`トレイトを追加してください。このトレイトは、認証済みユーザのトークンとスコープを検査できる、いくつかのヘルパーメソッドをモデルに提供します。
+`install:api`コマンドを実行した後に、`App\Models\User`モデルへ`Laravel\Passport\HasApiTokens`トレイトを追加してください。このトレイトは、認証済みユーザーのトークンとスコープを検査できる、いくつかのヘルパメソッドをモデルに提供します。
 
     <?php
 

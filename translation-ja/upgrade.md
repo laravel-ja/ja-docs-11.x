@@ -72,6 +72,7 @@ Laravelは、PHP8.2.0以上が必要になりました。
 - `laravel/cashier`を`^15.0`へ（インストール済みの場合）
 - `laravel/dusk`を`^8.0`へ（インストール済みの場合）
 - `laravel/jetstream`を`^5.0`へ（インストール済みの場合）
+- `laravel/octane`を`^2.3`へ（インストール済みの場合）
 - `laravel/passport`を`^12.0`へ（インストール済みの場合）
 - `laravel/sanctum`を`^4.0`へ（インストール済みの場合）
 - `laravel/spark-stripe`を`^5.0`へ（インストール済みの場合）
@@ -109,7 +110,7 @@ composer global require laravel/installer:^5.6
 <a name="application-structure"></a>
 ### アプリケーション構造
 
-Laravel11では、新しいデフォルトのアプリケーション構造が導入され、デフォルトのファイルが少なくなっています。つまり、新しいLaravelアプリケーションには、サービスプロバイダー、ミドルウェア、設定ファイルの数が少なくなっています。
+Laravel11では、新しいデフォルトのアプリケーション構造が導入され、デフォルトのファイルが少なくなっています。つまり、新しいLaravelアプリケーションには、サービスプロバイダ、ミドルウェア、設定ファイルの数が少なくなっています。
 
 しかし、Laravel10アプリケーションをLaravel11にアップグレードするときに、アプリケーション構造の移行を試みることは**お勧めしません**。Laravel11はLaravel10のアプリケーション構造もサポートするように注意深く調整してあります。
 
@@ -155,6 +156,20 @@ public function getAuthPasswordName()
 ```
 
 Laravelに含まれるデフォルトの`User`モデルでは、このメソッドが`Illuminate\Auth\Authenticatable`トレイトに含まれているため、自動的にこのメソッドを受け取ります。
+
+<a name="the-authentication-exception-class"></a>
+
+#### `AuthenticationException`クラス
+
+**影響の可能性： かなり低い**
+
+`Illuminate\Auth\AuthenticationException`クラスの`redirectTo`メソッドは、最初の引数に`Illuminate\Http\Request`インスタンスが必要になりました。この例外を手作業でキャッチし、`redirectTo`メソッドを呼び出している場合は、それに応じてコードを更新してください。
+
+```php
+if ($e instanceof AuthenticationException) {
+    $path = $e->redirectTo($request);
+}
+```
 
 <a name="cache"></a>
 ### キャッシュ

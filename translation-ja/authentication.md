@@ -581,7 +581,7 @@ Laravelは、現在のデバイスのセッションを無効にすることな�
 
 カスタムHTTPリクエストベースの認証システムを実装する最も簡単な方法は、`Auth::viaRequest`メソッドを使用することです。この方法は、単一クロージャを使用して認証プロセスをすばやく定義できます。
 
-使用を開始するには、アプリケーションの`AppServiceProvider`の`boot`メソッド内で、`Auth::viaRequest`メソッドを呼び出します。`viaRequest`メソッドの最初の引数は、認証ドライバの名前を指定します。この名前は、カスタムガードを表す任意の文字列を指定できます。このメソッドの第２引数には、HTTPリクエストを受け取ってユーザインスタンスを返すか、認証に失敗した場合は`null`を返すクロージャを指定します。
+使用を開始するには、アプリケーションの`AppServiceProvider`の`boot`メソッド内で、`Auth::viaRequest`メソッドを呼び出します。`viaRequest`メソッドの最初の引数は、認証ドライバの名前を指定します。この名前は、カスタムガードを表す任意の文字列を指定できます。このメソッドの第２引数には、HTTPリクエストを受け取ってユーザーインスタンスを返すか、認証に失敗した場合は`null`を返すクロージャを指定します。
 
     use App\Models\User;
     use Illuminate\Http\Request;
@@ -690,7 +690,7 @@ Laravelは、現在のデバイスのセッションを無効にすることな�
 
 `validateCredentials`メソッドは、指定された`$user`を`$credentials`と比較してユーザーを認証する必要があります。たとえば、このメソッドは通常、`Hash::check`メソッドを使用して、`$user->getAuthPassword()`の値を`$credentials['password']`の値と比較します。このメソッドは、パスワードが有効かどうかを示す`true`か`false`を返す必要があります。
 
-`rehashPasswordIfRequired`メソッドは、指定された`$user`のパスワードが必須かつサポートされている場合、そのパスワードを再ハッシュする必要があります。例えば、このメソッドは通常`$credentials['password']`の値を再ハッシュする必要があるかを判定するために`Hash::needsRehash`メソッドを使用するでしょう。パスワードをリハッシュする必要がある場合、このメソッドは、`Hash::make`メソッドを使用してパスワードをリハッシュし、永続ストレージ内のユーザのレコードを更新する必要があります。
+`rehashPasswordIfRequired`メソッドは、指定された`$user`のパスワードが必須かつサポートされている場合、そのパスワードを再ハッシュする必要があります。例えば、このメソッドは通常`$credentials['password']`の値を再ハッシュする必要があるかを判定するために`Hash::needsRehash`メソッドを使用するでしょう。パスワードをリハッシュする必要がある場合、このメソッドは、`Hash::make`メソッドを使用してパスワードをリハッシュし、永続ストレージ内のユーザーのレコードを更新する必要があります。
 
 <a name="the-authenticatable-contract"></a>
 ### Authenticatable契約
@@ -712,14 +712,14 @@ Laravelは、現在のデバイスのセッションを無効にすることな�
         public function getRememberTokenName();
     }
 
-このインターフェイスはシンプルです。`getAuthIdentifierName`メソッドはユーザーの「主キー」カラムの名前を返し、`getAuthIdentifier`メソッドはユーザの「主キー」を返します。MySQLバックエンドを使用している場合は、ユーザーレコードに割り当てられている自動インクリメントの主キーになるでしょう。`getAuthPasswordName`メソッドは、ユーザーのパスワードカラムの名前を返します。`getAuthPassword`メソッドは、ユーザのハッシュ化済みパスワードを返します。
+このインターフェイスはシンプルです。`getAuthIdentifierName`メソッドはユーザーの「主キー」カラムの名前を返し、`getAuthIdentifier`メソッドはユーザーの「主キー」を返します。MySQLバックエンドを使用している場合は、ユーザーレコードに割り当てられている自動インクリメントの主キーになるでしょう。`getAuthPasswordName`メソッドは、ユーザーのパスワードカラムの名前を返します。`getAuthPassword`メソッドは、ユーザーのハッシュ化済みパスワードを返します。
 
 このインターフェイスにより、使用しているORMまたはストレージ抽象化レイヤーに関係なく、認証システムは任意の「ユーザー」クラスと連携できます。デフォルトでLaravelは`app/Models`ディレクトリに、このインターフェイスを実装する`App\Models\User`クラスを持っています。
 
 <a name="events"></a>
 ## イベント
 
-Laravelは、認証プロセス中に様々な[イベント](/docs/{{version}}/events)をディスパッチします。以下のイベントに対して、[リスナーを定義](/docs/{{version}}/events)できます.
+Laravelは、認証プロセス中に様々な[イベント](/docs/{{version}}/events)をディスパッチします。以下のイベントに対して、[リスナを定義](/docs/{{version}}/events)できます.
 
 イベント名 |
 ------------- |

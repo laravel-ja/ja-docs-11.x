@@ -55,6 +55,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Arr::keyBy](#method-array-keyby)
 [Arr::last](#method-array-last)
 [Arr::map](#method-array-map)
+[Arr::mapSpread](#method-array-map-spread)
 [Arr::mapWithKeys](#method-array-map-with-keys)
 [Arr::only](#method-array-only)
 [Arr::pluck](#method-array-pluck)
@@ -551,6 +552,29 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
     });
 
     // ['first' => 'James', 'last' => 'Kirk']
+
+<a name="method-array-map-spread"></a>
+#### `Arr::mapSpread()` {.collection-method}
+
+`Arr::mapSpread`メソッドは配列を繰り返し処理し、入れ子になった各項目の値を与えられたクロージャへ渡します。クロージャは自由にアイテムを変更してそれを返すことができ、変更したアイテムで新しい配列を形成します。
+
+    use Illuminate\Support\Arr;
+
+    $array = [
+        [0, 1],
+        [2, 3],
+        [4, 5],
+        [6, 7],
+        [8, 9],
+    ];
+
+    $mapped = Arr::mapSpread($array, function (int $even, int $odd) {
+        return $even + $odd;
+    });
+
+    /*
+        [1, 5, 9, 13, 17]
+    */
 
 <a name="method-array-map-with-keys"></a>
 #### `Arr::mapWithKeys()` {.collection-method}
@@ -2440,7 +2464,7 @@ public function test_it_waits_until_ready()
 }
 ```
 
-`Sleep`クラスをFakeする場合、実際の実行の一時停止はバイパスされるため、テストが大幅に高速化されます。
+`Sleep`クラスをFakeする場合、実際の実行の一時停止をバイパスするため、テストは大幅に高速化されます。
 
 一度`Sleep`クラスをFakeすると、本来発生するはずの「スリープ」に対してアサートできるようになります。これを説明するために、実行を３回一時停止するコードをテストしていると仮定します。（各停止時間は１秒ずつ増加させます。）`assertSequence`メソッドを使用すると、テストの速度を維持したまま、適切な時間だけコードが「スリープ」したことをアサートできます：
 
@@ -2473,7 +2497,7 @@ public function test_it_checks_if_ready_four_times()
 }
 ```
 
-もちろん、`Sleep`クラスには、テスト時に使用する他の様々なアサーションを用意しています。
+もちろん、`Sleep`クラスには、テスト時に使用できる、他の様々なアサーションを用意しています。
 
     use Carbon\CarbonInterval as Duration;
     use Illuminate\Support\Sleep;
@@ -2505,6 +2529,18 @@ Sleep::whenFakingSleep(function (Duration $duration) {
     // SleepをFakeした時点で、時間を進める
     $this->travel($duration->totalMilliseconds)->milliseconds();
 });
+```
+
+時間の進行は一般的な要件であるため、`fake`メソッドは`syncWithCarbon`引数を取り、テスト内でスリープしているときにカーボンの同期を保ちます。
+
+```php
+Sleep::fake(syncWithCarbon: true);
+
+$start = now();
+
+Sleep::for(1)->second();
+
+$start->diffForHumans(); // 1 second ago
 ```
 
 Laravelは実行を一時停止するとき、にいつでも内部的に`Sleep`クラスを使用しています。例えば、[`retry`](#method-retry)ヘルパはスリープ時に`Sleep`クラスを使用し、そのヘルパを使用する際のテストの実行性を上げています。

@@ -10,6 +10,7 @@
 - [サーバの実行](#running-server)
     - [デバッグ](#debugging)
     - [リスタート](#restarting)
+- [監視](#monitoring)
 - [実機でのReverb実行](#production)
     - [Open Files](#open-files)
     - [イベントループ](#event-loop)
@@ -143,6 +144,40 @@ Reverbは実行終了しないプロセスなのため、`reverb:restart` Artisa
 
 ```sh
 php artisan reverb:restart
+```
+
+<a name="monitoring"></a>
+## 監視
+
+Reverbは、[Laravel Pulse](/docs/{{version}}/pulse)との統合により、監視できます。ReverbのPulse統合を有効にすれば、サーバが処理している接続数とメッセージ数を追跡できます。
+
+この統合を有効にするには、まずPulseを確実に[インストール](/docs/{{version}}/pulse#installation)してください。次に、アプリケーションの`config/pulse.php`設定ファイルで、Reverbのレコーダを追加してください。
+
+```php
+use Laravel\Reverb\Pulse\Recorders\ReverbConnections;
+use Laravel\Reverb\Pulse\Recorders\ReverbMessages;
+
+'recorders' => [
+    ReverbConnections::class => [
+        'sample_rate' => 1,
+    ],
+
+    ReverbMessages::class => [
+        'sample_rate' => 1,
+    ],
+
+    ...
+],
+```
+
+次に、各レコーダーのPulseカードを[Pulseダッシュボード](/docs/{{version}}/pulse#dashboard-customization)に追加します。
+
+```blade
+<x-pulse>
+    <livewire:reverb.connections cols="full" />
+    <livewire:reverb.messages cols="full" />
+    ...
+</x-pulse>
 ```
 
 <a name="production"></a>

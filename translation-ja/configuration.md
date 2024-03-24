@@ -22,7 +22,7 @@ Laravelフレームワークの全設定ファイルは、`config`ディレク�
 <a name="the-about-command"></a>
 #### `about`コマンド
 
-Laravelでは、`about` Artisanコマンドでアプリケーションの設定、ドライバー、環境の概要を表示できます。
+Laravelでは、`about` Artisanコマンドでアプリケーションの設定、ドライバ、環境の概要を表示できます。
 
 ```shell
 php artisan about
@@ -202,6 +202,14 @@ php artisan env:decrypt --force
     Config::set('app.timezone', 'America/Chicago');
 
     config(['app.timezone' => 'America/Chicago']);
+
+静的解析を支援するため、`Config`ファサードは型付き設定値の取得メソッドも提供しています。取得した設定値が期待した型と一致しない場合、例外を投げます。
+
+    Config::string('config-key');
+    Config::integer('config-key');
+    Config::float('config-key');
+    Config::boolean('config-key');
+    Config::array('config-key');
 
 <a name="configuration-caching"></a>
 ## 設定キャッシュ

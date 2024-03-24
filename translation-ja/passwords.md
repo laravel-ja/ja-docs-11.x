@@ -170,7 +170,7 @@ php artisan auth:clear-resets
 <a name="reset-link-customization"></a>
 #### リセットリンクのカスタマイズ
 
-`ResetPassword`通知クラスが提供する`createUrlUsing`メソッドを使用して、パスワードリセットリンクのURLをカスタマイズできます。このメソッドは、通知を受け取るユーザインスタンスとパスワードリセットリンクトークンを受け取るクロージャを引数に取ります。通常、このメソッドは`App\Providers\AppServiceProvider`サービスプロバイダの`boot`メソッドから呼び出します。
+`ResetPassword`通知クラスが提供する`createUrlUsing`メソッドを使用して、パスワードリセットリンクのURLをカスタマイズできます。このメソッドは、通知を受け取るユーザーインスタンスとパスワードリセットリンクトークンを受け取るクロージャを引数に取ります。通常、このメソッドは`App\Providers\AppServiceProvider`サービスプロバイダの`boot`メソッドから呼び出します。
 
     use App\Models\User;
     use Illuminate\Auth\Notifications\ResetPassword;

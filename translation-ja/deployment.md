@@ -171,7 +171,7 @@ Laravelは、アプリケーションのステータスを監視するために�
         health: '/status', // [tl! add]
     )
 
-HTTPリクエストがこのルートへ行われると、Laravelは `Illuminate\Foundation\Events\DiagnosingHealth`イベントもディスパッチするため、アプリケーションに関連する追加のヘルスチェックを実行できます。このイベントの[リスナ](/docs/{{version}}/events)内で、アプリケーションのデータベースやキャッシュの状態をチェックできます。アプリケーションに問題が見つかった場合は、リスナーから例外を投げるだけです。
+HTTPリクエストがこのルートへ行われると、Laravelは `Illuminate\Foundation\Events\DiagnosingHealth`イベントもディスパッチするため、アプリケーションに関連する追加のヘルスチェックを実行できます。このイベントの[リスナ](/docs/{{version}}/events)内で、アプリケーションのデータベースやキャッシュの状態をチェックできます。アプリケーションに問題が見つかった場合は、リスナから例外を投げるだけです。
 
 <a name="deploying-with-forge-or-vapor"></a>
 ## Forge／Vaporを利用する簡単なデプロイ

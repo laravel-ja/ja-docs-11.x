@@ -85,7 +85,7 @@ return Application::configure(basePath: dirname(__DIR__))
 <a name="service-providers"></a>
 #### サービスプロバイダ
 
-デフォルトのLaravelアプリケーション構造には５つのサービスプロバイダを持っていましたが、Laravel11では１つの`AppServiceProvider`しかありません。以前のサービスプロバイダーの機能は、`bootstrap/app.php`に組み込まれたり、フレームワークが自動的に処理したり、アプリケーションの`AppServiceProvider`へ配置されたりしました。
+デフォルトのLaravelアプリケーション構造には５つのサービスプロバイダを持っていましたが、Laravel11では１つの`AppServiceProvider`しかありません。以前のサービスプロバイダの機能は、`bootstrap/app.php`に組み込まれたり、フレームワークが自動的に処理したり、アプリケーションの`AppServiceProvider`へ配置されたりしました。
 
 例えば、イベントディスカバリはデフォルトで有効になり、イベントとそのリスナを手作業で登録する必要をほぼ無くしました。しかし、イベントを手作業で登録する必要がある場合は、`AppServiceProvider`に登録するだけです。同様に、以前 `AuthServiceProvider`で登録していた、ルートモデル結合や認証ゲートも、`AppServiceProvider`できます。
 
@@ -230,6 +230,15 @@ Laravel11では、`APP_PREVIOUS_KEYS`環境変数を使って、アプリケー�
 
 Laravelでの暗号化の詳細は、[暗号化のドキュメント](/docs/{{version}}/encryption)をチェックしてください。
 
+<a name="automatic-password-rehashing"></a>
+### パスワードの自動再ハッシュ
+
+*パスワードの自動再ハッシュは、[Stephen Rees-Carter](https://github.com/valorin)が貢献しました。*
+
+Laravelのデフォルトのパスワードハッシュアルゴリズムはbcryptです。bcryptハッシュの「ワークファクター」は、`config/hashing.php`設定ファイル、または`BCRYPT_ROUNDS`環境変数で調整できます。
+
+通常、bcryptのワークファクターは、CPU／GPUの処理能力が向上するにつれて、増加させ時間をかける必要があります。アプリケーションのbcryptワークファクターを上げると、Laravelはユーザーがアプリケーションで認証する際に、ユーザーパスワードをうまく自動的に再ハッシュするようになります。
+
 <a name="prompt-validation"></a>
 ### プロンプトバリデーション
 
@@ -250,7 +259,7 @@ $name = text(
 );
 ```
 
-しかし、多くの入力や複雑なバリデーションシナリオを扱う場合、これは面倒です。そこでLaravel11では、プロンプト入力のバリデーションを行う際に、Laravelの[バリデタ](/docs/{{version}}/validation)をフルに活用できるようになりました。
+しかし、多くの入力や複雑なバリデーションシナリオを扱う場合、これは面倒です。そこでLaravel11では、プロンプト入力のバリデーションを行う際に、Laravelの[バリデータ](/docs/{{version}}/validation)をフルに活用できるようになりました。
 
 ```php
 $name = text('What is your name?', validate: [
@@ -347,7 +356,7 @@ Laravel11では、テスト中に`:memory:` SQLiteデータベースを使用す
 
 *MariaDBのサポート向上は、[Jonas Staudenmeir](https://github.com/staudenmeir)*と*[Julius Kiekbusch](https://github.com/Jubeki)が貢献しました。*
 
-Laravel11では、MariaDBのサポートを改善しました。以前のLaravelリリースでは、LaravelのMySQLドライバー経由でMariaDBを使用できました。しかし、Laravel11では専用のMariaDBドライバが搭載され、このデータベースシステムのデフォルトが改善されました。
+Laravel11では、MariaDBのサポートを改善しました。以前のLaravelリリースでは、LaravelのMySQLドライバ経由でMariaDBを使用できました。しかし、Laravel11では専用のMariaDBドライバが搭載され、このデータベースシステムのデフォルトが改善されました。
 
 Laravelのデータベースドライバの詳細は、[データベースドキュメント](/docs/{{version}}/database)をチェックしてください。
 

@@ -330,9 +330,17 @@ CSRF保護を初期化したら、Laravelアプリケーションの`/login`ル�
 <a name="authorizing-private-broadcast-channels"></a>
 ### プライベートブロードキャストチャンネルの認可
 
-SPAが[プライベート/プレゼンスブロードキャストチャネル](/docs/{{version}}/Broadcasting#authorizing-channels)による認証の必要がある場合は、`routes/api.php`ファイル内で`Broadcast::routes`メソッドを呼び出しす必要があります。
+SPAで[プライベート／プレゼンスブロードキャストチャンネル](/docs/{{version}}/broadcasting#authorizing-channels)により、認証する必要がある場合、アプリケーションの`bootstrap/app.php`ファイルに含まれる`withRouting`メソッドから`channels`エントリを削除する必要があります。代わりに、`withBroadcasting`メソッドを呼び出し、アプリケーションのブロードキャストルートへ正しいミドルウェアを指定してください。
 
-    Broadcast::routes(['middleware' => ['auth:sanctum']]);
+    return Application::configure(basePath: dirname(__DIR__))
+        ->withRouting(
+            web: __DIR__.'/../routes/web.php',
+            // ...
+        )
+        ->withBroadcasting(
+            __DIR__.'/../routes/channels.php',
+            ['prefix' => 'api', 'middleware' => ['auth:sanctum']],
+        )
 
 次に、Pusherの許可リクエストを成功させるために、[Laravel Echo](/docs/{{version}}/Broadcasting#client-side-installation)を初期化するときにカスタムPusher `authorizer`を提供する必要があります。これにより、アプリケーションは、[クロスドメインリクエスト用に適切に設定した](#cors-and-cookies)`axios`インスタンスを使用するようにPusherを構成できます。
 

@@ -44,6 +44,7 @@ LaravelのソースコードはGitHubで管理され、各Laravelプロジェク
 - [Laravel Pennant](https://github.com/laravel/pennant)
 - [Laravel Pint](https://github.com/laravel/pint)
 - [Laravel Prompts](https://github.com/laravel/prompts)
+- [Laravel Reverb](https://github.com/laravel/reverb)
 - [Laravel Sail](https://github.com/laravel/sail)
 - [Laravel Sanctum](https://github.com/laravel/sanctum)
 - [Laravel Scout](https://github.com/laravel/scout)

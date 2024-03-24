@@ -157,7 +157,7 @@ report($caught); // 無視される
 <a name="ignoring-exceptions-by-type"></a>
 ### タイプによる例外の無視
 
-アプリケーションを構築するとき、報告したくないタイプの例外があるでしょう。これらの例外を無視するためには、アプリケーションの`boostrap/app.php`ファイルで`dontReport`例外メソッドを使ってください。このメソッドへ指定したクラスは、報告しません。しかしながら、それらのクラスが、カスタムレンダロジックを持っている可能性はあります。
+アプリケーションを構築するとき、報告したくないタイプの例外があるでしょう。これらの例外を無視するためには、アプリケーションの`bootstrap/app.php`ファイルで`dontReport`例外メソッドを使ってください。このメソッドへ指定したクラスは、報告しません。しかしながら、それらのクラスが、カスタムレンダロジックを持っている可能性はあります。
 
     use App\Exceptions\InvalidOrderException;
 
@@ -167,7 +167,7 @@ report($caught); // 無視される
         ]);
     })
 
-Laravelは内部的に、あらかじめいくつかのタイプのエラーを無視しています。例えば、404 HTTPエラーや無効なCSRFトークンによって生成された419 HTTPレスポンスから生じる例外などです。Laravelが指定しているタイプの例外を無視しないように指示したい場合は、アプリケーションの`boostrap/app.php`ファイルで、`stopIgnoring`例外メソッドを使用してください。
+Laravelは内部的に、あらかじめいくつかのタイプのエラーを無視しています。例えば、404 HTTPエラーや無効なCSRFトークンによって生成された419 HTTPレスポンスから生じる例外などです。Laravelが指定しているタイプの例外を無視しないように指示したい場合は、アプリケーションの`bootstrap/app.php`ファイルで、`stopIgnoring`例外メソッドを使用してください。
 
     use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -209,7 +209,7 @@ Laravelの例外ハンドラはデフォルトで、例外をHTTPレスポンス
 <a name="rendering-exceptions-as-json"></a>
 #### 例外をJSONでレンダーする
 
-例外をレンダーするとき、Laravelはリクエストの`Content-Type`ヘッダーに基づいて、例外をHTMLレスポンスとしてレンダーするか、JSONレスポンスとしてレンダーするかを自動的に判断します。Laravelが例外レスポンスをHTMLとJSONのどちらでレンダーするかを決定する方法をカスタマイズしたい場合は、`shouldRenderJsonWhen`メソッドを利用します。
+例外をレンダーするとき、Laravelはリクエストの`Content-Type`ヘッダに基づいて、例外をHTMLレスポンスとしてレンダーするか、JSONレスポンスとしてレンダーするかを自動的に判断します。Laravelが例外レスポンスをHTMLとJSONのどちらでレンダーするかを決定する方法をカスタマイズしたい場合は、`shouldRenderJsonWhen`メソッドを利用します。
 
     use Illuminate\Http\Request;
     use Throwable;
@@ -246,7 +246,7 @@ Laravelの例外ハンドラはデフォルトで、例外をHTTPレスポンス
 <a name="renderable-exceptions"></a>
 ### Reportable／Renderable例外
 
-アプリケーションの`boostrap/app.php`ファイルでカスタムレポートとレンダー動作を定義する代わりに、アプリケーションの例外に直接、`report`と`render`メソッドを定義できます。これらのメソッドが存在するとき、フレームワークは自動的に呼び出します。
+アプリケーションの`bootstrap/app.php`ファイルでカスタムレポートとレンダー動作を定義する代わりに、アプリケーションの例外に直接、`report`と`render`メソッドを定義できます。これらのメソッドが存在するとき、フレームワークは自動的に呼び出します。
 
     <?php
 

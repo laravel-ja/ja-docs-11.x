@@ -72,7 +72,7 @@ php artisan schedule:list
         DB::table('recent_users')->delete();
     })->purpose('Delete recent users')->daily();
 
-クロージャーコマンドへ引数を渡す必要がある場合は、`schedule`メソッドへ渡してください。
+クロージャコマンドへ引数を渡す必要がある場合は、`schedule`メソッドへ渡してください。
 
     Artisan::command('emails:send {user} {--force}', function ($user) {
         // ...
