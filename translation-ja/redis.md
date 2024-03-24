@@ -123,11 +123,11 @@ RedisクライアントはRedisサーバへ接続するとき、デフォルト�
         // ...
     ],
 
-By default, Laravel will use native Redis clustering since the `options.cluster` configuration value is set to `redis`. Redis clustering is a great default option, as it gracefully handles failover.
+`options.cluster`の設定値が`redis`に設定されているため、Laravelはデフォルトで、ネイティブのRedisクラスタリングを使用します。Redisクラスタリングは丁寧にフェイルオーバーを処理するので、素晴らしいデフォルトオプションです。
 
-Laravel also supports client-side sharding. However, client-side sharding does not handle failover; therefore, it is primarily suited for transient cached data that is available from another primary data store.
+Laravelはクライアントサイドシャーディングもサポートしています。しかし、クライアントサイドシャーディングはフェイルオーバーを処理しません。そのため、主に別のプライマリデータストアから利用可能な一時的なキャッシュデータに適しています。
 
-If you would like to use client-side sharding instead of native Redis clustering, you may remove the `options.cluster` configuration value within your application's `config/database.php` configuration file:
+ネイティブのRedisクラスタリングではなく、クライアントサイドのシャーディングを使用したい場合は、アプリケーションの`config/database.php`設定ファイル内の`options.cluster`設定値を削除してください。
 
     'redis' => [
 
@@ -152,7 +152,7 @@ If you would like to use client-side sharding instead of native Redis clustering
         // ...
     ],
 
-In addition to the default configuration options, Predis supports additional [connection parameters](https://github.com/nrk/predis/wiki/Connection-Parameters) that may be defined for each of your Redis servers. To utilize these additional configuration options, add them to your Redis server configuration in your application's `config/database.php` configuration file:
+デフォルトの設定オプションに加え、Predisは追加の[接続パラメータ](https://github.com/nrk/predis/wiki/Connection-Parameters)をサポートしており、Redisサーバごとに定義できます。これらの追加設定オプションを使用するには、アプリケーションの`config/database.php`設定ファイルで、Redisサーバの設定に追加します。
 
     'default' => [
         'url' => env('REDIS_URL'),
@@ -176,7 +176,7 @@ In addition to the default configuration options, Predis supports additional [co
         // ...
     ],
 
-In addition to the default configuration options, PhpRedis supports the following additional connection parameters: `name`, `persistent`, `persistent_id`, `prefix`, `read_timeout`, `retry_interval`, `timeout`, and `context`. You may add any of these options to your Redis server configuration in the `config/database.php` configuration file:
+デフォルトの設定オプションに加えて、PhpRedisは`name`、`persistent`、`persistent_id`、`prefix`、`read_timeout`、`retry_interval`、`timeout`、`context`の追加接続パラメータをサポートしています。これらのオプションは、`config/database.php`設定ファイルのRedisサーバ設定へ追加してください。
 
     'default' => [
         'url' => env('REDIS_URL'),

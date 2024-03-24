@@ -22,7 +22,7 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-Laravel provides an expressive, minimal API around the [Symfony Process component](https://symfony.com/doc/7.0/components/process.html), allowing you to conveniently invoke external processes from your Laravel application. Laravel's process features are focused on the most common use cases and a wonderful developer experience.
+Laravelは、[Symfonyプロセスコンポーネント](https://symfony.com/doc/7.0/components/process.html)の周りに表現力豊かで最小限のAPIを提供し、Laravelアプリケーションから外部プロセスを便利に呼び出せるようにしています。Laravelのプロセス機能は、最も一般的なユースケースと素晴らしい開発者体験に傾注しています。
 
 <a name="invoking-processes"></a>
 ## プロセスの起動
@@ -406,10 +406,10 @@ test('process is invoked', function () {
 
     $response = $this->get('/import');
 
-    // Simple process assertion...
+    // シンプルなプロセスのアサート
     Process::assertRan('bash import.sh');
 
-    // Or, inspecting the process configuration...
+    // もしくは、プロセス設定を調べる
     Process::assertRan(function (PendingProcess $process, ProcessResult $result) {
         return $process->command === 'bash import.sh' &&
                $process->timeout === 60;

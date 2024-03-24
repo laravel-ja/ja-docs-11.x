@@ -834,7 +834,17 @@ Feature::define('purchase-button', fn () => Arr::random([
 
 To modify the feature's returned value in your tests, you may re-define the feature at the beginning of the test. The following test will always pass, even though the `Arr::random()` implementation is still present in the service provider:
 
-```php
+```php tab=Pest
+use Laravel\Pennant\Feature;
+
+test('it can control feature values', function () {
+    Feature::define('purchase-button', 'seafoam-green');
+
+    expect(Feature::value('purchase-button'))->toBe('seafoam-green');
+});
+```
+
+```php tab=PHPUnit
 use Laravel\Pennant\Feature;
 
 public function test_it_can_control_feature_values()
@@ -847,7 +857,17 @@ public function test_it_can_control_feature_values()
 
 The same approach may be used for class based features:
 
-```php
+```php tab=Pest
+use Laravel\Pennant\Feature;
+
+test('it can control feature values', function () {
+    Feature::define(NewApi::class, true);
+
+    expect(Feature::value(NewApi::class))->toBeTrue();
+});
+```
+
+```php tab=PHPUnit
 use App\Features\NewApi;
 use Laravel\Pennant\Feature;
 
@@ -980,14 +1000,14 @@ For example, you may find it useful to listen for this event and `report` or thr
 
 namespace App\Providers;
 
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Laravel\Pennant\Events\RetrievingUnknownFeature;
 
-class EventServiceProvider extends ServiceProvider
+class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any other events for your application.
+     * Bootstrap any application services.
      */
     public function boot(): void
     {

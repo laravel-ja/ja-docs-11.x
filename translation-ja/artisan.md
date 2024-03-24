@@ -161,9 +161,9 @@ php artisan make:command SendEmails
 <a name="closure-commands"></a>
 ### クロージャコマンド
 
-Closure based commands provide an alternative to defining console commands as classes. In the same way that route closures are an alternative to controllers, think of command closures as an alternative to command classes.
+クロージャベースのコマンドは、コンソールコマンドをクラスとして定義する代替として提供しています。ルートクロージャがコントローラの代わりであるのと同様に、コマンドクロージャーはコマンドクラスの代わりであると考えてください。
 
-Even though the `routes/console.php` file file does not define HTTP routes, it defines console based entry points (routes) into your application. Within this file, you may define all of your closure based console commands using the `Artisan::command` method. The `command` method accepts two arguments: the [command signature](#defining-input-expectations) and a closure which receives the command's arguments and options:
+`routes/console.php`ファイルではHTTPルートを定義しませんが、アプリケーションのコンソールベースのエントリポイント(ルート)を定義しています。`Artisan::command`メソッドを使用して、このファイル内でクロージャベースのコンソールコマンドをすべて定義できます。`command`メソッドは２つ引数を取り、[コマンド使用定義](#defining-input-expectations)と、コマンドの引数とオプションを受け取るクロージャです。
 
     Artisan::command('mail:send {user}', function (string $user) {
         $this->info("Sending email to: {$user}!");
@@ -637,18 +637,18 @@ Laravelが必要な引数をユーザーから収集する必要がある場合�
     $bar->finish();
 
 > [!NOTE]
-> For more advanced options, check out the [Symfony Progress Bar component documentation](https://symfony.com/doc/7.0/components/console/helpers/progressbar.html).
+> より高度なオプションについては、[Symfonyのプログレスバーコンポーネントのドキュメント](https://symfony.com/doc/7.0/components/console/helpers/progressbar.html)をご覧ください。
 
 <a name="registering-commands"></a>
 ## コマンド登録
 
-By default, Laravel automatically registers all commands within the `app/Console/Commands` directory. However, you can instruct Laravel to scan other directories for Artisan commands using the `withCommands` method in your application's `bootstrap/app.php` file:
+Laravelはデフォルトで、自動的に`app/Console/Commands`ディレクトリ内の全てのコマンドを登録します。しかし、アプリケーションの`bootstrap/app.php`ファイル内の`withCommands`メソッドを使用すれば、他のディレクトリをスキャンし、Artisanコマンドを探すようLaravelに指示できます。
 
     ->withCommands([
         __DIR__.'../app/Domain/Orders/Commands',
     ])
 
-If necessary, you may also manually register commands by providing the command's class name to the `withCommands` method:
+必要であれば、`withCommands`メソッドへコマンドのクラス名を与え、手作業でコマンドを登録することもできます。
 
     use App\Domain\Orders\Commands\SendEmails;
 
@@ -656,7 +656,7 @@ If necessary, you may also manually register commands by providing the command's
         SendEmails::class,
     ])
 
- When Artisan boots, all the commands in your application will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan.
+ Artisanが起動すると、アプリケーション内のすべてのコマンドが[サービスコンテナ](/docs/{{version}}/container)によって解決され、Artisanに登録されます。
 
 <a name="programmatically-executing-commands"></a>
 ## プログラムからのコマンド実行

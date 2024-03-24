@@ -32,15 +32,15 @@ Laravelが初めての方は、気軽に[Laravel Bootcamp](https://bootcamp.lara
 <a name="laravel-breeze-installation"></a>
 ### インストール
 
-First, you should [create a new Laravel application](/docs/{{version}}/installation). If you create your application using the [Laravel installer](/docs/{{version}}/installation#creating-a-laravel-project), you will be prompted to install Laravel Breeze during the installation process. Otherwise, you will need to follow the manual installation instructions below.
+まず、[新しいLaravelアプリケーションを作成](/docs/{{version}}/installation)します。[Laravelインストーラ](/docs/{{version}}/installation#creating-a-laravel-project)を使用してアプリケーションを作成した場合、インストール中にLaravel Breezeをインストールするプロンプトを表示します。それ以外の場合は、以下の手作業によるインストール手順に従ってください。
 
-If you have already created a new Laravel application without a starter kit, you may manually install Laravel Breeze using Composer:
+新しいLaravelアプリケーションをスターターキットなしで作成済みの場合は、Composerを使用してLaravel Breezeを手作業でインストールしてください。
 
 ```shell
 composer require laravel/breeze --dev
 ```
 
-After Composer has installed the Laravel Breeze package, you should run the `breeze:install` Artisan command. This command publishes the authentication views, routes, controllers, and other resources to your application. Laravel Breeze publishes all of its code to your application so that you have full control and visibility over its features and implementation.
+ComposerがLaravel Breezeパッケージをインストールしたら、`breeze:install` Artisanコマンドを実行します。このコマンドは、認証ビュー、ルート、コントローラ、その他のリソースをアプリケーションへ公開します。Laravel Breezeはすべてのコードをアプリケーションに公開するため、あなたはその機能と実装を完全に制御し、可視できます。
 
 `breeze:install`コマンドを実行すると、希望するフロントエンドスタックとテストフレームワークの入力を求められます：
 

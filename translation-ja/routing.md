@@ -1,11 +1,11 @@
 # ルーティング
 
 - [基本的なルーティング](#basic-routing)
-    - [The Default Route Files](#the-default-route-files)
+    - [デフォルトルートファイル](#the-default-route-files)
     - [ルートのリダイレクト](#redirect-routes)
     - [ビュールート](#view-routes)
-    - [Listing Your Routes](#listing-your-routes)
-    - [Routing Customization](#routing-customization)
+    - [ルート一覧](#listing-your-routes)
+    - [ルートのカスタマイズ](#routing-customization)
 - [ルートパラメータ](#route-parameters)
     - [必須パラメータ](#required-parameters)
     - [オプションパラメータ](#parameters-optional-parameters)
@@ -42,9 +42,9 @@
     });
 
 <a name="the-default-route-files"></a>
-### The Default Route Files
+### デフォルトルートファイル
 
-All Laravel routes are defined in your route files, which are located in the `routes` directory. These files are automatically loaded by Laravel using the configuration specified in your application's `bootstrap/app.php` file. The `routes/web.php` file defines routes that are for your web interface. These routes are assigned the `web` [middleware group](/docs/{{version}}/middleware#laravels-default-middleware-groups), which provides features like session state and CSRF protection.
+すべてのLaravelルートは、`routes`ディレクトリにあるルートファイルで定義されます。これらのファイルは、アプリケーションの`bootstrap/app.php`ファイルで指定されている設定を使い、Laravelが自動的にロードします。`routes/web.php`ファイルはウェブインターフェイス用のルートを定義します。これらのルートは、セッション状態やCSRF保護などの機能を提供している`web`[ミドルウェアグループ](/docs/{{version}}/middleware#laravels-default-middleware-groups)を指定してあります。
 
 ほとんどのアプリケーションでは、`routes/web.php`ファイルでルートを定義することから始めます。`routes/web.php`で定義したルートは、ブラウザでその定義したルートのURLを入力することでアクセスできます。たとえば、ブラウザで`http：//example.com/user`に移動すると、次のルートにアクセスできます。
 
@@ -53,21 +53,21 @@ All Laravel routes are defined in your route files, which are located in the `ro
     Route::get('/user', [UserController::class, 'index']);
 
 <a name="api-routes"></a>
-#### API Routes
+#### APIルート
 
-If your application will also offer a stateless API, you may enable API routing using the `install:api` Artisan command:
+あなたのアプリケーションが、ステートレスAPIも提供する場合、`install:api` Artisanコマンドを使用してAPIルーティングを有効にしてください。
 
 ```shell
 php artisan install:api
 ```
 
-The `install:api` command installs [Laravel Sanctum](/docs/{{version}}/sanctum), which provides a robust, yet simple API token authentication guard which can be used to authenticate third-party API consumers, SPAs, or mobile applications. In addition, the `install:api` command creates the `routes/api.php` file:
+`install:api`コマンドは、[Laravel Sanctum](/docs/{{version}}/sanctum)をインストールします。これは、サードパーティのAPIコンシューマ、SPA、またはモバイルアプリケーションの認証に使用できる、堅牢でありながらシンプルなAPIトークン認証ガードを提供します。さらに、`install:api`コマンドは`routes/api.php`ファイルを作成します。
 
     Route::get('/user', function (Request $request) {
         return $request->user();
     })->middleware(Authenticate::using('sanctum'));
 
-The routes in `routes/api.php` are stateless and are assigned to the `api` [middleware group](/docs/{{version}}/middleware#laravels-default-middleware-groups). Additionally, the `/api` URI prefix is automatically applied to these routes, so you do not need to manually apply it to every route in the file. You may change the prefix by modifying your application's `bootstrap/app.php` file:
+`routes/api.php`のルートはステートレスで、`api`[ミドルウェアグループ](/docs/{{version}}/middleware#laravels-default-middleware-groups)が指定されます。さらに、`/api` URIプレフィックスがこれらのルートに自動的に適用されるため、ファイル内のすべてのルートへ手作業で適用する必要はありません。アプリケーションの`bootstrap/app.php`ファイルを修正して、このプレフィックスを変更できます。
 
     ->withRouting(
         api: __DIR__.'/../routes/api.php',
@@ -152,7 +152,7 @@ The routes in `routes/api.php` are stateless and are assigned to the `api` [midd
 > ビュールートでルートパラメータを使用する場合、次のパラメータはLaravelによって予約されており、使用できません。：`view`、`data`、`status`、`headers`
 
 <a name="listing-your-routes"></a>
-### Listing Your Routes
+### ルート一覧
 
 `route:list` Artisanコマンドは、アプリケーションで定義しているすべてのルートの概要を簡単に提供してくれます。
 
@@ -188,9 +188,9 @@ php artisan route:list --only-vendor
 ```
 
 <a name="routing-customization"></a>
-### Routing Customization
+### ルートのカスタマイズ
 
-By default, your application's routes are configured and loaded by the `bootstrap/app.php` file:
+デフォルトで、アプリケーションのルートは`bootstrap/app.php`ファイルで設定、ロードします。
 
 ```php
 <?php
@@ -205,7 +205,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )->create();
 ```
 
-However, sometimes you may want to define an entirely new file to contain a subset of your application's routes. To accomplish this, you may provide a `then` closure to the `withRouting` method. Within this closure, you may register any additional routes that are necessary for your application:
+しかし、アプリケーションのルートのサブセットを含む、全く新しいファイルを定義したいこともあるでしょう。これをおこなうには、`withRouting`メソッドで`then`クロージャを指定してください。このクロージャの中で、アプリケーションで必要な追加のルートを登録できます。
 
 ```php
 use Illuminate\Support\Facades\Route;
@@ -223,7 +223,7 @@ use Illuminate\Support\Facades\Route;
 )
 ```
 
-Or, you may even take complete control over route registration by providing a `using` closure to the `withRouting` method. When this argument is passed, no HTTP routes will be registered by the framework and you are responsible for manually registering all routes:
+あるいは、`withRouting`メソッドへ`using`クロージャを指定し、ルート登録を完全に制御することもできます。この引数を渡すと、フレームワークではHTTPルートを登録しないため、すべてのルートを手作業で登録してください。
 
 ```php
 use Illuminate\Support\Facades\Route;
@@ -329,12 +329,12 @@ Laravelサービスコンテナにより、ルートのコールバックへ自�
 <a name="parameters-global-constraints"></a>
 #### グローバル制約
 
-If you would like a route parameter to always be constrained by a given regular expression, you may use the `pattern` method. You should define these patterns in the `boot` method of your application's `App\Providers\AppServiceProvider` class:
+ルートパラメータを指定した正規表現で常に制約したい場合は、`pattern`メソッドを使用します。これらのパターンは、アプリケーションの`App\Providers\AppServiceProvider`クラスの`boot`メソッドで定義する必要があります。
 
     use Illuminate\Support\Facades\Route;
 
     /**
-     * Bootstrap any application services.
+     * アプリケーションの全サービスの初期起動処理
      */
     public function boot(): void
     {
@@ -538,7 +538,7 @@ Laravelは、タイプヒントの変数名がルートセグメント名と一�
     }
 
 <a name="implicit-soft-deleted-models"></a>
-#### ソフトデリートモデル
+#### ソフトデリートモデルバインディング
 
 通常、暗黙のモデル結合は、[ソフトデリート](/docs/{{version}}/eloquent#soft-deleting)されたモデルを取得しません。しかし、ルートの定義で`withTrashed`メソッドをチェーンすることにより、こうしたモデルを取得するように暗黙のバインディングで指示できます。
 
@@ -653,13 +653,13 @@ Route::get('/categories/{category}', function (Category $category) {
 <a name="explicit-binding"></a>
 ### 明示的な結合
 
-You are not required to use Laravel's implicit, convention based model resolution in order to use model binding. You can also explicitly define how route parameters correspond to models. To register an explicit binding, use the router's `model` method to specify the class for a given parameter. You should define your explicit model bindings at the beginning of the `boot` method of your `AppServiceProvider` class:
+モデル結合を使用するために、Laravelの暗黙的な規約ベースのモデル解決を使用する必要はありません。ルートパラメータとモデルの対応を明示的に定義することもできます。明示的な結合を登録するときは、ルーターの`model`メソッドを使用して、パラメータのクラスを指定します。明示的なモデルバインディングは`AppServiceProvider`クラスの`boot`メソッドの最初で定義してください。
 
     use App\Models\User;
     use Illuminate\Support\Facades\Route;
 
     /**
-     * Bootstrap any application services.
+     * アプリケーションの全サービスの初期起動処理
      */
     public function boot(): void
     {
@@ -681,13 +681,13 @@ You are not required to use Laravel's implicit, convention based model resolutio
 <a name="customizing-the-resolution-logic"></a>
 #### 結合解決ロジックのカスタマイズ
 
-If you wish to define your own model binding resolution logic, you may use the `Route::bind` method. The closure you pass to the `bind` method will receive the value of the URI segment and should return the instance of the class that should be injected into the route. Again, this customization should take place in the `boot` method of your application's `AppServiceProvider`:
+独自のモデル結合解決ロジックを定義したい場合は、`Route::bind`メソッドを使います。`bind`メソッドへ渡すクロージャは、URIセグメントの値を受け取り、ルートへ注入するクラスのインスタンスを返します。繰り返しますが、このカスタマイズはアプリケーションの `AppServiceProvider`の`boot`メソッドで行う必要があります。
 
     use App\Models\User;
     use Illuminate\Support\Facades\Route;
 
     /**
-     * Bootstrap any application services.
+     * アプリケーションの全サービスの初期起動処理
      */
     public function boot(): void
     {
@@ -753,7 +753,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 
 /**
- * Bootstrap any application services.
+ * アプリケーションの全サービスの初期起動処理
  */
 protected function boot(): void
 {
@@ -770,7 +770,7 @@ protected function boot(): void
     use Illuminate\Support\Facades\RateLimiter;
 
     /**
-     * Bootstrap any application services.
+     * アプリケーションの全サービスの初期起動処理
      */
     protected function boot(): void
     {
@@ -844,7 +844,7 @@ protected function boot(): void
 <a name="throttling-with-redis"></a>
 #### Redisによるスロットリング
 
-By default, the `throttle` middleware is mapped to the `Illuminate\Routing\Middleware\ThrottleRequests` class. However, if you are using Redis as your application's cache driver, you may wish to instruct Laravel to use Redis to manage rate limiting. To do so, you should use the `throttleWithRedis` method in your application's `bootstrap/app.php` file. This method maps the `throttle` middleware to the `Illuminate\Routing\Middleware\ThrottleRequestsWithRedis` middleware class:
+`throttle`ミドルウェアはデフォルトで、`Illuminate\Routing\Middleware\ThrottleRequests`クラスへマッピングします。しかし、アプリケーションのキャッシュドライバとしてRedisを使う場合は、レート制限を管理するためにRedisを使うようにLaravelへ指示したいかもしれません。それには、アプリケーションの`bootstrap/app.php`ファイルで`throttleWithRedis`メソッドを使用します。このメソッドは`throttle`ミドルウェアを`Illuminate\Routing\Middleware\ThrottleRequestsWithRedis`ミドルウェアクラスへマッピングします
 
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->throttleWithRedis();
@@ -884,9 +884,9 @@ HTMLフォームは、`PUT`、`PATCH`、`DELETE`アクションをサポート�
 <a name="cors"></a>
 ## オリジン間リソース共有 (CORS)
 
-Laravel can automatically respond to CORS `OPTIONS` HTTP requests with values that you configure. The `OPTIONS` requests will automatically be handled by the `HandleCors` [middleware](/docs/{{version}}/middleware) that is automatically included in your application's global middleware stack.
+LaravelはCORS `OPTIONS` HTTPリクエストに対して、設定した値で自動的にレスポンスできます。`OPTIONS`リクエストは、アプリケーションのグローバルミドルウェアスタックに含めている`HandleCors`[ミドルウェア](/docs/{{version}}/middleware) が自動的に処理します。
 
-Sometimes, you may need to customize the CORS configuration values for your application. You may do so by publishing the `cors` configuration file using the `config:publish` Artisan command:
+アプリケーションのCORS設定値をカスタマイズする必要も起きるでしょう。この場合、`config:publish` Artisanコマンドを使用し、`cors`設定ファイルをリソース公開します。
 
 ```shell
 php artisan config:publish cors

@@ -36,7 +36,7 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-Sending email doesn't have to be complicated. Laravel provides a clean, simple email API powered by the popular [Symfony Mailer](https://symfony.com/doc/7.0/mailer.html) component. Laravel and Symfony Mailer provide drivers for sending email via SMTP, Mailgun, Postmark, Amazon SES, and `sendmail`, allowing you to quickly get started sending mail through a local or cloud based service of your choice.
+メール送信は複雑であってはいけません。Laravelは、人気のある[Symfony Mailer](https://symfony.com/doc/7.0/mailer.html)コンポーネントを利用した、クリーンでシンプルなメールAPIを提供します。LaravelとSymfony Mailerは、SMTP、Mailgun、Postmark、Amazon SES、および`sendmail`経由でメールを送信するためのドライバを提供し、ローカルまたはクラウドベースのお好みのサービスを通して、メールの送信をすぐに始められます。
 
 <a name="configuration"></a>
 ### 設定
@@ -59,7 +59,7 @@ Mailgunドライバを使用する場合は、Composerで、SymfonyのMailgun Ma
 composer require symfony/mailgun-mailer symfony/http-client
 ```
 
-Next, set the `default` option in your application's `config/mail.php` configuration file to `mailgun` and add the following configuration array to your array of `mailers`:
+次に、アプリケーションの`config/mail.php`設定ファイルの`default`オプションを`mailgun`へ設定し、次の設定配列を`mailers`設定配列へ追加します：
 
     'mailgun' => [
         'transport' => 'mailgun',
@@ -68,7 +68,7 @@ Next, set the `default` option in your application's `config/mail.php` configura
         // ],
     ],
 
-After configuring your application's default mailer, add the following options to your `config/services.php` configuration file:
+アプリケーションのデフォルトメーラーを設定したら、`config/services.php`設定ファイルへ以下のオプションを追加します。
 
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
@@ -95,7 +95,7 @@ Postmarkドライバを使用する場合は、Composerを使い、SymfonyのPos
 composer require symfony/postmark-mailer symfony/http-client
 ```
 
-Next, set the `default` option in your application's `config/mail.php` configuration file to `postmark`. After configuring your application's default mailer, ensure that your `config/services.php` configuration file contains the following options:
+次に、アプリケーションの`config/mail.php`設定ファイルの`default`オプションを`postmark`へ設定します。アプリケーションのデフォルトメーラーを設定したら、`config/services.php`設定ファイルへ以下のオプションを確実に含めてください。
 
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
@@ -1083,21 +1083,21 @@ use Illuminate\Support\Facades\Mail;
 test('orders can be shipped', function () {
     Mail::fake();
 
-    // Perform order shipping...
+    // 注文の発送処理
 
-    // Assert that no mailables were sent...
+    // Mailableを送らないことをアサート
     Mail::assertNothingSent();
 
-    // Assert that a mailable was sent...
+    // Mailableを一つ送信したことをアサート
     Mail::assertSent(OrderShipped::class);
 
-    // Assert a mailable was sent twice...
+    // Mailableを一つ２回送信したことをアサート
     Mail::assertSent(OrderShipped::class, 2);
 
-    // Assert a mailable was not sent...
+    // あるMailableを送信しないことをアサート
     Mail::assertNotSent(AnotherMailable::class);
 
-    // Assert 3 total mailables were sent...
+    // Mailableを合計３回送信することをアサート
     Mail::assertSentCount(3);
 });
 ```
@@ -1117,21 +1117,21 @@ class ExampleTest extends TestCase
     {
         Mail::fake();
 
-        // Perform order shipping...
+        // 注文の発送処理
 
-        // Assert that no mailables were sent...
+        // Mailableを送らないことをアサート
         Mail::assertNothingSent();
 
-        // Assert that a mailable was sent...
+        // Mailableを一つ送信したことをアサート
         Mail::assertSent(OrderShipped::class);
 
-        // Assert a mailable was sent twice...
+        // Mailableを一つ２回送信したことをアサート
         Mail::assertSent(OrderShipped::class, 2);
 
-        // Assert a mailable was not sent...
+        // あるMailableを送信しないことをアサート
         Mail::assertNotSent(AnotherMailable::class);
 
-        // Assert 3 total mailables were sent...
+        // Mailableを合計３回送信することをアサート
         Mail::assertSentCount(3);
     }
 }
@@ -1230,7 +1230,7 @@ class ExampleTest extends TestCase
 <a name="events"></a>
 ## イベント
 
-Laravel dispatches two events while sending mail messages. The `MessageSending` event is dispatched prior to a message being sent, while the `MessageSent` event is dispatched after a message has been sent. Remember, these events are dispatched when the mail is being *sent*, not when it is queued. You may create [event listeners](/docs/{{version}}/events) for these events within your application:
+Laravelはメール送信時に２つのイベントをディスパッチします。`MessageSending`イベントはメッセージを送信する前にディスパッチし、`MessageSent`イベントはメッセージを送信した後にディスパッチします。これらのイベントはメールがキューに入っている時点でなく、*送信*した時にディスパッチされることを覚えておいてください。アプリケーションの中で、これらのイベントの[イベントリスナ](/docs/{{version}}/events)を作成できます。
 
     use Illuminate\Mail\Events\MessageSending;
     // use Illuminate\Mail\Events\MessageSent;
@@ -1238,7 +1238,7 @@ Laravel dispatches two events while sending mail messages. The `MessageSending` 
     class LogMessage
     {
         /**
-         * Handle the given event.
+         * 指定イベントの処理
          */
         public function handle(MessageSending $event): void
         {

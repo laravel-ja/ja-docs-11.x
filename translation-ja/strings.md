@@ -495,6 +495,19 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 
     // <strong>Laravel</strong>
 
+#### Markdownの安全性
+
+デフォルトでMarkdownは素のHTMLをサポートしており、ユーザー入力を直接使用すると、クロスサイト・スクリプティング（XSS）の脆弱性が生まれます。[CommonMarkの安全性のドキュメント](https://commonmark.thephpleague.com/security/)にあるように、`html_input`オプションを使い、素のHTMLをエスケープ処理もしくは除去できます。また、`allow_unsafe_links`オプションを使って安全でないリンクを許可するかも指定できます。素のHTMLを許可する必要がある場合は、コンパイル済みのMarkdownをHTML Purifierへ通す必要があります。
+
+    use Illuminate\Support\Str;
+    
+    Str::inlineMarkdown('Inject: <script>alert("Hello XSS!");</script>', [
+        'html_input' => 'strip',
+        'allow_unsafe_links' => false,
+    ]);
+    
+    // Inject: alert(&quot;Hello XSS!&quot;);
+
 <a name="method-str-is"></a>
 #### `Str::is()` {.collection-method}
 
@@ -673,6 +686,19 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 
     // <h1>Taylor Otwell</h1>
 
+#### Markdownの安全性
+
+デフォルトでMarkdownは素のHTMLをサポートしており、ユーザー入力を直接使用すると、クロスサイト・スクリプティング（XSS）の脆弱性が生まれます。[CommonMarkの安全性のドキュメント](https://commonmark.thephpleague.com/security/)にあるように、`html_input`オプションを使い、素のHTMLをエスケープ処理もしくは除去できます。また、`allow_unsafe_links`オプションを使って安全でないリンクを許可するかも指定できます。素のHTMLを許可する必要がある場合は、コンパイル済みのMarkdownをHTML Purifierへ通す必要があります。
+
+    use Illuminate\Support\Str;
+
+    Str::markdown('Inject: <script>alert("Hello XSS!");</script>', [
+        'html_input' => 'strip',
+        'allow_unsafe_links' => false,
+    ]);
+
+    // <p>Inject: alert(&quot;Hello XSS!&quot;);</p>
+
 <a name="method-str-mask"></a>
 #### `Str::mask()` {.collection-method}
 
@@ -836,6 +862,16 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
     use Illuminate\Support\Str;
 
     $random = Str::random(40);
+
+テスト中に、`Str::random`メソッドが返す値を「Fake」できると便利でしょう。これを行うには、`createRandomStringsUsing`メソッドを使用します。
+
+    Str::createRandomStringsUsing(function () {
+        return 'fake-random-string';
+    });
+
+`random`メソッドへ、通常通りのランダム文字列の生成に戻るよう指示するには、`createRandomStringsNormally`メソッドを呼び出します。
+
+    Str::createRandomStringsNormally();
 
 <a name="method-str-remove"></a>
 #### `Str::remove()` {.collection-method}
@@ -1224,6 +1260,18 @@ use Illuminate\Support\Str;
 $date = Carbon::createFromId((string) Str::ulid());
 ```
 
+テスト中に、`Str::ulid`メソッドが返す値を「Fake」できると便利でしょう。これを行うには、`createUlidsUsing`メソッドを使用します。
+
+    use Symfony\Component\Uid\Ulid;
+
+    Str::createUlidsUsing(function () {
+        return new Ulid('01HRDBNHHCKNW2AK4Z29SN82T9');
+    });
+
+`ulid`メソッドへ、通常通りのランダム文字列の生成に戻るよう指示するには、`createUlidsNormally`メソッドを呼び出します。
+
+    Str::createUlidsNormally();
+
 <a name="method-str-unwrap"></a>
 #### `Str::unwrap()` {.collection-method}
 
@@ -1247,6 +1295,18 @@ $date = Carbon::createFromId((string) Str::ulid());
     use Illuminate\Support\Str;
 
     return (string) Str::uuid();
+
+テスト中に、`Str::uuid`メソッドが返す値を「Fake」できると便利でしょう。これを行うには、`createUuidsUsing`メソッドを使用します。
+
+    use Ramsey\Uuid\Uuid;
+
+    Str::createUuidsUsing(function () {
+        return Uuid::fromString('eadbfeac-5258-45c2-bab7-ccb9b5ef74f9');
+    });
+
+`uuid`メソッドへ、通常通りのランダム文字列の生成に戻るよう指示するには、`createUuidsNormally`メソッドを呼び出します。
+
+    Str::createUuidsNormally();
 
 <a name="method-str-word-count"></a>
 #### `Str::wordCount()` {.collection-method}
@@ -1652,6 +1712,19 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 
     // <strong>Laravel</strong>
 
+#### Markdownの安全性
+
+デフォルトでMarkdownは素のHTMLをサポートしており、ユーザー入力を直接使用すると、クロスサイト・スクリプティング（XSS）の脆弱性が生まれます。[CommonMarkの安全性のドキュメント](https://commonmark.thephpleague.com/security/)にあるように、`html_input`オプションを使い、素のHTMLをエスケープ処理もしくは除去できます。また、`allow_unsafe_links`オプションを使って安全でないリンクを許可するかも指定できます。素のHTMLを許可する必要がある場合は、コンパイル済みのMarkdownをHTML Purifierへ通す必要があります。
+
+    use Illuminate\Support\Str;
+
+    Str::of('Inject: <script>alert("Hello XSS!");</script>')->inlineMarkdown([
+        'html_input' => 'strip',
+        'allow_unsafe_links' => false,
+    ]);
+
+    // Inject: alert(&quot;Hello XSS!&quot;);
+
 <a name="method-fluent-str-is"></a>
 #### `is` {.collection-method}
 
@@ -1876,6 +1949,19 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
     ]);
 
     // <h1>Taylor Otwell</h1>
+
+#### Markdownの安全性
+
+デフォルトでMarkdownは素のHTMLをサポートしており、ユーザー入力を直接使用すると、クロスサイト・スクリプティング（XSS）の脆弱性が生まれます。[CommonMarkの安全性のドキュメント](https://commonmark.thephpleague.com/security/)にあるように、`html_input`オプションを使い、素のHTMLをエスケープ処理もしくは除去できます。また、`allow_unsafe_links`オプションを使って安全でないリンクを許可するかも指定できます。素のHTMLを許可する必要がある場合は、コンパイル済みのMarkdownをHTML Purifierへ通す必要があります。
+
+    use Illuminate\Support\Str;
+
+    Str::of('Inject: <script>alert("Hello XSS!");</script>')->markdown([
+        'html_input' => 'strip',
+        'allow_unsafe_links' => false,
+    ]);
+
+    // <p>Inject: alert(&quot;Hello XSS!&quot;);</p>
 
 <a name="method-fluent-str-mask"></a>
 #### `mask` {.collection-method}

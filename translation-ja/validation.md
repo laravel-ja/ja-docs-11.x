@@ -254,7 +254,7 @@ Laravelはグローバルな`old`ヘルパも提供しています。[Bladeテ�
 <a name="a-note-on-optional-fields"></a>
 ### オプションフィールドに対する注意
 
-By default, Laravel includes the `TrimStrings` and `ConvertEmptyStringsToNull` middleware in your application's global middleware stack. Because of this, you will often need to mark your "optional" request fields as `nullable` if you do not want the validator to consider `null` values as invalid. For example:
+Laravelはデフォルトで、`TrimStrings`と`ConvertEmptyStringsToNull`ミドルウェアをアプリケーションのグローバルミドルウェアスタックに含めています。このため、バリデータに`null`値を無効と判定させたくない場合は、「オプション」のリクエストフィールドを`nullable`としてマークする必要があります。一例を御覧ください。
 
     $request->validate([
         'title' => 'required|unique:posts|max:255',

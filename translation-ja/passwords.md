@@ -28,16 +28,16 @@ Laravelのパスワードリセット機能を使用する前に、アプリケ�
 <a name="database-preparation"></a>
 ### データベース準備
 
-A table must be created to store your application's password reset tokens. Typically, this is included in Laravel's default `0001_01_01_000000_create_users_table.php` database migration.
+アプリケーションのパスワードリセットトークンを保存するテーブルを作成する必要があります。通常、これはLaravelのデフォルトの`0001_01_000000_create_users_table.php`データベースマイグレーションに含まれています。
 
 <a name="configuring-trusted-hosts"></a>
 ### 信頼するホストの設定
 
 デフォルトでは、LaravelはHTTPリクエストの`host`ヘッダの内容に関係なく受信したすべてのリクエストにレスポンスします。さらに、Webリクエスト中にアプリケーションへの絶対URLを生成するときに、`host`ヘッダの値を使用します。
 
-Typically, you should configure your web server, such as Nginx or Apache, to only send requests to your application that match a given hostname. However, if you do not have the ability to customize your web server directly and need to instruct Laravel to only respond to certain hostnames, you may do so by using the `trustHosts` middleware method in your application's `bootstrap/app.php` file. This is particularly important when your application offers password reset functionality.
+通常、NginxやApacheなどのウェブは、指定したホスト名に一致するリクエストのみをアプリケーションへ送信するように設定する必要があります。しかし、ウェブを直接カスタマイズする権限がなく、特定のホスト名だけを応答するようにLaravelへ指示する必要がある場合は、アプリケーションの`bootstrap/app.php`ファイルで`trustHosts`ミドルウェアメソッドを使用することで可能です。これは、アプリケーションがパスワードリセット機能を提供する場合に特に重要です。
 
-To learn more about this middleware method, please consult the [`TrustHosts` middleware documentation](/docs/{{version}}/requests#configuring-trusted-hosts).
+このミドルウェアのメソッドの詳細は、[`TrustHosts`ミドルウェアのドキュメント](/docs/{{version}}/requests#configuring-trusted-hosts)を参照してください。
 
 <a name="routing"></a>
 ## ルート
@@ -170,13 +170,13 @@ php artisan auth:clear-resets
 <a name="reset-link-customization"></a>
 #### リセットリンクのカスタマイズ
 
-You may customize the password reset link URL using the `createUrlUsing` method provided by the `ResetPassword` notification class. This method accepts a closure which receives the user instance that is receiving the notification as well as the password reset link token. Typically, you should call this method from your `App\Providers\AppServiceProvider` service provider's `boot` method:
+`ResetPassword`通知クラスが提供する`createUrlUsing`メソッドを使用して、パスワードリセットリンクのURLをカスタマイズできます。このメソッドは、通知を受け取るユーザインスタンスとパスワードリセットリンクトークンを受け取るクロージャを引数に取ります。通常、このメソッドは`App\Providers\AppServiceProvider`サービスプロバイダの`boot`メソッドから呼び出します。
 
     use App\Models\User;
     use Illuminate\Auth\Notifications\ResetPassword;
 
     /**
-     * Bootstrap any application services.
+     * アプリケーションの全サービスの初期起動処理
      */
     public function boot(): void
     {

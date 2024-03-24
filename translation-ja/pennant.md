@@ -796,12 +796,24 @@ Feature::purge(['new-api', 'purchase-button']);
 Feature::purge();
 ```
 
-As it can be useful to purge features as part of your application's deployment pipeline, Pennant includes a `pennant:purge` Artisan command:
+アプリケーションのデプロイパイプラインの一貫として、機能を削除できると便利であるため、Pennantは指定した機能をストレージから削除する、`pennant:purge` Artisanコマンドを用意しています。
 
 ```sh
 php artisan pennant:purge new-api
 
 php artisan pennant:purge new-api purchase-button
+```
+
+また、リスト内で指定した機能を*除く*すべての機能を削除することも可能です。例えば、"new-api"と"purchase-button"機能を保存したまま、他のすべてのフィーチャーを削除したいとします。これを行うには、`--except`オプションへこれらの機能名を渡します。
+
+```sh
+php artisan pennant:purge --except=new-api --except=purchase-button
+```
+
+使いやすいように、`pennant:purge`コマンドは、`--except-registered`フラグもサポートしています。このフラグは、サービスプロバイダで明示的に登録している機能以外のすべての機能を削除することを意味します。
+
+```sh
+php artisan pennant:purge --except-registered
 ```
 
 <a name="testing"></a>

@@ -623,7 +623,7 @@ Homesteadは、Homestead仮想マシンが破壊されたときに、データ�
 <a name="configuring-cron-schedules"></a>
 ### cronスケジュールの設定
 
-Laravel provides a convenient way to [schedule cron jobs](/docs/{{version}}/scheduling) by scheduling a single `schedule:run` Artisan command to run every minute. The `schedule:run` command will examine the job schedule defined in your `routes/console.php` file to determine which scheduled tasks to run.
+Laravelは、`schedule:run` Artisanコマンドを１分毎に実行するスケジュールをすることで、[cronジョブのスケジュール](/docs/{{version}}/scheduling)を行う便利な方法を提供しています。`schedule:run`コマンドは、`routes/console.php`ファイルで定義済みのジョブスケジュールを調べ、実行するスケジュールタスクを決定します。
 
 Homesteadサイトに対して`schedule:run`コマンドを実行する場合は、サイトを定義するときに`schedule`オプションを`true`に設定します。
 
@@ -661,7 +661,7 @@ Mailpitを設定したら、`http://localhost:8025`にある、Mailpitダッシ�
 
 デフォルトでは、Minioはポート9600で使用できます。`http://localhost:9600`にアクセスし、Minioコントロールパネルを表示できます。デフォルトのアクセスキーは`homestead`、秘密キーは`secretkey`です。Minioにアクセスするときは、常にリージョン`us-east-1`を使用する必要があります。
 
-In order to use Minio, ensure your `.env` file has the following options:
+Minioを使用するには、`.env`ファイルに以下のオプション確実に用意してください。
 
 ```ini
 AWS_USE_PATH_STYLE_ENDPOINT=true

@@ -13,6 +13,7 @@
     - [WHERE句](#where-clauses)
     - [OR WHERE句](#or-where-clauses)
     - [WHERE NOT句](#where-not-clauses)
+    - [Where Any／All句](#where-any-all-clauses)
     - [JSON WHERE句](#json-where-clauses)
     - [その他のWHERE句](#additional-where-clauses)
     - [論理グループ化](#logical-grouping)
@@ -501,10 +502,57 @@ select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
                     })
                     ->get();
 
+<a name="where-any-all-clauses"></a>
+### Where Any／All句
+
+複数の列に同じクエリ制約を適用する必要が起きる場合があります。例えば、指定リスト内のカラムが指定値と`LIKE`である全レコードを取得したい場合です。この場合は、`whereAny`メソッドを使用します。
+
+    $users = DB::table('users')
+                ->where('active', true)
+                ->whereAny([
+                    'name',
+                    'email',
+                    'phone',
+                ], 'LIKE', 'Example%')
+                ->get();
+
+上記のクエリは以下のSQLになります。
+
+```sql
+SELECT *
+FROM users
+WHERE active = true AND (
+    name LIKE 'Example%' OR
+    email LIKE 'Example%' OR
+    phone LIKE 'Example%'
+)
+```
+
+同様に`whereAll`メソッドは、指定列のすべてが、指定した制約と一致するレコードを検索するために使用します。
+
+    $posts = DB::table('posts')
+                ->where('published', true)
+                ->whereAll([
+                    'title',
+                    'content',
+                ], 'LIKE', '%Laravel%')
+                ->get();
+
+上記のクエリは以下のSQLになります。
+
+```sql
+SELECT *
+FROM posts
+WHERE published = true AND (
+    title LIKE '%Laravel%' AND
+    content LIKE '%Laravel%'
+)
+```
+
 <a name="json-where-clauses"></a>
 ### JSON WHERE句
 
-Laravel also supports querying JSON column types on databases that provide support for JSON column types. Currently, this includes MySQL 8.0+, PostgreSQL 12.0+, SQL Server 2017+, and SQLite 3.39.0+ (with the [JSON1 extension](https://www.sqlite.org/json1.html)). To query a JSON column, use the `->` operator:
+Laravelは、JSONカラム型をサポートしているデータベースで、JSONカラム型のクエリもサポートしています。現在のところ、MySQL8.0以上、PostgreSQL12.0以上、SQLServer2017以上、SQLite3.39.0以上（[JSON1拡張](https://www.sqlite.org/json1.html)使用）です。JSONカラムクエリするには、`->`演算子を使用します。
 
     $users = DB::table('users')
                     ->where('preferences->dining->meal', 'salad')

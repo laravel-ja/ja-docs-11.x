@@ -91,7 +91,7 @@ S3ドライバを使用する前に、Composerパッケージマネージャを�
 composer require league/flysystem-aws-s3-v3 "^3.0" --with-all-dependencies
 ```
 
-An S3 disk configuration array is located in your `config/filesystems.php` configuration file. Typically, you should configure your S3 information and credentials using the following environment variables which are referenced by the `config/filesystems.php` configuration file:
+S3ディスク設定配列は、`config/filesystems.php` 設定ファイルにあります。通常は、`config/filesystems.php`設定ファイルから参照されている以下の環境変数を使い、S3の情報と認証情報を設定します。
 
 ```
 AWS_ACCESS_KEY_ID=<your-key-id>
@@ -101,7 +101,7 @@ AWS_BUCKET=<your-bucket-name>
 AWS_USE_PATH_STYLE_ENDPOINT=false
 ```
 
-For convenience, these environment variables match the naming convention used by the AWS CLI.
+わかりやすいように、これらの環境変数はAWS CLIで使用されている命名規則と一致させています。
 
 <a name="ftp-driver-configuration"></a>
 #### FTPドライバの設定
@@ -112,7 +112,7 @@ FTPドライバを使用する前に、Composerパッケージマネージャを
 composer require league/flysystem-ftp "^3.0"
 ```
 
-Laravel's Flysystem integrations work great with FTP; however, a sample configuration is not included with the framework's default `config/filesystems.php` configuration file. If you need to configure an FTP filesystem, you may use the configuration example below:
+LaravelのFlysystemの統合は、FTPでもうまく動作しますが、フレームワークのデフォルトの`config/filesystems.php`設定ファイルにサンプル設定は、用意していません。FTPファイルシステムを設定する必要がある場合は、以下の設定例を使用してください。
 
     'ftp' => [
         'driver' => 'ftp',
@@ -137,7 +137,7 @@ SFTPドライバを使用する前に、Composerパッケージマネージャ�
 composer require league/flysystem-sftp-v3 "^3.0"
 ```
 
-Laravel's Flysystem integrations work great with SFTP; however, a sample configuration is not included with the framework's default `config/filesystems.php` configuration file. If you need to configure an SFTP filesystem, you may use the configuration example below:
+LaravelのFlysystemの統合は、SFTPでもうまく動作しますが、フレームワークのデフォルトの`config/filesystems.php`設定ファイルにサンプル設定は、用意していません。SFTPファイルシステムを設定する必要がある場合は、以下の設定例を使用してください：
 
     'sftp' => [
         'driver' => 'sftp',
@@ -299,7 +299,7 @@ $disk->put('image.jpg', $content);
 <a name="url-host-customization"></a>
 #### URLホストのカスタマイズ
 
-If you would like to modify the host for URLs generated using the `Storage` facade, you may add or change the `url` option in the disk's configuration array:
+`Storage`ファサードを使用して生成したURLのホストを変更したい場合は、ディスクの設定配列へ`url`オプションを追加または変更してください。
 
     'public' => [
         'driver' => 'local',
@@ -673,15 +673,15 @@ test('albums can be uploaded', function () {
         UploadedFile::fake()->image('photo2.jpg')
     ]);
 
-    // Assert one or more files were stored...
+    // 一つ以上のファイルを保存することをアサート
     Storage::disk('photos')->assertExists('photo1.jpg');
     Storage::disk('photos')->assertExists(['photo1.jpg', 'photo2.jpg']);
 
-    // Assert one or more files were not stored...
+    // ファイルを保存しないことをアサート
     Storage::disk('photos')->assertMissing('missing.jpg');
     Storage::disk('photos')->assertMissing(['missing.jpg', 'non-existing.jpg']);
 
-    // Assert that a given directory is empty...
+    // 指定ディレクトリが空であることをアサート
     Storage::disk('photos')->assertDirectoryEmpty('/wallpapers');
 });
 ```
@@ -706,15 +706,15 @@ class ExampleTest extends TestCase
             UploadedFile::fake()->image('photo2.jpg')
         ]);
 
-        // Assert one or more files were stored...
+        // 一つ以上のファイルを保存することをアサート
         Storage::disk('photos')->assertExists('photo1.jpg');
         Storage::disk('photos')->assertExists(['photo1.jpg', 'photo2.jpg']);
 
-        // Assert one or more files were not stored...
+        // ファイルを保存しないことをアサート
         Storage::disk('photos')->assertMissing('missing.jpg');
         Storage::disk('photos')->assertMissing(['missing.jpg', 'non-existing.jpg']);
 
-        // Assert that a given directory is empty...
+        // 指定ディレクトリが空であることをアサート
         Storage::disk('photos')->assertDirectoryEmpty('/wallpapers');
     }
 }

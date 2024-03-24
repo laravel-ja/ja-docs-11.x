@@ -54,13 +54,13 @@ Sanctumは、受信リクエストが自身のSPAフロントエンドから発�
 <a name="installation"></a>
 ## インストール
 
-You may install Laravel Sanctum via the `install:api` Artisan command:
+Laravel Sanctumは、`install:api` Artisanコマンドでインストールします。
 
 ```shell
 php artisan install:api
 ```
 
-Next, if you plan to utilize Sanctum to authenticate a SPA, please refer to the [SPA Authentication](#spa-authentication) section of this documentation.
+SPAの認証にSanctumを利用する予定の場合は、次にこのドキュメントの[SPA認証](#spa-authentication)セクションを参照してください。
 
 <a name="configuration"></a>
 ## 設定
@@ -77,7 +77,7 @@ Next, if you plan to utilize Sanctum to authenticate a SPA, please refer to the 
         // ...
     }
 
-Then, you may instruct Sanctum to use your custom model via the `usePersonalAccessTokenModel` method provided by Sanctum. Typically, you should call this method in the `boot` method of your application's `AppServiceProvider` file:
+次に、Sanctumが提供している、`usePersonalAccessTokenModel`メソッドを利用し、カスタムモデルを使用するようにSanctumへ指示します。通常、このメソッドはアプリケーションの`AppServiceProvider`ファイルの`boot`メソッドで呼び出します。
 
     use App\Models\Sanctum\PersonalAccessToken;
     use Laravel\Sanctum\Sanctum;
@@ -142,7 +142,7 @@ Sanctumが認証した受信リクエストを処理する場合、`tokenCan`メ
 <a name="token-ability-middleware"></a>
 #### トークンアビリティミドルウェア
 
-Sanctum also includes two middleware that may be used to verify that an incoming request is authenticated with a token that has been granted a given ability. To get started, define the following middleware aliases in your application's `bootstrap/app.php` file:
+また、Sanctumは２つのミドルウェアを用意しており、受信したリクエストが指定したアビリティを持つトークンで認証済みかを確認するために使用できます。使用を開始するには、アプリケーションの`bootstrap/app.php`ファイルで以下のミドルウェアのエイリアスを定義します。
 
     use Laravel\Sanctum\Http\Middleware\CheckAbilities;
     use Laravel\Sanctum\Http\Middleware\CheckForAnyAbility;
@@ -258,7 +258,7 @@ Sanctumは、Laravelを利用したAPIと通信する必要があるシングル
 <a name="sanctum-middleware"></a>
 #### Sanctumミドルウェア
 
-Next, you should instruct Laravel that incoming requests from your SPA can authenticate using Laravel's session cookies, while still allowing requests from third parties or mobile applications to authenticate using API tokens. This can be easily accomplished by invoking the `statefulApi` middleware method in your application's `bootstrap/app.php` file:
+次に、SPAからのリクエストはLaravelのセッションCookieを使って認証し、サードパーティやモバイルアプリケーションからのリクエストはAPIトークンを使って認証するようにLaravelへ指示します。これは、アプリケーションの`bootstrap/app.php`ファイルで`statefulApi`ミドルウェアメソッドを呼び出し、簡単に実現できます。
 
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->statefulApi();
@@ -269,13 +269,13 @@ Next, you should instruct Laravel that incoming requests from your SPA can authe
 
 別のサブドメインで実行されるSPAからのアプリケーションでの認証に問題がある場合は、CORS(クロスオリジンリソースシェアリング)またはセッションクッキー設定を誤って設定している可能性があります。
 
-The `config/cors.php` configuration file is not published by default. If you need to customize Laravel's CORS options, you should publish the complete `cors` configuration file using the `config:publish` Artisan command:
+`config/cors.php`設定ファイルは、デフォルトで公開していません。LaravelのCORSオプションをカスタマイズする必要がある場合は、`config:publish` Artisanコマンドを使用して完全な`cors`設定ファイルをリソース公開する必要があります：
 
 ```bash
 php artisan config:publish cors
 ```
 
-Next, you should ensure that your application's CORS configuration is returning the `Access-Control-Allow-Credentials` header with a value of `True`. This may be accomplished by setting the `supports_credentials` option within your application's `config/cors.php` configuration file to `true`.
+次に、アプリケーションのCORS設定が `Access-Control-Allow-Credentials`ヘッダを`True`の値で確実に返すようにします。これは、アプリケーションの`config/cors.php`設定ファイル内の`supports_credentials`オプションを`true`に設定することで実現できます。
 
 さらに、アプリケーションのグローバルな`axios`インスタンスで`withCredentials`と`withXSRFToken`オプションを有効にする必要があります。通常、これは`resources/js/bootstrap.js`ファイルで実行する必要があります。フロントエンドからHTTPリクエストを行うためにAxiosを使用していない場合は、独自のHTTPクライアントで同等の構成を実行する必要があります。
 

@@ -27,9 +27,9 @@
 <a name="configuration"></a>
 ## 設定
 
-Your application's cache configuration file is located at `config/cache.php`. In this file, you may specify which cache store you would like to be used by default throughout your application. Laravel supports popular caching backends like [Memcached](https://memcached.org), [Redis](https://redis.io), [DynamoDB](https://aws.amazon.com/dynamodb), and relational databases out of the box. In addition, a file based cache driver is available, while `array` and "null" cache drivers provide convenient cache backends for your automated tests.
+アプリケーションのキャッシュ設定ファイルは、`config/cache.php`にあります。アプリケーション全体でデフォルトとして使用するキャッシュストアをこのファイルで指定します。Laravelは、[Memcached](https://memcached.org)、[Redis](https://redis.io)、[DynamoDB](https://aws.amazon.com/dynamodb)、リレーショナルデータベースなど一般的なキャッシュバックエンドをサポートしています。さらに、ファイルベースのキャッシュドライバも利用でき、`array`キャッシュドライバと"null"キャッシュドライバは、自動テストに便利なキャッシュバックエンドを提供します。
 
-The cache configuration file also contains a variety of other options that you may review. By default, Laravel is configured to use the `database` cache driver, which stores the serialized, cached objects in your application's database.
+キャッシュ設定ファイルには、他にも様々なオプションがあるので確認してください。Laravelはデフォルトで、`database`キャッシュドライバを使用するように設定してあり、シリアライズ済みのキャッシュオブジェクトをアプリケーションのデータベースに保存します。
 
 <a name="driver-prerequisites"></a>
 ### ドライバ要件
@@ -37,7 +37,7 @@ The cache configuration file also contains a variety of other options that you m
 <a name="prerequisites-database"></a>
 #### データベース
 
-When using the `database` cache driver, you will need a database table to contain the cache data. Typically, this is included in Laravel's default `0001_01_01_000001_create_cache_table.php` [database migration](/docs/{{version}}/migrations); however, if your application does not contain this migration, you may use the `make:cache-table` Artisan command to create it:
+`database`キャッシュドライバを使用する場合、キャッシュデータを格納するデータベーステーブルが必要になります。通常、これはLaravelの`0001_01_01_000001_create_cache_table.php` [データベースマイグレーション](/docs/{{version}}/migrations)にデフォルトで含まれていますが、アプリケーションにこのマイグレーションが含まれていない場合は、`make:cache-table` Artisanコマンドを使用して生成してください。
 
 ```shell
 php artisan make:cache-table
@@ -51,7 +51,7 @@ php artisan migrate
 Memcachedドライバを使用するには、[Memcached PECLパッケージ](https://pecl.php.net/package/memcached)がインストールされている必要があります。すべてのMemcachedサーバを`config/cache.php`設定ファイルにリストしてください。このファイルには、設定しやすいように`memcached.servers`エントリがはじめから用意しています。
 
     'memcached' => [
-        // ...
+        // …
 
         'servers' => [
             [
@@ -65,7 +65,7 @@ Memcachedドライバを使用するには、[Memcached PECLパッケージ](htt
 必要に応じて、`host`オプションをUNIXソケットパスに設定できます。これを行う場合は、`port`オプションを`0`に設定する必要があります。
 
     'memcached' => [
-        // ...
+        // …
 
         'servers' => [
             [
@@ -79,14 +79,14 @@ Memcachedドライバを使用するには、[Memcached PECLパッケージ](htt
 <a name="redis"></a>
 #### Redis
 
-Before using a Redis cache with Laravel, you will need to either install the PhpRedis PHP extension via PECL or install the `predis/predis` package (~2.0) via Composer. [Laravel Sail](/docs/{{version}}/sail) already includes this extension. In addition, official Laravel deployment platforms such as [Laravel Forge](https://forge.laravel.com) and [Laravel Vapor](https://vapor.laravel.com) have the PhpRedis extension installed by default.
+LaravelでRedisキャッシュを使用する前に、PECL経由でPhpRedis PHP拡張をインストールするか、Composer経由で`predis/predis`パッケージ（~2.0）をインストールする必要があります。[Laravel Sail](/docs/{{version}}/sail)はあらかじめ、この拡張機能をふくんでいます。さらに、[Laravel Forge](https://forge.laravel.com)や[Laravel Vapor](https://vapor.laravel.com)などの公式Laravelデプロイメントプラットフォームには、デフォルトでPhpRedis拡張をインストールしています。
 
 Redisの設定の詳細については、[Laravelドキュメントページ](/docs/{{version}}/redis#configuration)を参照してください。
 
 <a name="dynamodb"></a>
 #### DynamoDB
 
-Before using the [DynamoDB](https://aws.amazon.com/dynamodb) cache driver, you must create a DynamoDB table to store all of the cached data. Typically, this table should be named `cache`. However, you should name the table based on the value of the `stores.dynamodb.table` configuration value within the `cache` configuration file. The table name may also be set via the `DYNAMODB_CACHE_TABLE` environment variable.
+[DynamoDB](https://aws.amazon.com/dynamodb)キャッシュドライバを使用する前に、すべてのキャッシュデータを格納するDynamoDBテーブルを作成する必要があります。通常、このテーブルは`cache`という名前にします。ただし、`cache`設定ファイル内の`stores.dynamodb.table`設定値に基づいてテーブル名を付ける必要があります。テーブル名は`DYNAMODB_CACHE_TABLE`環境変数で設定することもできます。
 
 このテーブルには、アプリケーションの`cache`設定ファイル内の`stores.dynamodb.attributes.key`設定項目の値に対応する名前の、文字列パーティションキーもあります。デフォルトでは、パーティションキーは`key`という名前にする必要があります。
 
@@ -114,7 +114,7 @@ Before using the [DynamoDB](https://aws.amazon.com/dynamodb) cache driver, you m
             $value = Cache::get('key');
 
             return [
-                // ...
+                // …
             ];
         }
     }
@@ -140,7 +140,7 @@ Before using the [DynamoDB](https://aws.amazon.com/dynamodb) cache driver, you m
 デフォルト値としてクロージャを渡すこともできます。指定されたアイテムがキャッシュに存在しない場合、クロージャの結果が返されます。クロージャを渡すことで、データベースまたは他の外部サービスからのデフォルト値の取得を延期できるようになります。
 
     $value = Cache::get('key', function () {
-        return DB::table(/* ... */)->get();
+        return DB::table(/* … */)->get();
     });
 
 <a name="checking-for-item-existence"></a>
@@ -149,7 +149,7 @@ Before using the [DynamoDB](https://aws.amazon.com/dynamodb) cache driver, you m
 `has`メソッドを使用して、アイテムがキャッシュに存在するかを判定できます。このメソッドは、アイテムが存在するがその値が`null`の場合にも、`false`を返します。
 
     if (Cache::has('key')) {
-        // ...
+        // …
     }
 
 <a name="incrementing-decrementing-values"></a>
@@ -406,20 +406,20 @@ MongoDB接続を使用してこれらの各メソッドを実装する必要が�
          */
         public function boot(): void
         {
-            // ...
+            // …
         }
     }
 
 `extend`メソッドに渡す最初の引数はドライバの名前です。これは、`config/cache.php`設定ファイルの`driver`オプションに対応させます。２番目の引数は、`Illuminate\Cache\Repository`インスタンスを返す必要があるクロージャです。クロージャには、[サービスコンテナ](/docs/{{version}}/container)のインスタンスである`$app`インスタンスが渡されます。
 
-Once your extension is registered, update the `CACHE_STORE` environment variable or `default` option within your application's `config/cache.php` configuration file to the name of your extension.
+拡張機能を登録したら、アプリケーションの`config/cache.php`設定ファイル内の`CACHE_STORE`環境変数、または`default`オプションを拡張機能の名前に更新します。
 
 <a name="events"></a>
 ## イベント
 
-To execute code on every cache operation, you may listen for various [events](/docs/{{version}}/events) dispatched by the cache:
+すべてのキャッシュ操作でコードを実行できるように、キャッシュがディスパッチするさまざまな[イベント](/docs/{{version}}/events)をリッスンできます。
 
-Event Name |
+イベント名 |
 ------------- |
 `Illuminate\Cache\Events\CacheHit` |
 `Illuminate\Cache\Events\CacheMissed` |

@@ -92,6 +92,7 @@ php artisan make:model Flight -mfsc
 
 # Shortcut to generate a model, migration, factory, seeder, policy, controller, and form requests...
 php artisan make:model Flight --all
+php artisan make:model Flight -a
 
 # Generate a pivot model...
 php artisan make:model Member --pivot
@@ -715,6 +716,15 @@ The `save` method may also be used to update models that already exist in the da
 
     $flight->save();
 
+Occasionally, you may need to update an existing model or create a new model if no matching model exists. Like the `firstOrCreate` method, the `updateOrCreate` method persists the model, so there's no need to manually call the `save` method.
+
+In the example below, if a flight exists with a `departure` location of `Oakland` and a `destination` location of `San Diego`, its `price` and `discounted` columns will be updated. If no such flight exists, a new flight will be created which has the attributes resulting from merging the first argument array with the second argument array:
+
+    $flight = Flight::updateOrCreate(
+        ['departure' => 'Oakland', 'destination' => 'San Diego'],
+        ['price' => 99, 'discounted' => 1]
+    );
+
 <a name="mass-updates"></a>
 #### Mass Updates
 
@@ -864,7 +874,7 @@ If you would like to make all of your attributes mass assignable, you may define
 
 By default, attributes that are not included in the `$fillable` array are silently discarded when performing mass-assignment operations. In production, this is expected behavior; however, during local development it can lead to confusion as to why model changes are not taking effect.
 
-If you wish, you may instruct Laravel to throw an exception when attempting to fill an unfillable attribute by invoking the `preventSilentlyDiscardingAttributes` method. Typically, this method should be invoked within the `boot` method of one of your application's service providers:
+If you wish, you may instruct Laravel to throw an exception when attempting to fill an unfillable attribute by invoking the `preventSilentlyDiscardingAttributes` method. Typically, this method should be invoked in the `boot` method of your application's `AppServiceProvider` class:
 
     use Illuminate\Database\Eloquent\Model;
 
@@ -879,21 +889,12 @@ If you wish, you may instruct Laravel to throw an exception when attempting to f
 <a name="upserts"></a>
 ### Upserts
 
-Occasionally, you may need to update an existing model or create a new model if no matching model exists. Like the `firstOrCreate` method, the `updateOrCreate` method persists the model, so there's no need to manually call the `save` method.
-
-In the example below, if a flight exists with a `departure` location of `Oakland` and a `destination` location of `San Diego`, its `price` and `discounted` columns will be updated. If no such flight exists, a new flight will be created which has the attributes resulting from merging the first argument array with the second argument array:
-
-    $flight = Flight::updateOrCreate(
-        ['departure' => 'Oakland', 'destination' => 'San Diego'],
-        ['price' => 99, 'discounted' => 1]
-    );
-
-If you would like to perform multiple "upserts" in a single query, then you should use the `upsert` method instead. The method's first argument consists of the values to insert or update, while the second argument lists the column(s) that uniquely identify records within the associated table. The method's third and final argument is an array of the columns that should be updated if a matching record already exists in the database. The `upsert` method will automatically set the `created_at` and `updated_at` timestamps if timestamps are enabled on the model:
+Eloquent's `upsert` method may be used to update or create records in a single, atomic operation. The method's first argument consists of the values to insert or update, while the second argument lists the column(s) that uniquely identify records within the associated table. The method's third and final argument is an array of the columns that should be updated if a matching record already exists in the database. The `upsert` method will automatically set the `created_at` and `updated_at` timestamps if timestamps are enabled on the model:
 
     Flight::upsert([
         ['departure' => 'Oakland', 'destination' => 'San Diego', 'price' => 99],
         ['departure' => 'Chicago', 'destination' => 'New York', 'price' => 150]
-    ], ['departure', 'destination'], ['price']);
+    ], uniqueBy: ['departure', 'destination'], update: ['price']);
     
 > [!WARNING]  
 > All databases except SQL Server require the columns in the second argument of the `upsert` method to have a "primary" or "unique" index. In addition, the MySQL database driver ignores the second argument of the `upsert` method and always uses the "primary" and "unique" indexes of the table to detect existing records.
@@ -1071,25 +1072,21 @@ When marking models as `Prunable`, you may also define a `pruning` method on the
         // ...
     }
 
-After configuring your prunable model, you should schedule the `model:prune` Artisan command in your application's `App\Console\Kernel` class. You are free to choose the appropriate interval at which this command should be run:
+After configuring your prunable model, you should schedule the `model:prune` Artisan command in your application's `routes/console.php` file. You are free to choose the appropriate interval at which this command should be run:
 
-    /**
-     * Define the application's command schedule.
-     */
-    protected function schedule(Schedule $schedule): void
-    {
-        $schedule->command('model:prune')->daily();
-    }
+    use Illuminate\Support\Facades\Schedule;
+
+    Schedule::command('model:prune')->daily();
 
 Behind the scenes, the `model:prune` command will automatically detect "Prunable" models within your application's `app/Models` directory. If your models are in a different location, you may use the `--model` option to specify the model class names:
 
-    $schedule->command('model:prune', [
+    Schedule::command('model:prune', [
         '--model' => [Address::class, Flight::class],
     ])->daily();
 
 If you wish to exclude certain models from being pruned while pruning all other detected models, you may use the `--except` option:
 
-    $schedule->command('model:prune', [
+    Schedule::command('model:prune', [
         '--except' => [Address::class, Flight::class],
     ])->daily();
 
@@ -1423,7 +1420,7 @@ To start listening to model events, define a `$dispatchesEvents` property on you
         /**
          * The event map for the model.
          *
-         * @var array
+         * @var array<string, string>
          */
         protected $dispatchesEvents = [
             'saved' => UserSaved::class,
@@ -1542,13 +1539,13 @@ To register an observer, you may place the `ObservedBy` attribute on the corresp
         //
     }
 
-Or, you may manually register an observer by calling the `observe` method on the model you wish to observe. You may register observers in the `boot` method of your application's `App\Providers\EventServiceProvider` service provider:
+Or, you may manually register an observer by invoking the `observe` method on the model you wish to observe. You may register observers in the `boot` method of your application's `AppServiceProvider` class:
 
     use App\Models\User;
     use App\Observers\UserObserver;
 
     /**
-     * Register any events for your application.
+     * Bootstrap any application services.
      */
     public function boot(): void
     {

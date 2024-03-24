@@ -4,7 +4,6 @@
     - [What is Fortify?](#what-is-fortify)
     - [When Should I Use Fortify?](#when-should-i-use-fortify)
 - [Installation](#installation)
-    - [The Fortify Service Provider](#the-fortify-service-provider)
     - [Fortify Features](#fortify-features)
     - [Disabling Views](#disabling-views)
 - [Authentication](#authentication)
@@ -75,10 +74,10 @@ To get started, install Fortify using the Composer package manager:
 composer require laravel/fortify
 ```
 
-Next, publish Fortify's resources using the `vendor:publish` command:
+Next, publish Fortify's resources using the `fortify:install` Artisan command:
 
 ```shell
-php artisan vendor:publish --provider="Laravel\Fortify\FortifyServiceProvider"
+php artisan fortify:install
 ```
 
 This command will publish Fortify's actions to your `app/Actions` directory, which will be created if it does not exist. In addition, the `FortifyServiceProvider`, configuration file, and all necessary database migrations will be published.
@@ -88,13 +87,6 @@ Next, you should migrate your database:
 ```shell
 php artisan migrate
 ```
-
-<a name="the-fortify-service-provider"></a>
-### The Fortify Service Provider
-
-The `vendor:publish` command discussed above will also publish the `App\Providers\FortifyServiceProvider` class. You should ensure this class is registered within the `providers` array of your application's `config/app.php` configuration file.
-
-The Fortify service provider registers the actions that Fortify published and instructs Fortify to use them when their respective tasks are executed by Fortify.
 
 <a name="fortify-features"></a>
 ### Fortify Features
@@ -532,7 +524,7 @@ If the request to resend the verification link email was successful, Fortify wil
 <a name="protecting-routes"></a>
 ### Protecting Routes
 
-To specify that a route or group of routes requires that the user has verified their email address, you should attach Laravel's built-in `verified` middleware to the route. This middleware is registered within your application's `App\Http\Kernel` class:
+To specify that a route or group of routes requires that the user has verified their email address, you should attach Laravel's built-in `verified` middleware to the route. The `verified` middleware alias is automatically registered by Laravel and serves as an alias for the `Illuminate\Routing\Middleware\ValidateSignature` middleware:
 
 ```php
 Route::get('/dashboard', function () {

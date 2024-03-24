@@ -24,9 +24,9 @@ Laravelには、表現力豊かで統一されたAPIを介してアクセスで�
 <a name="configuration"></a>
 ### 設定
 
-Your application's session configuration file is stored at `config/session.php`. Be sure to review the options available to you in this file. By default, Laravel is configured to use the `database` session driver.
+アプリケーションのセッション設定ファイルは、`config/session.php`へ保存します。このファイルで利用可能なオプションを確認してください。Laravelはデフォルトで、`database`セッションドライバを使用するように設定しています。
 
-The session `driver` configuration option defines where session data will be stored for each request. Laravel includes a variety of drivers:
+セッション`driver`設定オプションは、各リクエストのセッションデータをどこに保存するかを定義します。Laravelには様々なドライバがあります。
 
 <div class="content-list" markdown="1">
 
@@ -48,7 +48,7 @@ The session `driver` configuration option defines where session data will be sto
 <a name="database"></a>
 #### データベース
 
-When using the `database` session driver, you will need to ensure that you have a database table to contain the session data. Typically, this is included in Laravel's default `0001_01_01_000000_create_users_table.php` [database migration](/docs/{{version}}/migrations); however, if for any reason you do not have a `sessions` table, you may use the `make:session-table` Artisan command to generate this migration:
+`database`セッションドライバを使用する場合、セッションデータを格納するデータベーステーブルを用意する必要があります。通常、これはLaravelのデフォルト`0001_01_01_000000_create_users_table.php`[データベースマイグレーション](/docs/{{version}}/migrations)に含まれていますが、何らかの理由で`sessions`テーブルがない場合は、`make:session-table` Artisanコマンドを使用してこのマイグレーションを生成してください。
 
 ```shell
 php artisan make:session-table
@@ -62,7 +62,7 @@ php artisan migrate
 LaravelでRedisセッションを使用する前に、PECLを介してPhpRedis PHP拡張機能をインストールするか、Composerを介して`predis/predis`パッケージ(〜1.0)をインストールする必要があります。Redisの設定の詳細は、Laravelの[Redisドキュメント](/docs/{{version}}/redis#configuration)を参照してください。
 
 > [!NOTE]
-> The `SESSION_CONNECTION` environment variable, or the `connection` option in the `session.php` configuration file, may be used to specify which Redis connection is used for session storage.
+> `SESSION_CONNECTION`環境変数または`session.php`設定ファイルの`connection`オプションを使用して、セッションの保存に使用する Redis接続を指定できます。
 
 <a name="interacting-with-the-session"></a>
 ## セッションの操作
@@ -343,4 +343,4 @@ Laravel[アプリケーションスターターキット](/docs/{{version}}/star
         }
     }
 
-Once the session driver has been registered, you may specify the `mongo` driver as your application's session driver using the `SESSION_DRIVER` environment variable or within the application's `config/session.php` configuration file.
+セッションドライバを登録したら、`SESSION_DRIVER`環境変数か、アプリケーションの`config/session.php`設定ファイルで、`mongo`ドライバをアプリケーションのセッションドライバとして指定します。

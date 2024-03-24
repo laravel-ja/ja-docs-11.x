@@ -150,7 +150,7 @@ php artisan make:view greeting
 
 ビューコンポーザは、ビューをレンダするときに呼び出すコールバックまたはクラスメソッドです。ビューをレンダするたびにビューへ結合するデータがある場合、ビューコンポーザを使用すると、そのロジックを１つの場所に集約できます。ビューコンポーザは、アプリケーション内の複数のルートかコントローラが同じビューを返し、常に特定のデータが必要な場合にきわめて役立ちます。
 
-Typically, view composers will be registered within one of your application's [service providers](/docs/{{version}}/providers). In this example, we'll assume that the `App\Providers\AppServiceProvider` will house this logic.
+通常、ビューコンポーザはアプリケーションの[サービスプロバイダ](/docs/{{version}}/providers)の１つで登録します。この例では、`App\Providers\AppServiceProvider`へこのロジックを格納すると仮定しましょう。
 
 `View`ファサードの`composer`メソッドを使用して、ビューコンポーザを登録します。Laravelには、クラスベースのビューコンポーザーのデフォルトディレクトリが含まれていないため、自由に整理できます。たとえば、`app/View/Composers`ディレクトリを作成して、アプリケーションのすべてのビューコンポーザを保存できます。
 

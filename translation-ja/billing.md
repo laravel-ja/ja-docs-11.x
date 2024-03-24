@@ -1688,7 +1688,7 @@ php artisan cashier:webhook --disabled
 <a name="webhooks-csrf-protection"></a>
 #### WebフックとCSRF保護
 
-Since Stripe webhooks need to bypass Laravel's [CSRF protection](/docs/{{version}}/csrf), you should ensure that Laravel does not attempt to validate the CSRF token for incoming Stripe webhooks. To accomplish this, you should exclude `stripe/*` from CSRF protection in your application's `bootstrap/app.php` file:
+Stripe WebフックはLaravelの[CSRF保護](/docs/{{version}}/csrf)をバイパスする必要があるため、Laravelが受信するStripe WebフックのCSRFトークンを検証させない必要があります。そのため、アプリケーションの`bootstrap/app.php`ファイルで、CSRF保護から`stripe/*`を除外する必要があります。
 
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
@@ -2281,7 +2281,7 @@ Cashierのオブジェクトの多くは、StripeSDKオブジェクトのラッ�
 <a name="testing"></a>
 ## テスト
 
-When testing an application that uses Cashier, you may mock the actual HTTP requests to the Stripe API; however, this requires you to partially re-implement Cashier's own behavior. Therefore, we recommend allowing your tests to hit the actual Stripe API. While this is slower, it provides more confidence that your application is working as expected and any slow tests may be placed within their own Pest / PHPUnit testing group.
+Cashierを使用するアプリケーションをテストする場合、Stripe APIへの実際のHTTPリクエストをモックすることができます。しかし、そのためにはCashier自身の動作を部分的に再実装する必要があります。そのため、実際のStripe APIを利用し、テストすることをお勧めします。その分テスト速度が遅くなりますが、アプリケーションが期待通りに動作しているかどうかをより確実に確認できます。また、動作が遅いテストは、自身のPest／PHPUnitテストグループ内で実行できます。
 
 テストするときは、Cashier自体には優れたテストスイートを既に持っていることを忘れないでください。したがって、基本的なCashierの動作すべてではなく、独自のアプリケーションのサブスクリプションと支払いフローのテストにのみ焦点を当てる必要があります。
 

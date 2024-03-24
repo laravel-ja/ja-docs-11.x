@@ -8,7 +8,7 @@
     - [環境ファイルの暗号化](#encrypting-environment-files)
 - [設定値へのアクセス](#accessing-configuration-values)
 - [設定キャッシュ](#configuration-caching)
-- [Configuration Publishing](#configuration-publishing)
+- [設定のリソース公開](#configuration-publishing)
 - [デバッグモード](#debug-mode)
 - [メンテナンスモード](#maintenance-mode)
 
@@ -20,9 +20,9 @@ Laravelフレームワークの全設定ファイルは、`config`ディレク�
 これら設定ファイルを使用すると、データベース接続情報、メールサーバ情報、およびアプリケーションのタイムゾーンや暗号化キーなどの他のさまざまなコア設定値などを設定できます。
 
 <a name="the-about-command"></a>
-#### The `about` Command
+#### `about`コマンド
 
-Laravel can display an overview of your application's configuration, drivers, and environment via the `about` Artisan command.
+Laravelでは、`about` Artisanコマンドでアプリケーションの設定、ドライバー、環境の概要を表示できます。
 
 ```shell
 php artisan about
@@ -47,9 +47,9 @@ php artisan config:show database
 
 これを簡単に実現するために、Laravelは[DotEnv](https://github.com/vlucas/phpdotenv) PHPライブラリを利用しています。Laravelの新規インストールでは、アプリケーションのルートディレクトリに、多くの一般的な環境変数を定義する`.env.example`ファイルが含まれます。Laravelのインストールプロセス中に、このファイルは自動的に`.env`へコピーされます。
 
-Laravel's default `.env` file contains some common configuration values that may differ based on whether your application is running locally or on a production web server. These values are then read by the configuration files within the `config` directory using Laravel's `env` function.
+Laravelのデフォルト`.env`ファイルは、一般的な設定値がいくつか用意していますが、アプリケーションがローカルで実行されているか、本番のWebサーバで実行されているかによって異なることでしょう。そうした値は、Laravelの`env`関数を使用して、`config`ディレクトリ内の設定ファイルから読み込まれるようにします。
 
-If you are developing with a team, you may wish to continue including and updating the `.env.example` file with your application. By putting placeholder values in the example configuration file, other developers on your team can clearly see which environment variables are needed to run your application.
+チームで開発を行っているのであれば、`.env.example`ファイルをアプリケーションに含めて更新し続けることをお勧めします。example設定ファイルにプレースホルダの値を入れることで、チームの他の開発者はアプリケーションの実行に必要な環境変数を明確に知ることができます。
 
 > [!NOTE]
 > `.env`ファイルにあるすべての変数は、サーバレベルやシステムレベルで定義されている、外部の環境変数によってオーバーライドすることができます。
@@ -203,14 +203,6 @@ php artisan env:decrypt --force
 
     config(['app.timezone' => 'America/Chicago']);
 
-静的解析を支援するため、`Config`ファサードは型付き設定値取得メソッドも提供しています。取得した設定値が期待している型と一致しない場合は、例外を投げます。
-
-    Config::string('config-key');
-    Config::integer('config-key');
-    Config::float('config-key');
-    Config::boolean('config-key');
-    Config::array('config-key');
-
 <a name="configuration-caching"></a>
 ## 設定キャッシュ
 
@@ -232,11 +224,11 @@ php artisan config:clear
 > 開発過程の一環として`config:cache`コマンド実行を採用する場合は、必ず`env`関数を設定ファイルの中だけで使用してください。設定ファイルがキャッシュされると、`.env`ファイルはロードされません。したがって、`env`関数は外部システムレベルの環境変数のみを返すだけです。
 
 <a name="configuration-publishing"></a>
-## Configuration Publishing
+## 設定のリソース公開
 
-Most of Laravel's configuration files are already published in your application's `config` directory; however, certain configuration files like `cors.php` and `view.php` are not published by default, as most applications will never need to modify them.
+Laravelのほとんどの設定ファイルは、あらかじめアプリケーションの`config`ディレクトリでリソース公開されていますが、`cors.php`や`view.php`のような特定の設定ファイルは、ほとんどのアプリケーションでは変更する必要がないため、デフォルトでは公開していません。
 
-However, you may use the `config:publish` Artisan command to publish any configuration files that are not published by default:
+しかし、`config:publish` Artisanコマンドを使用し、デフォルトで公開していない設定ファイルをリソース公開できます。
 
 ```shell
 php artisan config:publish

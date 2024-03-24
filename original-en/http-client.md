@@ -23,12 +23,6 @@
 
 Laravel provides an expressive, minimal API around the [Guzzle HTTP client](http://docs.guzzlephp.org/en/stable/), allowing you to quickly make outgoing HTTP requests to communicate with other web applications. Laravel's wrapper around Guzzle is focused on its most common use cases and a wonderful developer experience.
 
-Before getting started, you should ensure that you have installed the Guzzle package as a dependency of your application. By default, Laravel automatically includes this dependency. However, if you have previously removed the package, you may install it again via Composer:
-
-```shell
-composer require guzzlehttp/guzzle
-```
-
 <a name="making-requests"></a>
 ## Making Requests
 
@@ -84,7 +78,7 @@ The HTTP client also allows you to construct request URLs using the [URI templat
 Http::withUrlParameters([
     'endpoint' => 'https://laravel.com',
     'page' => 'docs',
-    'version' => '9.x',
+    'version' => '11.x',
     'topic' => 'validation',
 ])->get('{+endpoint}/{page}/{version}/{topic}');
 ```
@@ -272,7 +266,7 @@ If all of the requests fail, an instance of `Illuminate\Http\Client\RequestExcep
 
     $response = Http::retry(3, 100, throw: false)->post(/* ... */);
 
-> [!WARNING]  
+> [!WARNING]
 > If all of the requests fail because of a connection issue, a `Illuminate\Http\Client\ConnectionException` will still be thrown even when the `throw` argument is set to `false`.
 
 <a name="error-handling"></a>
@@ -391,11 +385,30 @@ Http::globalResponseMiddleware(fn ($response) => $response->withHeader(
 <a name="guzzle-options"></a>
 ### Guzzle Options
 
-You may specify additional [Guzzle request options](http://docs.guzzlephp.org/en/stable/request-options.html) using the `withOptions` method. The `withOptions` method accepts an array of key / value pairs:
+You may specify additional [Guzzle request options](http://docs.guzzlephp.org/en/stable/request-options.html) for an outgoing request using the `withOptions` method. The `withOptions` method accepts an array of key / value pairs:
 
     $response = Http::withOptions([
         'debug' => true,
     ])->get('http://example.com/users');
+
+<a name="global-options"></a>
+#### Global Options
+
+To configure default options for every outgoing request, you may utilize the `globalOptions` method. Typically, this method should be invoked from the `boot` method of your application's `AppServiceProvider`:
+
+```php
+use Illuminate\Support\Facades\Http;
+
+/**
+ * Bootstrap any application services.
+ */
+public function boot(): void
+{
+    Http::globalOptions([
+        'allow_redirects' => false,
+    ]);
+}
+```
 
 <a name="concurrent-requests"></a>
 ## Concurrent Requests
@@ -673,21 +686,17 @@ $recorded = Http::recorded(function (Request $request, Response $response) {
 
 Laravel fires three events during the process of sending HTTP requests. The `RequestSending` event is fired prior to a request being sent, while the `ResponseReceived` event is fired after a response is received for a given request. The `ConnectionFailed` event is fired if no response is received for a given request.
 
-The `RequestSending` and `ConnectionFailed` events both contain a public `$request` property that you may use to inspect the `Illuminate\Http\Client\Request` instance. Likewise, the `ResponseReceived` event contains a `$request` property as well as a `$response` property which may be used to inspect the `Illuminate\Http\Client\Response` instance. You may register event listeners for this event in your `App\Providers\EventServiceProvider` service provider:
+The `RequestSending` and `ConnectionFailed` events both contain a public `$request` property that you may use to inspect the `Illuminate\Http\Client\Request` instance. Likewise, the `ResponseReceived` event contains a `$request` property as well as a `$response` property which may be used to inspect the `Illuminate\Http\Client\Response` instance. You may create [event listeners](/docs/{{version}}/events) for these events within your application:
 
-    /**
-     * The event listener mappings for the application.
-     *
-     * @var array
-     */
-    protected $listen = [
-        'Illuminate\Http\Client\Events\RequestSending' => [
-            'App\Listeners\LogRequestSending',
-        ],
-        'Illuminate\Http\Client\Events\ResponseReceived' => [
-            'App\Listeners\LogResponseReceived',
-        ],
-        'Illuminate\Http\Client\Events\ConnectionFailed' => [
-            'App\Listeners\LogConnectionFailed',
-        ],
-    ];
+    use Illuminate\Http\Client\Events\RequestSending;
+
+    class LogRequest
+    {
+        /**
+         * Handle the given event.
+         */
+        public function handle(RequestSending $event): void
+        {
+            // $event->request ...
+        }
+    }

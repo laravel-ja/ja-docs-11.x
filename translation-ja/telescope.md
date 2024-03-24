@@ -48,7 +48,7 @@ Composerパッケージマネージャで、TelescopeをLaravelプロジェク�
 composer require laravel/telescope
 ```
 
-After installing Telescope, publish its assets and migrations using the `telescope:install` Artisan command. After installing Telescope, you should also run the `migrate` command in order to create the tables needed to store Telescope's data:
+Telescopeをインストールしたら、`telescope:install` Artisanコマンドを使用し、アセットとマイグレーションをリソース公開します。Telescopeをインストールした後、Telescopeのデータを格納するために必要なテーブルを作成するため、`migrate`コマンドも実行する必要があります。
 
 ```shell
 php artisan telescope:install
@@ -71,7 +71,7 @@ php artisan telescope:install
 php artisan migrate
 ```
 
-After running `telescope:install`, you should remove the `TelescopeServiceProvider` service provider registration from your application's `bootstrap/providers.php` configuration file. Instead, manually register Telescope's service providers in the `register` method of your `App\Providers\AppServiceProvider` class. We will ensure the current environment is `local` before registering the providers:
+`telescope:install`を実行した後、アプリケーションの`bootstrap/providers.php`設定ファイルから、`TelescopeServiceProvider`サービスプロバイダ登録を削除してください。代わりに、`App\Providers\AppServiceProvider`クラスの`register`メソッドで、Telescopeのサービスプロバイダを登録します。プロバイダを登録する前に、現在の環境が`local`であることを確認してください。
 
     /**
      * 全アプリケーションサービスの登録

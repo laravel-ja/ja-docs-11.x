@@ -808,7 +808,7 @@ LaravelのMarkdownコンポーネントの完全に新しいテーマを作成�
 
 `database`通知チャンネルは、通知情報をデータベーステーブルに格納します。このテーブルには、通知タイプや通知を説明するJSONデータ構造などの情報が含まれます。
 
-You can query the table to display the notifications in your application's user interface. But, before you can do that, you will need to create a database table to hold your notifications. You may use the `make:notifications-table` command to generate a [migration](/docs/{{version}}/migrations) with the proper table schema:
+アプリケーションのユーザーインターフェイスへ通知を表示するために、このテーブルへクエリできます。しかし、その前に、通知を保持するためのデータベーステーブルを作成する必要があります。`make:notifications-table`コマンドを使って、適切なテーブルスキーマを持つ[マイグレーション](/docs/{{version}}/migrations)を生成してください。
 
 ```shell
 php artisan make:notifications-table
@@ -1356,22 +1356,22 @@ use Illuminate\Support\Facades\Notification;
 test('orders can be shipped', function () {
     Notification::fake();
 
-    // Perform order shipping...
+    // 注文発送の実行…
 
-    // Assert that no notifications were sent...
+    // 通知されないことをアサート
     Notification::assertNothingSent();
 
-    // Assert a notification was sent to the given users...
+    // 一つの通知が送信されることをアサート
     Notification::assertSentTo(
         [$user], OrderShipped::class
     );
 
-    // Assert a notification was not sent...
+    // 一つの通知が送信されないことをアサート
     Notification::assertNotSentTo(
         [$user], AnotherNotification::class
     );
 
-    // Assert that a given number of notifications were sent...
+    // 指定した数の通知が送信されることをアサート
     Notification::assertCount(3);
 });
 ```
@@ -1393,20 +1393,20 @@ class ExampleTest extends TestCase
 
         // Perform order shipping...
 
-        // Assert that no notifications were sent...
+        // 通知されないことをアサート
         Notification::assertNothingSent();
 
-        // Assert a notification was sent to the given users...
+        // 一つの通知が送信されることをアサート
         Notification::assertSentTo(
             [$user], OrderShipped::class
         );
 
-        // Assert a notification was not sent...
+        // 一つの通知が送信されないことをアサート
         Notification::assertNotSentTo(
             [$user], AnotherNotification::class
         );
 
-        // Assert that a given number of notifications were sent...
+        // 指定した数の通知が送信されることをアサート
         Notification::assertCount(3);
     }
 }
@@ -1443,14 +1443,14 @@ class ExampleTest extends TestCase
 <a name="notification-sending-event"></a>
 #### 通知送信前イベント
 
-When a notification is sending, the `Illuminate\Notifications\Events\NotificationSending` event is dispatched by the notification system. This contains the "notifiable" entity and the notification instance itself. You may create [event listeners](/docs/{{version}}/events) for this event within your application:
+通知を送信すると、通知システムが`Illuminate\Notifications\Events\NotificationSending`イベントをディスパッチします。これは"Notifiable"エンティティと、通知インスタンス自身を含んでいます。アプリケーション内へ、このイベントの[イベントリスナ](/docs/{{version}}/events)を作成できます。
 
     use Illuminate\Notifications\Events\NotificationSending;
 
     class CheckNotificationStatus
     {
         /**
-         * Handle the given event.
+         * 指定イベントの処理
          */
         public function handle(NotificationSending $event): void
         {
@@ -1461,7 +1461,7 @@ When a notification is sending, the `Illuminate\Notifications\Events\Notificatio
 `NotificationSending`イベントのイベントリスナが、その`handle`メソッドから`false`を返した場合、通知は送信されません。
 
     /**
-     * Handle the given event.
+     * 指定イベントの処理
      */
     public function handle(NotificationSending $event): bool
     {
@@ -1471,7 +1471,7 @@ When a notification is sending, the `Illuminate\Notifications\Events\Notificatio
 イベントリスナの中では、イベントの`notifiable`、`notification`、`channel`プロパティへアクセスし、通知先や通知自体の詳細を調べられます。
 
     /**
-     * Handle the given event.
+     * 指定イベントの処理
      */
     public function handle(NotificationSending $event): void
     {
@@ -1483,14 +1483,14 @@ When a notification is sending, the `Illuminate\Notifications\Events\Notificatio
 <a name="notification-sent-event"></a>
 #### 通知送信後イベント
 
-When a notification is sent, the `Illuminate\Notifications\Events\NotificationSent` [event](/docs/{{version}}/events) is dispatched by the notification system. This contains the "notifiable" entity and the notification instance itself. You may create [event listeners](/docs/{{version}}/events) for this event within your application:
+通知を送信すると、通知システムが`Illuminate\Notifications\Events\NotificationSent`[イベント](/docs/{{version}}/events)をディスパッチします。これは、"Notifiable"エンティティと通知インスタンス自身を含んでいます。アプリケーション内へ、このイベントの[イベントリスナ](/docs/{{version}}/events)を作成できます。
 
     use Illuminate\Notifications\Events\NotificationSent;
 
     class LogNotification
     {
         /**
-         * Handle the given event.
+         * 指定イベントの処理
          */
         public function handle(NotificationSending $event): void
         {
@@ -1501,7 +1501,7 @@ When a notification is sent, the `Illuminate\Notifications\Events\NotificationSe
 イベントリスナ内では、イベントの `notifiable`、`notification`、`channel`、`response`プロパティにアクセスして、通知先や通知自体の詳細を知ることができます。
 
     /**
-     * Handle the given event.
+     * 指定イベントの処理
      */
     public function handle(NotificationSent $event): void
     {

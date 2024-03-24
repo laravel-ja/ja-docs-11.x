@@ -385,16 +385,16 @@ Http::globalResponseMiddleware(fn ($response) => $response->withHeader(
 <a name="guzzle-options"></a>
 ### Guzzleオプション
 
-You may specify additional [Guzzle request options](http://docs.guzzlephp.org/en/stable/request-options.html) for an outgoing request using the `withOptions` method. The `withOptions` method accepts an array of key / value pairs:
+`withOptions`メソッドを使用すると、送信リクエストへ追加の[Guzzleリクエストオプション](http://docs.guzzlephp.org/en/stable/request-options.html)を指定できます。`withOptions`メソッドはキーと値のペアの配列を引数に取ります：
 
     $response = Http::withOptions([
         'debug' => true,
     ])->get('http://example.com/users');
 
 <a name="global-options"></a>
-#### Global Options
+#### グローバルオプション
 
-To configure default options for every outgoing request, you may utilize the `globalOptions` method. Typically, this method should be invoked from the `boot` method of your application's `AppServiceProvider`:
+すべての送信リクエストに対してデフォルトのオプションを設定するには、`globalOptions`メソッドを利用します。通常、このメソッドはアプリケーションの`AppServiceProvider`の`boot`メソッドから呼び出します。
 
 ```php
 use Illuminate\Support\Facades\Http;
@@ -686,17 +686,17 @@ $recorded = Http::recorded(function (Request $request, Response $response) {
 
 LaravelはHTTPリクエストを送信する過程で、3つのイベントを発行します。`RequestSending`イベントはリクエストが送信される前に発生し、`ResponseReceived`イベントは指定したリクエストに対するレスポンスを受け取った後に発行します。`ConnectionFailed`イベントは、指定したリクエストに対するレスポンスを受信できなかった場合に発行します。
 
-The `RequestSending` and `ConnectionFailed` events both contain a public `$request` property that you may use to inspect the `Illuminate\Http\Client\Request` instance. Likewise, the `ResponseReceived` event contains a `$request` property as well as a `$response` property which may be used to inspect the `Illuminate\Http\Client\Response` instance. You may create [event listeners](/docs/{{version}}/events) for these events within your application:
+`RequestSending`イベントと`ConnectionFailed`イベントはどちらもpublicの`$request`プロパティを持ち、これを使用して`Illuminate\Http\Client\Request`インスタンスを調べられます。同様に、`ResponseReceived`イベントには`$request`プロパティと`$response`プロパティがあり、これを使用して`Illuminate\Http\Client\Response`インスタンスを調べられます。アプリケーション内で、こうしたイベントの[イベントリスナ](/docs/{{version}}/events)を作成できます。
 
     use Illuminate\Http\Client\Events\RequestSending;
 
     class LogRequest
     {
         /**
-         * Handle the given event.
+         * 指定イベントを処理する
          */
         public function handle(RequestSending $event): void
         {
-            // $event->request ...
+            // $event->request …
         }
     }

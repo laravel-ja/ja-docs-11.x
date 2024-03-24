@@ -146,7 +146,7 @@ class UserControllerTest extends TestCase
 }
 ```
 
-> [!WARNING]  
+> [!WARNING]
 > `Request`ファサードをモックしないでください。代わりに、テストの実行時に、`get`や`post`などの[HTTPテストメソッド](/docs/{{version}}/http-tests)に必要な入力を渡します。同様に、`Config`ファサードをモックする代わりに、テストでは`Config::set`メソッドを呼び出してください。
 
 <a name="facade-spies"></a>
@@ -192,7 +192,7 @@ public function test_values_are_be_stored_in_cache(): void
 
 ```php tab=Pest
 test('time can be manipulated', function () {
-    // Travel into the future...
+    // 時間を未来へ進める
     $this->travel(5)->milliseconds();
     $this->travel(5)->seconds();
     $this->travel(5)->minutes();
@@ -201,13 +201,13 @@ test('time can be manipulated', function () {
     $this->travel(5)->weeks();
     $this->travel(5)->years();
 
-    // Travel into the past...
+    // 時間を過去へ戻す
     $this->travel(-5)->hours();
 
-    // Travel to an explicit time...
+    // 明確な時間へ移動
     $this->travelTo(now()->subHours(6));
 
-    // Return back to the present time...
+    // 現在時刻へ戻る
     $this->travelBack();
 });
 ```
@@ -215,7 +215,7 @@ test('time can be manipulated', function () {
 ```php tab=PHPUnit
 public function test_time_can_be_manipulated(): void
 {
-    // Travel into the future...
+    // 時間を未来へ進める
     $this->travel(5)->milliseconds();
     $this->travel(5)->seconds();
     $this->travel(5)->minutes();
@@ -224,13 +224,13 @@ public function test_time_can_be_manipulated(): void
     $this->travel(5)->weeks();
     $this->travel(5)->years();
 
-    // Travel into the past...
+    // 時間を過去へ戻す
     $this->travel(-5)->hours();
 
-    // Travel to an explicit time...
+    // 明確な時間へ移動
     $this->travelTo(now()->subHours(6));
 
-    // Return back to the present time...
+    // 現在時刻へ戻る
     $this->travelBack();
 }
 ```

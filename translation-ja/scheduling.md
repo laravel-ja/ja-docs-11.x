@@ -23,12 +23,12 @@
 
 以前は、サーバでスケジュールする必要のあるタスクごとにcron設定エントリを作成する必要がありました。しかしながら、タスクスケジュールがソース管理されないため、これはすぐに苦痛になる可能性があります。既存のcronエントリを表示したり、エントリを追加したりするには、サーバへSSHで接続する必要がありました。
 
-Laravel's command scheduler offers a fresh approach to managing scheduled tasks on your server. The scheduler allows you to fluently and expressively define your command schedule within your Laravel application itself. When using the scheduler, only a single cron entry is needed on your server. Your task schedule is typically defined in your application's `routes/console.php` file.
+Laravelのコマンドスケジューラは、サーバ上のタスクのスケジュールを管理する新しいアプローチを提供します。このスケジューラを使用すると、Laravelアプリケーション内でコマンドスケジュールをスムーズかつ表現的に定義できます。スケジューラを使用する場合、サーバ上に必要なcronエントリーは１つだけです。タスクスケジュールは通常、アプリケーションの`routes/console.php`ファイルで定義します。
 
 <a name="defining-schedules"></a>
 ## スケジュール定義
 
-You may define all of your scheduled tasks in your application's `routes/console.php` file. To get started, let's take a look at an example. In this example, we will schedule a closure to be called every day at midnight. Within the closure we will execute a database query to clear a table:
+アプリケーションの`routes/console.php`ファイルですべてのスケジュールタスクを定義できます。始めに、例を見てみましょう。この例では、毎日午前0時に呼び出すクロージャをスケジュールしています。クロージャの中で、テーブルをクリアするためにデータベースクエリを実行しています。
 
     <?php
 
@@ -64,15 +64,15 @@ php artisan schedule:list
     Schedule::command(SendEmailsCommand::class, ['Taylor', '--force'])->daily();
 
 <a name="scheduling-artisan-closure-commands"></a>
-#### Scheduling Artisan Closure Commands
+#### Artisanクロージャコマンドのスケジュール
 
-If you want to schedule an Artisan command defined by a closure, you may chain the scheduling related methods after the command's definition:
+クロージャで定義したArtisanコマンドをスケジューリングしたい場合は、コマンド定義の後にスケジューリング関連のメソッドをチェーンしてください。
 
     Artisan::command('delete:recent-users', function () {
         DB::table('recent_users')->delete();
     })->purpose('Delete recent users')->daily();
 
-If you need to pass arguments to the closure command, you may provide them to the `schedule` method:
+クロージャーコマンドへ引数を渡す必要がある場合は、`schedule`メソッドへ渡してください。
 
     Artisan::command('emails:send {user} {--force}', function ($user) {
         // ...
@@ -175,8 +175,8 @@ If you need to pass arguments to the closure command, you may provide them to th
 
 <div class="overflow-auto">
 
-| メソッド                           | 説明                                   |
-| ---------------------------------- | -------------------------------------- |
+| メソッド                                 | 説明                                         |
+| ---------------------------------------- | -------------------------------------------- |
 | `->weekdays();`                          | ウィークデーのみに限定                       |
 | `->weekends();`                          | ウィークエンドのみに限定                     |
 | `->sundays();`                           | 日曜だけに限定                               |
@@ -266,7 +266,7 @@ If you need to pass arguments to the closure command, you may provide them to th
              ->timezone('America/New_York')
              ->at('2:00')
 
-If you are repeatedly assigning the same timezone to all of your scheduled tasks, you can specify which timezone should be assigned to all schedules by defining a `schedule_timezone` option within your application's `app` configuration file:
+すべてのスケジュールタスクに同じタイムゾーンを繰り返し割り当てている場合は、アプリケーションの`app`設定ファイルで`schedule_timezone`オプションを定義すれば、すべてのスケジュールに割り当てるタイムゾーンを指定できます。
 
     'timezone' => env('APP_TIMEZONE', 'UTC'),
 

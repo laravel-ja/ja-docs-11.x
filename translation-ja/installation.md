@@ -58,7 +58,7 @@ LaravelはPHPエコシステムで最高のパッケージを組み合わせ、�
 PHPとComposerをインストールしたら、Composerの`create-project`コマンドで新しいLaravelプロジェクトを作成してください。
 
 ```nothing
-composer create-project laravel/laravel example-app
+composer create-project laravel/laravel:^10.0 example-app
 ```
 
 もしくは、Composerを使い、[Laravelインストーラ](https://github.com/laravel/installer)をグローバルにインストールして、新しいLaravelプロジェクトを作成することもできます。
@@ -94,7 +94,7 @@ Laravelは初期設定で動き、追加の設定はほぼ必要ありません�
 
 アプリケーションをローカルマシンで実行するか、本番のWebサーバで実行するかにより、Laravelの設定オプション値の多くは異なる可能性があるため、多くの重要な設定値は、アプリケーションのルートに存在する`.env`ファイルを使用して定義します。
 
-Your `.env` file should not be committed to your application's source control, since each developer / server using your application could require a different environment configuration. Furthermore, this would be a security risk in the event an intruder gains access to your source control repository, since any sensitive credentials would be exposed.
+`.env`ファイルはアプリケーションのソース管理下へコミットすべきではありません。なぜなら、アプリケーションを使用する開発者やサーバごとに、異なる環境設定が必要になる可能性があるからです。さらに、侵入者がソース管理リポジトリにアクセスした場合、機密情報が公開されてしまうため、セキュリティ上のリスクとなります。
 
 > [!NOTE]
 > `.env`ファイルと環境ベースによる設定の詳細は、完全な[設定のドキュメント](/docs/{{version}}/configuration#environment-configuration)をチェックしてください。
@@ -102,11 +102,11 @@ Your `.env` file should not be committed to your application's source control, s
 <a name="databases-and-migrations"></a>
 ### データベースとマイグレーション
 
-Now that you have created your Laravel application, you probably want to store some data in a database. By default, your application's `.env` configuration file specifies that Laravel will be interacting with a SQLite database.
+Laravelアプリケーションを作成したら、おそらくデータベースにデータを保存したいと思うでしょう。アプリケーションの`.env`設定ファイルはデフォルトで、LaravelがSQLiteデータベースとやり取りする指定をしています。
 
-During the creation of the project, Laravel created a `database/database.sqlite` file for you, and ran the necessary migrations to create the application's database tables.
+プロジェクトの作成時に、Laravelはあなたのために`database/database.sqlite`ファイルを作成し、アプリケーションのデータベーステーブルを作成するために必要なマイグレーションを実行しました。
 
-If you prefer to use another database driver such as MySQL or PostgreSQL, you can update your `.env` configuration file to use the appropriate database. For example, if you wish to use MySQL, update your `.env` configuration file's `DB_*` variables like so:
+MySQLやPostgreSQLなど別のデータベースドライバを使用したい場合は、`.env`設定ファイルを更新して、適切なデータベースを使用できるようにしてください。例えば、MySQLを使いたい場合は、`.env`設定ファイルの`DB_*`変数を以下のように更新します。
 
 ```ini
 DB_CONNECTION=mysql
@@ -117,14 +117,14 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-If you choose to use a database other than SQLite, you will need to create the database and run your application's [database migrations](/docs/{{version}}/migrations):
+SQLite以外のデータベースを使用する場合は、データベースを作成し、アプリケーションの[データベースマイグレーション](/docs/{{version}}/migrations)を実行する必要があります。
 
 ```shell
 php artisan migrate
 ```
 
 > [!NOTE]
-> If you are developing on macOS and need to install MySQL, PostgreSQL, or Redis locally, consider using [DBngin](https://dbngin.com/).
+> もしmacOS上で開発していて、MySQL、PostgreSQL、Redisをローカルにインストールする必要がある場合は、[DBngin](https://dbngin.com/)の使用を検討してください。
 
 <a name="directory-configuration"></a>
 ### ディレクトリ設定

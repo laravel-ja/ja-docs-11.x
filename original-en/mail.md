@@ -36,7 +36,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-Sending email doesn't have to be complicated. Laravel provides a clean, simple email API powered by the popular [Symfony Mailer](https://symfony.com/doc/6.2/mailer.html) component. Laravel and Symfony Mailer provide drivers for sending email via SMTP, Mailgun, Postmark, Amazon SES, and `sendmail`, allowing you to quickly get started sending mail through a local or cloud based service of your choice.
+Sending email doesn't have to be complicated. Laravel provides a clean, simple email API powered by the popular [Symfony Mailer](https://symfony.com/doc/7.0/mailer.html) component. Laravel and Symfony Mailer provide drivers for sending email via SMTP, Mailgun, Postmark, Amazon SES, and `sendmail`, allowing you to quickly get started sending mail through a local or cloud based service of your choice.
 
 <a name="configuration"></a>
 ### Configuration
@@ -59,12 +59,22 @@ To use the Mailgun driver, install Symfony's Mailgun Mailer transport via Compos
 composer require symfony/mailgun-mailer symfony/http-client
 ```
 
-Next, set the `default` option in your application's `config/mail.php` configuration file to `mailgun`. After configuring your application's default mailer, verify that your `config/services.php` configuration file contains the following options:
+Next, set the `default` option in your application's `config/mail.php` configuration file to `mailgun` and add the following configuration array to your array of `mailers`:
 
     'mailgun' => [
         'transport' => 'mailgun',
+        // 'client' => [
+        //     'timeout' => 5,
+        // ],
+    ],
+
+After configuring your application's default mailer, add the following options to your `config/services.php` configuration file:
+
+    'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
+        'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
+        'scheme' => 'https',
     ],
 
 If you are not using the United States [Mailgun region](https://documentation.mailgun.com/en/latest/api-intro.html#mailgun-regions), you may define your region's endpoint in the `services` configuration file:
@@ -73,6 +83,7 @@ If you are not using the United States [Mailgun region](https://documentation.ma
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.eu.mailgun.net'),
+        'scheme' => 'https',
     ],
 
 <a name="postmark-driver"></a>
@@ -84,7 +95,7 @@ To use the Postmark driver, install Symfony's Postmark Mailer transport via Comp
 composer require symfony/postmark-mailer symfony/http-client
 ```
 
-Next, set the `default` option in your application's `config/mail.php` configuration file to `postmark`. After configuring your application's default mailer, verify that your `config/services.php` configuration file contains the following options:
+Next, set the `default` option in your application's `config/mail.php` configuration file to `postmark`. After configuring your application's default mailer, ensure that your `config/services.php` configuration file contains the following options:
 
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
@@ -95,6 +106,9 @@ If you would like to specify the Postmark message stream that should be used by 
     'postmark' => [
         'transport' => 'postmark',
         'message_stream_id' => env('POSTMARK_MESSAGE_STREAM_ID'),
+        // 'client' => [
+        //     'timeout' => 5,
+        // ],
     ],
 
 This way you are also able to set up multiple Postmark mailers with different message streams.
@@ -986,37 +1000,72 @@ Laravel provides a variety of methods for inspecting your mailable's structure. 
 
 As you might expect, the "HTML" assertions assert that the HTML version of your mailable contains a given string, while the "text" assertions assert that the plain-text version of your mailable contains a given string:
 
-    use App\Mail\InvoicePaid;
-    use App\Models\User;
+```php tab=Pest
+use App\Mail\InvoicePaid;
+use App\Models\User;
 
-    public function test_mailable_content(): void
-    {
-        $user = User::factory()->create();
+test('mailable content', function () {
+    $user = User::factory()->create();
 
-        $mailable = new InvoicePaid($user);
+    $mailable = new InvoicePaid($user);
 
-        $mailable->assertFrom('jeffrey@example.com');
-        $mailable->assertTo('taylor@example.com');
-        $mailable->assertHasCc('abigail@example.com');
-        $mailable->assertHasBcc('victoria@example.com');
-        $mailable->assertHasReplyTo('tyler@example.com');
-        $mailable->assertHasSubject('Invoice Paid');
-        $mailable->assertHasTag('example-tag');
-        $mailable->assertHasMetadata('key', 'value');
+    $mailable->assertFrom('jeffrey@example.com');
+    $mailable->assertTo('taylor@example.com');
+    $mailable->assertHasCc('abigail@example.com');
+    $mailable->assertHasBcc('victoria@example.com');
+    $mailable->assertHasReplyTo('tyler@example.com');
+    $mailable->assertHasSubject('Invoice Paid');
+    $mailable->assertHasTag('example-tag');
+    $mailable->assertHasMetadata('key', 'value');
 
-        $mailable->assertSeeInHtml($user->email);
-        $mailable->assertSeeInHtml('Invoice Paid');
-        $mailable->assertSeeInOrderInHtml(['Invoice Paid', 'Thanks']);
+    $mailable->assertSeeInHtml($user->email);
+    $mailable->assertSeeInHtml('Invoice Paid');
+    $mailable->assertSeeInOrderInHtml(['Invoice Paid', 'Thanks']);
 
-        $mailable->assertSeeInText($user->email);
-        $mailable->assertSeeInOrderInText(['Invoice Paid', 'Thanks']);
+    $mailable->assertSeeInText($user->email);
+    $mailable->assertSeeInOrderInText(['Invoice Paid', 'Thanks']);
 
-        $mailable->assertHasAttachment('/path/to/file');
-        $mailable->assertHasAttachment(Attachment::fromPath('/path/to/file'));
-        $mailable->assertHasAttachedData($pdfData, 'name.pdf', ['mime' => 'application/pdf']);
-        $mailable->assertHasAttachmentFromStorage('/path/to/file', 'name.pdf', ['mime' => 'application/pdf']);
-        $mailable->assertHasAttachmentFromStorageDisk('s3', '/path/to/file', 'name.pdf', ['mime' => 'application/pdf']);
-    }
+    $mailable->assertHasAttachment('/path/to/file');
+    $mailable->assertHasAttachment(Attachment::fromPath('/path/to/file'));
+    $mailable->assertHasAttachedData($pdfData, 'name.pdf', ['mime' => 'application/pdf']);
+    $mailable->assertHasAttachmentFromStorage('/path/to/file', 'name.pdf', ['mime' => 'application/pdf']);
+    $mailable->assertHasAttachmentFromStorageDisk('s3', '/path/to/file', 'name.pdf', ['mime' => 'application/pdf']);
+});
+```
+
+```php tab=PHPUnit
+use App\Mail\InvoicePaid;
+use App\Models\User;
+
+public function test_mailable_content(): void
+{
+    $user = User::factory()->create();
+
+    $mailable = new InvoicePaid($user);
+
+    $mailable->assertFrom('jeffrey@example.com');
+    $mailable->assertTo('taylor@example.com');
+    $mailable->assertHasCc('abigail@example.com');
+    $mailable->assertHasBcc('victoria@example.com');
+    $mailable->assertHasReplyTo('tyler@example.com');
+    $mailable->assertHasSubject('Invoice Paid');
+    $mailable->assertHasTag('example-tag');
+    $mailable->assertHasMetadata('key', 'value');
+
+    $mailable->assertSeeInHtml($user->email);
+    $mailable->assertSeeInHtml('Invoice Paid');
+    $mailable->assertSeeInOrderInHtml(['Invoice Paid', 'Thanks']);
+
+    $mailable->assertSeeInText($user->email);
+    $mailable->assertSeeInOrderInText(['Invoice Paid', 'Thanks']);
+
+    $mailable->assertHasAttachment('/path/to/file');
+    $mailable->assertHasAttachment(Attachment::fromPath('/path/to/file'));
+    $mailable->assertHasAttachedData($pdfData, 'name.pdf', ['mime' => 'application/pdf']);
+    $mailable->assertHasAttachmentFromStorage('/path/to/file', 'name.pdf', ['mime' => 'application/pdf']);
+    $mailable->assertHasAttachmentFromStorageDisk('s3', '/path/to/file', 'name.pdf', ['mime' => 'application/pdf']);
+}
+```
 
 <a name="testing-mailable-sending"></a>
 ### Testing Mailable Sending
@@ -1025,38 +1074,68 @@ We suggest testing the content of your mailables separately from your tests that
 
 You may use the `Mail` facade's `fake` method to prevent mail from being sent. After calling the `Mail` facade's `fake` method, you may then assert that mailables were instructed to be sent to users and even inspect the data the mailables received:
 
-    <?php
+```php tab=Pest
+<?php
 
-    namespace Tests\Feature;
+use App\Mail\OrderShipped;
+use Illuminate\Support\Facades\Mail;
 
-    use App\Mail\OrderShipped;
-    use Illuminate\Support\Facades\Mail;
-    use Tests\TestCase;
+test('orders can be shipped', function () {
+    Mail::fake();
 
-    class ExampleTest extends TestCase
+    // Perform order shipping...
+
+    // Assert that no mailables were sent...
+    Mail::assertNothingSent();
+
+    // Assert that a mailable was sent...
+    Mail::assertSent(OrderShipped::class);
+
+    // Assert a mailable was sent twice...
+    Mail::assertSent(OrderShipped::class, 2);
+
+    // Assert a mailable was not sent...
+    Mail::assertNotSent(AnotherMailable::class);
+
+    // Assert 3 total mailables were sent...
+    Mail::assertSentCount(3);
+});
+```
+
+```php tab=PHPUnit
+<?php
+
+namespace Tests\Feature;
+
+use App\Mail\OrderShipped;
+use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;
+
+class ExampleTest extends TestCase
+{
+    public function test_orders_can_be_shipped(): void
     {
-        public function test_orders_can_be_shipped(): void
-        {
-            Mail::fake();
+        Mail::fake();
 
-            // Perform order shipping...
+        // Perform order shipping...
 
-            // Assert that no mailables were sent...
-            Mail::assertNothingSent();
+        // Assert that no mailables were sent...
+        Mail::assertNothingSent();
 
-            // Assert that a mailable was sent...
-            Mail::assertSent(OrderShipped::class);
+        // Assert that a mailable was sent...
+        Mail::assertSent(OrderShipped::class);
 
-            // Assert a mailable was sent twice...
-            Mail::assertSent(OrderShipped::class, 2);
+        // Assert a mailable was sent twice...
+        Mail::assertSent(OrderShipped::class, 2);
 
-            // Assert a mailable was not sent...
-            Mail::assertNotSent(AnotherMailable::class);
+        // Assert a mailable was not sent...
+        Mail::assertNotSent(AnotherMailable::class);
 
-            // Assert 3 total mailables were sent...
-            Mail::assertSentCount(3);
-        }
+        // Assert 3 total mailables were sent...
+        Mail::assertSentCount(3);
     }
+}
+```
 
 If you are queueing mailables for delivery in the background, you should use the `assertQueued` method instead of `assertSent`:
 
@@ -1151,27 +1230,21 @@ Finally, you may specify a global "to" address by invoking the `alwaysTo` method
 <a name="events"></a>
 ## Events
 
-Laravel fires two events during the process of sending mail messages. The `MessageSending` event is fired prior to a message being sent, while the `MessageSent` event is fired after a message has been sent. Remember, these events are fired when the mail is being *sent*, not when it is queued. You may register event listeners for this event in your `App\Providers\EventServiceProvider` service provider:
+Laravel dispatches two events while sending mail messages. The `MessageSending` event is dispatched prior to a message being sent, while the `MessageSent` event is dispatched after a message has been sent. Remember, these events are dispatched when the mail is being *sent*, not when it is queued. You may create [event listeners](/docs/{{version}}/events) for these events within your application:
 
-    use App\Listeners\LogSendingMessage;
-    use App\Listeners\LogSentMessage;
     use Illuminate\Mail\Events\MessageSending;
-    use Illuminate\Mail\Events\MessageSent;
+    // use Illuminate\Mail\Events\MessageSent;
 
-    /**
-     * The event listener mappings for the application.
-     *
-     * @var array
-     */
-    protected $listen = [
-        MessageSending::class => [
-            LogSendingMessage::class,
-        ],
-
-        MessageSent::class => [
-            LogSentMessage::class,
-        ],
-    ];
+    class LogMessage
+    {
+        /**
+         * Handle the given event.
+         */
+        public function handle(MessageSending $event): void
+        {
+            // ...
+        }
+    }
 
 <a name="custom-transports"></a>
 ## Custom Transports

@@ -808,10 +808,10 @@ To customize the theme for an individual notification, you may call the `theme` 
 
 The `database` notification channel stores the notification information in a database table. This table will contain information such as the notification type as well as a JSON data structure that describes the notification.
 
-You can query the table to display the notifications in your application's user interface. But, before you can do that, you will need to create a database table to hold your notifications. You may use the `notifications:table` command to generate a [migration](/docs/{{version}}/migrations) with the proper table schema:
+You can query the table to display the notifications in your application's user interface. But, before you can do that, you will need to create a database table to hold your notifications. You may use the `make:notifications-table` command to generate a [migration](/docs/{{version}}/migrations) with the proper table schema:
 
 ```shell
-php artisan notifications:table
+php artisan make:notifications-table
 
 php artisan migrate
 ```
@@ -1347,39 +1347,70 @@ You may use the `Notification` facade's `fake` method to prevent notifications f
 
 After calling the `Notification` facade's `fake` method, you may then assert that notifications were instructed to be sent to users and even inspect the data the notifications received:
 
-    <?php
+```php tab=Pest
+<?php
 
-    namespace Tests\Feature;
+use App\Notifications\OrderShipped;
+use Illuminate\Support\Facades\Notification;
 
-    use App\Notifications\OrderShipped;
-    use Illuminate\Support\Facades\Notification;
-    use Tests\TestCase;
+test('orders can be shipped', function () {
+    Notification::fake();
 
-    class ExampleTest extends TestCase
+    // Perform order shipping...
+
+    // Assert that no notifications were sent...
+    Notification::assertNothingSent();
+
+    // Assert a notification was sent to the given users...
+    Notification::assertSentTo(
+        [$user], OrderShipped::class
+    );
+
+    // Assert a notification was not sent...
+    Notification::assertNotSentTo(
+        [$user], AnotherNotification::class
+    );
+
+    // Assert that a given number of notifications were sent...
+    Notification::assertCount(3);
+});
+```
+
+```php tab=PHPUnit
+<?php
+
+namespace Tests\Feature;
+
+use App\Notifications\OrderShipped;
+use Illuminate\Support\Facades\Notification;
+use Tests\TestCase;
+
+class ExampleTest extends TestCase
+{
+    public function test_orders_can_be_shipped(): void
     {
-        public function test_orders_can_be_shipped(): void
-        {
-            Notification::fake();
+        Notification::fake();
 
-            // Perform order shipping...
+        // Perform order shipping...
 
-            // Assert that no notifications were sent...
-            Notification::assertNothingSent();
+        // Assert that no notifications were sent...
+        Notification::assertNothingSent();
 
-            // Assert a notification was sent to the given users...
-            Notification::assertSentTo(
-                [$user], OrderShipped::class
-            );
+        // Assert a notification was sent to the given users...
+        Notification::assertSentTo(
+            [$user], OrderShipped::class
+        );
 
-            // Assert a notification was not sent...
-            Notification::assertNotSentTo(
-                [$user], AnotherNotification::class
-            );
+        // Assert a notification was not sent...
+        Notification::assertNotSentTo(
+            [$user], AnotherNotification::class
+        );
 
-            // Assert that a given number of notifications were sent...
-            Notification::assertCount(3);
-        }
+        // Assert that a given number of notifications were sent...
+        Notification::assertCount(3);
     }
+}
+```
 
 You may pass a closure to the `assertSentTo` or `assertNotSentTo` methods in order to assert that a notification was sent that passes a given "truth test". If at least one notification was sent that passes the given truth test then the assertion will be successful:
 
@@ -1412,28 +1443,25 @@ By passing a closure as the second argument to the `assertSentOnDemand` method, 
 <a name="notification-sending-event"></a>
 #### Notification Sending Event
 
-When a notification is sending, the `Illuminate\Notifications\Events\NotificationSending` [event](/docs/{{version}}/events) is dispatched by the notification system. This contains the "notifiable" entity and the notification instance itself. You may register listeners for this event in your application's `EventServiceProvider`:
+When a notification is sending, the `Illuminate\Notifications\Events\NotificationSending` event is dispatched by the notification system. This contains the "notifiable" entity and the notification instance itself. You may create [event listeners](/docs/{{version}}/events) for this event within your application:
 
-    use App\Listeners\CheckNotificationStatus;
     use Illuminate\Notifications\Events\NotificationSending;
-    
-    /**
-     * The event listener mappings for the application.
-     *
-     * @var array
-     */
-    protected $listen = [
-        NotificationSending::class => [
-            CheckNotificationStatus::class,
-        ],
-    ];
+
+    class CheckNotificationStatus
+    {
+        /**
+         * Handle the given event.
+         */
+        public function handle(NotificationSending $event): void
+        {
+            // ...
+        }
+    }
 
 The notification will not be sent if an event listener for the `NotificationSending` event returns `false` from its `handle` method:
 
-    use Illuminate\Notifications\Events\NotificationSending;
-
     /**
-     * Handle the event.
+     * Handle the given event.
      */
     public function handle(NotificationSending $event): bool
     {
@@ -1443,7 +1471,7 @@ The notification will not be sent if an event listener for the `NotificationSend
 Within an event listener, you may access the `notifiable`, `notification`, and `channel` properties on the event to learn more about the notification recipient or the notification itself:
 
     /**
-     * Handle the event.
+     * Handle the given event.
      */
     public function handle(NotificationSending $event): void
     {
@@ -1455,29 +1483,25 @@ Within an event listener, you may access the `notifiable`, `notification`, and `
 <a name="notification-sent-event"></a>
 #### Notification Sent Event
 
-When a notification is sent, the `Illuminate\Notifications\Events\NotificationSent` [event](/docs/{{version}}/events) is dispatched by the notification system. This contains the "notifiable" entity and the notification instance itself. You may register listeners for this event in your `EventServiceProvider`:
+When a notification is sent, the `Illuminate\Notifications\Events\NotificationSent` [event](/docs/{{version}}/events) is dispatched by the notification system. This contains the "notifiable" entity and the notification instance itself. You may create [event listeners](/docs/{{version}}/events) for this event within your application:
 
-    use App\Listeners\LogNotification;
     use Illuminate\Notifications\Events\NotificationSent;
-    
-    /**
-     * The event listener mappings for the application.
-     *
-     * @var array
-     */
-    protected $listen = [
-        NotificationSent::class => [
-            LogNotification::class,
-        ],
-    ];
 
-> [!NOTE]  
-> After registering listeners in your `EventServiceProvider`, use the `event:generate` Artisan command to quickly generate listener classes.
+    class LogNotification
+    {
+        /**
+         * Handle the given event.
+         */
+        public function handle(NotificationSending $event): void
+        {
+            // ...
+        }
+    }
 
 Within an event listener, you may access the `notifiable`, `notification`, `channel`, and `response` properties on the event to learn more about the notification recipient or the notification itself:
 
     /**
-     * Handle the event.
+     * Handle the given event.
      */
     public function handle(NotificationSent $event): void
     {

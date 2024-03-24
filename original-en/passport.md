@@ -4,7 +4,6 @@
     - [Passport or Sanctum?](#passport-or-sanctum)
 - [Installation](#installation)
     - [Deploying Passport](#deploying-passport)
-    - [Migration Customization](#migration-customization)
     - [Upgrading Passport](#upgrading-passport)
 - [Configuration](#configuration)
     - [Client Secret Hashing](#client-secret-hashing)
@@ -62,28 +61,17 @@ However, if you are attempting to authenticate a single-page application, mobile
 <a name="installation"></a>
 ## Installation
 
-To get started, install Passport via the Composer package manager:
+You may install Laravel Passport via the `install:api` Artisan command:
 
 ```shell
-composer require laravel/passport
+php artisan install:api --passport
 ```
 
-Passport's [service provider](/docs/{{version}}/providers) registers its own database migration directory, so you should migrate your database after installing the package. The Passport migrations will create the tables your application needs to store OAuth2 clients and access tokens:
+This command will publish and run the database migrations necessary for creating the tables your application needs to store OAuth2 clients and access tokens. The command will also create the encryption keys required to generate secure access tokens.
 
-```shell
-php artisan migrate
-```
+Additionally, this command will ask if you would like to use UUIDs as the primary key value of the Passport `Client` model instead of auto-incrementing integers.
 
-Next, you should execute the `passport:install` Artisan command. This command will create the encryption keys needed to generate secure access tokens. In addition, the command will create "personal access" and "password grant" clients which will be used to generate access tokens:
-
-```shell
-php artisan passport:install
-```
-
-> [!NOTE]  
-> If you would like to use UUIDs as the primary key value of the Passport `Client` model instead of auto-incrementing integers, please install Passport using [the `uuids` option](#client-uuids).
-
-After running the `passport:install` command, add the `Laravel\Passport\HasApiTokens` trait to your `App\Models\User` model. This trait will provide a few helper methods to your model which allow you to inspect the authenticated user's token and scopes. If your model is already using the `Laravel\Sanctum\HasApiTokens` trait, you may remove that trait:
+After running the `install:api` command, add the `Laravel\Passport\HasApiTokens` trait to your `App\Models\User` model. This trait will provide a few helper methods to your model which allow you to inspect the authenticated user's token and scopes:
 
     <?php
 
@@ -113,15 +101,6 @@ Finally, in your application's `config/auth.php` configuration file, you should 
         ],
     ],
 
-<a name="client-uuids"></a>
-#### Client UUIDs
-
-You may also run the `passport:install` command with the `--uuids` option present. This option will instruct Passport that you would like to use UUIDs instead of auto-incrementing integers as the Passport `Client` model's primary key values. After running the `passport:install` command with the `--uuids` option, you will be given additional instructions regarding disabling Passport's default migrations:
-
-```shell
-php artisan passport:install --uuids
-```
-
 <a name="deploying-passport"></a>
 ### Deploying Passport
 
@@ -131,10 +110,10 @@ When deploying Passport to your application's servers for the first time, you wi
 php artisan passport:keys
 ```
 
-If necessary, you may define the path where Passport's keys should be loaded from. You may use the `Passport::loadKeysFrom` method to accomplish this. Typically, this method should be called from the `boot` method of your application's `App\Providers\AuthServiceProvider` class:
+If necessary, you may define the path where Passport's keys should be loaded from. You may use the `Passport::loadKeysFrom` method to accomplish this. Typically, this method should be called from the `boot` method of your application's `App\Providers\AppServiceProvider` class:
 
     /**
-     * Register any authentication / authorization services.
+     * Bootstrap any application services.
      */
     public function boot(): void
     {
@@ -162,15 +141,6 @@ PASSPORT_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----
 -----END PUBLIC KEY-----"
 ```
 
-<a name="migration-customization"></a>
-### Migration Customization
-
-If you are not going to use Passport's default migrations, you should call the `Passport::ignoreMigrations` method in the `register` method of your `App\Providers\AppServiceProvider` class. You may export the default migrations using the `vendor:publish` Artisan command:
-
-```shell
-php artisan vendor:publish --tag=passport-migrations
-```
-
 <a name="upgrading-passport"></a>
 ### Upgrading Passport
 
@@ -182,7 +152,7 @@ When upgrading to a new major version of Passport, it's important that you caref
 <a name="client-secret-hashing"></a>
 ### Client Secret Hashing
 
-If you would like your client's secrets to be hashed when stored in your database, you should call the `Passport::hashClientSecrets` method in the `boot` method of your `App\Providers\AuthServiceProvider` class:
+If you would like your client's secrets to be hashed when stored in your database, you should call the `Passport::hashClientSecrets` method in the `boot` method of your `App\Providers\AppServiceProvider` class:
 
     use Laravel\Passport\Passport;
 
@@ -193,10 +163,10 @@ Once enabled, all of your client secrets will only be displayable to the user im
 <a name="token-lifetimes"></a>
 ### Token Lifetimes
 
-By default, Passport issues long-lived access tokens that expire after one year. If you would like to configure a longer / shorter token lifetime, you may use the `tokensExpireIn`, `refreshTokensExpireIn`, and `personalAccessTokensExpireIn` methods. These methods should be called from the `boot` method of your application's `App\Providers\AuthServiceProvider` class:
+By default, Passport issues long-lived access tokens that expire after one year. If you would like to configure a longer / shorter token lifetime, you may use the `tokensExpireIn`, `refreshTokensExpireIn`, and `personalAccessTokensExpireIn` methods. These methods should be called from the `boot` method of your application's `App\Providers\AppServiceProvider` class:
 
     /**
-     * Register any authentication / authorization services.
+     * Bootstrap any application services.
      */
     public function boot(): void
     {
@@ -220,7 +190,7 @@ You are free to extend the models used internally by Passport by defining your o
         // ...
     }
 
-After defining your model, you may instruct Passport to use your custom model via the `Laravel\Passport\Passport` class. Typically, you should inform Passport about your custom models in the `boot` method of your application's `App\Providers\AuthServiceProvider` class:
+After defining your model, you may instruct Passport to use your custom model via the `Laravel\Passport\Passport` class. Typically, you should inform Passport about your custom models in the `boot` method of your application's `App\Providers\AppServiceProvider` class:
 
     use App\Models\Passport\AuthCode;
     use App\Models\Passport\Client;
@@ -229,7 +199,7 @@ After defining your model, you may instruct Passport to use your custom model vi
     use App\Models\Passport\Token;
 
     /**
-     * Register any authentication / authorization services.
+     * Bootstrap any application services.
      */
     public function boot(): void
     {
@@ -546,15 +516,11 @@ php artisan passport:purge --revoked
 php artisan passport:purge --expired
 ```
 
-You may also configure a [scheduled job](/docs/{{version}}/scheduling) in your application's `App\Console\Kernel` class to automatically prune your tokens on a schedule:
+You may also configure a [scheduled job](/docs/{{version}}/scheduling) in your application's `routes/console.php` file to automatically prune your tokens on a schedule:
 
-    /**
-     * Define the application's command schedule.
-     */
-    protected function schedule(Schedule $schedule): void
-    {
-        $schedule->command('passport:purge')->hourly();
-    }
+    use Laravel\Support\Facades\Schedule;
+
+    Schedule::command('passport:purge')->hourly();
 
 <a name="code-grant-pkce"></a>
 ## Authorization Code Grant With PKCE
@@ -657,6 +623,16 @@ If the state parameter matches, the consumer should issue a `POST` request to yo
 > We no longer recommend using password grant tokens. Instead, you should choose [a grant type that is currently recommended by OAuth2 Server](https://oauth2.thephpleague.com/authorization-server/which-grant/).
 
 The OAuth2 password grant allows your other first-party clients, such as a mobile application, to obtain an access token using an email address / username and password. This allows you to issue access tokens securely to your first-party clients without requiring your users to go through the entire OAuth2 authorization code redirect flow.
+
+To enable the password grant, call the `enablePasswordGrant` method in the `boot` method of your application's `App\Providers\AppServiceProvider` class:
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        Passport::enablePasswordGrant();
+    }
 
 <a name="creating-a-password-grant-client"></a>
 ### Creating a Password Grant Client
@@ -768,10 +744,10 @@ When authenticating using the password grant, Passport will use the `password` a
 > [!WARNING]  
 > We no longer recommend using implicit grant tokens. Instead, you should choose [a grant type that is currently recommended by OAuth2 Server](https://oauth2.thephpleague.com/authorization-server/which-grant/).
 
-The implicit grant is similar to the authorization code grant; however, the token is returned to the client without exchanging an authorization code. This grant is most commonly used for JavaScript or mobile applications where the client credentials can't be securely stored. To enable the grant, call the `enableImplicitGrant` method in the `boot` method of your application's `App\Providers\AuthServiceProvider` class:
+The implicit grant is similar to the authorization code grant; however, the token is returned to the client without exchanging an authorization code. This grant is most commonly used for JavaScript or mobile applications where the client credentials can't be securely stored. To enable the grant, call the `enableImplicitGrant` method in the `boot` method of your application's `App\Providers\AppServiceProvider` class:
 
     /**
-     * Register any authentication / authorization services.
+     * Bootstrap any application services.
      */
     public function boot(): void
     {
@@ -811,13 +787,15 @@ Before your application can issue tokens via the client credentials grant, you w
 php artisan passport:client --client
 ```
 
-Next, to use this grant type, you may add the `CheckClientCredentials` middleware to the `$middlewareAliases` property of your application's `app/Http/Kernel.php` file:
+Next, to use this grant type, register a middleware alias for the `CheckClientCredentials` middleware. You may define middleware aliases in your application's `bootstrap/app.php` file:
 
     use Laravel\Passport\Http\Middleware\CheckClientCredentials;
 
-    protected $middlewareAliases = [
-        'client' => CheckClientCredentials::class,
-    ];
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias([
+            'client' => CheckClientCredentials::class
+        ]);
+    })
 
 Then, attach the middleware to a route:
 
@@ -1007,10 +985,10 @@ Scopes allow your API clients to request a specific set of permissions when requ
 <a name="defining-scopes"></a>
 ### Defining Scopes
 
-You may define your API's scopes using the `Passport::tokensCan` method in the `boot` method of your application's `App\Providers\AuthServiceProvider` class. The `tokensCan` method accepts an array of scope names and scope descriptions. The scope description may be anything you wish and will be displayed to users on the authorization approval screen:
+You may define your API's scopes using the `Passport::tokensCan` method in the `boot` method of your application's `App\Providers\AppServiceProvider` class. The `tokensCan` method accepts an array of scope names and scope descriptions. The scope description may be anything you wish and will be displayed to users on the authorization approval screen:
 
     /**
-     * Register any authentication / authorization services.
+     * Bootstrap any application services.
      */
     public function boot(): void
     {
@@ -1023,7 +1001,7 @@ You may define your API's scopes using the `Passport::tokensCan` method in the `
 <a name="default-scope"></a>
 ### Default Scope
 
-If a client does not request any specific scopes, you may configure your Passport server to attach default scope(s) to the token using the `setDefaultScope` method. Typically, you should call this method from the `boot` method of your application's `App\Providers\AuthServiceProvider` class:
+If a client does not request any specific scopes, you may configure your Passport server to attach default scope(s) to the token using the `setDefaultScope` method. Typically, you should call this method from the `boot` method of your application's `App\Providers\AppServiceProvider` class:
 
     use Laravel\Passport\Passport;
 
@@ -1069,10 +1047,17 @@ If you are issuing personal access tokens using the `App\Models\User` model's `c
 <a name="checking-scopes"></a>
 ### Checking Scopes
 
-Passport includes two middleware that may be used to verify that an incoming request is authenticated with a token that has been granted a given scope. To get started, add the following middleware to the `$middlewareAliases` property of your `app/Http/Kernel.php` file:
+Passport includes two middleware that may be used to verify that an incoming request is authenticated with a token that has been granted a given scope. To get started, define the following middleware aliases in your application's `bootstrap/app.php` file:
 
-    'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
-    'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
+    use Laravel\Passport\Http\Middleware\CheckForAnyScope;
+    use Laravel\Passport\Http\Middleware\CheckScopes;
+
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias([
+            'scopes' => CheckScopes::class,
+            'scope' => CheckForAnyScope::class,
+        ]);
+    })
 
 <a name="check-for-all-scopes"></a>
 #### Check For All Scopes
@@ -1131,12 +1116,15 @@ You may determine if a given scope has been defined using the `hasScope` method:
 
 When building an API, it can be extremely useful to be able to consume your own API from your JavaScript application. This approach to API development allows your own application to consume the same API that you are sharing with the world. The same API may be consumed by your web application, mobile applications, third-party applications, and any SDKs that you may publish on various package managers.
 
-Typically, if you want to consume your API from your JavaScript application, you would need to manually send an access token to the application and pass it with each request to your application. However, Passport includes a middleware that can handle this for you. All you need to do is add the `CreateFreshApiToken` middleware to your `web` middleware group in your `app/Http/Kernel.php` file:
+Typically, if you want to consume your API from your JavaScript application, you would need to manually send an access token to the application and pass it with each request to your application. However, Passport includes a middleware that can handle this for you. All you need to do is append the `CreateFreshApiToken` middleware to the `web` middleware group in your application's `bootstrap/app.php` file:
 
-    'web' => [
-        // Other middleware...
-        \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
-    ],
+    use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
+
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->web(append: [
+            CreateFreshApiToken::class,
+        ]);
+    })
 
 > [!WARNING]  
 > You should ensure that the `CreateFreshApiToken` middleware is the last middleware listed in your middleware stack.
@@ -1151,10 +1139,10 @@ This middleware will attach a `laravel_token` cookie to your outgoing responses.
 <a name="customizing-the-cookie-name"></a>
 #### Customizing the Cookie Name
 
-If needed, you can customize the `laravel_token` cookie's name using the `Passport::cookie` method. Typically, this method should be called from the `boot` method of your application's `App\Providers\AuthServiceProvider` class:
+If needed, you can customize the `laravel_token` cookie's name using the `Passport::cookie` method. Typically, this method should be called from the `boot` method of your application's `App\Providers\AppServiceProvider` class:
 
     /**
-     * Register any authentication / authorization services.
+     * Bootstrap any application services.
      */
     public function boot(): void
     {
@@ -1172,56 +1160,82 @@ When using this method of authentication, you will need to ensure a valid CSRF t
 <a name="events"></a>
 ## Events
 
-Passport raises events when issuing access tokens and refresh tokens. You may use these events to prune or revoke other access tokens in your database. If you would like, you may attach listeners to these events in your application's `App\Providers\EventServiceProvider` class:
+Passport raises events when issuing access tokens and refresh tokens. You may [listen for these events](/docs/{{version}}/events) to prune or revoke other access tokens in your database:
 
-    /**
-     * The event listener mappings for the application.
-     *
-     * @var array
-     */
-    protected $listen = [
-        'Laravel\Passport\Events\AccessTokenCreated' => [
-            'App\Listeners\RevokeOldTokens',
-        ],
-
-        'Laravel\Passport\Events\RefreshTokenCreated' => [
-            'App\Listeners\PruneOldTokens',
-        ],
-    ];
+Event Name |
+------------- |
+`Laravel\Passport\Events\AccessTokenCreated` |
+`Laravel\Passport\Events\RefreshTokenCreated` |
 
 <a name="testing"></a>
 ## Testing
 
 Passport's `actingAs` method may be used to specify the currently authenticated user as well as its scopes. The first argument given to the `actingAs` method is the user instance and the second is an array of scopes that should be granted to the user's token:
 
-    use App\Models\User;
-    use Laravel\Passport\Passport;
+```php tab=Pest
+use App\Models\User;
+use Laravel\Passport\Passport;
 
-    public function test_servers_can_be_created(): void
-    {
-        Passport::actingAs(
-            User::factory()->create(),
-            ['create-servers']
-        );
+test('servers can be created', function () {
+    Passport::actingAs(
+        User::factory()->create(),
+        ['create-servers']
+    );
 
-        $response = $this->post('/api/create-server');
+    $response = $this->post('/api/create-server');
 
-        $response->assertStatus(201);
-    }
+    $response->assertStatus(201);
+});
+```
+
+```php tab=PHPUnit
+use App\Models\User;
+use Laravel\Passport\Passport;
+
+public function test_servers_can_be_created(): void
+{
+    Passport::actingAs(
+        User::factory()->create(),
+        ['create-servers']
+    );
+
+    $response = $this->post('/api/create-server');
+
+    $response->assertStatus(201);
+}
+```
 
 Passport's `actingAsClient` method may be used to specify the currently authenticated client as well as its scopes. The first argument given to the `actingAsClient` method is the client instance and the second is an array of scopes that should be granted to the client's token:
 
-    use Laravel\Passport\Client;
-    use Laravel\Passport\Passport;
+```php tab=Pest
+use Laravel\Passport\Client;
+use Laravel\Passport\Passport;
 
-    public function test_orders_can_be_retrieved(): void
-    {
-        Passport::actingAsClient(
-            Client::factory()->create(),
-            ['check-status']
-        );
+test('orders can be retrieved', function () {
+    Passport::actingAsClient(
+        Client::factory()->create(),
+        ['check-status']
+    );
 
-        $response = $this->get('/api/orders');
+    $response = $this->get('/api/orders');
 
-        $response->assertStatus(200);
-    }
+    $response->assertStatus(200);
+});
+```
+
+```php tab=PHPUnit
+use Laravel\Passport\Client;
+use Laravel\Passport\Passport;
+
+public function test_orders_can_be_retrieved(): void
+{
+    Passport::actingAsClient(
+        Client::factory()->create(),
+        ['check-status']
+    );
+
+    $response = $this->get('/api/orders');
+
+    $response->assertStatus(200);
+}
+```

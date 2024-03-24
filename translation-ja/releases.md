@@ -2,14 +2,14 @@
 
 - [バージョニング規約](#versioning-scheme)
 - [サポートポリシー](#support-policy)
-- [Laravel 11](#laravel-11)
+- [Laravel11](#laravel-11)
 
 <a name="versioning-scheme"></a>
 ## バージョニング規約
 
 Laravelとファーストパーティパッケージは、[セマンティックバージョニング](https://semver.org)にしたがっています。メジャーなフレームのリリースは、毎年（第１四半期に）リリースします。マイナーとパッチリリースはより頻繁に毎週リリースします。マイナーとパッチリリースは、**決して**ブレーキングチェンジを含みません
 
-When referencing the Laravel framework or its components from your application or package, you should always use a version constraint such as `^11.0`, since major releases of Laravel do include breaking changes. However, we strive to always ensure you may update to a new major release in one day or less.
+アプリケーションやパッケージからLaravelフレームワークやそのコンポーネントを参照する場合、Laravelのメジャーリリースにはブレークチェンジが含まれるため、常に`^11.0`のようなバージョン制約を使用する必要があります。しかし、常に１日かからずに新しいメジャーリリースへアップデートできるように、私たちは努めています。
 
 <a name="named-arguments"></a>
 #### 名前付き引数
@@ -28,8 +28,8 @@ Laravelのすべてのリリースは、バグフィックスは１８ヶ月、�
 | ---------- | --------- | -------------------- | -------------------- | -------------------- |
 | 9          | 8.0 - 8.2 | ２０２２年２月８日   | ２０２３年８月８日   | ２０２４年２月６日   |
 | 10         | 8.1 - 8.3 | ２０２３年２月１４日 | ２０２４年８月６日   | ２０２５年２月４日   |
-| 11 | 8.2 - 8.3 | March 12th, 2024 | September 3rd, 2025 | March 12th, 2026 |
-| 12 | 8.2 - 8.3 | Q1 2025 | Q3, 2026 | Q1, 2027 |
+| 11         | 8.2 - 8.3 | ２０２４年３月１２日 | ２０２５年９月３日   | ２０２６年３月１２日 |
+| 12         | 8.2 - 8.3 | ２０２５年第１四半期 | ２０２６年第３四半期 | ２０２７年第１四半期 |
 
 </div>
 
@@ -49,23 +49,23 @@ Laravelのすべてのリリースは、バグフィックスは１８ヶ月、�
 <a name="laravel-11"></a>
 ## Laravel 11
 
-Laravel 11 continues the improvements made in Laravel 10.x by introducing a streamlined application structure, per-second rate limiting, health routing, graceful encryption key rotation, queue testing improvements, [Resend](https://resend.com) mail transport, Prompt validator integration, new Artisan commands, and more. In addition, Laravel Reverb, a first-party, scalable WebSocket server has been introduced to provide robust real-time capabilities to your applications.
+Laravel11は、Laravel10.xで行われた改善を引き継ぎ、アプリケーション構造を合理化し、秒単位のレート制限、ヘルスルーティング、グレースフル暗号化キーローテーション、キューテストの改善、[Resend](https://resend.com)メールトランスポート、Promptとバリデータの統合、新しいArtisanコマンドなどを導入しました。さらに、ファーストパーティのスケーラブルなWebSocketサーバであるLaravel Reverbを導入し、アプリケーションに堅牢なリアルタイム機能を提供します。
 
 <a name="php-8"></a>
 ### PHP 8.2
 
-Laravel 11.x requires a minimum PHP version of 8.2.
+Laravel11.xには、最低でPHP8.2のバージョンが必要です。
 
 <a name="structure"></a>
-### Streamlined Application Structure
+### 合理化したアプリケーション構造
 
-_Laravel's streamlined application structure was developed by [Taylor Otwell](https://github.com/taylorotwell) and [Nuno Maduro](https://github.com/nunomaduro)_.
+*Laravelの合理化したアプリケーション構造は、[Taylor Otwell](https://github.com/taylorotwell)と[Nuno Maduro](https://github.com/nunomaduro)*が開発しました。
 
-Laravel 11 introduces a streamlined application structure for **new** Laravel applications, without requiring any changes to existing applications. The new application structure is intended to provide a leaner, more modern experience, while retaining many of the concepts that Laravel developers are already familiar with. Below we will discuss the highlights of Laravel's new application structure.
+Laravel11では、既存のアプリケーションに変更を加えることなく、**新しい**Laravelアプリケーション向けに合理化したアプリケーション構造を導入しました。新しいアプリケーション構造は、Laravel開発者がすでに慣れ親しんでいるコンセプトの多くを保持しながら、よりスリムでモダンなエクスペリエンスを提供することを目的としています。以降で、Laravelの新しいアプリケーション構造のハイライトについて説明します。
 
-#### The Application Bootstrap File
+#### アプリケーションの初期起動処理ファイル
 
-The `bootstrap/app.php` file has been revitalized as a code-first application configuration file. From this file, you may now customize your application's routing, middleware, service providers, exception handling, and more. This file unifies a variety of high-level application behavior settings that were previously scattered throughout your application's file structure:
+`bootstrap/app.php`ファイルは、コード・ファーストのアプリケーション設定ファイルとして復活しました。このファイルから、アプリケーションのルーティング、ミドルウェア、サービスプロバイダ、例外処理などをカスタマイズできます。このファイルは、以前はアプリケーションのファイル構造全体に散らばっていたさまざまな高レベルのアプリケーション動作設定を統一しています。
 
 ```php
 return Application::configure(basePath: dirname(__DIR__))
@@ -83,16 +83,16 @@ return Application::configure(basePath: dirname(__DIR__))
 ```
 
 <a name="service-providers"></a>
-#### Service Providers
+#### サービスプロバイダ
 
-Instead of the default Laravel application structure containing five service providers, Laravel 11 only includes a single `AppServiceProvider`. The functionality of the previous service providers has been incorporated into the `bootstrap/app.php`, is handled automatically by the framework, or may be placed in your application's `AppServiceProvider`.
+デフォルトのLaravelアプリケーション構造には５つのサービスプロバイダを持っていましたが、Laravel11では１つの`AppServiceProvider`しかありません。以前のサービスプロバイダーの機能は、`bootstrap/app.php`に組み込まれたり、フレームワークが自動的に処理したり、アプリケーションの`AppServiceProvider`へ配置されたりしました。
 
-For example, event discovery is now enabled by default, largely eliminating the need for manual registration of events and their listeners. However, if you do need to manually register events, you may simply do so in the `AppServiceProvider`. Similarly, route model bindings or authorization gates you may have previously registered in the `AuthServiceProvider` may also be registered in the `AppServiceProvider`.
+例えば、イベントディスカバリはデフォルトで有効になり、イベントとそのリスナを手作業で登録する必要をほぼ無くしました。しかし、イベントを手作業で登録する必要がある場合は、`AppServiceProvider`に登録するだけです。同様に、以前 `AuthServiceProvider`で登録していた、ルートモデル結合や認証ゲートも、`AppServiceProvider`できます。
 
 <a name="opt-in-routing"></a>
-#### Opt-in API and Broadcast Routing
+#### オプトインAPIとブロードキャストルーティング
 
-The `api.php` and `channels.php` route files are no longer present by default, as many applications do not require these files. Instead, they may be created using simple Artisan commands:
+多くのアプリケーションがこうしたファイルを必要としないため、`api.php`と`channels.php`ルートファイルは、デフォルトでもはや存在しなくなりました。代わりに、簡単なArtisanコマンドを使用して、生成できます。
 
 ```shell
 php artisan install:api
@@ -101,11 +101,11 @@ php artisan install:broadcasting
 ```
 
 <a name="middleware"></a>
-#### Middleware
+#### ミドルウェア
 
-Previously, new Laravel applications included nine middleware. These middleware performed a variety of tasks such as authenticating requests, trimming input strings, and validating CSRF tokens.
+以前は、新しいLaravelアプリケーションは、９つのミドルウェアを持っていました。これらのミドルウェアは、リクエストの認証、入力文字列のトリミング、CSRFトークンの検証など、さまざまなタスクを実行していました。
 
-In Laravel 11, these middleware have been moved into the framework itself, so that they do not add bulk to your application's structure. New methods for customizing the behavior of these middleware have been added to the framework and may be invoked from your application's `bootstrap/app.php` file:
+Laravel11では、これらのミドルウェアをフレームワーク自体に移しました。これらのミドルウェアの動作をカスタマイズするための新しいメソッドをフレームワークへ追加しており、アプリケーションの`bootstrap/app.php`ファイルから呼び出せます。
 
 ```php
 ->withMiddleware(function (Middleware $middleware) {
@@ -119,12 +119,12 @@ In Laravel 11, these middleware have been moved into the framework itself, so th
 })
 ```
 
-Since all middleware can be easily customized via your application's `bootstrap/app.php`, the need for a separate HTTP "kernel" class has been eliminated.
+すべてのミドルウェアは、アプリケーションの`bootstrap/app.php`から簡単にカスタマイズできるため、HTTP "kernel"クラスを別に用意する必要がなくなりました。
 
 <a name="scheduling"></a>
-#### Scheduling
+#### スケジュール
 
-Using a new `Schedule` facade, scheduled tasks may now be defined directly in your application's `routes/console.php` file, eliminating the need for a separate console "kernel" class:
+新しい`Schedule`ファサードを使用して、タスクのスケジュールをアプリケーションの`routes/console.php`ファイルで直接定義できるようになりました。
 
 ```php
 use Illuminate\Support\Facades\Schedule;
@@ -133,9 +133,9 @@ Schedule::command('emails:send')->daily();
 ```
 
 <a name="exception-handling"></a>
-#### Exception Handling
+#### 例外処理
 
-Like routing and middleware, exception handling can now be customized from your application's `bootstrap/app.php` file instead of a separate exception handler class, reducing the overall number of files included in a new Laravel application:
+ルーティングやミドルウェアと同様に、例外処理も、例外ハンドラクラスを個別に作成する代わりに、アプリケーションの `bootstrap/app.php`ファイルからカスタマイズできるようになり、新しいLaravelアプリケーションに含まれるファイル全体の数を減らせました。
 
 ```php
 ->withExceptions(function (Exceptions $exceptions) {
@@ -148,9 +148,9 @@ Like routing and middleware, exception handling can now be customized from your 
 ```
 
 <a name="base-controller-class"></a>
-#### Base `Controller` Class
+#### `Controller`ベースクラス
 
-The base controller included in new Laravel applications has been simplified. It no longer extends Laravel's internal `Controller` class, and the `AuthorizesRequests` and `ValidatesRequests` traits have been removed, as they may be included in your application's individual controllers if desired:
+新しいLaravelアプリケーションのベースコントローラを簡素化しました。Laravel内部の`Controller`クラスを継承しなくなり、`AuthorizesRequests`と`ValidatesRequests`トレイトを削除しました。これらは、必要に応じてアプリケーションの個々のコントローラで含めてください。
 
     <?php
 
@@ -162,33 +162,33 @@ The base controller included in new Laravel applications has been simplified. It
     }
 
 <a name="application-defaults"></a>
-#### Application Defaults
+#### アプリケーションのデフォルト
 
-By default, new Laravel applications use SQLite for database storage, as well as the `database` driver for Laravel's session, cache, and queue. This allows you to begin building your application immediately after creating a new Laravel application, without being required to install additional software or create additional database migrations.
+新しいLaravelアプリケーションはデフォルトで、データベースストレージにSQLiteを使用し、Laravelのセッション、キャッシュ、キューに`database`ドライバを使用します。これにより、追加のソフトウェアをインストールしたり、追加のデータベースマイグレーションを作成したりする必要がなく、新しいLaravelアプリケーションを作成した後、すぐにアプリケーションの構築を開始できます。
 
-In addition, over time, the `database` drivers for these Laravel services have become robust enough for production usage in many application contexts; therefore, they provide a sensible, unified choice for both local and production applications.
+加えて、これらのLaravelサービスの`データベース`ドライバは、多くのアプリケーションコンテキストで本番環境で使用するのに十分な堅牢性を持つようになり、ローカルアプリケーションとプロダクションアプリケーションの両方に対し、理にかなった統一した選択を提供しています。
 
 <a name="reverb"></a>
 ### Laravel Reverb
 
-_Laravel Reverb was developed by [Joe Dixon](https://github.com/joedixon)_.
+*Laravel Reverbは、[Joe Dixon](https://github.com/joedixon)が、開発しました。*
 
-[Laravel Reverb](https://reverb.laravel.com) brings blazing-fast and scalable real-time WebSocket communication directly to your Laravel application, and provides seamless integration with Laravel’s existing suite of event broadcasting tools, such as Laravel Echo.
+[Laravel Reverb](https://reverb.laravel.com)は、高速でスケーラブルなリアルタイムWebSocket通信をLaravelアプリケーションに直接もたらし、Laravel EchoのようなLaravelの既存のイベントブロードキャストツール群とのシームレスな統合を提供します。
 
 ```shell
 php artisan reverb:start
 ```
 
-In addition, Reverb supports horizontal scaling via Redis's publish / subscribe capabilities, allowing you to distribute your WebSocket traffic across multiple backend Reverb servers all supporting a single, high-demand application.
+さらに、ReverbはRedisのPub／Sub機能により、水平スケーリングをサポートし、WebSocketトラフィックを複数のバックエンドReverbサーバへ分散して、単一の高需要アプリケーションをサポートします。
 
-For more information on Laravel Reverb, please consult the complete [Reverb documentation](/docs/{{version}}/reverb).
+Laravel Reverbの詳細は、完全な[Reverbドキュメント](/docs/{{version}}/reverb)を参照してください。
 
 <a name="rate-limiting"></a>
-### Per-Second Rate Limiting
+### 秒単位のレート制限
 
-_Per-second rate limiting was contributed by [Tim MacDonald](https://github.com/timacdonald)_.
+*秒単位のレート制限は、[Tim MacDonald](https://github.com/timacdonald)が貢献しました。*
 
-Laravel now supports "per-second" rate limiting for all rate limiters, including those for HTTP requests and queued jobs. Previously, Laravel's rate limiters were limited to "per-minute" granularity:
+Laravelは、HTTPリクエストやキュー投入したジョブを含む全てのレートリミッタで、「秒単位」のレート制限をサポートするようになりました。以前、Laravelのレートリミッタは 「分単位」で制限していました。
 
 ```php
 RateLimiter::for('invoices', function (Request $request) {
@@ -196,14 +196,14 @@ RateLimiter::for('invoices', function (Request $request) {
 });
 ```
 
-For more information on rate limiting in Laravel, check out the [rate limiting documentation](/docs/{{version}}/routing#rate-limiting).
+Laravelのレート制限の詳細は、[レート制限ドキュメント](/docs/{{version}}/routing#rate-limiting)をチェックしてください。
 
 <a name="health"></a>
-### Health Routing
+### ヘルスルート
 
-_Health routing was contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
+*ヘルスルートは、[Taylor Otwell](https://github.com/taylorotwell)が貢献しました。*
 
-New Laravel 11 applications include a `health` routing directive, which instructs Laravel to define a simple health-check endpoint that may be invoked by third-party application health monitoring services or orchestration systems like Kubernetes. By default, this route is served at `/up`:
+新しいLaravel11アプリケーションは、単純なヘルスチェックエンドポイントを定義するようLaravelに指示する、`health`ルートディレクティブが含まれています。このエンドポイントは、サードパーティのアプリケーションヘルスモニタリングサービスやKubernetesなどのオーケストレーションシステムから呼び出される可能性があり、デフォルトでこのルートは`/up`で提供しています。
 
 ```php
 ->withRouting(
@@ -213,31 +213,31 @@ New Laravel 11 applications include a `health` routing directive, which instruct
 )
 ```
 
-When HTTP requests are made to this route, Laravel will also dispatch a `DiagnosingHealth` event, allowing you to perform additional health checks that are relevant to your application.
+このルートに対し、HTTPリクエストが行われると、Laravelは`DiagnosingHealth`イベントもディスパッチし、アプリケーションに関連する追加のヘルスチェックを実行できるようにします。
 
 <a name="encryption"></a>
-### Graceful Encryption Key Rotation
+### 優しい暗号化キーのローテーション
 
-_Graceful encryption key rotation was contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
+*優しい暗号化キーのローテーションは、[Taylor Otwell](https://github.com/taylorotwell)が貢献しました。*
 
-Since Laravel encrypts all cookies, including your application's session cookie, essentially every request to a Laravel application relies on encryption. However, because of this, rotating your application's encryption key would log all users out of your application. In addition, decrypting data that was encrypted by the previous encryption key becomes impossible.
+Laravelはアプリケーションのセッションクッキーを含むすべてのクッキーを暗号化するため、基本的にLaravelアプリケーションへのリクエストはすべて暗号化に依存しています。しかし、このため、アプリケーションの暗号化キーをローテーションすると、すべてのユーザーがアプリケーションからログアウトすることになります。さらに、以前の暗号化キーで暗号化されたデータを復号化できなくなります。
 
-Laravel 11 allows you to define your application's previous encryption keys as a comma-delimited list via the `APP_PREVIOUS_KEYS` environment variable.
+Laravel11では、`APP_PREVIOUS_KEYS`環境変数を使って、アプリケーションの以前の暗号化キーをカンマ区切りのリストとして定義することができます。
 
-When encrypting values, Laravel will always use the "current" encryption key, which is within the `APP_KEY` environment variable. When decrypting values, Laravel will first try the current key. If decryption fails using the current key, Laravel will try all previous keys until one of the keys is able to decrypt the value.
+値を暗号化するとき、Laravelは常に`APP_KEY`環境変数の「現在の」暗号化キーを使用します。値を復号化するとき、Laravelはまず現在のキーを試します。現在のキーで復号化に失敗した場合、Laravelは値を復号化できるキーが見つかるまで、以前のキーをすべて試します。
 
-This approach to graceful decryption allows users to keep using your application uninterrupted even if your encryption key is rotated.
+この優しい復号化アプローチにより、暗号化キーがローテーションされていても、ユーザーはアプリケーションを中断なく使い続けられます。
 
-For more information on encryption in Laravel, check out the [encryption documentation](/docs/{{version}}/encryption).
+Laravelでの暗号化の詳細は、[暗号化のドキュメント](/docs/{{version}}/encryption)をチェックしてください。
 
 <a name="prompt-validation"></a>
-### Prompt Validation
+### プロンプトバリデーション
 
-_Prompt validator integration was contributed by [Andrea Marco Sartori](https://github.com/cerbero90)_.
+*プロンプトのバリデーション統合は、[Andrea Marco Sartori](https://github.com/cerbero90)が貢献しました。*
 
-[Laravel Prompts](/docs/{{version}}/prompts) is a PHP package for adding beautiful and user-friendly forms to your command-line applications, with browser-like features including placeholder text and validation.
+[Laravel Prompts](/docs/{{version}}/prompts)は、美しくユーザーフレンドリーなフォームをコマンドラインアプリケーションへ追加するためのPHPパッケージで、プレースホルダテキストやバリデーションなどのブラウザライクな機能を備えています。
 
-Laravel Prompts supports input validation via closures:
+Laravel Promptsはクロージャによる入力バリデーションをサポートしています。
 
 ```php
 $name = text(
@@ -250,7 +250,7 @@ $name = text(
 );
 ```
 
-However, this can become cumbersome when dealing with many inputs or complicated validation scenarios. Therefore, in Laravel 11, you may utilize the full power of Laravel's [validator](/docs/{{version}}/validation) when validating prompt inputs:
+しかし、多くの入力や複雑なバリデーションシナリオを扱う場合、これは面倒です。そこでLaravel11では、プロンプト入力のバリデーションを行う際に、Laravelの[バリデタ](/docs/{{version}}/validation)をフルに活用できるようになりました。
 
 ```php
 $name = text('What is your name?', validate: [
@@ -259,11 +259,11 @@ $name = text('What is your name?', validate: [
 ```
 
 <a name="queue-interaction-testing"></a>
-### Queue Interaction Testing
+### キュー操作のテスト
 
-_Queue interaction testing was contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
+*キュー操作のテストは、[Taylor Otwell](https://github.com/taylorotwell)が貢献しました。*
 
-Previously, attempting to test that a queued job was released, deleted, or manually failed was cumbersome and required the definition of custom queue fakes and stubs. However, in Laravel 11, you may easily test for these queue interactions using the `withFakeQueueInteractions` method:
+以前は、キュー投入したジョブがリリースされたり、削除されたり、失敗したりを手作業でテストしようとすると面倒で、カスタムキューFakeやスタブを定義する必要がありました。しかし、Laravel11では、`withFakeQueueInteractions`メソッドを使用することで、これらのキューのやり取りを簡単にテストできます。
 
 ```php
 use App\Jobs\ProcessPodcast;
@@ -275,14 +275,14 @@ $job->handle();
 $job->assertReleased(delay: 30);
 ```
 
-For more information on testing queued jobs, check out the [queue documentation](/docs/{{version}}/queues#testing).
+キューに投入したジョブのテストの詳細は、[キューのドキュメント](/docs/{{version}}/queues#testing)を参照してください。
 
 <a name="new-artisan-commands"></a>
-### New Artisan Commands
+### 新しいArtisanコマンド
 
-_Class creation Artisan commands were contributed by [Taylor Otwell](https://github.com/taylorotwell)_.
+*クラス生成Artisanコマンドは、[Taylor Otwell](https://github.com/taylorotwell)が貢献しました。*
 
-New Artisan commands have been added to allow the quick creation of classes, enums, interfaces, and traits:
+新しいArtisanコマンドを追加し、クラス、列挙型、インターフェイス、トレイトを素早く作成できるようになりました。
 
 ```shell
 php artisan make:class
@@ -292,14 +292,14 @@ php artisan make:trait
 ```
 
 <a name="model-cast-improvements"></a>
-### Model Casts Improvements
+### モデルのキャストの向上
 
-_Model casts improvements were contributed by [Nuno Maduro](https://github.com/nunomaduro)_.
+*モデルのキャストの向上は、[Nuno Maduro](https://github.com/nunomaduro)が貢献しました。*
 
-Laravel 11 supports defining your model's casts using a method instead of a property. This allows for streamlined, fluent cast definitions, especially when using casts with arguments:
+Laravel11では、モデルのキャストをプロパティではなくメソッドで定義できるようになりました。これにより、特に引数を持つキャストを使用する場合に、合理的で流暢なキャスト定義が可能になりました。
 
     /**
-     * Get the attributes that should be cast.
+     * キャストする属性を取得
      *
      * @return array<string, string>
      */
@@ -313,14 +313,14 @@ Laravel 11 supports defining your model's casts using a method instead of a prop
         ];
     }
 
-For more information on attribute casting, review the [Eloquent documentation](/docs/{{version}}/eloquent-mutators#attribute-casting).
+属性のキャストの詳細は、[Eloquentのドキュメント](/docs/{{version}}/eloquent-mutators#attribute-casting)を参照してください。
 
 <a name="the-once-function"></a>
-### The `once` Function
+### `once`関数
 
-_The `once` helper was contributed by [Taylor Otwell](https://github.com/taylorotwell)_ and _[Nuno Maduro](https://github.com/nunomaduro)_.
+*`once`ヘルパは[Taylor Otwell](https://github.com/taylorotwell)*と*[Nuno Maduro](https://github.com/nunomaduro)が貢献しました。*
 
-The `once` helper function executes the given callback and caches the result in memory for the duration of the request. Any subsequent calls to the `once` function with the same callback will return the previously cached result:
+`once`ヘルパ関数は、指定したコールバックを実行し、リクエストの間、結果をメモリにキャッシュします。以降、同じコールバックで`once`関数を呼び出すと、以前にキャッシュした結果を返します。
 
     function random(): int
     {
@@ -333,30 +333,30 @@ The `once` helper function executes the given callback and caches the result in 
     random(); // 123 (cached result)
     random(); // 123 (cached result)
 
-For more information on the `once` helper, check out the [helpers documentation](/docs/{{version}}/helpers#method-once).
+`once`ヘルパの詳細は、[ヘルパのドキュメント](/docs/{{version}}/helpers#method-once)を参照してください。
 
 <a name="database-performance"></a>
-### Improved Performance When Testing With In-Memory Databases
+### 内部メモリデータベースを使ったテストのパフォーマンス向上
 
-_Improved in-memory database testing performance was contributed by [Anders Jenbo](https://github.com/AJenbo)_
+*内部メモリデータベースを使ったテストのパフォーマンス向上は、[Anders Jenbo](https://github.com/AJenbo)が貢献しました。*
 
-Laravel 11 offers a significant speed boost when using the `:memory:` SQLite database during testing. To accomplish this, Laravel now maintains a reference to PHP's PDO object and reuses it across connections, often cutting total test run time in half.
+Laravel11では、テスト中に`:memory:` SQLiteデータベースを使用する際のスピードが大幅に向上しました。これを実現するために、LaravelはPHPのPDOオブジェクトへの参照を保持し、接続をまたいで再利用するようになりました。大抵、テスト時間の合計が半分になりました。
 
 <a name="mariadb"></a>
-### Improved Support for MariaDB
+### MariaDBのサポート向上
 
-_Improved support for MariaDB was contributed by [Jonas Staudenmeir](https://github.com/staudenmeir) and [Julius Kiekbusch](https://github.com/Jubeki)_
+*MariaDBのサポート向上は、[Jonas Staudenmeir](https://github.com/staudenmeir)*と*[Julius Kiekbusch](https://github.com/Jubeki)が貢献しました。*
 
-Laravel 11 includes improved support for MariaDB. In previous Laravel releases, you could use MariaDB via Laravel's MySQL driver. However, Laravel 11 now includes a dedicated MariaDB driver which provides better defaults for this database system.
+Laravel11では、MariaDBのサポートを改善しました。以前のLaravelリリースでは、LaravelのMySQLドライバー経由でMariaDBを使用できました。しかし、Laravel11では専用のMariaDBドライバが搭載され、このデータベースシステムのデフォルトが改善されました。
 
-For more information on Laravel's database drivers, check out the [database documentation](/docs/{{version}}/database).
+Laravelのデータベースドライバの詳細は、[データベースドキュメント](/docs/{{version}}/database)をチェックしてください。
 
 <a name="inspecting-database"></a>
-### Inspecting Databases and Improved Schema Operations
+### データベースの調査とスキマ操作の向上
 
-_Improved schema operations and database inspection was contributed by [Hafez Divandari](https://github.com/hafezdivandari)_
+*データベースの調査とスキマ操作の向上は、[Hafez Divandari](https://github.com/hafezdivandari)が貢献しました。*
 
-Laravel 11 provides additional database schema operation and inspection methods, including the native modifying, renaming, and dropping of columns. Furthermore, advanced spatial types, non-default schema names, and native schema methods for manipulating tables, views, columns, indexes, and foreign keys are provided:
+Laravel11では、カラムのネイティブな変更、リネーム、削除を含む、データベーススキーマの操作と検査メソッドを追加しています。さらに、高度な空間型、デフォルト以外のスキーマ名、テーブル、ビュー、カラム、インデックス、外部キーを操作するためのネイティブスキーマメソッドを提供しています。
 
     use Illuminate\Support\Facades\Schema;
 
@@ -365,4 +365,3 @@ Laravel 11 provides additional database schema operation and inspection methods,
     $columns = Schema::getColumns('users');
     $indexes = Schema::getIndexes('users');
     $foreignKeys = Schema::getForeignKeys('users');
-

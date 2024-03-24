@@ -187,7 +187,7 @@ $request->fullUrlWithoutQuery(['type']);
 
     $ipAddress = $request->ip();
 
-If you would like to retrieve an array of IP addresses, including all of the client IP addresses that were forwarded by proxies, you may use the `ips` method. The "original" client IP address will be at the end of the array:
+プロキシによって転送された、すべてのクライアントIPアドレスを含むIPアドレスの配列を取得したい場合は、`ips`メソッドを使用してください。「元（original）」のクライアントIPアドレスは配列の最後になります。
 
     $ipAddresses = $request->ips();
 
@@ -503,11 +503,11 @@ Laravelフレームワークが作成する、すべてのクッキーは暗号�
 <a name="input-trimming-and-normalization"></a>
 ## 入力のトリムと正規化
 
-By default, Laravel includes the `Illuminate\Foundation\Http\Middleware\TrimStrings` and `Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull` middleware in your application's global middleware stack. These middleware will automatically trim all incoming string fields on the request, as well as convert any empty string fields to `null`. This allows you to not have to worry about these normalization concerns in your routes and controllers.
+Laravelはデフォルトで、アプリケーションのグローバルミドルウェアスタックに`Illuminate\Foundation\Http\Middleware\TrimStrings`と`Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull`ミドルウェアを用意してす。これらのミドルウェアは、リクエスト上の受信したすべての文字列フィールドを自動的にトリムし、空の文字列フィールドを`null`へ変換します。これにより、ルートやコントローラで正規化の心配をする必要がなくなります。
 
 #### 入力ノーマライズの無効化
 
-If you would like to disable this behavior for all requests, you may remove the two middleware from your application's middleware stack by invoking the `$middleware->remove` method in your application's `bootstrap/app.php` file:
+すべてのリクエストに対してこの動作を無効にしたい場合は、アプリケーションの`bootstrap/app.php`ファイルで `$middleware->remove`メソッドを呼び出し、アプリケーションのミドルウェアスタックから2つのミドルウェアを削除してください。
 
     use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
     use Illuminate\Foundation\Http\Middleware\TrimStrings;
@@ -519,7 +519,7 @@ If you would like to disable this behavior for all requests, you may remove the 
         ]);
     })
 
-If you would like to disable string trimming and empty string conversion for a subset of requests to your application, you may use the `trimStrings` and `convertEmptyStringsToNull` middleware methods within your application's `bootstrap/app.php` file. Both methods accept an array of closures, which should return `true` or `false` to indicate whether input normalization should be skipped:
+アプリケーションへのリクエストのサブセットに対して、文字列のトリミングと空文字列の変換を無効にしたい場合は、アプリケーションの`bootstrap/app.php`ファイル内で`trimStrings`と`convertEmptyStringsToNull`ミドルウェアメソッドを使用してください。どちらのメソッドもクロージャの配列を引数に取ります。クロージャは`true`または`false`を返し、入力の正規化をスキップするかを決めます。
 
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->convertEmptyStringsToNull(except: [
@@ -599,7 +599,7 @@ If you would like to disable string trimming and empty string conversion for a s
 
 TLS/SSL証明書を末端とするロードバランサーの背後でアプリケーションを実行している場合、`url`ヘルパを使用するとアプリケーションがHTTPSリンクを生成しないことがあります。通常、これは、アプリケーションがポート80でロードバランサーからトラフィックを転送していて、安全なリンクを生成する必要があることを認識していないためです。
 
-To solve this, you may enable the `Illuminate\Http\Middleware\TrustProxies` middleware that is included in your Laravel application, which allows you to quickly customize the load balancers or proxies that should be trusted by your application. Your trusted proxies should be specified using the `trustProxies` middleware method in your application's `bootstrap/app.php` file:
+これを解決するには、Laravelアプリケーションが用意している`Illuminate\Http\Middleware\TrustProxies`ミドルウェアを有効にして、アプリケーションが信頼するロードバランサーやプロキシを手早くカスタマイズしてください。信頼するプロキシは、アプリケーションの`bootstrap/app.php`ファイルで`trustProxies`ミドルウェアメソッドを使用し指定します。
 
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->trustProxies(at: [
@@ -608,7 +608,7 @@ To solve this, you may enable the `Illuminate\Http\Middleware\TrustProxies` midd
         ]);
     })
 
-In addition to configuring the trusted proxies, you may also configure the proxy headers that should be trusted:
+信頼するプロキシを設定することに加え、信頼すべきプロキシヘッダを設定することもできます。
 
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->trustProxies(headers: Request::HEADER_X_FORWARDED_FOR |
@@ -620,7 +620,7 @@ In addition to configuring the trusted proxies, you may also configure the proxy
     })
 
 > [!NOTE]
-> If you are using AWS Elastic Load Balancing, your `headers` value should be `Request::HEADER_X_FORWARDED_AWS_ELB`. For more information on the constants that may be used in the `headers` value, check out Symfony's documentation on [trusting proxies](https://symfony.com/doc/7.0/deployment/proxies.html).
+> AWS Elastic Load Balancingを使用している場合、`headers`の値は`Request::HEADER_X_FORWARDED_AWS_ELB`でなければなりません。`headers`の値で使用できる定数の詳細については、Symfonyのドキュメント、[信頼するプロキシ](https://symfony.com/doc/7.0/deployment/proxies.html)を参照してください。
 
 <a name="trusting-all-proxies"></a>
 #### すべてのプロキシを信頼する
@@ -636,17 +636,16 @@ Amazon AWSまたは別の「クラウド」ロードバランサープロバイ�
 
 デフォルトでLaravelは、HTTPリクエストの`Host`ヘッダの内容に関わらず、受け取った全てのリクエストに応答します。また、Webリクエスト中にアプリケーションへの絶対的なURLを生成する際には、`Host`ヘッダの値が使用されます。
 
-Typically, you should configure your web server, such as Nginx or Apache, to only send requests to your application that match a given hostname. However, if you do not have the ability to customize your web server directly and need to instruct Laravel to only respond to certain hostnames, you may do so by enabling the `Illuminate\Http\Middleware\TrustHosts` middleware for your application.
+通常、NginxやApacheなどのウェブサーバは、指定したホスト名と一致するリクエストだけをアプリケーションに送信するように設定する必要があります。しかし、Webサーバを直接カスタマイズする権限がなく、Laravelに特定のホスト名だけに応答するように指示する必要がある場合は、アプリケーションのミドルウェア`Illuminate\Http\Middleware\TrustHosts`を有効にすることで可能です。
 
-To enable the `TrustHosts` middleware, you should invoke the `trustHosts` middleware method in your application's `bootstrap/app.php` file. Using the `at` argument of this method, you may specify the hostnames that your application should respond to. Incoming requests with other `Host` headers will be rejected:
+`TrustHosts`ミドルウェアを有効にするには、アプリケーションの`bootstrap/app.php`ファイルで、`trustHosts`ミドルウェアメソッドを呼び出す必要がある。このメソッドの`at`引数を使用して、アプリケーションが応答すべきホスト名を指定します。他の`Host`ヘッダを持つリクエストは拒否します。
 
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->trustHosts(at: ['laravel.test']);
     })
 
-By default, requests coming from subdomains of the application's URL are also automatically trusted. If you would like to disable this behavior, you may use the `subdomains` argument:
+デフォルトでは、アプリケーションのURLのサブドメインからのリクエストも自動的に信頼されます。この動作を無効にしたい場合は、`subdomains`引数を使います。
 
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->trustHosts(at: ['laravel.test'], subdomains: false);
     })
-

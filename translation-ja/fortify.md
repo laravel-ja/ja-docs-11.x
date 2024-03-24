@@ -74,7 +74,7 @@ APIを提供するアプリケーション、またはシングルページア�
 composer require laravel/fortify
 ```
 
-Next, publish Fortify's resources using the `fortify:install` Artisan command:
+次に、`fortify:install` Artisanコマンドを使ってFortifyのリソースを公開します。
 
 ```shell
 php artisan fortify:install
@@ -524,7 +524,7 @@ Fortifyは、ユーザーがLaravel組み込み済みの`verified`ミドルウ�
 <a name="protecting-routes"></a>
 ### ルートの保護
 
-To specify that a route or group of routes requires that the user has verified their email address, you should attach Laravel's built-in `verified` middleware to the route. The `verified` middleware alias is automatically registered by Laravel and serves as an alias for the `Illuminate\Routing\Middleware\ValidateSignature` middleware:
+ルートまたはルートグループに、ユーザーがメールアドレス認証済みであることを要求するように指定するには、ルートにLaravel組み込みの`verified`ミドルウェアを指定します。Laravelは`verified`ミドルウェアをエイリアスとして自動的に登録しており、`Illuminate\Routing\Middleware\ValidateSignature`ミドルウェアのエイリアスとして機能します。
 
 ```php
 Route::get('/dashboard', function () {

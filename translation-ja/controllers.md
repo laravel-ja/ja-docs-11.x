@@ -64,7 +64,7 @@ php artisan make:controller UserController
 受信リクエストが指定したルートURIに一致すると、`App\Http\Controllers\UserController`クラスの`show`メソッドが呼び出され、ルートパラメータがメソッドに渡されます。
 
 > [!NOTE]
-> Controllers are not **required** to extend a base class. However, it is sometimes convenient to extend a base controller class that contains methods that should be shared across all of your controllers.
+> コントローラはベースクラスを継承する**必要はありません**。しかし、コントローラ全体で共有すべきメソッドを含む基底クラスを継承しておくと便利な場合があります。
 
 <a name="single-action-controllers"></a>
 ### シングルアクションコントローラ
@@ -108,7 +108,7 @@ php artisan make:controller ProvisionServer --invokable
 
     Route::get('profile', [UserController::class, 'show'])->middleware('auth');
 
-Or, you may find it convenient to specify middleware within your controller class. To do so, your controller should implement the `HasMiddleware` interface, which dictates that the controller should have a static `middleware` method. From this method, you may return an array of middleware that should be applied to the controller's actions:
+あるいは、コントローラクラス内でミドルウェアを指定する便利な方法もあります。それには、コントローラでstaticな`middleware`メソッドを持つ、`HasMiddleware`インターフェイスを実装する必要があります。このメソッドから、コントローラのアクションに適用するミドルウェアの配列を返します。
 
     <?php
 
@@ -121,7 +121,7 @@ Or, you may find it convenient to specify middleware within your controller clas
     class UserController extends Controller implements HasMiddleware
     {
         /**
-         * Get the middleware that should be assigned to the controller.
+         * コントローラへ指定するミドルウェアを取得
          */
         public static function middleware(): array
         {
@@ -135,13 +135,13 @@ Or, you may find it convenient to specify middleware within your controller clas
         // ...
     }
 
-You may also define controller middleware as closures, which provides a convenient way to define an inline middleware without writing an entire middleware class:
+また、コントローラのミドルウェアをクロージャとして定義することもできます。これは、ミドルウェアクラス全体を書かなくても、インラインミドルウェアを定義できる便利な方法です。
 
     use Closure;
     use Illuminate\Http\Request;
 
     /**
-     * Get the middleware that should be assigned to the controller.
+     * コントローラへ指定するミドルウェアを取得
      */
     public static function middleware(): array
     {
@@ -361,10 +361,10 @@ Laravelの[スコープ付き暗黙モデル結合](/docs/{{version}}/routing#im
 <a name="restful-localizing-resource-uris"></a>
 ### リソースURIのローカライズ
 
-By default, `Route::resource` will create resource URIs using English verbs and plural rules. If you need to localize the `create` and `edit` action verbs, you may use the `Route::resourceVerbs` method. This may be done at the beginning of the `boot` method within your application's `App\Providers\AppServiceProvider`:
+`Route::resource`はデフォルトで、英語の動詞とその複数形の規則を使用してリソースURIを作成します。もし `create`と`edit`アクションの動詞をローカライズする必要がある場合は、`Route::resourceVerbs`メソッドを使用してください。これは、アプリケーションの`AppProviders`内の、`boot`メソッドの先頭で行ってください。
 
     /**
-     * Bootstrap any application services.
+     * アプリケーションの全サービスの初期起動処理
      */
     public function boot(): void
     {
@@ -407,8 +407,8 @@ Route::singleton('profile', ProfileController::class);
 
 上記のシングルトンリソース定義により、以下のルートを登録します。このように、シングルトンリソースでは「作成」ルートを登録しません。また、リソースのインスタンスが１つしか存在しないため、登録するルートは識別子を受け付けません。
 
-| 動詞      | URI                               | アクション | ルート名               |
-| --------- | --------------------------------- | ---------- | ---------------------- |
+| 動詞      | URI             | アクション | ルート名       |
+| --------- | --------------- | ---------- | -------------- |
 | GET       | `/profile`      | show       | profile.show   |
 | GET       | `/profile/edit` | edit       | profile.edit   |
 | PUT/PATCH | `/profile`      | update     | profile.update |

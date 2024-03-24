@@ -874,7 +874,7 @@ JSONカラムへ代入するときは、各カラムの複数代入可能キー�
 
 複数代入操作を行うときデフォルトで、`$fillable`配列に含まれない属性は黙って破棄されます。実稼働環境でこれは期待されている動作です。しかし、ローカル開発時では、なぜモデルの変更が反映されないのか混乱させる可能性があります。
 
-If you wish, you may instruct Laravel to throw an exception when attempting to fill an unfillable attribute by invoking the `preventSilentlyDiscardingAttributes` method. Typically, this method should be invoked in the `boot` method of your application's `AppServiceProvider` class:
+必要であれば、`preventSilentlyDiscardingAttributes`メソッドを呼び出し、複数代入不可の属性へ代入しようとした時に例外を投げるようにLaravelへ指示できます。通常、このメソッドはアプリケーションの`AppServiceProvider`クラスの`boot`メソッドで呼び出します。
 
     use Illuminate\Database\Eloquent\Model;
 
@@ -889,7 +889,7 @@ If you wish, you may instruct Laravel to throw an exception when attempting to f
 <a name="upserts"></a>
 ### 更新／挿入
 
-Eloquent's `upsert` method may be used to update or create records in a single, atomic operation. The method's first argument consists of the values to insert or update, while the second argument lists the column(s) that uniquely identify records within the associated table. The method's third and final argument is an array of the columns that should be updated if a matching record already exists in the database. The `upsert` method will automatically set the `created_at` and `updated_at` timestamps if timestamps are enabled on the model:
+Eloquentの`upsert`メソッドを使用すると、単一で極小の操作でレコードを更新または作成できます。メソッドの最初の引数は挿入または更新する値で構成され、２番目の引数は関連テーブル内のレコードを一意に識別するカラムのリストです。メソッドの最後の引数である３番目の引数は、データベースに一致するレコードが既に存在する場合に更新するカラムの配列です。モデルでタイムスタンプが有効になっている場合、`upsert`メソッドは自動的に`created_at`と`updated_at`のタイムスタンプを設定します。
 
     Flight::upsert([
         ['departure' => 'Oakland', 'destination' => 'San Diego', 'price' => 99],
@@ -1072,7 +1072,7 @@ Eloquentリレーションクエリを作成するときに、`forceDelete`メ�
         // ...
     }
 
-After configuring your prunable model, you should schedule the `model:prune` Artisan command in your application's `routes/console.php` file. You are free to choose the appropriate interval at which this command should be run:
+整理可能なモデルを設定した後、アプリケーションの`routes/console.php`ファイルで`model:prune` Artisanコマンドをスケジュールする必要があります。このコマンドを実行する適切な間隔は自由に選べます。
 
     use Illuminate\Support\Facades\Schedule;
 
@@ -1539,7 +1539,7 @@ php artisan make:observer UserObserver --model=User
         //
     }
 
-Or, you may manually register an observer by invoking the `observe` method on the model you wish to observe. You may register observers in the `boot` method of your application's `AppServiceProvider` class:
+あるいは、監視したいモデルに対し、`observe`メソッドを呼び出し、手作業でオブザーバを登録することもできます。アプリケーションの`AppServiceProvider`クラスの`boot`メソッドでオブザーバを登録してください。
 
     use App\Models\User;
     use App\Observers\UserObserver;

@@ -43,7 +43,7 @@ class ExampleTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * A basic functional test example.
+     * 基本的な機能テストの例
      */
     public function test_basic_example(): void
     {
@@ -133,19 +133,19 @@ class ExampleTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * Test creating a new order.
+     * 新しい注文作成のテスト
      */
     public function test_orders_can_be_created(): void
     {
-        // Run the DatabaseSeeder...
+        // データベース初期値設定実行
         $this->seed();
 
-        // Run a specific seeder...
+        // 特定のシーダの実行
         $this->seed(OrderStatusSeeder::class);
 
         // ...
 
-        // Run an array of specific seeders...
+        // 配列で特定のシーダを実行
         $this->seed([
             OrderStatusSeeder::class,
             TransactionStatusSeeder::class,
@@ -187,7 +187,7 @@ class ExampleTest extends TestCase
 <a name="available-assertions"></a>
 ## 利用可能なアサート
 
-Laravel provides several database assertions for your [Pest](https://pestphp.com) or [PHPUnit](https://phpunit.de) feature tests. We'll discuss each of these assertions below.
+Laravelでは、[Pest](https://pestphp.com)や[PHPUnit](https://phpunit.de)の機能テスト用に、いくつかのデータベースアサートを用意しています。以下に、それぞれのアサートについて説明します。
 
 <a name="assert-database-count"></a>
 #### assertDatabaseCount

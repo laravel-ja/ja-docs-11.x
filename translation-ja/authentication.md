@@ -181,7 +181,7 @@ Laravel Breezeは、ログイン、ユーザー登録、パスワードリセッ
 <a name="protecting-routes"></a>
 ### ルートの保護
 
-[Route middleware](/docs/{{version}}/middleware) can be used to only allow authenticated users to access a given route. Laravel ships with an `auth` middleware, which is a [middleware alias](/docs/{{version}}/middleware#middleware-alias) for the `Illuminate\Auth\Middleware\Authenticate` class. Since this middleware is already aliased internally by Laravel, all you need to do is attach the middleware to a route definition:
+[ルートミドルウェア](/docs/{{version}}/middleware)を使うと、認証済みユーザーだけが指定したルートへアクセスできるようにすることができます。Laravelには`auth`ミドルウェアが同梱されていますが、これは`Illuminate\Auth\Middleware\Authenticate`クラスの [ミドルウェアエイリアス](/docs/{{version}}/middleware#middleware-alias)です。このミドルウェアはあらかじめLaravel内部でエイリアスしているので、必要なのはルート定義へこのミドルウェアを指定するだけです。
 
     Route::get('/flights', function () {
         // 認証済みユーザーのみがこのルートにアクセス可能
@@ -190,14 +190,14 @@ Laravel Breezeは、ログイン、ユーザー登録、パスワードリセッ
 <a name="redirecting-unauthenticated-users"></a>
 #### 認証されていないユーザーのリダイレクト
 
-When the `auth` middleware detects an unauthenticated user, it will redirect the user to the `login` [named route](/docs/{{version}}/routing#named-routes). You may modify this behavior using the method `redirectGuestsTo` of your application's `bootstrap/app.php` file:
+`auth`ミドルウェアが未認証のユーザーを検出すると、そのユーザーを`login`[名前付きルート](/docs/{{version}}/routing#named-routes)へリダイレクトします。アプリケーションの`bootstrap/app.php`ファイル中の、`redirectGuestsTo`メソッドを使用して、この動作を変更できます。
 
     use Illuminate\Http\Request;
 
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->redirectGuestsTo('/login');
 
-        // Using a closure...
+        // クロージャ使用の場合
         $middleware->redirectGuestsTo(fn (Request $request) => route('login'));
     })
 
@@ -457,7 +457,7 @@ Next, attach the middleware to a route:
 
 Laravelは、現在のデバイスのセッションを無効にすることなく、他のデバイスでアクティブなそのユーザーのセッションを無効にして「ログアウト」するためのメカニズムも提供しています。この機能は通常、ユーザーがパスワードを変更または更新していて、現在のデバイスを認証したまま他のデバイスのセッションを無効にしたい状況で使用します。
 
-Before getting started, you should make sure that the `Illuminate\Session\Middleware\AuthenticateSession` middleware is included on the routes that should receive session authentication. Typically, you should place this middleware on a route group definition so that it can be applied to the majority of your application's routes. By default, the `AuthenticateSession` middleware may be attached to a route using the `auth.session` [middleware alias](/docs/{{version}}/middleware#middleware-alias):
+これを使用する前に、セッション認証を受け取るルートへ`Illuminate\Session\Middleware\AuthenticateSession`ミドルウェアを確実に指定する必要があります。通常、このミドルウェアをルートグループ定義に置いて、アプリケーションの大半のルートに適用できるようにします。`AuthenticateSession`ミドルウェアはデフォルトで、`auth.session`[ミドルウェアエイリアス](/docs/{{version}}/middleware#middleware-alias)を使ってルートへ指定します。
 
     Route::middleware(['auth', 'auth.session'])->group(function () {
         Route::get('/', function () {
@@ -539,7 +539,7 @@ Before getting started, you should make sure that the `Illuminate\Session\Middle
 <a name="adding-custom-guards"></a>
 ## カスタムガードの追加
 
-You may define your own authentication guards using the `extend` method on the `Auth` facade. You should place your call to the `extend` method within a [service provider](/docs/{{version}}/providers). Since Laravel already ships with an `AppServiceProvider`, we can place the code in that provider:
+独自の認証ガードを定義するには、`Auth`ファサードの`extend`メソッドを使用します。`extend`メソッドの呼び出しは、[サービスプロバイダ](/docs/{{version}}/providers)内に置く必要があります。Laravelはあらかじめ`AppServiceProvider`を同梱しているので、そのプロバイダ内にコードを配置することができます。
 
     <?php
 
@@ -555,7 +555,7 @@ You may define your own authentication guards using the `extend` method on the `
         // ...
 
         /**
-         * Bootstrap any application services.
+         * アプリケーションの全サービスの初期起動処理
          */
         public function boot(): void
         {
@@ -581,14 +581,14 @@ You may define your own authentication guards using the `extend` method on the `
 
 カスタムHTTPリクエストベースの認証システムを実装する最も簡単な方法は、`Auth::viaRequest`メソッドを使用することです。この方法は、単一クロージャを使用して認証プロセスをすばやく定義できます。
 
-To get started, call the `Auth::viaRequest` method within the `boot` method of your application's `AppServiceProvider`. The `viaRequest` method accepts an authentication driver name as its first argument. This name can be any string that describes your custom guard. The second argument passed to the method should be a closure that receives the incoming HTTP request and returns a user instance or, if authentication fails, `null`:
+使用を開始するには、アプリケーションの`AppServiceProvider`の`boot`メソッド内で、`Auth::viaRequest`メソッドを呼び出します。`viaRequest`メソッドの最初の引数は、認証ドライバの名前を指定します。この名前は、カスタムガードを表す任意の文字列を指定できます。このメソッドの第２引数には、HTTPリクエストを受け取ってユーザインスタンスを返すか、認証に失敗した場合は`null`を返すクロージャを指定します。
 
     use App\Models\User;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
 
     /**
-     * Bootstrap any application services.
+     * アプリケーションの全サービスの初期起動処理
      */
     public function boot(): void
     {
@@ -630,7 +630,7 @@ To get started, call the `Auth::viaRequest` method within the `boot` method of y
         // ...
 
         /**
-         * Bootstrap any application services.
+         * アプリケーションの全サービスの初期起動処理
          */
         public function boot(): void
         {
@@ -690,7 +690,7 @@ To get started, call the `Auth::viaRequest` method within the `boot` method of y
 
 `validateCredentials`メソッドは、指定された`$user`を`$credentials`と比較してユーザーを認証する必要があります。たとえば、このメソッドは通常、`Hash::check`メソッドを使用して、`$user->getAuthPassword()`の値を`$credentials['password']`の値と比較します。このメソッドは、パスワードが有効かどうかを示す`true`か`false`を返す必要があります。
 
-The `rehashPasswordIfRequired` method should rehash the given `$user`'s password if required and supported. For example, this method will typically use the `Hash::needsRehash` method to determine if the `$credentials['password']` value needs to be rehashed. If the password needs to be rehashed, the method should use the `Hash::make` method to rehash the password and update the user's record in the underlying persistent storage.
+`rehashPasswordIfRequired`メソッドは、指定された`$user`のパスワードが必須かつサポートされている場合、そのパスワードを再ハッシュする必要があります。例えば、このメソッドは通常`$credentials['password']`の値を再ハッシュする必要があるかを判定するために`Hash::needsRehash`メソッドを使用するでしょう。パスワードをリハッシュする必要がある場合、このメソッドは、`Hash::make`メソッドを使用してパスワードをリハッシュし、永続ストレージ内のユーザのレコードを更新する必要があります。
 
 <a name="the-authenticatable-contract"></a>
 ### Authenticatable契約
@@ -712,16 +712,16 @@ The `rehashPasswordIfRequired` method should rehash the given `$user`'s password
         public function getRememberTokenName();
     }
 
-This interface is simple. The `getAuthIdentifierName` method should return the name of the "primary key" column for the user and the `getAuthIdentifier` method should return the "primary key" of the user. When using a MySQL back-end, this would likely be the auto-incrementing primary key assigned to the user record. The `getAuthPasswordName` method should return the name of the user's password column. The `getAuthPassword` method should return the user's hashed password.
+このインターフェイスはシンプルです。`getAuthIdentifierName`メソッドはユーザーの「主キー」カラムの名前を返し、`getAuthIdentifier`メソッドはユーザの「主キー」を返します。MySQLバックエンドを使用している場合は、ユーザーレコードに割り当てられている自動インクリメントの主キーになるでしょう。`getAuthPasswordName`メソッドは、ユーザーのパスワードカラムの名前を返します。`getAuthPassword`メソッドは、ユーザのハッシュ化済みパスワードを返します。
 
 このインターフェイスにより、使用しているORMまたはストレージ抽象化レイヤーに関係なく、認証システムは任意の「ユーザー」クラスと連携できます。デフォルトでLaravelは`app/Models`ディレクトリに、このインターフェイスを実装する`App\Models\User`クラスを持っています。
 
 <a name="events"></a>
 ## イベント
 
-Laravel dispatches a variety of [events](/docs/{{version}}/events) during the authentication process. You may [define listeners](/docs/{{version}}/events) for any of the following events:
+Laravelは、認証プロセス中に様々な[イベント](/docs/{{version}}/events)をディスパッチします。以下のイベントに対して、[リスナーを定義](/docs/{{version}}/events)できます.
 
-Event Name |
+イベント名 |
 ------------- |
 `Illuminate\Auth\Events\Registered` |
 `Illuminate\Auth\Events\Attempting` |

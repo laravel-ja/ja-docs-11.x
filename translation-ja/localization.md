@@ -48,9 +48,9 @@ php artisan lang:publish
 <a name="configuring-the-locale"></a>
 ### ロケールの設定
 
-The default language for your application is stored in the `config/app.php` configuration file's `locale` configuration option, which is typically set using the `APP_LOCALE` environment variable. You are free to modify this value to suit the needs of your application.
+アプリケーションのデフォルト言語は、`config/app.php`設定ファイルの`locale`設定オプションに格納されており、通常は`APP_LOCALE`環境変数を使って設定します。この値はアプリケーションのニーズに合わせて自由に変更できます。
 
-You may also configure a "fallback language", which will be used when the default language does not contain a given translation string. Like the default language, the fallback language is also configured in the `config/app.php` configuration file, and its value is typically set using the `APP_FALLBACK_LOCALE` environment variable.
+デフォルトの言語に翻訳文字列が含まれていない場合に使用される「フォールバック言語」を設定することもできます。デフォルト言語と同様に、フォールバック言語も`config/app.php`設定ファイルで設定し、その値は通常、`APP_FALLBACK_LOCALE`環境変数で設定します。
 
 `App`ファサードが提供する`setLocale`メソッドを使用して、単一のHTTPリクエストの間のデフォルト言語を実行時に変更できます。
 

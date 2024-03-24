@@ -8,6 +8,7 @@
     - [Encrypting Environment Files](#encrypting-environment-files)
 - [Accessing Configuration Values](#accessing-configuration-values)
 - [Configuration Caching](#configuration-caching)
+- [Configuration Publishing](#configuration-publishing)
 - [Debug Mode](#debug-mode)
 - [Maintenance Mode](#maintenance-mode)
 
@@ -18,10 +19,10 @@ All of the configuration files for the Laravel framework are stored in the `conf
 
 These configuration files allow you to configure things like your database connection information, your mail server information, as well as various other core configuration values such as your application timezone and encryption key.
 
-<a name="application-overview"></a>
-#### Application Overview
+<a name="the-about-command"></a>
+#### The `about` Command
 
-In a hurry? You can get a quick overview of your application's configuration, drivers, and environment via the `about` Artisan command:
+Laravel can display an overview of your application's configuration, drivers, and environment via the `about` Artisan command.
 
 ```shell
 php artisan about
@@ -46,11 +47,11 @@ It is often helpful to have different configuration values based on the environm
 
 To make this a cinch, Laravel utilizes the [DotEnv](https://github.com/vlucas/phpdotenv) PHP library. In a fresh Laravel installation, the root directory of your application will contain a `.env.example` file that defines many common environment variables. During the Laravel installation process, this file will automatically be copied to `.env`.
 
-Laravel's default `.env` file contains some common configuration values that may differ based on whether your application is running locally or on a production web server. These values are then retrieved from various Laravel configuration files within the `config` directory using Laravel's `env` function.
+Laravel's default `.env` file contains some common configuration values that may differ based on whether your application is running locally or on a production web server. These values are then read by the configuration files within the `config` directory using Laravel's `env` function.
 
-If you are developing with a team, you may wish to continue including a `.env.example` file with your application. By putting placeholder values in the example configuration file, other developers on your team can clearly see which environment variables are needed to run your application.
+If you are developing with a team, you may wish to continue including and updating the `.env.example` file with your application. By putting placeholder values in the example configuration file, other developers on your team can clearly see which environment variables are needed to run your application.
 
-> [!NOTE]  
+> [!NOTE]
 > Any variable in your `.env` file can be overridden by external environment variables such as server-level or system-level environment variables.
 
 <a name="environment-file-security"></a>
@@ -202,14 +203,6 @@ To set configuration values at runtime, you may invoke the `Config` facade's `se
 
     config(['app.timezone' => 'America/Chicago']);
 
-To assist with static analysis, the `Config` facade also provides typed configuration retrieval methods. If the retrieved configuration value does not match the expected type, an exception will be thrown:
-
-    Config::string('config-key');
-    Config::integer('config-key');
-    Config::float('config-key');
-    Config::boolean('config-key');
-    Config::array('config-key');
-
 <a name="configuration-caching"></a>
 ## Configuration Caching
 
@@ -229,6 +222,19 @@ php artisan config:clear
 
 > [!WARNING]  
 > If you execute the `config:cache` command during your deployment process, you should be sure that you are only calling the `env` function from within your configuration files. Once the configuration has been cached, the `.env` file will not be loaded; therefore, the `env` function will only return external, system level environment variables.
+
+<a name="configuration-publishing"></a>
+## Configuration Publishing
+
+Most of Laravel's configuration files are already published in your application's `config` directory; however, certain configuration files like `cors.php` and `view.php` are not published by default, as most applications will never need to modify them.
+
+However, you may use the `config:publish` Artisan command to publish any configuration files that are not published by default:
+
+```shell
+php artisan config:publish
+
+php artisan config:publish --all
+```
 
 <a name="debug-mode"></a>
 ## Debug Mode

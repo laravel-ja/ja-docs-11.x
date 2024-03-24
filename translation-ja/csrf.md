@@ -60,7 +60,7 @@ Laravelは、アプリケーションによって管理されているアクテ�
 </form>
 ```
 
-The `Illuminate\Foundation\Http\Middleware\ValidateCsrfToken` [middleware](/docs/{{version}}/middleware), which is included in the `web` middleware group by default, will automatically verify that the token in the request input matches the token stored in the session. When these two tokens match, we know that the authenticated user is the one initiating the request.
+`web`ミドルウェアグループにデフォルトで用意している`Illuminate\Foundation\Http\Middleware\ValidateCsrfToken`[ミドルウェア](/docs/{{version}}/middleware)は、リクエスト入力のトークンがセッションに保存しているトークンと一致するかを自動的に検証します。この２つのトークンが一致すると、その認証済みユーザーはリクエストを開始したユーザーだとわかります。
 
 <a name="csrf-tokens-and-spas"></a>
 ### CSRFトークンとSPA
@@ -72,7 +72,7 @@ LaravelをAPIバックエンドとして利用するSPAを構築している場�
 
 場合により、一連のURIをCSRF保護から除外したいことが起きます。たとえば、[Stripe](https://stripe.com)を使用して支払いを処理し、そのWebhookシステムを利用している場合、StripeはどのCSRFトークンをルートへ送るのか認識していないため、Stripe　WebフックハンドラルートをCSRF保護から除外する必要があります。
 
-Typically, you should place these kinds of routes outside of the `web` middleware group that Laravel applies to all routes in the `routes/web.php` file. However, you may also exclude specific routes by providing their URIs to the `validateCsrfTokens` method in your application's `bootstrap/app.php` file:
+通常、この種のルートは、`routes/web.php`ファイル内のすべてのルートにLaravelが適用する、`web`ミドルウェアグループの外側に配置します。しかし、アプリケーションの`bootstrap/app.php`ファイル内の`validateCsrfTokens`メソッドでURIを指定し、特定のルートを除外することもできます。
 
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
@@ -88,7 +88,7 @@ Typically, you should place these kinds of routes outside of the `web` middlewar
 <a name="csrf-x-csrf-token"></a>
 ## X-CSRF-TOKEN
 
-In addition to checking for the CSRF token as a POST parameter, the `Illuminate\Foundation\Http\Middleware\ValidateCsrfToken` middleware, which is included in the `web` middleware group by default, will also check for the `X-CSRF-TOKEN` request header. You could, for example, store the token in an HTML `meta` tag:
+`Web`ミドルウェアグループにデフォルトで用意している`Illuminate\Foundation\Http\Middleware\ValidateCsrfToken`ミドルウェアは、POSTパラメータとしてCSRFトークンをチェックすることに加え、`X-CSRF-TOKEN`リクエストヘッダもチェックします。例えば、トークンをHTMLの`meta`タグに格納しておけます。
 
 ```blade
 <meta name="csrf-token" content="{{ csrf_token() }}">

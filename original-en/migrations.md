@@ -267,7 +267,7 @@ When creating the table, you may use any of the schema builder's [column methods
 <a name="determining-table-column-existence"></a>
 #### Determining Table / Column Existence
 
-You may determine the existence of a table or column using the `hasTable` and `hasColumn` methods:
+You may determine the existence of a table, column, or index using the `hasTable`, `hasColumn`, and `hasIndex` methods:
 
     if (Schema::hasTable('users')) {
         // The "users" table exists...
@@ -275,6 +275,10 @@ You may determine the existence of a table or column using the `hasTable` and `h
 
     if (Schema::hasColumn('users', 'email')) {
         // The "users" table exists and has an "email" column...
+    }
+
+    if (Schema::hasIndex('users', ['email'], 'unique')) {
+        // The "users" table exists and has a unique index on the "email" column...
     }
 
 <a name="database-connection-table-options"></a>
@@ -289,7 +293,7 @@ If you want to perform a schema operation on a database connection that is not y
 In addition, a few other properties and methods may be used to define other aspects of the table's creation. The `engine` property may be used to specify the table's storage engine when using MySQL:
 
     Schema::create('users', function (Blueprint $table) {
-        $table->engine = 'InnoDB';
+        $table->engine('InnoDB');
 
         // ...
     });
@@ -297,8 +301,8 @@ In addition, a few other properties and methods may be used to define other aspe
 The `charset` and `collation` properties may be used to specify the character set and collation for the created table when using MySQL:
 
     Schema::create('users', function (Blueprint $table) {
-        $table->charset = 'utf8mb4';
-        $table->collation = 'utf8mb4_unicode_ci';
+        $table->charset('utf8mb4');
+        $table->collation('utf8mb4_unicode_ci');
 
         // ...
     });
@@ -311,7 +315,7 @@ The `temporary` method may be used to indicate that the table should be "tempora
         // ...
     });
 
-If you would like to add a "comment" to a database table, you may invoke the `comment` method on the table instance. Table comments are currently only supported by MySQL and Postgres:
+If you would like to add a "comment" to a database table, you may invoke the `comment` method on the table instance. Table comments are currently only supported by MySQL and PostgreSQL:
 
     Schema::create('calculations', function (Blueprint $table) {
         $table->comment('Business calculations');
@@ -410,7 +414,7 @@ The schema builder blueprint offers a variety of methods that correspond to the 
 [foreignIdFor](#column-method-foreignIdFor)
 [foreignUlid](#column-method-foreignUlid)
 [foreignUuid](#column-method-foreignUuid)
-[geometryCollection](#column-method-geometryCollection)
+[geography](#column-method-geography)
 [geometry](#column-method-geometry)
 [id](#column-method-id)
 [increments](#column-method-increments)
@@ -418,22 +422,16 @@ The schema builder blueprint offers a variety of methods that correspond to the 
 [ipAddress](#column-method-ipAddress)
 [json](#column-method-json)
 [jsonb](#column-method-jsonb)
-[lineString](#column-method-lineString)
 [longText](#column-method-longText)
 [macAddress](#column-method-macAddress)
 [mediumIncrements](#column-method-mediumIncrements)
 [mediumInteger](#column-method-mediumInteger)
 [mediumText](#column-method-mediumText)
 [morphs](#column-method-morphs)
-[multiLineString](#column-method-multiLineString)
-[multiPoint](#column-method-multiPoint)
-[multiPolygon](#column-method-multiPolygon)
 [nullableMorphs](#column-method-nullableMorphs)
 [nullableTimestamps](#column-method-nullableTimestamps)
 [nullableUlidMorphs](#column-method-nullableUlidMorphs)
 [nullableUuidMorphs](#column-method-nullableUuidMorphs)
-[point](#column-method-point)
-[polygon](#column-method-polygon)
 [rememberToken](#column-method-rememberToken)
 [set](#column-method-set)
 [smallIncrements](#column-method-smallIncrements)
@@ -452,7 +450,6 @@ The schema builder blueprint offers a variety of methods that correspond to the 
 [tinyInteger](#column-method-tinyInteger)
 [tinyText](#column-method-tinyText)
 [unsignedBigInteger](#column-method-unsignedBigInteger)
-[unsignedDecimal](#column-method-unsignedDecimal)
 [unsignedInteger](#column-method-unsignedInteger)
 [unsignedMediumInteger](#column-method-unsignedMediumInteger)
 [unsignedSmallInteger](#column-method-unsignedSmallInteger)
@@ -486,6 +483,12 @@ The `binary` method creates a `BLOB` equivalent column:
 
     $table->binary('photo');
 
+When utilizing MySQL, MariaDB, or SQL Server, you may pass `length` and `fixed` arguments to create `VARBINARY` or `BINARY` equivalent column:
+
+    $table->binary('data', length: 16); // VARBINARY(16)
+
+    $table->binary('data', length: 16, fixed: true); // BINARY(16)
+
 <a name="column-method-boolean"></a>
 #### `boolean()` {.collection-method}
 
@@ -498,21 +501,21 @@ The `boolean` method creates a `BOOLEAN` equivalent column:
 
 The `char` method creates a `CHAR` equivalent column with of a given length:
 
-    $table->char('name', 100);
+    $table->char('name', length: 100);
 
 <a name="column-method-dateTimeTz"></a>
 #### `dateTimeTz()` {.collection-method}
 
-The `dateTimeTz` method creates a `DATETIME` (with timezone) equivalent column with an optional precision (total digits):
+The `dateTimeTz` method creates a `DATETIME` (with timezone) equivalent column with an optional fractional seconds precision:
 
-    $table->dateTimeTz('created_at', $precision = 0);
+    $table->dateTimeTz('created_at', precision: 0);
 
 <a name="column-method-dateTime"></a>
 #### `dateTime()` {.collection-method}
 
-The `dateTime` method creates a `DATETIME` equivalent column with an optional precision (total digits):
+The `dateTime` method creates a `DATETIME` equivalent column with an optional fractional seconds precision:
 
-    $table->dateTime('created_at', $precision = 0);
+    $table->dateTime('created_at', precision: 0);
 
 <a name="column-method-date"></a>
 #### `date()` {.collection-method}
@@ -526,14 +529,14 @@ The `date` method creates a `DATE` equivalent column:
 
 The `decimal` method creates a `DECIMAL` equivalent column with the given precision (total digits) and scale (decimal digits):
 
-    $table->decimal('amount', $precision = 8, $scale = 2);
+    $table->decimal('amount', total: 8, places: 2);
 
 <a name="column-method-double"></a>
 #### `double()` {.collection-method}
 
-The `double` method creates a `DOUBLE` equivalent column with the given precision (total digits) and scale (decimal digits):
+The `double` method creates a `DOUBLE` equivalent column:
 
-    $table->double('amount', 8, 2);
+    $table->double('amount');
 
 <a name="column-method-enum"></a>
 #### `enum()` {.collection-method}
@@ -545,9 +548,9 @@ The `enum` method creates a `ENUM` equivalent column with the given valid values
 <a name="column-method-float"></a>
 #### `float()` {.collection-method}
 
-The `float` method creates a `FLOAT` equivalent column with the given precision (total digits) and scale (decimal digits):
+The `float` method creates a `FLOAT` equivalent column with the given precision:
 
-    $table->float('amount', 8, 2);
+    $table->float('amount', precision: 53);
 
 <a name="column-method-foreignId"></a>
 #### `foreignId()` {.collection-method}
@@ -577,19 +580,25 @@ The `foreignUuid` method creates a `UUID` equivalent column:
 
     $table->foreignUuid('user_id');
 
-<a name="column-method-geometryCollection"></a>
-#### `geometryCollection()` {.collection-method}
+<a name="column-method-geography"></a>
+#### `geography()` {.collection-method}
 
-The `geometryCollection` method creates a `GEOMETRYCOLLECTION` equivalent column:
+The `geography` method creates a `GEOGRAPHY` equivalent column with the given spatial type and SRID (Spatial Reference System Identifier):
 
-    $table->geometryCollection('positions');
+    $table->geography('coordinates', subtype: 'point', srid: 4326);
+
+> [!NOTE]  
+> Support for spatial types depends on your database driver. Please refer to your database's documentation. If your application is utilizing a PostgreSQL database, you must install the [PostGIS](https://postgis.net) extension before the `geography` method may be used.
 
 <a name="column-method-geometry"></a>
 #### `geometry()` {.collection-method}
 
-The `geometry` method creates a `GEOMETRY` equivalent column:
+The `geometry` method creates a `GEOMETRY` equivalent column with the given spatial type and SRID (Spatial Reference System Identifier):
 
-    $table->geometry('positions');
+    $table->geometry('positions', subtype: 'point', srid: 0);
+
+> [!NOTE]  
+> Support for spatial types depends on your database driver. Please refer to your database's documentation. If your application is utilizing a PostgreSQL database, you must install the [PostGIS](https://postgis.net) extension before the `geometry` method may be used.
 
 <a name="column-method-id"></a>
 #### `id()` {.collection-method}
@@ -619,7 +628,7 @@ The `ipAddress` method creates a `VARCHAR` equivalent column:
 
     $table->ipAddress('visitor');
     
-When using Postgres, an `INET` column will be created.
+When using PostgreSQL, an `INET` column will be created.
 
 <a name="column-method-json"></a>
 #### `json()` {.collection-method}
@@ -635,19 +644,16 @@ The `jsonb` method creates a `JSONB` equivalent column:
 
     $table->jsonb('options');
 
-<a name="column-method-lineString"></a>
-#### `lineString()` {.collection-method}
-
-The `lineString` method creates a `LINESTRING` equivalent column:
-
-    $table->lineString('positions');
-
 <a name="column-method-longText"></a>
 #### `longText()` {.collection-method}
 
 The `longText` method creates a `LONGTEXT` equivalent column:
 
     $table->longText('description');
+
+When utilizing MySQL or MariaDB, you may apply a `binary` character set to the column in order to create a `LONGBLOB` equivalent column:
+
+    $table->longText('data')->charset('binary'); // LONGBLOB
 
 <a name="column-method-macAddress"></a>
 #### `macAddress()` {.collection-method}
@@ -677,6 +683,10 @@ The `mediumText` method creates a `MEDIUMTEXT` equivalent column:
 
     $table->mediumText('description');
 
+When utilizing MySQL or MariaDB, you may apply a `binary` character set to the column in order to create a `MEDIUMBLOB` equivalent column:
+
+    $table->mediumText('data')->charset('binary'); // MEDIUMBLOB
+
 <a name="column-method-morphs"></a>
 #### `morphs()` {.collection-method}
 
@@ -686,33 +696,12 @@ This method is intended to be used when defining the columns necessary for a pol
 
     $table->morphs('taggable');
 
-<a name="column-method-multiLineString"></a>
-#### `multiLineString()` {.collection-method}
-
-The `multiLineString` method creates a `MULTILINESTRING` equivalent column:
-
-    $table->multiLineString('positions');
-
-<a name="column-method-multiPoint"></a>
-#### `multiPoint()` {.collection-method}
-
-The `multiPoint` method creates a `MULTIPOINT` equivalent column:
-
-    $table->multiPoint('positions');
-
-<a name="column-method-multiPolygon"></a>
-#### `multiPolygon()` {.collection-method}
-
-The `multiPolygon` method creates a `MULTIPOLYGON` equivalent column:
-
-    $table->multiPolygon('positions');
-
 <a name="column-method-nullableTimestamps"></a>
 #### `nullableTimestamps()` {.collection-method}
 
 The `nullableTimestamps` method is an alias of the [timestamps](#column-method-timestamps) method:
 
-    $table->nullableTimestamps(0);
+    $table->nullableTimestamps(precision: 0);
 
 <a name="column-method-nullableMorphs"></a>
 #### `nullableMorphs()` {.collection-method}
@@ -734,20 +723,6 @@ The method is similar to the [ulidMorphs](#column-method-ulidMorphs) method; how
 The method is similar to the [uuidMorphs](#column-method-uuidMorphs) method; however, the columns that are created will be "nullable":
 
     $table->nullableUuidMorphs('taggable');
-
-<a name="column-method-point"></a>
-#### `point()` {.collection-method}
-
-The `point` method creates a `POINT` equivalent column:
-
-    $table->point('position');
-
-<a name="column-method-polygon"></a>
-#### `polygon()` {.collection-method}
-
-The `polygon` method creates a `POLYGON` equivalent column:
-
-    $table->polygon('position');
 
 <a name="column-method-rememberToken"></a>
 #### `rememberToken()` {.collection-method}
@@ -780,23 +755,23 @@ The `smallInteger` method creates a `SMALLINT` equivalent column:
 <a name="column-method-softDeletesTz"></a>
 #### `softDeletesTz()` {.collection-method}
 
-The `softDeletesTz` method adds a nullable `deleted_at` `TIMESTAMP` (with timezone) equivalent column with an optional precision (total digits). This column is intended to store the `deleted_at` timestamp needed for Eloquent's "soft delete" functionality:
+The `softDeletesTz` method adds a nullable `deleted_at` `TIMESTAMP` (with timezone) equivalent column with an optional fractional seconds precision. This column is intended to store the `deleted_at` timestamp needed for Eloquent's "soft delete" functionality:
 
-    $table->softDeletesTz($column = 'deleted_at', $precision = 0);
+    $table->softDeletesTz('deleted_at', precision: 0);
 
 <a name="column-method-softDeletes"></a>
 #### `softDeletes()` {.collection-method}
 
-The `softDeletes` method adds a nullable `deleted_at` `TIMESTAMP` equivalent column with an optional precision (total digits). This column is intended to store the `deleted_at` timestamp needed for Eloquent's "soft delete" functionality:
+The `softDeletes` method adds a nullable `deleted_at` `TIMESTAMP` equivalent column with an optional fractional seconds precision. This column is intended to store the `deleted_at` timestamp needed for Eloquent's "soft delete" functionality:
 
-    $table->softDeletes($column = 'deleted_at', $precision = 0);
+    $table->softDeletes('deleted_at', precision: 0);
 
 <a name="column-method-string"></a>
 #### `string()` {.collection-method}
 
 The `string` method creates a `VARCHAR` equivalent column of the given length:
 
-    $table->string('name', 100);
+    $table->string('name', length: 100);
 
 <a name="column-method-text"></a>
 #### `text()` {.collection-method}
@@ -805,47 +780,51 @@ The `text` method creates a `TEXT` equivalent column:
 
     $table->text('description');
 
+When utilizing MySQL or MariaDB, you may apply a `binary` character set to the column in order to create a `BLOB` equivalent column:
+
+    $table->text('data')->charset('binary'); // BLOB
+
 <a name="column-method-timeTz"></a>
 #### `timeTz()` {.collection-method}
 
-The `timeTz` method creates a `TIME` (with timezone) equivalent column with an optional precision (total digits):
+The `timeTz` method creates a `TIME` (with timezone) equivalent column with an optional fractional seconds precision:
 
-    $table->timeTz('sunrise', $precision = 0);
+    $table->timeTz('sunrise', precision: 0);
 
 <a name="column-method-time"></a>
 #### `time()` {.collection-method}
 
-The `time` method creates a `TIME` equivalent column with an optional precision (total digits):
+The `time` method creates a `TIME` equivalent column with an optional fractional seconds precision:
 
-    $table->time('sunrise', $precision = 0);
+    $table->time('sunrise', precision: 0);
 
 <a name="column-method-timestampTz"></a>
 #### `timestampTz()` {.collection-method}
 
-The `timestampTz` method creates a `TIMESTAMP` (with timezone) equivalent column with an optional precision (total digits):
+The `timestampTz` method creates a `TIMESTAMP` (with timezone) equivalent column with an optional fractional seconds precision:
 
-    $table->timestampTz('added_at', $precision = 0);
+    $table->timestampTz('added_at', precision: 0);
 
 <a name="column-method-timestamp"></a>
 #### `timestamp()` {.collection-method}
 
-The `timestamp` method creates a `TIMESTAMP` equivalent column with an optional precision (total digits):
+The `timestamp` method creates a `TIMESTAMP` equivalent column with an optional fractional seconds precision:
 
-    $table->timestamp('added_at', $precision = 0);
+    $table->timestamp('added_at', precision: 0);
 
 <a name="column-method-timestampsTz"></a>
 #### `timestampsTz()` {.collection-method}
 
-The `timestampsTz` method creates `created_at` and `updated_at` `TIMESTAMP` (with timezone) equivalent columns with an optional precision (total digits):
+The `timestampsTz` method creates `created_at` and `updated_at` `TIMESTAMP` (with timezone) equivalent columns with an optional fractional seconds precision:
 
-    $table->timestampsTz($precision = 0);
+    $table->timestampsTz(precision: 0);
 
 <a name="column-method-timestamps"></a>
 #### `timestamps()` {.collection-method}
 
-The `timestamps` method creates `created_at` and `updated_at` `TIMESTAMP` equivalent columns with an optional precision (total digits):
+The `timestamps` method creates `created_at` and `updated_at` `TIMESTAMP` equivalent columns with an optional fractional seconds precision:
 
-    $table->timestamps($precision = 0);
+    $table->timestamps(precision: 0);
 
 <a name="column-method-tinyIncrements"></a>
 #### `tinyIncrements()` {.collection-method}
@@ -868,19 +847,16 @@ The `tinyText` method creates a `TINYTEXT` equivalent column:
 
     $table->tinyText('notes');
 
+When utilizing MySQL or MariaDB, you may apply a `binary` character set to the column in order to create a `TINYBLOB` equivalent column:
+
+    $table->tinyText('data')->charset('binary'); // TINYBLOB
+
 <a name="column-method-unsignedBigInteger"></a>
 #### `unsignedBigInteger()` {.collection-method}
 
 The `unsignedBigInteger` method creates an `UNSIGNED BIGINT` equivalent column:
 
     $table->unsignedBigInteger('votes');
-
-<a name="column-method-unsignedDecimal"></a>
-#### `unsignedDecimal()` {.collection-method}
-
-The `unsignedDecimal` method creates an `UNSIGNED DECIMAL` equivalent column with an optional precision (total digits) and scale (decimal digits):
-
-    $table->unsignedDecimal('amount', $precision = 8, $scale = 2);
 
 <a name="column-method-unsignedInteger"></a>
 #### `unsignedInteger()` {.collection-method}
@@ -968,21 +944,20 @@ Modifier  |  Description
 `->after('column')`  |  Place the column "after" another column (MySQL).
 `->autoIncrement()`  |  Set INTEGER columns as auto-incrementing (primary key).
 `->charset('utf8mb4')`  |  Specify a character set for the column (MySQL).
-`->collation('utf8mb4_unicode_ci')`  |  Specify a collation for the column (MySQL/PostgreSQL/SQL Server).
-`->comment('my comment')`  |  Add a comment to a column (MySQL/PostgreSQL).
+`->collation('utf8mb4_unicode_ci')`  |  Specify a collation for the column.
+`->comment('my comment')`  |  Add a comment to a column (MySQL / PostgreSQL).
 `->default($value)`  |  Specify a "default" value for the column.
 `->first()`  |  Place the column "first" in the table (MySQL).
 `->from($integer)`  |  Set the starting value of an auto-incrementing field (MySQL / PostgreSQL).
 `->invisible()`  |  Make the column "invisible" to `SELECT *` queries (MySQL).
 `->nullable($value = true)`  |  Allow NULL values to be inserted into the column.
-`->storedAs($expression)`  |  Create a stored generated column (MySQL / PostgreSQL).
+`->storedAs($expression)`  |  Create a stored generated column (MySQL / PostgreSQL / SQLite).
 `->unsigned()`  |  Set INTEGER columns as UNSIGNED (MySQL).
 `->useCurrent()`  |  Set TIMESTAMP columns to use CURRENT_TIMESTAMP as default value.
 `->useCurrentOnUpdate()`  |  Set TIMESTAMP columns to use CURRENT_TIMESTAMP when a record is updated (MySQL).
-`->virtualAs($expression)`  |  Create a virtual generated column (MySQL / PostgreSQL / SQLite).
+`->virtualAs($expression)`  |  Create a virtual generated column (MySQL / SQLite).
 `->generatedAs($expression)`  |  Create an identity column with specified sequence options (PostgreSQL).
 `->always()`  |  Defines the precedence of sequence values over input for an identity column (PostgreSQL).
-`->isGeometry()`  |  Set spatial column type to `geometry` - the default type is `geography` (PostgreSQL).
 
 <a name="default-expressions"></a>
 #### Default Expressions
@@ -1034,33 +1009,21 @@ The `change` method allows you to modify the type and attributes of existing col
         $table->string('name', 50)->change();
     });
 
-When modifying a column, you must explicitly include all of the modifiers you want to keep on the column definition - any missing attribute will be dropped. For example, to retain the `unsigned`, `default`, and `comment` attributes, you must call each modifier explicitly when changing the column:
+When modifying a column, you must explicitly include all the modifiers you want to keep on the column definition - any missing attribute will be dropped. For example, to retain the `unsigned`, `default`, and `comment` attributes, you must call each modifier explicitly when changing the column:
 
     Schema::table('users', function (Blueprint $table) {
         $table->integer('votes')->unsigned()->default(1)->comment('my comment')->change();
     });
 
-<a name="modifying-columns-on-sqlite"></a>
-#### Modifying Columns on SQLite
-
-If your application is utilizing an SQLite database, you must install the `doctrine/dbal` package using the Composer package manager before modifying a column. The Doctrine DBAL library is used to determine the current state of the column and to create the SQL queries needed to make the requested changes to your column:
-
-    composer require doctrine/dbal
-
-If you plan to modify columns created using the `timestamp` method, you must also add the following configuration to your application's `config/database.php` configuration file:
+The `change` method does not change the indexes of the column. Therefore, you may use index modifiers to explicitly add or drop an index when modifying the column:
 
 ```php
-use Illuminate\Database\DBAL\TimestampType;
+// Add an index...
+$table->bigIncrements('id')->primary()->change();
 
-'dbal' => [
-    'types' => [
-        'timestamp' => TimestampType::class,
-    ],
-],
+// Drop an index...
+$table->char('postal_code', 10)->unique(false)->change();
 ```
-
-> [!WARNING]  
-> When using the `doctrine/dbal` package, the following column types can be modified: `bigInteger`, `binary`, `boolean`, `char`, `date`, `dateTime`, `dateTimeTz`, `decimal`, `double`, `integer`, `json`, `longText`, `mediumText`, `smallInteger`, `string`, `text`, `time`, `tinyText`, `unsignedBigInteger`, `unsignedInteger`, `unsignedSmallInteger`, `ulid`, and `uuid`.
 
 <a name="renaming-columns"></a>
 ### Renaming Columns
@@ -1070,19 +1033,6 @@ To rename a column, you may use the `renameColumn` method provided by the schema
     Schema::table('users', function (Blueprint $table) {
         $table->renameColumn('from', 'to');
     });
-
-<a name="renaming-columns-on-legacy-databases"></a>
-#### Renaming Columns on Legacy Databases
-
-If you are running a database installation older than one of the following releases, you should ensure that you have installed the `doctrine/dbal` library via the Composer package manager before renaming a column:
-
-<div class="content-list" markdown="1">
-
-- MySQL < `8.0.3`
-- MariaDB < `10.5.2`
-- SQLite < `3.25.0`
-
-</div>
 
 <a name="dropping-columns"></a>
 ### Dropping Columns
@@ -1098,11 +1048,6 @@ You may drop multiple columns from a table by passing an array of column names t
     Schema::table('users', function (Blueprint $table) {
         $table->dropColumn(['votes', 'avatar', 'location']);
     });
-
-<a name="dropping-columns-on-legacy-databases"></a>
-#### Dropping Columns on Legacy Databases
-
-If you are running a version of SQLite prior to `3.35.0`, you must install the `doctrine/dbal` package via the Composer package manager before the `dropColumn` method may be used. Dropping or modifying multiple columns within a single migration while using this package is not supported.
 
 <a name="available-command-aliases"></a>
 #### Available Command Aliases
@@ -1156,26 +1101,9 @@ Command  |  Description
 `$table->primary(['id', 'parent_id']);`  |  Adds composite keys.
 `$table->unique('email');`  |  Adds a unique index.
 `$table->index('state');`  |  Adds an index.
-`$table->fullText('body');`  |  Adds a full text index (MySQL/PostgreSQL).
+`$table->fullText('body');`  |  Adds a full text index (MySQL / PostgreSQL).
 `$table->fullText('body')->language('english');`  |  Adds a full text index of the specified language (PostgreSQL).
 `$table->spatialIndex('location');`  |  Adds a spatial index (except SQLite).
-
-<a name="index-lengths-mysql-mariadb"></a>
-#### Index Lengths and MySQL / MariaDB
-
-By default, Laravel uses the `utf8mb4` character set. If you are running a version of MySQL older than the 5.7.7 release or MariaDB older than the 10.2.2 release, you may need to manually configure the default string length generated by migrations in order for MySQL to create indexes for them. You may configure the default string length by calling the `Schema::defaultStringLength` method within the `boot` method of your `App\Providers\AppServiceProvider` class:
-
-    use Illuminate\Support\Facades\Schema;
-
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
-    {
-        Schema::defaultStringLength(191);
-    }
-
-Alternatively, you may enable the `innodb_large_prefix` option for your database. Refer to your database's documentation for instructions on how to properly enable this option.
 
 <a name="renaming-indexes"></a>
 ### Renaming Indexes
@@ -1183,9 +1111,6 @@ Alternatively, you may enable the `innodb_large_prefix` option for your database
 To rename an index, you may use the `renameIndex` method provided by the schema builder blueprint. This method accepts the current index name as its first argument and the desired name as its second argument:
 
     $table->renameIndex('from', 'to')
-
-> [!WARNING]  
-> If your application is utilizing an SQLite database, you must install the `doctrine/dbal` package via the Composer package manager before the `renameIndex` method may be used.
 
 <a name="dropping-indexes"></a>
 ### Dropping Indexes

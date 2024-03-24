@@ -19,11 +19,11 @@
 
 <div class="content-list" markdown="1">
 
-- MariaDB 10.3+ ([Version Policy](https://mariadb.org/about/#maintenance-policy))
-- MySQL 5.7+ ([Version Policy](https://en.wikipedia.org/wiki/MySQL#Release_history))
-- PostgreSQL 10.0+ ([Version Policy](https://www.postgresql.org/support/versioning/))
-- SQLite 3.35.0+
-- SQL Server 2017+ ([Version Policy](https://docs.microsoft.com/en-us/lifecycle/products/?products=sql-server))
+- MariaDB10.3以上 ([バージョンポリシー](https://mariadb.org/about/#maintenance-policy))
+- MySQL5.7以上 ([バージョンポリシー](https://en.wikipedia.org/wiki/MySQL#Release_history))
+- PostgreSQL10.0以上 ([バージョンポリシー](https://www.postgresql.org/support/versioning/))
+- SQLite3.35.0以上
+- SQL Server2017以上 ([バージョンポリシー](https://docs.microsoft.com/en-us/lifecycle/products/?products=sql-server))
 
 </div>
 
@@ -44,14 +44,14 @@ DB_CONNECTION=sqlite
 DB_DATABASE=/absolute/path/to/database.sqlite
 ```
 
-By default, foreign key constraints are enabled for SQLite connections. If you would like to disable them, you should set the `DB_FOREIGN_KEYS` environment variable to `false`:
+SQLite接続の外部キー制約は、デフォルトで有効になっています。これを無効にしたい場合は、 `DB_FOREIGN_KEYS`環境変数を`false`に設定してください。
 
 ```ini
 DB_FOREIGN_KEYS=false
 ```
 
 > [!NOTE]
-> If you use the [Laravel installer](/docs/{{version}}/installation#creating-a-laravel-project) to create your Laravel application and select SQLite as your database, Laravel will automatically create a `database/database.sqlite` file and run the default [database migrations](/docs/{{version}}/migrations) for you.
+> [Laravelインストーラ](/docs/{{version}}/installation#creating-a-laravel-project)を使用してLaravelアプリケーションを作成し、データベースにSQLiteを選択すると、Laravelは自動的に`database/database.sqlite`ファイルを作成し、デフォルトの[データベースマイグレーション](/docs/{{version}}/migrations)を実行します。
 
 <a name="mssql-configuration"></a>
 #### Microsoft SQLサーバ設定
@@ -412,7 +412,7 @@ php artisan db:show --database=pgsql
 php artisan db:show --counts --views
 ```
 
-In addition, you may use the following `Schema` methods to inspect your database:
+加えて、以下の`Schema`メソッドを使ってデータベースを調べられます。
 
     use Illuminate\Support\Facades\Schema;
 
@@ -422,7 +422,7 @@ In addition, you may use the following `Schema` methods to inspect your database
     $indexes = Schema::getIndexes('users');
     $foreignKeys = Schema::getForeignKeys('users');
 
-If you would like to inspect a database connection that is not your application's default connection, you may use the `connection` method:
+アプリケーションのデフォルト接続ではないデータベース接続を調べたい場合は、`connection`メソッドを使用してください。
 
     $columns = Schema::connection('sqlite')->getColumns('users');
 
@@ -446,7 +446,7 @@ php artisan db:table users
 php artisan db:monitor --databases=mysql,pgsql --max=100
 ```
 
-Scheduling this command alone is not enough to trigger a notification alerting you of the number of open connections. When the command encounters a database that has an open connection count that exceeds your threshold, a `DatabaseBusy` event will be dispatched. You should listen for this event within your application's `AppServiceProvider` in order to send a notification to you or your development team:
+このコマンドをスケジューリングするだけでは、オープン接続数を警告する通知を発行できません。コマンドが閾値を超えるオープン接続数を持つデータベースに遭遇すると、`DatabaseBusy`イベントがディスパッチされます。アプリケーションの`AppServiceProvider`内でこのイベントをリッスンして、あなたや開発チームに通知を送る必要があります。
 
 ```php
 use App\Notifications\DatabaseApproachingMaxConnections;

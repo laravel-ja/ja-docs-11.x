@@ -36,7 +36,7 @@
     class UserFactory extends Factory
     {
         /**
-         * The current password being used by the factory.
+         * ファクトリが使用している現在のパスワード
          */
         protected static ?string $password;
 
@@ -57,7 +57,7 @@
         }
 
         /**
-         * Indicate that the model's email address should be unverified.
+         * モデルのメールアドレスが未検証であることを示す
          */
         public function unverified(): static
         {
@@ -72,7 +72,7 @@
 `fake`ヘルパを使うと、ファクトリで[Faker](https://github.com/FakerPHP/Faker) PHPライブラリにアクセスでき、テストやシードのためにさまざまな種類のランダムデータを生成でき、便利です。
 
 > [!NOTE]
-> You can change your application's Faker locale by updating the `faker_locale` option in your `config/app.php` configuration file.
+> アプリケーションのFakerのロケールは、`config/app.php`設定ファイルの`faker_locale`オプションを更新することで変更できます。
 
 <a name="defining-model-factories"></a>
 ## モデルファクトリの定義

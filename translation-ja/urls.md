@@ -130,7 +130,7 @@ Laravelでは名前付きルートに対し、簡単に「署名付きURL」を�
         abort(401);
     }
 
-Instead of validating signed URLs using the incoming request instance, you may assign the `signed` (`Illuminate\Routing\Middleware\ValidateSignature`) [middleware](/docs/{{version}}/middleware) to the route. If the incoming request does not have a valid signature, the middleware will automatically return a `403` HTTP response:
+受信リクエストインスタンスを使って署名付きURLを検証する代わりに、`signed`（`Illuminate\Routing\Middleware\ValidateSignature`）[ミドルウェア](/docs/{{version}}/middleware)をルートへ指定できます。受信クエストが有効な署名を持っていない場合、ミドルウェアは自動的に `403` HTTP レスポンスをします。
 
     Route::post('/unsubscribe/{user}', function (Request $request) {
         // ...
@@ -145,7 +145,7 @@ Instead of validating signed URLs using the incoming request instance, you may a
 <a name="responding-to-invalid-signed-routes"></a>
 #### 無効な署名付きルートのレスポンス
 
-When someone visits a signed URL that has expired, they will receive a generic error page for the `403` HTTP status code. However, you can customize this behavior by defining a custom "render" closure for the `InvalidSignatureException` exception in your application's `bootstrap/app.php` file:
+有効期限が切れた署名付きURLへ誰かがアクセスすると、`403`HTTPステータスコードの一般的なエラーページを表示します。しかし、アプリケーションの`bootstrap/app.php`ファイルで、`InvalidSignatureException`例外用のカスタム「レンダ」クロージャを定義することで、この動作をカスタマイズできます。
 
     use Illuminate\Routing\Exceptions\InvalidSignatureException;
 
@@ -208,7 +208,7 @@ When someone visits a signed URL that has expired, they will receive a generic e
 <a name="url-defaults-middleware-priority"></a>
 #### URLのデフォルトとミドルウェアの優先度
 
-Setting URL default values can interfere with Laravel's handling of implicit model bindings. Therefore, you should [prioritize your middleware](/docs/{{version}}/middleware#sorting-middleware) that set URL defaults to be executed before Laravel's own `SubstituteBindings` middleware. You can accomplish this using the `priority` middleware method in your application's `bootstrap/app.php` file:
+URLのデフォルト値を設定すると、Laravelの暗黙のモデル結合の処理と干渉することがあります。そのため、URLのデフォルト値を設定する[ミドルウェア](/docs/{{version}}/middleware#sorting-middleware)は、Laravel自身の`SubstituteBindings`ミドルウェアよりも先に実行されるように、[優先順位を付ける]必要があります。アプリケーションの`bootstrap/app.php`ファイルにある`priority`ミドルウェアメソッドを使用することで指定できます。
 
 ```php
 ->withMiddleware(function (Middleware $middleware) {

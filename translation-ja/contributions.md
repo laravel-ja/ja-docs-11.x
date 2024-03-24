@@ -18,7 +18,7 @@
 
 バグレポートを提出する場合にはその問題をタイトルに含め、明確に内容を記述してください。できる限り関連する情報や、その問題をデモするコードも含めてください。バグレポートの目的はあなた自身、そして他の人でも、簡単にバグが再現でき修正されるようにすることです。
 
-Remember, bug reports are created in the hope that others with the same problem will be able to collaborate with you on solving it. Do not expect that the bug report will automatically see any activity or that others will jump to fix it. Creating a bug report serves to help yourself and others start on the path of fixing the problem. If you want to chip in, you can help out by fixing [any bugs listed in our issue trackers](https://github.com/issues?q=is%3Aopen+is%3Aissue+label%3Abug+user%3Alaravel). You must be authenticated with GitHub to view all of Laravel's issues.
+バグレポートは、同じ問題を持つ他の人があなたと協力して解決してくれることを期待して作成することを忘れないでください。バグレポートに自動で何らかの活動が表示されたり、他の人がその問題の解決に飛びついたりすることを期待しないでください。バグレポートを作成することは、あなた自身や他の人が問題を解決する道を歩み始める手助けになります。もしあなたが協力したければ、[issueトラッカーに記載しているバグ](https://github.com/issues?q=is%3Aopen+is%3Aissue+label%3Abug+user%3Alaravel)を修正することで協力できます。LaravelのすべてのIssueを表示するには、GitHubで認証する必要があります。
 
 Laravelを使っているときに、DocBlock、PHPStan、IDEの警告に気づいた場合は、GitHub issueを作成しないでください。代わりに、問題を解決するための、プルリクエストを提出してください。
 
@@ -80,11 +80,11 @@ LaravelのGitHubイシュートラッカーは、Laravelのヘルプやサポー
 <a name="which-branch"></a>
 ## どのブランチ？
 
-**All** bug fixes should be sent to the latest version that supports bug fixes (currently `11.x`). Bug fixes should **never** be sent to the `master` branch unless they fix features that exist only in the upcoming release.
+**すべての**バグフィックスは、バグフィックスをサポートする最新バージョン (現在は `11.x`) へ送るべきです。次期リリースにのみ存在する機能を修正する場合を除き、バグ修正を**決して**、`master`ブランチに送ってはいけません。
 
-**Minor** features that are **fully backward compatible** with the current release may be sent to the latest stable branch (currently `11.x`).
+現在のリリースと**完全な下位互換性**がある**マイナー**な機能は、最新の安定版ブランチ（現在は`11.x`）へ送ってください。
 
-**メジャーな（大きな）**新機能や互換性のない変更を含む機能は、常に次のリリースに含まれる`master`ブランチへ送ってください。
+**メジャー**な新機能や互換性のない変更を含む機能は、常に次のリリースに含まれる`master`ブランチへ送ってください。
 
 <a name="compiled-assets"></a>
 ## アセットのコンパイル

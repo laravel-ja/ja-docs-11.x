@@ -18,7 +18,7 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-> [!NOTE]  
+> [!NOTE]
 > Laravel Horizo​​nを掘り下げる前に、Laravelの基本的な[キューサービス](/docs/{{version}}/queues)をよく理解しておく必要があります。Horizo​​nは、Laravelが提供する基本的なキュー機能にまだ慣れていない場合は混乱してしまう可能性がある追加機能であり、Laravelのキューを拡張します。
 
 [Laravel Horizon](https://github.com/laravel/horizon)（ホライズン、地平線）は、Laravelを利用した[Redisキュー](/docs/{{version}}/queues)に美しいダッシュボードとコード駆動型の設定を提供します。Horizo​​nを使用すると、ジョブのスループット、ランタイム、ジョブの失敗など、キューシステムの主要なメトリックを簡単に監視できます。
@@ -30,7 +30,7 @@ Horizo​​nを使用する場合、すべてのキューワーカ設定は単�
 <a name="installation"></a>
 ## インストール
 
-> [!WARNING]  
+> [!WARNING]
 > Laravel Horizo​​nは、[Redis](https://redis.io)を使用してキューを使用する必要があります。したがって、アプリケーションの`config/queue.php`設定ファイルでキュー接続が`redis`に設定されていることを確認する必要があります。
 
 Composerパッケージマネージャを使用して、Horizo​​nをプロジェクトにインストールします。
@@ -50,7 +50,7 @@ php artisan horizon:install
 
 Horizo​​nのアセットを公開すると、そのプライマリ設定ファイルは`config/horizo​​n.php`へ設置されます。この設定ファイルでアプリケーションのキューワーカオプションを設定できます。各設定オプションにはその目的の説明が含まれているため、このファイルを徹底的に調べてください。
 
-> [!WARNING]  
+> [!WARNING]
 > Horizonは内部で`horizon`という名前のRedis接続を使用します。このRedis接続名は予約語であり、`database.php`設定ファイル中で他のRedis接続に割り当てたり、`horizon.php`設定ファイルの`use`オプションの値に使用したりしてはいけません。
 
 <a name="environments"></a>
@@ -76,7 +76,7 @@ Horizo​​nのアセットを公開すると、そのプライマリ設定フ�
 
 Horizo​​nを起動すると、アプリケーションを実行する環境のワーカープロセス設定オプションが使用されます。通常、環境は`APP_ENV`[環境変数](/docs/{{version}}/configuration#determining-the-current-environment)の値によって決定されます。たとえば、デフォルトの`local` Horizo​​n環境は、３つのワーカープロセスを開始し、各キューに割り当てられたワーカプロセスの数のバランスを自動的にとるように設定されています。デフォルトの`production`環境は、最大１０個のワーカプロセスを開始し、各キューに割り当てられたワーカプロセスの数のバランスを自動的にとるように設定されています。
 
-> [!WARNING]  
+> [!WARNING]
 > `horizo​​n`設定ファイルの`environments`部分に、Horizonを実行する予定の各[環境](/docs/{{version}}/configuration#environment-configuration)のエントリを確実に指定してください。
 
 <a name="supervisors"></a>
@@ -260,7 +260,7 @@ SupervisorはLinuxオペレーティングシステムのプロセスモニタ�
 sudo apt-get install supervisor
 ```
 
-> [!NOTE]  
+> [!NOTE]
 > 自分でSupervisorを設定するのが難しいと思われる場合は、[Laravel Forge](https://forge.laravel.com)の使用を検討してください。これにより、LaravelプロジェクトのSupervisorは自動的にインストールおよび設定されます。
 
 <a name="supervisor-configuration"></a>
@@ -282,7 +282,7 @@ stopwaitsecs=3600
 
 Supervisorの設定を定義する際には、`stopwaitsecs`の値が、最も長く実行されるジョブが費やす秒数より確実に大きくしてください。そうしないと、Supervisorが処理を終える前にジョブを強制終了してしまう可能性があります。
 
-> [!WARNING]  
+> [!WARNING]
 > 上記の設定例は、Ubuntuベースのサーバで有効ですが、Supervisor設定ファイルの場所とファイル拡張子は、他のサーバオペレーティングシステムで異なる場合があります。詳細は、お使いのサーバのマニュアルを参照してください。
 
 <a name="starting-supervisor"></a>
@@ -298,7 +298,7 @@ sudo supervisorctl update
 sudo supervisorctl start horizon
 ```
 
-> [!NOTE]  
+> [!NOTE]
 > Supervisorの実行の詳細は、[Supervisorのドキュメント](http://supervisord.org/index.html)を参照してください。
 
 <a name="tags"></a>
@@ -386,7 +386,7 @@ Queueableオブジェクトの１つにタグを手作業で定義する場合�
 <a name="notifications"></a>
 ## 通知
 
-> [!WARNING]  
+> [!WARNING]
 > SlackまたはSMS通知を送信するようにHorizo​​nを設定する場合は、[関連する通知チャネルの前提条件](/docs/{{version}}/notifications)を確認する必要があります。
 
 キューの１つに長い待機時間があったときに通知を受け取りたい場合は、`Horizo​​n::routeMailNotificationsTo`、`Horizo​​n::routeSlackNotificationsTo`、および`Horizo​​n::routeSmsNotificationsTo`メソッドが使用できます。これらのメソッドは、アプリケーションの`App\Providers\Horizo​​nServiceProvider`の`boot`メソッドから呼び出せます。
@@ -417,7 +417,7 @@ Queueableオブジェクトの１つにタグを手作業で定義する場合�
 <a name="metrics"></a>
 ## メトリクス
 
-Horizon includes a metrics dashboard which provides information regarding your job and queue wait times and throughput. In order to populate this dashboard, you should configure Horizon's `snapshot` Artisan command to run every five minutes in your application's `routes/console.php` file:
+Horizonは、ジョブおよびキューの待ち時間とスループットに関する情報を提供する、メトリクスダッシュボードを用意しています。このダッシュボードを表示するには、アプリケーションの`routes/console.php`ファイルで、Horizonの`snapshot` Artisanコマンドを５分ごとに実行するように設定する必要があります。
 
     use Illuminate\Support\Facades\Schedule;
 

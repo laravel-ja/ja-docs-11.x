@@ -267,7 +267,7 @@ php artisan migrate:fresh --database=admin
 <a name="checking-for-table-column-existence"></a>
 #### テーブル／カラムの存在の確認
 
-You may determine the existence of a table, column, or index using the `hasTable`, `hasColumn`, and `hasIndex` methods:
+`hasTable`メソッド、`hasColumn`メソッド、`hasIndex`メソッドを使って、テーブル、カラム、インデックスの存在を判定できます。
 
     if (Schema::hasTable('users')) {
         // "users"テーブルは存在していた
@@ -315,7 +315,7 @@ You may determine the existence of a table, column, or index using the `hasTable
         // ...
     });
 
-If you would like to add a "comment" to a database table, you may invoke the `comment` method on the table instance. Table comments are currently only supported by MySQL and PostgreSQL:
+データベーステーブルに「コメント」を追加したい場合は、テーブルインスタンスに対して、`comment`メソッドを呼び出してください。テーブルコメントは現在、MySQLとPostgreSQLでのみサポートしています。
 
     Schema::create('calculations', function (Blueprint $table) {
         $table->comment('Business calculations');
@@ -483,7 +483,7 @@ If you would like to add a "comment" to a database table, you may invoke the `co
 
     $table->binary('photo');
 
-When utilizing MySQL, MariaDB, or SQL Server, you may pass `length` and `fixed` arguments to create `VARBINARY` or `BINARY` equivalent column:
+MySQL、MariaDB、SQLServerを使用する場合は、`length`と`fixed`引数を渡して、`VARBINARY`または`BINARY`相当のカラムを作成できます。
 
     $table->binary('data', length: 16); // VARBINARY(16)
 
@@ -506,14 +506,14 @@ When utilizing MySQL, MariaDB, or SQL Server, you may pass `length` and `fixed` 
 <a name="column-method-dateTimeTz"></a>
 #### `dateTimeTz()` {.collection-method}
 
-The `dateTimeTz` method creates a `DATETIME` (with timezone) equivalent column with an optional fractional seconds precision:
+`dateTimeTz`メソッドは`DATETIME`(タイムゾーン付き)カラムを作成します。
 
     $table->dateTimeTz('created_at', precision: 0);
 
 <a name="column-method-dateTime"></a>
 #### `dateTime()` {.collection-method}
 
-The `dateTime` method creates a `DATETIME` equivalent column with an optional fractional seconds precision:
+`dateTime`メソッドは、`DATETIME`カラムを作成します。
 
     $table->dateTime('created_at', precision: 0);
 
@@ -534,7 +534,7 @@ The `dateTime` method creates a `DATETIME` equivalent column with an optional fr
 <a name="column-method-double"></a>
 #### `double()` {.collection-method}
 
-The `double` method creates a `DOUBLE` equivalent column:
+`double`メソッドは、`DOUBLE`カラムを作成します。
 
     $table->double('amount');
 
@@ -548,7 +548,7 @@ The `double` method creates a `DOUBLE` equivalent column:
 <a name="column-method-float"></a>
 #### `float()` {.collection-method}
 
-The `float` method creates a `FLOAT` equivalent column with the given precision:
+`float`メソッドは、指定した精度の`FLOAT`カラムを作成します。
 
     $table->float('amount', precision: 53);
 
@@ -583,22 +583,22 @@ The `float` method creates a `FLOAT` equivalent column with the given precision:
 <a name="column-method-geography"></a>
 #### `geography()` {.collection-method}
 
-The `geography` method creates a `GEOGRAPHY` equivalent column with the given spatial type and SRID (Spatial Reference System Identifier):
+`geography`メソッドは、指定した空間タイプとSRID（空間参照システム識別子）を持つ、`GEOGRAPHY`カラムを作成します。
 
     $table->geography('coordinates', subtype: 'point', srid: 4326);
 
 > [!NOTE]
-> Support for spatial types depends on your database driver. Please refer to your database's documentation. If your application is utilizing a PostgreSQL database, you must install the [PostGIS](https://postgis.net) extension before the `geography` method may be used.
+> 空間タイプのサポートは、ご使用のデータベース・ドライバに依存します。データベースのドキュメントを参照してください。アプリケーションが、PostgreSQLデータベースを使用している場合は、`geography`メソッドを使用する前に、[PostGIS](https://postgis.net)拡張モジュールをインストールする必要があります。
 
 <a name="column-method-geometry"></a>
 #### `geometry()` {.collection-method}
 
-The `geometry` method creates a `GEOMETRY` equivalent column with the given spatial type and SRID (Spatial Reference System Identifier):
+`geometry`メソッドは、指定した空間タイプとSRID（空間参照システム識別子）を持つ、`GEOMETRY`カラムを作成します。
 
     $table->geometry('positions', subtype: 'point', srid: 0);
 
 > [!NOTE]
-> Support for spatial types depends on your database driver. Please refer to your database's documentation. If your application is utilizing a PostgreSQL database, you must install the [PostGIS](https://postgis.net) extension before the `geometry` method may be used.
+> 空間タイプのサポートは、ご使用のデータベース・ドライバに依存します。データベースのドキュメントを参照してください。アプリケーションがPostgreSQLデータベースを使用している場合は、`geometry`メソッドを使用する前に、[PostGIS](https://postgis.net)拡張モジュールをインストールする必要があります。
 
 <a name="column-method-id"></a>
 #### `id()` {.collection-method}
@@ -628,7 +628,7 @@ The `geometry` method creates a `GEOMETRY` equivalent column with the given spat
 
     $table->ipAddress('visitor');
 
-When using PostgreSQL, an `INET` column will be created.
+PostgreSQLを使用する場合、`INET`カラムが作成されます。
 
 <a name="column-method-json"></a>
 #### `json()` {.collection-method}
@@ -651,7 +651,7 @@ When using PostgreSQL, an `INET` column will be created.
 
     $table->longText('description');
 
-When utilizing MySQL or MariaDB, you may apply a `binary` character set to the column in order to create a `LONGBLOB` equivalent column:
+MySQLやMariaDBを使用する場合は、`LONGBLOB`カラムを作成するために、カラムへ`binary`文字セットを適用してください。
 
     $table->longText('data')->charset('binary'); // LONGBLOB
 
@@ -683,7 +683,7 @@ When utilizing MySQL or MariaDB, you may apply a `binary` character set to the c
 
     $table->mediumText('description');
 
-When utilizing MySQL or MariaDB, you may apply a `binary` character set to the column in order to create a `MEDIUMBLOB` equivalent column:
+MySQLやMariaDBを使用する場合は、`MEDIUMBLOB`カラムを作成するために、カラムに`binary`文字セットを適用してください。
 
     $table->mediumText('data')->charset('binary'); // MEDIUMBLOB
 
@@ -755,14 +755,14 @@ When utilizing MySQL or MariaDB, you may apply a `binary` character set to the c
 <a name="column-method-softDeletesTz"></a>
 #### `softDeletesTz()` {.collection-method}
 
-The `softDeletesTz` method adds a nullable `deleted_at` `TIMESTAMP` (with timezone) equivalent column with an optional fractional seconds precision. This column is intended to store the `deleted_at` timestamp needed for Eloquent's "soft delete" functionality:
+`softDeletesTz`メソッドは、null値可能でオプションの小数秒の精度を持つ、`deleted_at`のタイムスタンプ（`TIMESTAMP`）(タイムゾーン付き)カラムを追加します。このカラムはEloquentの「ソフトデリート」機能に必要な、`deleted_at`タイムスタンプを格納するためのものです。
 
     $table->softDeletesTz('deleted_at', precision: 0);
 
 <a name="column-method-softDeletes"></a>
 #### `softDeletes()` {.collection-method}
 
-The `softDeletes` method adds a nullable `deleted_at` `TIMESTAMP` equivalent column with an optional fractional seconds precision. This column is intended to store the `deleted_at` timestamp needed for Eloquent's "soft delete" functionality:
+`softDeletes`メソッドは、null値可能でオプションの小数秒の精度を持つ、`deleted_at`タイムスタンプ（`TIMESTAMP`）カラムを追加します。このカラムはEloquentの「ソフトデリート」機能に必要な、`deleted_at`タイムスタンプを格納するためのものです。
 
     $table->softDeletes('deleted_at', precision: 0);
 
@@ -780,49 +780,49 @@ The `softDeletes` method adds a nullable `deleted_at` `TIMESTAMP` equivalent col
 
     $table->text('description');
 
-When utilizing MySQL or MariaDB, you may apply a `binary` character set to the column in order to create a `BLOB` equivalent column:
+MySQLまたはMariaDBを使用する場合、`BLOB`カラムを作成するには、カラムへ`binary`文字セットを適用してください。
 
     $table->text('data')->charset('binary'); // BLOB
 
 <a name="column-method-timeTz"></a>
 #### `timeTz()` {.collection-method}
 
-The `timeTz` method creates a `TIME` (with timezone) equivalent column with an optional fractional seconds precision:
+`timeTz`メソッドは、オプションの小数秒精度を持つ`TIME`(タイムゾーン付き) カラムを作成します。
 
     $table->timeTz('sunrise', precision: 0);
 
 <a name="column-method-time"></a>
 #### `time()` {.collection-method}
 
-The `time` method creates a `TIME` equivalent column with an optional fractional seconds precision:
+`time`メソッドは、オプションの小数秒精度を持つ`TIME`カラムを作成します。
 
     $table->time('sunrise', precision: 0);
 
 <a name="column-method-timestampTz"></a>
 #### `timestampTz()` {.collection-method}
 
-The `timestampTz` method creates a `TIMESTAMP` (with timezone) equivalent column with an optional fractional seconds precision:
+`timestampTz`メソッドは、オプションで小数秒の精度を持つ、タイムスタンプ（`TIMESTAMP`）(タイムゾーン付き)カラムを作成します。
 
     $table->timestampTz('added_at', precision: 0);
 
 <a name="column-method-timestamp"></a>
 #### `timestamp()` {.collection-method}
 
-The `timestamp` method creates a `TIMESTAMP` equivalent column with an optional fractional seconds precision:
+`timestamp`メソッドは、オプションで小数秒の精度を持つ、`TIMESTAMP`カラムを作成します。
 
     $table->timestamp('added_at', precision: 0);
 
 <a name="column-method-timestampsTz"></a>
 #### `timestampsTz()` {.collection-method}
 
-The `timestampsTz` method creates `created_at` and `updated_at` `TIMESTAMP` (with timezone) equivalent columns with an optional fractional seconds precision:
+`timestampsTz`メソッドは、オプションで小数秒の精度を持つ、`created_at`と`updated_at`のタイムスタンプ（`TIMESTAMP`）(タイムゾーンあり)カラムを作成します。
 
     $table->timestampsTz(precision: 0);
 
 <a name="column-method-timestamps"></a>
 #### `timestamps()` {.collection-method}
 
-The `timestamps` method creates `created_at` and `updated_at` `TIMESTAMP` equivalent columns with an optional fractional seconds precision:
+`timestamps`メソッドは、オプションで小数秒の精度を持つ、`created_at`と`updated_at`のタイムスタンプ（`TIMESTAMP`）カラムを作成します。
 
     $table->timestamps(precision: 0);
 
@@ -847,7 +847,7 @@ The `timestamps` method creates `created_at` and `updated_at` `TIMESTAMP` equiva
 
     $table->tinyText('notes');
 
-When utilizing MySQL or MariaDB, you may apply a `binary` character set to the column in order to create a `TINYBLOB` equivalent column:
+MySQLまたはMariaDBを使用する場合、`TINYBLOB`カラムを作成するには、カラムへ`binary`文字セットを適用してください。
 
     $table->tinyText('data')->charset('binary'); // TINYBLOB
 
@@ -944,18 +944,18 @@ When utilizing MySQL or MariaDB, you may apply a `binary` character set to the c
 | `->after('column')`                 | カラムを別のカラムの「後に」配置（MySQL）                                                 |
 | `->autoIncrement()`                 | INTEGERカラムを自動増分（主キー）として設定                                               |
 | `->charset('utf8mb4')`              | カラムの文字セットを指定（MySQL）                                                         |
-`->collation('utf8mb4_unicode_ci')`  |  Specify a collation for the column.
-`->comment('my comment')`  |  Add a comment to a column (MySQL / PostgreSQL).
+| `->collation('utf8mb4_unicode_ci')` | カラムのコロケーションを指定                                                              |
+| `->comment('my comment')`           | カラムへコメントを追加（MySQL／PostgreSQL）                                               |
 | `->default($value)`                 | カラムの「デフォルト」値を指定                                                            |
 | `->first()`                         | テーブルの「最初の」カラムを配置（MySQL）                                                 |
 | `->from($integer)`                  | 自動増分フィールドの開始値を設定（MySQL／PostgreSQL）                                     |
 | `->invisible()`                     | `SELECT *`クエリに対しカラムを「不可視」にする（MySQL）                                   |
 | `->nullable($value = true)`         | NULL値をカラムに保存可能に設定                                                            |
-`->storedAs($expression)`  |  Create a stored generated column (MySQL / PostgreSQL / SQLite).
+| `->storedAs($expression)`           | storedカラムを生成（MySQL／PostgreSQL／SQLite）                                           |
 | `->unsigned()`                      | INTEGERカラムをUNSIGNEDとして設定（MySQL）                                                |
 | `->useCurrent()`                    | CURRENT_TIMESTAMPをデフォルト値として使用するようにTIMESTAMPカラムを設定                  |
 | `->useCurrentOnUpdate()`            | レコードが更新されたときにCURRENT_TIMESTAMPを使用するようにTIMESTAMPカラムを設定（MySQL） |
-`->virtualAs($expression)`  |  Create a virtual generated column (MySQL / SQLite).
+| `->virtualAs($expression)`          | 仮想カラムを生成（MySQL／SQLite）                                                         |
 | `->generatedAs($expression)`        | 指定のシーケンスオプションで、識別カラムを生成（PostgreSQL）                              |
 | `->always()`                        | IDカラムの入力に対するシーケンス値の優先順位を定義（PostgreSQL）                          |
 
@@ -1009,19 +1009,19 @@ MySQLデータベースを使用するときは、スキーマ内の既存の列
         $table->string('name', 50)->change();
     });
 
-When modifying a column, you must explicitly include all the modifiers you want to keep on the column definition - any missing attribute will be dropped. For example, to retain the `unsigned`, `default`, and `comment` attributes, you must call each modifier explicitly when changing the column:
+カラムを変更する際には、カラム定義に保持したいすべての修飾子を明示的に含める必要があります。例えば、`unsigned`属性、`default`属性、`comment`属性を保持するには、カラムを変更する際にそれぞれの修飾子を明示的に呼び出す必要があります。
 
     Schema::table('users', function (Blueprint $table) {
         $table->integer('votes')->unsigned()->default(1)->comment('my comment')->change();
     });
 
-The `change` method does not change the indexes of the column. Therefore, you may use index modifiers to explicitly add or drop an index when modifying the column:
+`change`メソッドはカラムのインデックスを変更しません。そのため、カラムを変更する際には、インデックス修飾子を使って明示的にインデックスを追加もしくは、削除してください。
 
 ```php
-// Add an index...
+// インデックス追加
 $table->bigIncrements('id')->primary()->change();
 
-// Drop an index...
+// インデックス削除
 $table->char('postal_code', 10)->unique(false)->change();
 ```
 
@@ -1095,15 +1095,15 @@ Laravelスキーマビルダは多くのタイプのインデックスをサポ�
 
 LaravelのスキーマビルダBlueprintクラスは、Laravelでサポートしている各タイプのインデックスを作成するメソッドを提供しています。各indexメソッドは、オプションの２番目の引数を取り、インデックスの名前を指定します。省略した場合、名前は、インデックスに使用されるテーブルとカラムの名前、およびインデックスタイプから派生します。使用可能な各インデックスメソッドは、以下の表で説明します。
 
-| コマンド                           | 説明                                               |
-| ---------------------------------- | -------------------------------------------------- |
-| `$table->primary('id');`                         | 主キーを追加                                         |
-| `$table->primary(['id', 'parent_id']);`          | 複合キーを追加                                       |
-| `$table->unique('email');`                       | 一意のインデックスを追加                             |
-| `$table->index('state');`                        | インデックスを追加                                   |
-`$table->fullText('body');`  |  Adds a full text index (MySQL / PostgreSQL).
-| `$table->fullText('body')->language('english');` | 特定言語のフルテキストインデックス追加（PostgreSQL） |
-| `$table->spatialIndex('location');`              | 空間インデックスを追加（SQLiteを除く）               |
+| コマンド                                         | 説明                                            |
+| ------------------------------------------------ | ----------------------------------------------- |
+| `$table->primary('id');`                         | 主キーを追加                                    |
+| `$table->primary(['id', 'parent_id']);`          | 複合キーを追加                                  |
+| `$table->unique('email');`                       | 一意のインデックスを追加                        |
+| `$table->index('state');`                        | インデックスを追加                              |
+| `$table->fullText('body');`                      | 全文検索インデックスを追加（MySQL／PostgreSQL） |
+| `$table->fullText('body')->language('english');` | 特定言語のフルテキストインデックス追加          |
+| `$table->spatialIndex('location');`              | 空間インデックスを追加（SQLiteを除く）          |
 
 <a name="renaming-indexes"></a>
 ### インデックスのリネーム
@@ -1117,8 +1117,8 @@ LaravelのスキーマビルダBlueprintクラスは、Laravelでサポートし
 
 インデックスを削除するには、インデックスの名前を指定する必要があります。デフォルトでは、Laravelはテーブル名、インデックス付きカラムの名前、およびインデックスタイプに基づいてインデックス名を自動的に割り当てます。ここではいくつかの例を示します。
 
-| コマンド                           | 説明                                               |
-| ---------------------------------- | -------------------------------------------------- |
+| コマンド                                                 | 説明                                                    |
+| -------------------------------------------------------- | ------------------------------------------------------- |
 | `$table->dropPrimary('users_id_primary');`               | "users"テーブルから主キーを削除                         |
 | `$table->dropUnique('users_email_unique');`              | "users"テーブルから一意のインデックスを削除             |
 | `$table->dropIndex('geo_state_index');`                  | "geo"テーブルから基本インデックスを削除                 |

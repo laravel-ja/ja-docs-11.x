@@ -23,7 +23,7 @@ test('console command', function () {
 
 ```php tab=PHPUnit
 /**
- * Test a console command.
+ * コンソールコマンドのテスト
  */
 public function test_console_command(): void
 {
@@ -75,7 +75,7 @@ test('console command', function () {
 
 ```php tab=PHPUnit
 /**
- * Test a console command.
+ * コンソールコマンドのテスト
  */
 public function test_console_command(): void
 {

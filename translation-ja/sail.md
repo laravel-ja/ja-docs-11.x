@@ -161,7 +161,7 @@ sail php script.php
 <a name="executing-composer-commands"></a>
 ### Composerコマンドの実行
 
-Composer commands may be executed using the `composer` command. Laravel Sail's application container includes a Composer installation:
+Composerコマンドは`composer`コマンドで実行できます。Laravel Sailのアプリケーションコンテナには、Composerのインストールが入っています。
 
 ```nothing
 sail composer require laravel/sanctum
@@ -284,7 +284,7 @@ AWS_URL=http://localhost:9000/local
 <a name="running-tests"></a>
 ## テスト実行
 
-Laravel provides amazing testing support out of the box, and you may use Sail's `test` command to run your applications [feature and unit tests](/docs/{{version}}/testing). Any CLI options that are accepted by Pest / PHPUnit may also be passed to the `test` command:
+Sailの`test`コマンドを使って、アプリケーションの[機能テストやユニットテスト](/docs/{{version}}/testing)を実行できます。Pest／PHPUnitのCLIオプションも、`test`コマンドへ渡せます。
 
 ```shell
 sail test
@@ -443,7 +443,7 @@ sail up
 sail share
 ```
 
-When sharing your site via the `share` command, you should configure your application's trusted proxies using the `trustProxies` middleware method in your application's `bootstrap/app.php` file. Otherwise, URL generation helpers such as `url` and `route` will be unable to determine the correct HTTP host that should be used during URL generation:
+`share`コマンドを使用してサイトを共有する場合は、アプリケーションの`bootstrap/app.php`ファイルにある`trustProxies`ミドルウェアメソッドを使用して、アプリケーションが信頼するプロキシを設定する必要があります。そうしないと、`url`や`route`などのURL生成ヘルパが、URL生成時に使用する正しいHTTPホストを判断できなくなります。
 
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->trustProxies(at: [
@@ -471,7 +471,7 @@ SAIL_XDEBUG_MODE=develop,debug,coverage
 
 #### LinuxホストIP設定
 
-Internally, the `XDEBUG_CONFIG` environment variable is defined as `client_host=host.docker.internal` so that Xdebug will be properly configured for Mac and Windows (WSL2). If your local machine is running Linux, you should ensure that you are running Docker Engine 17.06.0+ and Compose 1.16.0+. Otherwise, you will need to manually define this environment variable as shown below.
+内部的には、`XDEBUG_CONFIG`環境変数は、`client_host=host.docker.internal`で定義しており、XdebugをMacとWindows (WSL2)で適切に設定するようになっています。ローカルマシンでLinuxを実行している場合は、Docker Engine17.06.0以上とCompose1.16.0以上を確実に実行してください。そうでない場合は、下記のように手作業で、この環境変数を定義する必要があります。
 
 まず、以下のコマンドを実行して、環境変数に追加する正しいホストIPアドレスを決定します。通常、`<container-name>`は、アプリケーションを提供するコンテナの名前であるべきで、多くの場合、`_laravel.test_1`で終わります。
 

@@ -168,10 +168,12 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [fake](#method-fake)
 [filled](#method-filled)
 [info](#method-info)
+[literal](#method-literal)
 [logger](#method-logger)
 [method_field](#method-method-field)
 [now](#method-now)
 [old](#method-old)
+[once](#method-once)
 [optional](#method-optional)
 [policy](#method-policy)
 [redirect](#method-redirect)
@@ -1032,6 +1034,19 @@ The function also accepts wildcards using asterisks, which may target any key of
 
     // ['Desk 1', 'Desk 2'];
 
+The `{first}` and `{last}` placeholders may be used to retrieve the first or last items in an array:
+
+    $flight = [
+        'segments' => [
+            ['from' => 'LHR', 'departure' => '9:00', 'to' => 'IST', 'arrival' => '15:00'],
+            ['from' => 'IST', 'departure' => '16:00', 'to' => 'PKX', 'arrival' => '20:00'],
+        ],
+    ];
+
+    data_get($flight, 'segments.{first}.arrival');
+
+    // 15:00
+
 <a name="method-data-set"></a>
 #### `data_set()` {.collection-method}
 
@@ -1774,7 +1789,7 @@ The `fake` function resolves a [Faker](https://github.com/FakerPHP/Faker) single
 @endfor
 ```
 
-By default, the `fake` function will utilize the `app.faker_locale` configuration option in your `config/app.php` configuration file; however, you may also specify the locale by passing it to the `fake` function. Each locale will resolve an individual singleton:
+By default, the `fake` function will utilize the `app.faker_locale` configuration option in your `config/app.php` configuration. Typically, this configuration option is set via the `APP_FAKER_LOCALE` environment variable. You may also specify the locale by passing it to the `fake` function. Each locale will resolve an individual singleton:
 
     fake('nl_NL')->name()
 
@@ -1808,6 +1823,19 @@ The `info` function will write information to your application's [log](/docs/{{v
 An array of contextual data may also be passed to the function:
 
     info('User login attempt failed.', ['id' => $user->id]);
+
+<a name="method-literal"></a>
+#### `literal()` {.collection-method}
+
+"The `literal` function creates a new [stdClass](https://www.php.net/manual/en/class.stdclass.php) instance with the given named arguments as properties:
+
+    $obj = literal(
+        name: 'Joe',
+        languages: ['PHP', 'Ruby'],
+    );
+
+    $obj->name; // 'Joe'
+    $obj->languages; // ['PHP', 'Ruby']
 
 <a name="method-logger"></a>
 #### `logger()` {.collection-method}
@@ -1857,6 +1885,45 @@ Since the "default value" provided as the second argument to the `old` function 
 
     {{ old('name', $user) }}
 
+<a name="method-once"></a>
+#### `once()` {.collection-method}
+
+The `once` function executes the given callback and caches the result in memory for the duration of the request. Any subsequent calls to the `once` function with the same callback will return the previously cached result:
+
+    function random(): int
+    {
+        return once(function () {
+            return random_int(1, 1000);
+        });
+    }
+
+    random(); // 123
+    random(); // 123 (cached result)
+    random(); // 123 (cached result)
+
+When the `once` function is executed from within an object instance, the cached result will be unique to that object instance:
+
+```php
+<?php
+
+class NumberService
+{
+    public function all(): array
+    {
+        return once(fn () => [1, 2, 3]);
+    }
+}
+
+$service = new NumberService;
+
+$service->all();
+$service->all(); // (cached result)
+
+$secondService = new NumberService;
+
+$secondService->all();
+$secondService->all(); // (cached result)
+```
 <a name="method-optional"></a>
 #### `optional()` {.collection-method}
 
@@ -2356,29 +2423,55 @@ When testing code that utilizes the `Sleep` class or PHP's native sleep function
 
 Typically, testing this code would take _at least_ one second. Luckily, the `Sleep` class allows us to "fake" sleeping so that our test suite stays fast:
 
-    public function test_it_waits_until_ready()
-    {
-        Sleep::fake();
+```php tab=Pest
+it('waits until ready', function () {
+    Sleep::fake();
 
-        // ...
-    }
+    // ...
+});
+```
+
+```php tab=PHPUnit
+public function test_it_waits_until_ready()
+{
+    Sleep::fake();
+
+    // ...
+}
+```
 
 When faking the `Sleep` class, the actual execution pause is by-passed, leading to a substantially faster test.
 
 Once the `Sleep` class has been faked, it is possible to make assertions against the expected "sleeps" that should have occurred. To illustrate this, let's imagine we are testing code that pauses execution three times, with each pause increasing by a single second. Using the `assertSequence` method, we can assert that our code "slept" for the proper amount of time while keeping our test fast:
 
-    public function test_it_checks_if_ready_four_times()
-    {
-        Sleep::fake();
+```php tab=Pest
+it('checks if ready three times', function () {
+    Sleep::fake();
 
-        // ...
+    // ...
 
-        Sleep::assertSequence([
-            Sleep::for(1)->second(),
-            Sleep::for(2)->seconds(),
-            Sleep::for(3)->seconds(),
-        ]);
-    }
+    Sleep::assertSequence([
+        Sleep::for(1)->second(),
+        Sleep::for(2)->seconds(),
+        Sleep::for(3)->seconds(),
+    ]);
+}
+```
+
+```php tab=PHPUnit
+public function test_it_checks_if_ready_four_times()
+{
+    Sleep::fake();
+
+    // ...
+
+    Sleep::assertSequence([
+        Sleep::for(1)->second(),
+        Sleep::for(2)->seconds(),
+        Sleep::for(3)->seconds(),
+    ]);
+}
+```
 
 Of course, the `Sleep` class offers a variety of other assertions you may use when testing:
 

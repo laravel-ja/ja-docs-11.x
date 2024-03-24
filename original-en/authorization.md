@@ -18,7 +18,7 @@
     - [Policy Filters](#policy-filters)
 - [Authorizing Actions Using Policies](#authorizing-actions-using-policies)
     - [Via the User Model](#via-the-user-model)
-    - [Via Controller Helpers](#via-controller-helpers)
+    - [Via the Gate Facade](#via-the-gate-facade)
     - [Via Middleware](#via-middleware)
     - [Via Blade Templates](#via-blade-templates)
     - [Supplying Additional Context](#supplying-additional-context)
@@ -41,7 +41,7 @@ You do not need to choose between exclusively using gates or exclusively using p
 > [!WARNING]  
 > Gates are a great way to learn the basics of Laravel's authorization features; however, when building robust Laravel applications you should consider using [policies](#creating-policies) to organize your authorization rules.
 
-Gates are simply closures that determine if a user is authorized to perform a given action. Typically, gates are defined within the `boot` method of the `App\Providers\AuthServiceProvider` class using the `Gate` facade. Gates always receive a user instance as their first argument and may optionally receive additional arguments such as a relevant Eloquent model.
+Gates are simply closures that determine if a user is authorized to perform a given action. Typically, gates are defined within the `boot` method of the `App\Providers\AppServiceProvider` class using the `Gate` facade. Gates always receive a user instance as their first argument and may optionally receive additional arguments such as a relevant Eloquent model.
 
 In this example, we'll define a gate to determine if a user can update a given `App\Models\Post` model. The gate will accomplish this by comparing the user's `id` against the `user_id` of the user that created the post:
 
@@ -50,7 +50,7 @@ In this example, we'll define a gate to determine if a user can update a given `
     use Illuminate\Support\Facades\Gate;
 
     /**
-     * Register any authentication / authorization services.
+     * Bootstrap any application services.
      */
     public function boot(): void
     {
@@ -65,7 +65,7 @@ Like controllers, gates may also be defined using a class callback array:
     use Illuminate\Support\Facades\Gate;
 
     /**
-     * Register any authentication / authorization services.
+     * Bootstrap any application services.
      */
     public function boot(): void
     {
@@ -127,7 +127,7 @@ You may authorize multiple actions at a time using the `any` or `none` methods:
 <a name="authorizing-or-throwing-exceptions"></a>
 #### Authorizing or Throwing Exceptions
 
-If you would like to attempt to authorize an action and automatically throw an `Illuminate\Auth\Access\AuthorizationException` if the user is not allowed to perform the given action, you may use the `Gate` facade's `authorize` method. Instances of `AuthorizationException` are automatically converted to a 403 HTTP response by Laravel's exception handler:
+If you would like to attempt to authorize an action and automatically throw an `Illuminate\Auth\Access\AuthorizationException` if the user is not allowed to perform the given action, you may use the `Gate` facade's `authorize` method. Instances of `AuthorizationException` are automatically converted to a 403 HTTP response by Laravel:
 
     Gate::authorize('update-post', $post);
 
@@ -281,45 +281,12 @@ php artisan make:policy PostPolicy --model=Post
 <a name="registering-policies"></a>
 ### Registering Policies
 
-Once the policy class has been created, it needs to be registered. Registering policies is how we can inform Laravel which policy to use when authorizing actions against a given model type.
+<a name="policy-discovery"></a>
+#### Policy Discovery
 
-The `App\Providers\AuthServiceProvider` included with fresh Laravel applications contains a `policies` property which maps your Eloquent models to their corresponding policies. Registering a policy will instruct Laravel which policy to utilize when authorizing actions against a given Eloquent model:
+By default, Laravel automatically discover policies as long as the model and policy follow standard Laravel naming conventions. Specifically, the policies must be in a `Policies` directory at or above the directory that contains your models. So, for example, the models may be placed in the `app/Models` directory while the policies may be placed in the `app/Policies` directory. In this situation, Laravel will check for policies in `app/Models/Policies` then `app/Policies`. In addition, the policy name must match the model name and have a `Policy` suffix. So, a `User` model would correspond to a `UserPolicy` policy class.
 
-    <?php
-
-    namespace App\Providers;
-
-    use App\Models\Post;
-    use App\Policies\PostPolicy;
-    use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-    use Illuminate\Support\Facades\Gate;
-
-    class AuthServiceProvider extends ServiceProvider
-    {
-        /**
-         * The policy mappings for the application.
-         *
-         * @var array
-         */
-        protected $policies = [
-            Post::class => PostPolicy::class,
-        ];
-
-        /**
-         * Register any application authentication / authorization services.
-         */
-        public function boot(): void
-        {
-            // ...
-        }
-    }
-
-<a name="policy-auto-discovery"></a>
-#### Policy Auto-Discovery
-
-Instead of manually registering model policies, Laravel can automatically discover policies as long as the model and policy follow standard Laravel naming conventions. Specifically, the policies must be in a `Policies` directory at or above the directory that contains your models. So, for example, the models may be placed in the `app/Models` directory while the policies may be placed in the `app/Policies` directory. In this situation, Laravel will check for policies in `app/Models/Policies` then `app/Policies`. In addition, the policy name must match the model name and have a `Policy` suffix. So, a `User` model would correspond to a `UserPolicy` policy class.
-
-If you would like to define your own policy discovery logic, you may register a custom policy discovery callback using the `Gate::guessPolicyNamesUsing` method. Typically, this method should be called from the `boot` method of your application's `AuthServiceProvider`:
+If you would like to define your own policy discovery logic, you may register a custom policy discovery callback using the `Gate::guessPolicyNamesUsing` method. Typically, this method should be called from the `boot` method of your application's `AppServiceProvider`:
 
     use Illuminate\Support\Facades\Gate;
 
@@ -327,8 +294,22 @@ If you would like to define your own policy discovery logic, you may register a 
         // Return the name of the policy class for the given model...
     });
 
-> [!WARNING]  
-> Any policies that are explicitly mapped in your `AuthServiceProvider` will take precedence over any potentially auto-discovered policies.
+<a name="manually-registering-policies"></a>
+#### Manually Registering Policies
+
+Using the `Gate` facade, you may manually register policies and their corresponding models within the `boot` method of your application's `AppServiceProvider`:
+
+    use App\Models\Order;
+    use App\Policies\OrderPolicy;
+    use Illuminate\Support\Facades\Gate;
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        Gate::policy(Order::class, OrderPolicy::class);
+    }
 
 <a name="writing-policies"></a>
 ## Writing Policies
@@ -564,10 +545,10 @@ Remember, some actions may correspond to policy methods like `create` that do no
         }
     }
 
-<a name="via-controller-helpers"></a>
-### Via Controller Helpers
+<a name="via-the-gate-facade"></a>
+### Via the `Gate` Facade
 
-In addition to helpful methods provided to the `App\Models\User` model, Laravel provides a helpful `authorize` method to any of your controllers which extend the `App\Http\Controllers\Controller` base class.
+In addition to helpful methods provided to the `App\Models\User` model, you can always authorize actions via the `Gate` facade's `authorize` method.
 
 Like the `can` method, this method accepts the name of the action you wish to authorize and the relevant model. If the action is not authorized, the `authorize` method will throw an `Illuminate\Auth\Access\AuthorizationException` exception which the Laravel exception handler will automatically convert to an HTTP response with a 403 status code:
 
@@ -579,6 +560,7 @@ Like the `can` method, this method accepts the name of the action you wish to au
     use App\Models\Post;
     use Illuminate\Http\RedirectResponse;
     use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Gate;
 
     class PostController extends Controller
     {
@@ -589,7 +571,7 @@ Like the `can` method, this method accepts the name of the action you wish to au
          */
         public function update(Request $request, Post $post): RedirectResponse
         {
-            $this->authorize('update', $post);
+            Gate::authorize('update', $post);
 
             // The current user can update the blog post...
 
@@ -605,6 +587,7 @@ As previously discussed, some policy methods like `create` do not require a mode
     use App\Models\Post;
     use Illuminate\Http\RedirectResponse;
     use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Gate;
 
     /**
      * Create a new blog post.
@@ -613,61 +596,17 @@ As previously discussed, some policy methods like `create` do not require a mode
      */
     public function create(Request $request): RedirectResponse
     {
-        $this->authorize('create', Post::class);
+        Gate::authorize('create', Post::class);
 
         // The current user can create blog posts...
 
         return redirect('/posts');
     }
 
-<a name="authorizing-resource-controllers"></a>
-#### Authorizing Resource Controllers
-
-If you are utilizing [resource controllers](/docs/{{version}}/controllers#resource-controllers), you may make use of the `authorizeResource` method in your controller's constructor. This method will attach the appropriate `can` middleware definitions to the resource controller's methods.
-
-The `authorizeResource` method accepts the model's class name as its first argument, and the name of the route / request parameter that will contain the model's ID as its second argument. You should ensure your [resource controller](/docs/{{version}}/controllers#resource-controllers) is created using the `--model` flag so that it has the required method signatures and type hints:
-
-    <?php
-
-    namespace App\Http\Controllers;
-
-    use App\Http\Controllers\Controller;
-    use App\Models\Post;
-
-    class PostController extends Controller
-    {
-        /**
-         * Create the controller instance.
-         */
-        public function __construct()
-        {
-            $this->authorizeResource(Post::class, 'post');
-        }
-    }
-
-The following controller methods will be mapped to their corresponding policy method. When requests are routed to the given controller method, the corresponding policy method will automatically be invoked before the controller method is executed:
-
-<div class="overflow-auto">
-
-| Controller Method | Policy Method |
-| --- | --- |
-| index | viewAny |
-| show | view |
-| create | create |
-| store | create |
-| edit | update |
-| update | update |
-| destroy | delete |
-
-</div>
-
-> [!NOTE]  
-> You may use the `make:policy` command with the `--model` option to quickly generate a policy class for a given model: `php artisan make:policy PostPolicy --model=Post`.
-
 <a name="via-middleware"></a>
 ### Via Middleware
 
-Laravel includes a middleware that can authorize actions before the incoming request even reaches your routes or controllers. By default, the `Illuminate\Auth\Middleware\Authorize` middleware is assigned the `can` key in your `App\Http\Kernel` class. Let's explore an example of using the `can` middleware to authorize that a user can update a post:
+Laravel includes a middleware that can authorize actions before the incoming request even reaches your routes or controllers. By default, the `Illuminate\Auth\Middleware\Authorize` middleware may be attached to a route using the `can` [middleware alias](/docs/{{version}}/middleware#middleware-alias), which is automatically registered by Laravel. Let's explore an example of using the `can` middleware to authorize that a user can update a post:
 
     use App\Models\Post;
 
@@ -783,7 +722,7 @@ When attempting to determine if the authenticated user can update a given post, 
      */
     public function update(Request $request, Post $post): RedirectResponse
     {
-        $this->authorize('update', [$post, $request->category]);
+        Gate::authorize('update', [$post, $request->category]);
 
         // The current user can update the blog post...
 

@@ -11,25 +11,25 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-Laravel is built with testing in mind. In fact, support for testing with [Pest](https://pestphp.com) and [PHPUnit](https://phpunit.de) is included out of the box and a `phpunit.xml` file is already set up for your application. The framework also ships with convenient helper methods that allow you to expressively test your applications.
+Laravelはテストを念頭に置いて作られています。実際、[Pest](https://pestphp.com)と[PHPUnit](https://phpunit.de)によるテストをサポートしており、`phpunit.xml`ファイルをあらかじめセットアップしています。また、このフレームワークは便利なヘルパメソッドを同梱しており、アプリケーションを表現的にテストできます。
 
 デフォルトでは、アプリケーションの`tests`ディレクトリには、`Feature`と`Unit`の２つのディレクトリを用意しています。単体テストは、コードの非常に小さな孤立した部分に焦点を当てたテストです。実際、ほとんどの単体テストはおそらく単一のメソッドに焦点を合わせています。「ユニット」テストディレクトリ内のテストはLaravelアプリケーションを起動しないため、アプリケーションのデータベースやその他のフレームワークサービスにアクセスできません。
 
 機能テストでは、複数のオブジェクトが相互作用する方法や、JSONエンドポイントへの完全なHTTPリクエストなど、コードの広い部分をテストします。**一般的に、ほとんどのテストは機能テストである必要があります。これらのタイプのテストは、システム全体が意図したとおりに機能しているという信頼性を一番提供します。**
 
-An `ExampleTest.php` file is provided in both the `Feature` and `Unit` test directories. After installing a new Laravel application, execute the `vendor/bin/pest`, `vendor/bin/phpunit`, or `php artisan test` commands to run your tests.
+`ExampleTest.php`ファイルは、`Feature`と`Unit`両方のテストディレクトリに用意してあります。新しいLaravelアプリケーションをインストールしたら、`vendor/bin/pest`、`vendor/bin/phpunit`、`php artisan test`コマンドなどを実行してテストを実行できます。
 
 <a name="environment"></a>
 ## 環境
 
-When running tests, Laravel will automatically set the [configuration environment](/docs/{{version}}/configuration#environment-configuration) to `testing` because of the environment variables defined in the `phpunit.xml` file. Laravel also automatically configures the session and cache to the `array` driver so that no session or cache data will be persisted while testing.
+テストを実行すると、Laravelは自動的に[設定環境](/docs/{{version}}/configuration#environment-configuration)を`testing`に設定します。これは、`phpunit.xml`ファイルで環境変数が定義しているからです。また、Laravelは自動的にセッションとキャッシュを`array`ドライバに設定するので、テスト中のセッションやキャッシュのデータが永続することはありません。
 
 必要に応じて、他のテスト環境設定値を自由に定義できます。`testing`環境変数はアプリケーションの`phpunit.xml`ファイルで設定していますが、テストを実行する前は必ず`config:clear` Artisanコマンドを使用して設定のキャッシュをクリアしてください。
 
 <a name="the-env-testing-environment-file"></a>
 #### `.env.testing`環境ファイル
 
-In addition, you may create a `.env.testing` file in the root of your project. This file will be used instead of the `.env` file when running Pest and PHPUnit tests or executing Artisan commands with the `--env=testing` option.
+さらに、プロジェクトのルートに`.env.testing`ファイルを作成することもできます。このファイルは PestテストやPHPUnitテストを実行する際や、`--env=testing` オプションを指定して Artisanコマンドを実行する際に、`.env`ファイルの代わりに使用します。
 
 <a name="creating-tests"></a>
 ## テストの作成
@@ -49,7 +49,7 @@ php artisan make:test UserTest --unit
 > [!NOTE]
 > [stubのリソース公開](/docs/{{version}}/artisan#stub-customization) を使って、Testスタブをカスタマイズできます。
 
-Once the test has been generated, you may define test as you normally would using Pest or PHPUnit. To run your tests, execute the `vendor/bin/pest`, `vendor/bin/phpunit`, or `php artisan test` command from your terminal:
+テストを生成したら、あとはPestやPHPUnitを使い、普通にテストを定義するだけです。テストを実行するには、ターミナルから `vendor/bin/pest`、`vendor/bin/phpunit`、`php artisan test`コマンドを実行してください。
 
 ```php tab=Pest
 <?php
@@ -69,7 +69,7 @@ use PHPUnit\Framework\TestCase;
 class ExampleTest extends TestCase
 {
     /**
-     * A basic test example.
+     * 基本的なテスト例
      */
     public function test_basic_test(): void
     {
@@ -84,7 +84,7 @@ class ExampleTest extends TestCase
 <a name="running-tests"></a>
 ## テストの実行
 
-As mentioned previously, once you've written tests, you may run them using `pest` or `phpunit`:
+前述したように、テストを書いたら、`pest`や`phpunit`を使って実行できます。
 
 ```shell tab=Pest
 ./vendor/bin/pest
@@ -94,13 +94,13 @@ As mentioned previously, once you've written tests, you may run them using `pest
 ./vendor/bin/phpunit
 ```
 
-In addition to the `pest` or `phpunit` commands, you may use the `test` Artisan command to run your tests. The Artisan test runner provides verbose test reports in order to ease development and debugging:
+`pest`や`phpunit`コマンドに加えて、テストを実行するために`test` Artisanコマンドを使用することもできます。Artisanテストランナーは、開発やデバッグを容易にするために、詳細なテストレポートを提供します：
 
 ```shell
 php artisan test
 ```
 
-Any arguments that can be passed to the `pest` or `phpunit` commands may also be passed to the Artisan `test` command:
+`pest`コマンドや`phpunit` マンドに渡すことができる引数は、Artisanの`test`コマンドにも渡せます。
 
 ```shell
 php artisan test --testsuite=Feature --stop-on-failure
@@ -109,7 +109,7 @@ php artisan test --testsuite=Feature --stop-on-failure
 <a name="running-tests-in-parallel"></a>
 ### テストを並列で実行
 
-By default, Laravel and Pest / PHPUnit execute your tests sequentially within a single process. However, you may greatly reduce the amount of time it takes to run your tests by running tests simultaneously across multiple processes. To get started, you should install the `brianium/paratest` Composer package as a "dev" dependency. Then, include the `--parallel` option when executing the `test` Artisan command:
+LaravelとPest／PHPUnitはデフォルトで、ひとつのプロセス内でテストを順次実行します。しかし、複数のプロセスで同時にテストを実行すれば、 テストの実行時間を大幅に短縮できます。まず、`brianium/paratest` Composer パッケージを"dev"依存パッケージとしてインストールします。そして、`test` Artisanコマンドを実行する際に`--parallel`オプションを指定してください。
 
 ```shell
 composer require brianium/paratest --dev
@@ -124,7 +124,7 @@ php artisan test --parallel --processes=4
 ```
 
 > [!WARNING]
-> When running tests in parallel, some Pest / PHPUnit options (such as `--do-not-cache-result`) may not be available.
+> テストを並行して実行する場合、Pest／PHPUnitのオプション (`--do-not-cache-result`など) は使用できないことがあります。
 
 <a name="parallel-testing-and-databases"></a>
 #### 並列テストとデータベース

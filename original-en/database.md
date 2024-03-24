@@ -19,10 +19,10 @@ Almost every modern web application interacts with a database. Laravel makes int
 
 <div class="content-list" markdown="1">
 
-- MariaDB 10.10+ ([Version Policy](https://mariadb.org/about/#maintenance-policy))
+- MariaDB 10.3+ ([Version Policy](https://mariadb.org/about/#maintenance-policy))
 - MySQL 5.7+ ([Version Policy](https://en.wikipedia.org/wiki/MySQL#Release_history))
-- PostgreSQL 11.0+ ([Version Policy](https://www.postgresql.org/support/versioning/))
-- SQLite 3.8.8+
+- PostgreSQL 10.0+ ([Version Policy](https://www.postgresql.org/support/versioning/))
+- SQLite 3.35.0+
 - SQL Server 2017+ ([Version Policy](https://docs.microsoft.com/en-us/lifecycle/products/?products=sql-server))
 
 </div>
@@ -44,11 +44,14 @@ DB_CONNECTION=sqlite
 DB_DATABASE=/absolute/path/to/database.sqlite
 ```
 
-To enable foreign key constraints for SQLite connections, you should set the `DB_FOREIGN_KEYS` environment variable to `true`:
+By default, foreign key constraints are enabled for SQLite connections. If you would like to disable them, you should set the `DB_FOREIGN_KEYS` environment variable to `false`:
 
 ```ini
-DB_FOREIGN_KEYS=true
+DB_FOREIGN_KEYS=false
 ```
+
+> [!NOTE]
+> If you use the [Laravel installer](/docs/{{version}}/installation#creating-a-laravel-project) to create your Laravel application and select SQLite as your database, Laravel will automatically create a `database/database.sqlite` file and run the default [database migrations](/docs/{{version}}/migrations) for you.
 
 <a name="mssql-configuration"></a>
 #### Microsoft SQL Server Configuration
@@ -94,13 +97,20 @@ To see how read / write connections should be configured, let's look at this exa
             ],
         ],
         'sticky' => true,
-        'driver' => 'mysql',
-        'database' => 'database',
-        'username' => 'root',
-        'password' => '',
-        'charset' => 'utf8mb4',
-        'collation' => 'utf8mb4_unicode_ci',
+
+        'database' => env('DB_DATABASE', 'laravel'),
+        'username' => env('DB_USERNAME', 'root'),
+        'password' => env('DB_PASSWORD', ''),
+        'unix_socket' => env('DB_SOCKET', ''),
+        'charset' => env('DB_CHARSET', 'utf8mb4'),
+        'collation' => env('DB_COLLATION', 'utf8mb4_0900_ai_ci'),
         'prefix' => '',
+        'prefix_indexes' => true,
+        'strict' => true,
+        'engine' => null,
+        'options' => extension_loaded('pdo_mysql') ? array_filter([
+            PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+        ]) : [],
     ],
 
 Note that three keys have been added to the configuration array: `read`, `write` and `sticky`. The `read` and `write` keys have array values containing a single key: `host`. The rest of the database options for the `read` and `write` connections will be merged from the main `mysql` configuration array.
@@ -402,6 +412,20 @@ If you would like to include table row counts and database view details within t
 php artisan db:show --counts --views
 ```
 
+In addition, you may use the following `Schema` methods to inspect your database:
+
+    use Illuminate\Support\Facades\Schema;
+
+    $tables = Schema::getTables();
+    $views = Schema::getViews();
+    $columns = Schema::getColumns('users');
+    $indexes = Schema::getIndexes('users');
+    $foreignKeys = Schema::getForeignKeys('users');
+
+If you would like to inspect a database connection that is not your application's default connection, you may use the `connection` method:
+
+    $columns = Schema::connection('sqlite')->getColumns('users');
+
 <a name="table-overview"></a>
 #### Table Overview
 
@@ -422,7 +446,7 @@ To get started, you should schedule the `db:monitor` command to [run every minut
 php artisan db:monitor --databases=mysql,pgsql --max=100
 ```
 
-Scheduling this command alone is not enough to trigger a notification alerting you of the number of open connections. When the command encounters a database that has an open connection count that exceeds your threshold, a `DatabaseBusy` event will be dispatched. You should listen for this event within your application's `EventServiceProvider` in order to send a notification to you or your development team:
+Scheduling this command alone is not enough to trigger a notification alerting you of the number of open connections. When the command encounters a database that has an open connection count that exceeds your threshold, a `DatabaseBusy` event will be dispatched. You should listen for this event within your application's `AppServiceProvider` in order to send a notification to you or your development team:
 
 ```php
 use App\Notifications\DatabaseApproachingMaxConnections;
@@ -431,7 +455,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Notification;
 
 /**
- * Register any other events for your application.
+ * Bootstrap any application services.
  */
 public function boot(): void
 {

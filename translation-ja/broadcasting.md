@@ -50,6 +50,11 @@
 
 ブロードキャストの基本的なコンセプトは簡単で、クライアントはフロントエンドで指定したチャンネルへ接続し、Laravelアプリケーションはバックエンドでこれらのチャンネルに対し、イベントをブロードキャストします。こうしたイベントには、フロントエンドで利用する追加データを含められます。
 
+<a name="supported-drivers"></a>
+#### サポートしているドライバ
+
+Laravelはデフォルトで、３つのサーバサイド・ブロードキャストドライバを用意しています。[Laravel Reverb](https://reverb.laravel.com)、[Pusher Channels](https://pusher.com/channels)、[Ably](https://ably.com)です。
+
 > [!NOTE]
 > イベントブロードキャストに取り掛かる前に、[イベントとリスナ](/docs/{{version}}/events)に関するLaravelのドキュメントをしっかりと読んでください。
 
@@ -63,40 +68,57 @@ Laravelのイベントブロードキャストの使用を開始するには、L
 <a name="configuration"></a>
 ### 設定
 
-All of your application's event broadcasting configuration is stored in the `config/broadcasting.php` configuration file. Laravel supports several broadcast drivers out of the box: [Laravel Reverb](/docs/{{version}}/reverb), [Pusher Channels](https://pusher.com/channels), [Ably](https://ably.com), and a `log` driver for local development and debugging. Additionally, a `null` driver is included which allows you to totally disable broadcasting during testing. A configuration example is included for each of these drivers in the `config/broadcasting.php` configuration file.
+アプリケーションのすべてのイベントブロードキャスト設定は、`config/broadcasting.php`設定ファイルに保存してあります。Laravelはいくつかのブロードキャストドライバをあらかじめサポートしています。 [Laravel Reverb](/docs/{{version}}/reverb)、[Pusher Channels](https://pusher.com/channels)、[Ably](https://ably.com)、ローカル開発とデバッグ用の`log`ドライバです。さらに、テスト中にブロードキャストを完全に無効にできる、`null`ドライバも用意しています。これらの各ドライバの設定例は、`config/broadcasting.php`設定ファイルにあります。
 
 <a name="installation"></a>
-#### Installation
+#### インストール
 
-By default, broadcasting is not enabled in new Laravel applications. You may enable broadcasting using the `install:broadcasting` Artisan command:
+新しいLaravelアプリケーションでブロードキャストは、デフォルトで有効になっていません。ブロードキャストを有効にするには、`install:broadcasting` Artisanコマンドを使用します。
 
 ```shell
 php artisan install:broadcasting
 ```
 
-The `install:broadcasting` command will create a `routes/channels.php` file where you may register your application's broadcast authorization routes and callbacks.
+`install:broadcasting`コマンドを実行すると、`routes/channels.php`ファイルを作成し、アプリケーションのブロードキャスト認可ルートとコールバックを登録します。
 
 <a name="queue-configuration"></a>
 #### キュー設定
 
-Before broadcasting any events, you should first configure and run a [queue worker](/docs/{{version}}/queues). All event broadcasting is done via queued jobs so that the response time of your application is not seriously affected by events being broadcast.
+イベントをブロードキャストする前に、まず[キューワーカ](/docs/{{version}}/queues)を設定し、実行する必要があります。すべてのイベントブロードキャストはキュー投入するジョブを介して実行されるため、イベントをブロードキャストしても、アプリケーションのレスポンスタイムに深刻な影響を与えません。
 
 <a name="reverb"></a>
 ### Reverb
 
-When running the `install:broadcasting` command, you will be prompted to install [Laravel Reverb](/docs/{{version}}/reverb). Of course, you may also install Reverb manually using the Composer package manager. Since Reverb is currently in beta, you will need to explicitly install the beta release:
+`install:broadcasting`コマンドを実行すると、[Laravel Reverb](/docs/{{version}}/reverb)をインストールするよう促されます。もちろん、Composerパッケージマネージャを使い、手作業でReverbをインストールすることもできます。Reverbは現在ベータ版なため、明示的にベータリリースをインストールする必要があります。
 
 ```sh
 composer require laravel/reverb:@beta
 ```
 
-Once the package is installed, you may run Reverb's installation command to publish the configuration, add Reverb's required environment variables, and enable event broadcasting in your application:
+パッケージをインストールしたら、Reverbのインストールコマンドを実行して設定をリソース公開し、Reverbに必要な環境変数を追加して、アプリケーションでイベントブロードキャストを有効にします。
 
 ```sh
 php artisan reverb:install
 ```
 
-You can find detailed Reverb installation and usage instructions in the [Reverb documentation](/docs/{{version}}/reverb).
+Reverbのインストールと使い方の詳しい説明は、[Reverbのドキュメント](/docs/{{version}}/reverb)にあります。
+
+<a name="reverb"></a>
+### Reverb
+
+Reverbは、Composerパッケージマネージャーを使いインストールできます。Reverbは現在ベータ版なので、明示的にベータ版をインストールする必要があります。
+
+```sh
+composer require laravel/reverb:@beta
+```
+
+パッケージをインストールしたら、Reverbのインストールコマンドを実行して、設定をリソース公開し、アプリケーションのブロードキャスト設定を更新し、Reverbの必要な環境変数を追加してください。
+
+```sh
+php artisan reverb:install
+```
+
+Reverbのインストールと使い方の詳しい説明は、[Reverbのドキュメント](/docs/{{version}}/reverb)にあります。
 
 <a name="pusher-channels"></a>
 ### Pusherチャンネル
@@ -107,7 +129,7 @@ You can find detailed Reverb installation and usage instructions in the [Reverb 
 composer require pusher/pusher-php-server
 ```
 
-Next, you should configure your Pusher Channels credentials in the `config/broadcasting.php` configuration file. An example Pusher Channels configuration is already included in this file, allowing you to quickly specify your key, secret, and application ID. Typically, you should configure your Pusher Channels credentials in your application's `.env` file:
+次に、`config/broadcasting.php`設定ファイルで、Pusher Channelsの認証情報を設定します。このファイルはPusher Channelsの設定例をあらかじめ含んでおり、キー、シークレット、アプリケーションIDを素早く指定できます。通常、Pusher Channelsの認証情報はアプリケーションの`.env`ファイルで設定します：
 
 ```ini
 PUSHER_APP_ID="your-pusher-app-id"
@@ -121,7 +143,7 @@ PUSHER_APP_CLUSTER="mt1"
 
 `config/broadcasting.php`ファイルの`pusher`設定では、クラスターなどチャンネルでサポートされている追加の`options`を指定することもできます。
 
-Then, set the `BROADCAST_CONNECTION` environment variable to `pusher` in your application's `.env` file:
+次に、アプリケーションの`.env`ファイルで`BROADCAST_CONNECTION`環境変数を`pusher`に設定します。
 
 ```ini
 BROADCAST_CONNECTION=pusher
@@ -147,7 +169,7 @@ composer require ably/ably-php
 ABLY_KEY=your-ably-key
 ```
 
-Then, set the `BROADCAST_CONNECTION` environment variable to `ably` in your application's `.env` file:
+次に、アプリケーションの`.env`ファイルで `BROADCAST_CONNECTION`環境変数を`ably`に設定します。
 
 ```ini
 BROADCAST_CONNECTION=ably
@@ -161,15 +183,13 @@ BROADCAST_CONNECTION=ably
 <a name="client-reverb"></a>
 ### Reverb
 
-[Laravel Echo](https://github.com/laravel/echo) is a JavaScript library that makes it painless to subscribe to channels and listen for events broadcast by your server-side broadcasting driver. Echo also leverages the `pusher-js` NPM package to implement the Pusher protocol for WebSocket subscriptions, channels, and messages.
-
-The `install:broadcasting` Artisan command automatically installs the `laravel-echo` and `pusher-js` packages for you; however, you may also install these packages manually via NPM:
+[Laravel Echo](https://github.com/laravel/echo)は、サーバサイドのブロードキャストドライバによりブロードキャストされるチャンネルやイベントを簡単にサブスクライブできるJavaScriptライブラリです。EchoはNPMパッケージマネージャでインストールできます。以下の紹介例では、ReverbがWebSocketサブスクリプション、チャンネル、メッセージにPusherプロトコルを利用しているため、`pusher-js`パッケージもインストールします。
 
 ```shell
 npm install --save-dev laravel-echo pusher-js
 ```
 
-Once `laravel-echo` and `pusher-js` are installed, you are ready to create a fresh Echo instance in your application's JavaScript. The `install:broadcasting` Artisan command creates a `resources/js/echo.js` file that handles this for you:
+Echoをインストールしたら、アプリケーションのJavaScriptで新しいEchoインスタンスを生成します。これを行うのに最適な場所は、Laravelフレームワークに用意してある、`resources/js/bootstrap.js`ファイルの一番下です。デフォルトでは、Echoの設定例をあらかじめこのファイルに用意してあります。コメントを解除し、`broadcaster`設定オプションを`reverb`に更新するだけです。
 
 ```js
 import Echo from 'laravel-echo';
@@ -188,7 +208,46 @@ window.Echo = new Echo({
 });
 ```
 
-Next, you only need to compile your application's assets:
+次に、アプリケーションのアセットをコンパイルします。
+
+```shell
+npm run build
+```
+
+> [!WARNING]
+> Laravel Echoの`reverb`ブロードキャスターには、laravel-echo v1.16.0以上が必要です。
+
+<a name="client-pusher-channels"></a>
+### Pusherチャンネル
+
+[Laravel Echo](https://github.com/laravel/echo)は、サーバサイドのブロードキャストドライバにより、ブロードキャストされるチャンネルやイベントを簡単にサブスクライブできるJavaScriptライブラリです。また、Echoは`pusher-js` NPMパッケージを利用して、WebSocketサブスクリプション、チャンネル、メッセージ用のPusherプロトコルを実装しています。
+
+`install:broadcasting` Artisanコマンドは、自動的に`laravel-echo`と`pusher-js`パッケージをインストールしますが、NPMを使用し手作業で行うこともできます。
+
+```shell
+npm install --save-dev laravel-echo pusher-js
+```
+
+`laravel-echo`と`pusher-js`をインストールしたら、アプリケーションのJavaScriptで、新しいEchoインスタンスを生成する準備が整いました。`install:broadcasting`のArtisanコマンドは、これを扱う`resources/js/echo.js`ファイルを作成します。
+
+```js
+import Echo from 'laravel-echo';
+
+import Pusher from 'pusher-js';
+window.Pusher = Pusher;
+
+window.Echo = new Echo({
+    broadcaster: 'reverb',
+    key: import.meta.env.VITE_REVERB_APP_KEY,
+    wsHost: import.meta.env.VITE_REVERB_HOST,
+    wsPort: import.meta.env.VITE_REVERB_PORT,
+    wssPort: import.meta.env.VITE_REVERB_PORT,
+    forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'https') === 'https',
+    enabledTransports: ['ws', 'wss'],
+});
+```
+
+次に必要なことは、アプリケーションのアセットをコンパイルすることだけです。
 
 ```shell
 npm run build
@@ -200,15 +259,15 @@ npm run build
 <a name="client-pusher-channels"></a>
 ### Pusherチャンネル
 
-[Laravel Echo](https://github.com/laravel/echo) is a JavaScript library that makes it painless to subscribe to channels and listen for events broadcast by your server-side broadcasting driver. Echo also leverages the `pusher-js` NPM package to implement the Pusher protocol for WebSocket subscriptions, channels, and messages.
+[Laravel Echo](https://github.com/laravel/echo)は、サーバサイドのブロードキャストドライバにより、ブロードキャストされるチャンネルやイベントを簡単にサブスクライブできるJavaScriptライブラリです。また、Echoは`pusher-js` NPMパッケージを利用して、WebSocketサブスクリプション、チャンネル、メッセージ用のPusherプロトコルを実装しています。
 
-The `install:broadcasting` Artisan command automatically installs the `laravel-echo` and `pusher-js` packages for you; however, you may also install these packages manually via NPM:
+`install:broadcasting` Artisanのコマンドは、自動的に`laravel-echo`と`pusher-js`パッケージをインストールしますが、NPMを使用し手作業でインストールすることもできます。
 
 ```shell
 npm install --save-dev laravel-echo pusher-js
 ```
 
-Once Echo is installed, you are ready to create a fresh Echo instance in your application's JavaScript. The `install:broadcasting` command creates an Echo configuration file at `resources/js/echo.js`; however, the default configuration in this file is intended for Laravel Reverb. You may copy the configuration below to transition your configuration to Pusher:
+Echoをインストールしたら、アプリケーションのJavaScriptで新しいEchoインスタンスを生成する準備が整いました。`install:broadcasting`コマンドは`resources/js/echo.js`へ、Echoの設定ファイルを作成しますが、このファイルのデフォルト設定はLaravel Reverb用のものです。以下の設定をコピーしてPusher用へ移行できます。
 
 ```js
 import Echo from 'laravel-echo';
@@ -224,7 +283,7 @@ window.Echo = new Echo({
 });
 ```
 
-Next, you should define the appropriate values for the Pusher environment variables in your application's `.env` file. If these variables do not already exist in your `.env` file, you should add them:
+次に、アプリケーションの`.env`ファイルで、Pusherの環境変数に適切な値を定義します。これらの変数が、`.env`ファイルに存在していない場合は、追加してください。
 
 ```ini
 PUSHER_APP_ID="your-pusher-app-id"
@@ -243,7 +302,7 @@ VITE_PUSHER_SCHEME="${PUSHER_SCHEME}"
 VITE_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
 ```
 
-Once you have adjusted the Echo configuration according to your application's needs, you may compile your application's assets:
+アプリケーションのニーズに応じてEchoの設定を調整したら、アプリケーションのアセットをコンパイルしてください。
 
 ```shell
 npm run build
@@ -278,9 +337,9 @@ window.Echo = new Echo({
 > [!NOTE]
 > 以下のドキュメントでは、Ablyを「Pusher互換」モードで使用する方法について説明していきます。しかし、Ablyチームは、Ablyが提供するユニークな機能を活用できるブロードキャスターとEchoクライアントを推奨し、保守しています。Ablyが保守するドライバの使用に関する詳細については、[AblyのLaravelブロードキャスターのドキュメントを参照](https://github.com/ably/laravel-broadcaster)してください。
 
-[Laravel Echo](https://github.com/laravel/echo) is a JavaScript library that makes it painless to subscribe to channels and listen for events broadcast by your server-side broadcasting driver. Echo also leverages the `pusher-js` NPM package to implement the Pusher protocol for WebSocket subscriptions, channels, and messages.
+[Laravel Echo](https://github.com/laravel/echo)は、サーバサイドのブロードキャストドライバによりブロードキャストされるチャンネルやイベントを簡単に購読できるJavaScriptライブラリです。また、Echoは `pusher-js` NPMパッケージを利用して、WebSocketサブスクリプション、チャンネル、メッセージ用のPusherプロトコルを実装しています。
 
-The `install:broadcasting` Artisan command automatically installs the `laravel-echo` and `pusher-js` packages for you; however, you may also install these packages manually via NPM:
+`install:broadcasting` Artisanのコマンドは、自動的に`laravel-echo`と`pusher-js`パッケージをインストールしますが、NPMを使用し手作業でインストールすることもできます。
 
 ```shell
 npm install --save-dev laravel-echo pusher-js
@@ -288,7 +347,7 @@ npm install --save-dev laravel-echo pusher-js
 
 **続行する前に、Ablyアプリケーション設定でPusherプロトコルサポートを有効にする必要があります。この機能は、Ablyアプリケーションの設定ダッシュボードの「プロトコルアダプター設定」部分で有効にできます。**
 
-Once Echo is installed, you are ready to create a fresh Echo instance in your application's JavaScript. The `install:broadcasting` command creates an Echo configuration file at `resources/js/echo.js`; however, the default configuration in this file is intended for Laravel Reverb. You may copy the configuration below to transition your configuration to Ably:
+Echoをインストールしたら、アプリケーションのJavaScriptで新しいEchoインスタンスを生成する準備が整いました。`install:broadcasting`コマンドは`resources/js/echo.js`へEchoの設定ファイルを作成しますが、このファイルのデフォルト設定はLaravel Reverb用のものです。以下の設定をコピーして、設定をAbly用へ移行できます。
 
 ```js
 import Echo from 'laravel-echo';
@@ -306,9 +365,9 @@ window.Echo = new Echo({
 });
 ```
 
-You may have noticed our Ably Echo configuration references a `VITE_ABLY_PUBLIC_KEY` environment variable. This variable's value should be your Ably public key. Your public key is the portion of your Ably key that occurs before the `:` character.
+Ably Echoの設定が、`VITE_ABLY_PUBLIC_KEY`環境変数を参照していることにお気づきかもしれません。この変数の値は、あなたのAbly公開鍵でなければなりません。あなたの公開鍵は、Ably鍵の`:`文字の前にある部分です。
 
-Once you have adjusted the Echo configuration according to your needs, you may compile your application's assets:
+ニーズに合わせ、Echoの設定を調整したら、アプリケーションのアセットをコンパイルしてください。
 
 ```shell
 npm run dev
@@ -374,7 +433,7 @@ Laravelのイベントブロードキャストを使用すると、WebSocketに�
         return new PrivateChannel('orders.'.$this->order->id);
     }
 
-If you wish the event to broadcast on multiple channels, you may return an `array` instead:
+イベントを複数のチャンネルでブロードキャストしたい場合は、代わりに`array`を返してください。
 
     use Illuminate\Broadcasting\PrivateChannel;
 
@@ -589,14 +648,14 @@ Echo.private(`orders.${orderId}`)
 <a name="authorizing-channels"></a>
 ## チャンネルの認可
 
-Private channels require you to authorize that the currently authenticated user can actually listen on the channel. This is accomplished by making an HTTP request to your Laravel application with the channel name and allowing your application to determine if the user can listen on that channel. When using [Laravel Echo](#client-side-installation), the HTTP request to authorize subscriptions to private channels will be made automatically.
+プライベートチャンネルでは、現在認証済みのユーザーが、実際にチャンネルをリッスンできることを認証する必要があります。これは、チャンネル名を指定してLaravelアプリケーションにHTTPリクエストを行い、ユーザーがそのチャンネルをリッスンできるかどうかをアプリケーション側が判断することで実現します。[Laravel Echo](#client-side-installation)を使用すると、プライベートチャンネルのサブスクリプションを承認するHTTPリクエストが自動的に行われます。
 
-When broadcasting is enabled, Laravel automatically registers the `/broadcasting/auth` route to handle authorization requests. The `/broadcasting/auth` route is automatically placed within the `web` middleware group.
+ブロードキャストを有効になると、Laravelは認証リクエストを処理するため、`/broadcasting/auth`ルートを自動的に登録します。`/broadcasting/auth`ルートは自動的に、`web`ミドルウェアグループへ配置します
 
 <a name="defining-authorization-callbacks"></a>
 ### 認可コールバックの定義
 
-Next, we need to define the logic that will actually determine if the currently authenticated user can listen to a given channel. This is done in the `routes/channels.php` file that was created by the `install:broadcasting` Artisan command. In this file, you may use the `Broadcast::channel` method to register channel authorization callbacks:
+次に、現在認証済みのユーザーが、指定チャンネルを視聴できるかどうかを実際に判断するロジックを定義する必要があります。これは、`install:broadcasting` Artisanコマンドで作成した`routes/channels.php`ファイルで行います。このファイルで`Broadcast::channel`メソッドを使用して、チャンネル認証コールバックを登録してください。
 
     use App\Models\User;
 
@@ -1140,4 +1199,4 @@ Echo.private(`App.Models.User.${userId}`)
     });
 ```
 
-In this example, all notifications sent to `App\Models\User` instances via the `broadcast` channel would be received by the callback. A channel authorization callback for the `App.Models.User.{id}` channel is included in your application's `routes/channels.php` file.
+この例では`broadcast`チャネル経由で`App\Models\User`インスタンスへ送信されたすべての通知をコールバックが受信しています。`App.Models.User.{id}`チャネルのチャネル認可コールバックは、アプリケーションの`routes/channels.php`ファイルに含まれます。

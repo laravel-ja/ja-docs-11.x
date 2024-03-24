@@ -30,7 +30,7 @@ Laravelのログは「チャンネル」に基づいています。各チャン�
 <a name="configuration"></a>
 ## 設定
 
-All of the configuration options that control your application's logging behavior are housed in the `config/logging.php` configuration file. This file allows you to configure your application's log channels, so be sure to review each of the available channels and their options. We'll review a few common options below.
+アプリケーションのログ動作を制御する、すべての設定オプションは、`config/logging.php`設定ファイルに格納しています。このファイルでアプリケーションのログチャンネルを設定でき、利用可能なチャンネルとそのオプションのそれぞれを確認してください。以下に、いくつかの一般的なオプションについて説明します。
 
 Laravelはメッセージをログに記録するときに、デフォルトで`stack`チャンネルを使用します。`stack`チャンネルは、複数のログチャンネルを単一のチャンネルに集約するために使用します。スタックの構築の詳細については、[以降のドキュメント](#building-log-stacks)を確認してください。
 
@@ -61,7 +61,7 @@ Laravelはメッセージをログに記録するときに、デフォルトで`
 <a name="configuring-the-channel-name"></a>
 #### チャンネル名の設定
 
-By default, Monolog is instantiated with a "channel name" that matches the current environment, such as `production` or `local`. To change this value, you may add a `name` option to your channel's configuration:
+Monologはデフォルトで、現在の環境にマッチする「チャンネル名」でインスタンス化します。この値を変更する場合は、チャネルの設定に`name`オプションを追加します。
 
     'stack' => [
         'driver' => 'stack',
@@ -87,7 +87,7 @@ By default, Monolog is instantiated with a "channel name" that matches the curre
 
 </div>
 
-Additionally, the retention policy for the `daily` channel can be configured via the `LOG_DAILY_DAYS` environment variable or by setting the `days` configuration option.
+さらに、`LOG_DAILY_DAYS`環境変数、または`days`設定オプションを設定することで、`daily`チャンネルの保持ポリシーを設定できます。
 
 <div class="overflow-auto">
 
@@ -100,19 +100,19 @@ Additionally, the retention policy for the `daily` channel can be configured via
 <a name="configuring-the-papertrail-channel"></a>
 #### Papertrailチャンネルの設定
 
-The `papertrail` channel requires `host` and `port` configuration options. These may be defined via the `LOG_PAPERTRAIL_URL` and `LOG_PAPERTRAIL_PORT` environment variables. You can obtain these values from [Papertrail](https://help.papertrailapp.com/kb/configuration/configuring-centralized-logging-from-php-apps/#send-events-from-php-app).
+`papertrail`チャネルは、`host`と`port`の設定オプションが必要です。これらは`LOG_PAPERTRAIL_URL`と`LOG_PAPERTRAIL_PORT`環境変数で定義できます。これらの値は[Papertrail](https://help.papertrailapp.com/kb/configuration/configuring-centralized-logging-from-php-apps/#send-events-from-php-app)から取得できます。
 
 <a name="configuring-the-slack-channel"></a>
 #### Slackチャンネルの設定
 
-The `slack` channel requires a `url` configuration option. This value may be defined via the `LOG_SLACK_WEBHOOK_URL` environment variable. This URL should match a URL for an [incoming webhook](https://slack.com/apps/A0F7XDUAZ-incoming-webhooks) that you have configured for your Slack team.
+`slack`チャネルには、`url`設定オプションが必要です。この値は`LOG_SLACK_WEBHOOK_URL`環境変数で定義します。このURLは、Slackチーム用に設定した[受信Webフック](https://slack.com/apps/A0F7XDUAZ-incoming-webhooks)のURLと一致する必要があります。
 
-By default, Slack will only receive logs at the `critical` level and above; however, you can adjust this using the `LOG_LEVEL` environment variable or by modifying the `level` configuration option within your Slack log channel's configuration array.
+Slackはデフォルトで、`critical`レベル以上のログしか受け取りません。しかし`LOG_LEVEL`環境変数を使うか、Slackのログチャンネルの設定配列内の`level`設定オプションを変更することで調整できます。
 
 <a name="logging-deprecation-warnings"></a>
 ### 廃止ワーニングのログ
 
-PHP, Laravel, and other libraries often notify their users that some of their features have been deprecated and will be removed in a future version. If you would like to log these deprecation warnings, you may specify your preferred `deprecations` log channel using the `LOG_DEPRECATIONS_CHANNEL` environment variable, or within your application's `config/logging.php` configuration file:
+PHPやLaravelなどのライブラリは、機能の一部が非推奨となり、将来のバージョンで削除されることをユーザーへ通知することがよくあります。このような非推奨の警告をログに記録したい場合は、`LOG_DEPRECATIONS_CHANNEL`環境変数を使用するか、アプリケーションの`config/logging.php`設定ファイル内で、好みの`deprecations`ログチャンネルを指定してください。
 
     'deprecations' => [
         'channel' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),

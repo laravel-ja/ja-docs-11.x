@@ -1,11 +1,11 @@
 # イベント
 
 - [イントロダクション](#introduction)
-- [Generating Events and Listeners](#generating-events-and-listeners)
+- [イベントとリスナの生成](#generating-events-and-listeners)
 - [イベントとリスナの登録](#registering-events-and-listeners)
-    - [イベントディスカバリー](#event-discovery)
+    - [イベント追跡](#event-discovery)
     - [イベントの手作業登録](#manually-registering-events)
-    - [Closure Listeners](#closure-listeners)
+    - [クロージャリスナ](#closure-listeners)
 - [イベント定義](#defining-events)
 - [リスナ定義](#defining-listeners)
 - [キュー投入するイベントリスナ](#queued-event-listeners)
@@ -29,9 +29,9 @@ Laravelのイベントは、単純なオブザーバーパターンの実装を�
 １つのイベントに、相互に依存しない複数のリスナを含めることができるため、イベントは、アプリケーションのさまざまな側面を分離するための優れた方法として機能します。たとえば、注文が発送されるたびにユーザーにSlack通知を送信したい場合があります。注文処理コードをSlack通知コードに結合する代わりに、リスナが受信してSlack通知をディスパッチするために使用できる`App\Events\OrderShipped`イベントを発生させることができます。
 
 <a name="generating-events-and-listeners"></a>
-## Generating Events and Listeners
+## イベントとリスナの生成
 
-To quickly generate events and listeners, you may use the `make:event` and `make:listener` Artisan commands:
+イベントとリスナーを素早く生成するには、`make:event`と`make:listener`のArtisanコマンドを使います。
 
 ```shell
 php artisan make:event PodcastProcessed
@@ -39,7 +39,7 @@ php artisan make:event PodcastProcessed
 php artisan make:listener SendPodcastNotification --event=PodcastProcessed
 ```
 
-For convenience, you may also invoke the `make:event` and `make:listener` Artisan commands without additional arguments. When you do so, Laravel will automatically prompt you for the class name and, when creating a listener, the event it should listen to:
+使いやすいように、引数を指定せずに`make:event`と`make:listener` Artisanコマンドを呼び出すこともできます。その場合、Laravelは自動的にクラス名、リスナーを作成する場合はクラス名と、そのリスナーがリッスンするイベントのクラス名を求めるプロンプトを表示します。
 
 ```shell
 php artisan make:event
@@ -48,12 +48,12 @@ php artisan make:listener
 ```
 
 <a name="registering-events-and-listeners"></a>
-## Registering Events and Listeners
+## イベントとリスナの登録
 
 <a name="event-discovery"></a>
-### イベントディスカバリー
+### イベント追跡
 
-By default, Laravel will automatically find and register your event listeners by scanning your application's `Listeners` directory. When Laravel finds any listener class method that begins with `handle` or `__invoke`, Laravel will register those methods as event listeners for the event that is type-hinted in the method's signature:
+Laravelはデフォルトで、アプリケーションの`Listeners`ディレクトリをスキャンして、イベントリスナを自動的に見つけて登録します。`handle`または`__invoke`で始まるリスナークラスのメソッドが見つかると、Laravelはそれらのメソッドを、メソッドのシグネチャでタイプヒントしてあるイベントのイベントリスナとして登録します。
 
     use App\Events\PodcastProcessed;
 
@@ -68,34 +68,34 @@ By default, Laravel will automatically find and register your event listeners by
         }
     }
 
-If you plan to store your listeners in a different directory or within multiple directories, you may instruct Laravel to scan those directories using the `withEvents` method in your application's `bootstrap/app.php` file:
+リスナーを別のディレクトリや複数のディレクトリへ保存する場合は、アプリケーションの`bootstrap/app.php`ファイルで`withEvents`メソッドを使用し、それらのディレクトリをスキャンするようにLaravelに指示してください。
 
     ->withEvents(discover: [
         __DIR__.'/../app/Domain/Listeners',
     ])
 
-The `event:list` command may be used to list all of the listeners registered within your application:
+`event:list`コマンドは、アプリケーションに登録したすべてのリスナーをリストアップするために使用します。
 
 ```shell
 php artisan event:list
 ```
 
 <a name="event-discovery-in-production"></a>
-#### Event Discovery in Production
+#### 実機でのイベント追跡
 
-To give your application a speed boost, you should cache a manifest of all of your application's listeners using the `optimize` or `event:cache` Artisan commands. Typically, this command should be run as part of your application's [deployment process](/docs/{{version}}/deployment#optimization). This manifest will be used by the framework to speed up the event registration process. The `event:clear` command may be used to destroy the event cache.
+アプリケーションを高速化するために、`optimize`または`event:cache` Artisanコマンドを使用して、アプリケーションのすべてのリスナのマニフェストをキャッシュする必要があります。通常、このコマンドはアプリケーションの[デプロイプロセス](/docs/{{version}}/deployment#optimization)の一部として実行する必要があります。このマニフェストは、イベント登録処理を高速化するためにフレームワークが使用します。イベントキャッシュを破棄するには、`event:clear`コマンドを使用します。
 
 <a name="manually-registering-events"></a>
 ### イベントの手作業登録
 
-Using the `Event` facade, you may manually register events and their corresponding listeners within the `boot` method of your application's `AppServiceProvider`:
+`Event`ファサードを使用すると、アプリケーションの`AppServiceProvider`の`boot`メソッド内で、イベントとそれに対応するリスナを手作業で登録できます。
 
     use App\Domain\Orders\Events\PodcastProcessed;
     use App\Domain\Orders\Listeners\SendPodcastNotification;
     use Illuminate\Support\Facades\Event;
 
     /**
-     * Bootstrap any application services.
+     * アプリケーションの全サービスの初期起動処理
      */
     public function boot(): void
     {
@@ -105,22 +105,22 @@ Using the `Event` facade, you may manually register events and their correspondi
         );
     }
 
-The `event:list` command may be used to list all of the listeners registered within your application:
+`event:list`コマンドは、アプリケーションに登録しているすべてのリスナーをリストアップするために使用します。
 
 ```shell
 php artisan event:list
 ```
 
 <a name="closure-listeners"></a>
-### Closure Listeners
+### クロージャリスナ
 
-Typically, listeners are defined as classes; however, you may also manually register closure-based event listeners in the `boot` method of your application's `AppServiceProvider`:
+通常、リスナはクラスとして定義しますが、アプリケーションの`AppServiceProvider`の`boot`メソッドで、手作業でクロージャベースのイベントリスナを登録することもできます。
 
     use App\Events\PodcastProcessed;
     use Illuminate\Support\Facades\Event;
 
     /**
-     * Bootstrap any application services.
+     * アプリケーションの全サービスの初期起動処理
      */
     public function boot(): void
     {
@@ -132,14 +132,14 @@ Typically, listeners are defined as classes; however, you may also manually regi
 <a name="queuable-anonymous-event-listeners"></a>
 #### Queueable匿名イベントリスナ
 
-When registering closure based event listeners, you may wrap the listener closure within the `Illuminate\Events\queueable` function to instruct Laravel to execute the listener using the [queue](/docs/{{version}}/queues):
+クロージャベースのイベントリスナを登録するとき、リスナのクロージャを`Illuminate\Events\queueable`関数でラップして、[キュー](/docs/{{version}}/queues)を使用してリスナを実行するように、Laravelへ指示できます。
 
     use App\Events\PodcastProcessed;
     use function Illuminate\Events\queueable;
     use Illuminate\Support\Facades\Event;
 
     /**
-     * Bootstrap any application services.
+     * アプリケーションの全サービスの初期起動処理
      */
     public function boot(): void
     {
@@ -170,7 +170,7 @@ When registering closure based event listeners, you may wrap the listener closur
 <a name="wildcard-event-listeners"></a>
 #### ワイルドカードイベントリスナ
 
-You may also register listeners using the `*` character as a wildcard parameter, allowing you to catch multiple events on the same listener. Wildcard listeners receive the event name as their first argument and the entire event data array as their second argument:
+ワイルドカードパラメータとして、`*`文字を使用してリスナを登録することもでき、同じリスナで複数のイベントをキャッチできます。ワイルドカードリスナは、最初の引数にイベント名を受け取り、２番目の引数にイベントデータ配列全体を受け取ります。
 
     Event::listen('event.*', function (string $eventName, array $data) {
         // ...
@@ -207,7 +207,7 @@ You may also register listeners using the `*` character as a wildcard parameter,
 <a name="defining-listeners"></a>
 ## リスナ定義
 
-Next, let's take a look at the listener for our example event. Event listeners receive event instances in their `handle` method. The `make:listener` Artisan command, when invoked with the `--event` option, will automatically import the proper event class and type-hint the event in the `handle` method. Within the `handle` method, you may perform any actions necessary to respond to the event:
+次に、例題のイベントのリスナを見てみましょう。イベントリスナは`handle`メソッドで、イベントインスタンスを受け取ります。`make:listener` Artisanコマンドは、`--event`オプションを指定して呼び出すと、自動的に適切なイベントクラスをインポートし、`handle`メソッド内でイベントをタイプヒントします。`handle`メソッド内では、イベントに応答するために必要なアクションを実行できます。
 
     <?php
 
@@ -247,7 +247,7 @@ Next, let's take a look at the listener for our example event. Event listeners r
 
 リスナをキューに投入することは、リスナが電子メールの送信やHTTPリクエストの作成などの遅いタスクを実行する場合に役立ちます。キューに入れられたリスナを使用する前に、必ず[キューを設定](/docs/{{version}}/queues)して、サーバまたはローカル開発環境でキューワーカを起動してください。
 
-To specify that a listener should be queued, add the `ShouldQueue` interface to the listener class. Listeners generated by the `make:listener` Artisan commands already have this interface imported into the current namespace so you can use it immediately:
+リスナをキュー投入するように指定するには、リスナクラスへ`ShouldQueue`インターフェイスを追加します。`make:listener` Artisanコマンドが生成したリスナは、あらかじめこのインターフェイスを現在の名前空間へインポートしているので、すぐに使用できます。
 
     <?php
 
@@ -635,7 +635,7 @@ To specify that a listener should be queued, add the `ShouldQueue` interface to 
 <a name="registering-event-subscribers"></a>
 ### イベントサブスクライバの登録
 
-After writing the subscriber, you are ready to register it with the event dispatcher. You may register subscribers using the `subscribe` method of the `Event` facade. Typically, this should be done within the `boot` method of your application's `AppServiceProvider`:
+サブスクライバを書き終えたら、イベントディスパッチャで登録します。サブスクライバを登録するには、`Event`ファサードの`subscribe`メソッドを使用します。通常、これはアプリケーションの`AppServiceProvider`の`boot`メソッド内で行います。
 
     <?php
 
@@ -648,7 +648,7 @@ After writing the subscriber, you are ready to register it with the event dispat
     class AppServiceProvider extends ServiceProvider
     {
         /**
-         * Bootstrap any application services.
+         * アプリケーションの全サービスの初期起動処理
          */
         public function boot(): void
         {
@@ -673,18 +673,18 @@ use Illuminate\Support\Facades\Event;
 test('orders can be shipped', function () {
     Event::fake();
 
-    // Perform order shipping...
+    // 注文の発送処理…
 
-    // Assert that an event was dispatched...
+    // 一つのイベントをディスパッチするのをアサート
     Event::assertDispatched(OrderShipped::class);
 
-    // Assert an event was dispatched twice...
+    // 一つのイベントを２回ディスパッチするのをアサート
     Event::assertDispatched(OrderShipped::class, 2);
 
-    // Assert an event was not dispatched...
+    // あるイベントをディスパッチしないことをアサート
     Event::assertNotDispatched(OrderFailedToShip::class);
 
-    // Assert that no events were dispatched...
+    // イベントを全くディスパッチしないことをアサート
     Event::assertNothingDispatched();
 });
 ```
@@ -702,24 +702,24 @@ use Tests\TestCase;
 class ExampleTest extends TestCase
 {
     /**
-     * Test order shipping.
+     * 注文発送のテスト
      */
     public function test_orders_can_be_shipped(): void
     {
         Event::fake();
 
-        // Perform order shipping...
+        // 注文の発送処理…
 
-        // Assert that an event was dispatched...
+        // 一つのイベントをディスパッチするのをアサート
         Event::assertDispatched(OrderShipped::class);
 
-        // Assert an event was dispatched twice...
+        // 一つのイベントを２回ディスパッチするのをアサート
         Event::assertDispatched(OrderShipped::class, 2);
 
-        // Assert an event was not dispatched...
+        // あるイベントをディスパッチしないことをアサート
         Event::assertNotDispatched(OrderFailedToShip::class);
 
-        // Assert that no events were dispatched...
+        // イベントを全くディスパッチしないことをアサート
         Event::assertNothingDispatched();
     }
 }
@@ -756,14 +756,14 @@ test('orders can be processed', function () {
 
     Event::assertDispatched(OrderCreated::class);
 
-    // Other events are dispatched as normal...
+    // 他のイベントは普段通りディスパッチする
     $order->update([...]);
 });
 ```
 
 ```php tab=PHPUnit
 /**
- * Test order process.
+ * 注文発送のテスト
  */
 public function test_orders_can_be_processed(): void
 {
@@ -775,7 +775,7 @@ public function test_orders_can_be_processed(): void
 
     Event::assertDispatched(OrderCreated::class);
 
-    // Other events are dispatched as normal...
+    // 他のイベントは普段通りディスパッチする
     $order->update([...]);
 }
 ```
@@ -807,7 +807,7 @@ test('orders can be processed', function () {
         return $order;
     });
 
-    // Events are dispatched as normal and observers will run ...
+    // イベントを通常通りディスパッチし、オブザーバが実行される
     $order->update([...]);
 });
 ```
@@ -837,8 +837,8 @@ class ExampleTest extends TestCase
             return $order;
         });
 
-        // Events are dispatched as normal and observers will run ...
-        $order->update([...]);
+        // イベントを通常通りディスパッチし、オブザーバが実行される
+        $order->update([...])
     }
 }
 ```

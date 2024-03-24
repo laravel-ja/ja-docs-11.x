@@ -500,12 +500,12 @@ The `Str::inlineMarkdown` method converts GitHub flavored Markdown into inline H
 By default, Markdown supports raw HTML, which will expose Cross-Site Scripting (XSS) vulnerabilities when used with raw user input. As per the [CommonMark Security documentation](https://commonmark.thephpleague.com/security/), you may use the `html_input` option to either escape or strip raw HTML, and the `allow_unsafe_links` option to specify whether to allow unsafe links. If you need to allow some raw HTML, you should pass your compiled Markdown through an HTML Purifier:
 
     use Illuminate\Support\Str;
-
+    
     Str::inlineMarkdown('Inject: <script>alert("Hello XSS!");</script>', [
         'html_input' => 'strip',
         'allow_unsafe_links' => false,
     ]);
-
+    
     // Inject: alert(&quot;Hello XSS!&quot;);
 
 <a name="method-str-is"></a>
@@ -910,11 +910,11 @@ The `Str::replace` method replaces a given string within the string:
 
     use Illuminate\Support\Str;
 
-    $string = 'Laravel 8.x';
+    $string = 'Laravel 10.x';
 
-    $replaced = Str::replace('8.x', '9.x', $string);
+    $replaced = Str::replace('10.x', '11.x', $string);
 
-    // Laravel 9.x
+    // Laravel 11.x
 
 The `replace` method also accepts a `caseSensitive` argument. By default, the `replace` method is case sensitive:
 
@@ -1248,7 +1248,7 @@ The `Str::ulid` method generates a ULID, which is a compact, time-ordered unique
     use Illuminate\Support\Str;
 
     return (string) Str::ulid();
-
+    
     // 01gd6r360bp37zj17nxb55yv40
 
 If you would like to retrieve a `Illuminate\Support\Carbon` date instance representing the date and time that a given ULID was created, you may use the `createFromId` method provided by Laravel's Carbon integration:

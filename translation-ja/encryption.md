@@ -2,7 +2,7 @@
 
 - [イントロダクション](#introduction)
 - [設定](#configuration)
-    - [Gracefully Rotating Encryption Keys](#gracefully-rotating-encryption-keys)
+    - [優しい暗号化キーのローテーション](#gracefully-rotating-encryption-keys)
 - [エンクリプタの使用](#using-the-encrypter)
 
 <a name="introduction"></a>
@@ -16,20 +16,20 @@ Laravelの暗号化サービスは、AES-256およびAES-128暗号化を使用�
 Laravelの暗号化を使用する前に、`config/app.php`設定ファイルで`key`設定オプションを設定する必要があります。この設定値は、`APP_KEY`環境変数が反映されます。`php artisan key:generate`コマンドを使用してこの変数の値を生成する必要があります。これは、`key:generate`コマンドがPHPの安全なランダムバイトジェネレーターを使用して、アプリケーションの暗号的に安全なキーを構築するためです。通常、`APP_KEY`環境変数の値は、[Laravelのインストール](/docs/{{version}}/installation)中に生成されます。
 
 <a name="gracefully-rotating-encryption-keys"></a>
-### Gracefully Rotating Encryption Keys
+### 優しい暗号化キーのローテーション
 
-If you change your application's encryption key, all authenticated user sessions will be logged out of your application. This is because every cookie, including session cookies, are encrypted by Laravel. In addition, it will no longer be possible to decrypt any data that was encrypted with your previous encryption key.
+アプリケーションの暗号化キーを変更すると、認証済みユーザーセッションをアプリケーションから全てログアウトします。これは、セッションクッキーを含む全てのクッキーがLaravelによって暗号化されているためです。さらに、以前の暗号化キーで暗号化されたデータを復号することもできなくなります。
 
-To mitigate this issue, Laravel allows you to list your previous encryption keys in your application's `APP_PREVIOUS_KEYS` environment variable. This variable may contain a comma-delimited list of all of your previous encryption keys:
+Laravelはこの問題を軽減するため.、アプリケーションの`APP_PREVIOUS_KEYS`環境変数へ、以前の暗号化キーをリストアップしておくことができます。この変数に以前の暗号化キーをカンマ区切りで列挙してください。
 
 ```ini
 APP_KEY="base64:J63qRTDLub5NuZvP+kb8YIorGS6qFYHKVo6u7179stY="
 APP_PREVIOUS_KEYS="base64:2nLsGFGzyoae2ax3EF2Lyq/hH6QghBGLIq5uL+Gp8/w="
 ```
 
-When you set this environment variable, Laravel will always use the "current" encryption key when encrypting values. However, when decrypting values, Laravel will first try the current key, and if decryption fails using the current key, Laravel will try all previous keys until one of the keys is able to decrypt the value.
+この環境変数を設定すると、Laravelは値を暗号化する時、常に「現在の」暗号化キーを使用します。しかし、値を復号化する場合、Laravelはまず現在のキーを試し、復号化に失敗すると、いずれかのキーで復号化できるまで、Laravelは以前のキーをすべて試します。
 
-This approach to graceful decryption allows users to keep using your application uninterrupted even if your encryption key is rotated.
+このやさしい復号化のアプローチにより、暗号化キーをローテーションしても、ユーザーはアプリケーションを中断することなく使い続けることができます。
 
 <a name="using-the-encrypter"></a>
 ## エンクリプタの使用

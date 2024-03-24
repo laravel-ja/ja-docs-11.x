@@ -1034,7 +1034,7 @@ $classes = Arr::toCssStyles($array);
 
     // ['Desk 1', 'Desk 2'];
 
-The `{first}` and `{last}` placeholders may be used to retrieve the first or last items in an array:
+`{first}`と`{last}`プレースホルダを使うと、配列の最初または最後の項目を取り出せます。
 
     $flight = [
         'segments' => [
@@ -1789,7 +1789,7 @@ dispatch_sync`関数は、指定ジョブを即時処理する[sync](/docs/{{ver
 @endfor
 ```
 
-By default, the `fake` function will utilize the `app.faker_locale` configuration option in your `config/app.php` configuration. Typically, this configuration option is set via the `APP_FAKER_LOCALE` environment variable. You may also specify the locale by passing it to the `fake` function. Each locale will resolve an individual singleton:
+`fake`関数はデフォルトで、`config/app.php`設定にある、`app.faker_locale`設定オプションを利用します。通常、この設定オプションは`APP_FAKER_LOCALE`環境変数で設定します。また、ロケールを`fake`関数へ渡して指定することもできます。各ロケールは個別のシングルトンを解決します。
 
     fake('nl_NL')->name()
 
@@ -1827,7 +1827,7 @@ By default, the `fake` function will utilize the `app.faker_locale` configuratio
 <a name="method-literal"></a>
 #### `literal()` {.collection-method}
 
-"The `literal` function creates a new [stdClass](https://www.php.net/manual/en/class.stdclass.php) instance with the given named arguments as properties:
+`literal`関数は、指定した名前付き引数をプロパティとして持つ、新しい[stdClass](https://www.php.net/manual/ja/class.stdclass.php)インスタンスを作成します。
 
     $obj = literal(
         name: 'Joe',
@@ -1888,7 +1888,7 @@ By default, the `fake` function will utilize the `app.faker_locale` configuratio
 <a name="method-once"></a>
 #### `once()` {.collection-method}
 
-The `once` function executes the given callback and caches the result in memory for the duration of the request. Any subsequent calls to the `once` function with the same callback will return the previously cached result:
+`once`関数は、指定したコールバックを実行し、リクエストの間、結果をメモリへキャッシュします。以降、同じコールバックを使用して、`once`関数を呼び出すと、以前にキャッシュした結果を返します。
 
     function random(): int
     {
@@ -1901,7 +1901,7 @@ The `once` function executes the given callback and caches the result in memory 
     random(); // 123 (cached result)
     random(); // 123 (cached result)
 
-When the `once` function is executed from within an object instance, the cached result will be unique to that object instance:
+オブジェクトインスタンス内から、`once`関数を実行すると、キャッシュされる結果はそのオブジェクトインスタンスに固有のものになります。
 
 ```php
 <?php
@@ -1917,12 +1917,12 @@ class NumberService
 $service = new NumberService;
 
 $service->all();
-$service->all(); // (cached result)
+$service->all(); // (キャッシュ済みの結果)
 
 $secondService = new NumberService;
 
 $secondService->all();
-$secondService->all(); // (cached result)
+$secondService->all(); // (キャッシュ済みの結果)
 ```
 <a name="method-optional"></a>
 #### `optional()` {.collection-method}

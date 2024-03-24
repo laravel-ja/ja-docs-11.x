@@ -47,13 +47,13 @@ php artisan octane:install
 <a name="server-prerequisites"></a>
 ## サーバ要件
 
-> [!WARNING]  
+> [!WARNING]
 > Laravel Octane requires [PHP 8.1+](https://php.net/releases/).
 
 <a name="frankenphp"></a>
 ### FrankenPHP
 
-> [!WARNING]  
+> [!WARNING]
 > FrankenPHPのOctane統合はベータ版であり、本番環境での使用には注意が必要です。
 
 [FrankenPHP](https://frankenphp.dev)は、Goで書かれたPHPアプリケーションサーバで、アーリーヒントやZstandard圧縮といった最新のウェブ機能をサポートしています。Octaneをインストールし、FrankenPHP をサーバとして選択すると、Octaneが自動でFrankenPHPのバイナリをダウンロードしてインストールします。
@@ -82,7 +82,27 @@ services:
   laravel.test:
     environment:
       SUPERVISOR_PHP_COMMAND: "/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan octane:start --server=frankenphp --host=0.0.0.0 --admin-port=2019 --port=80" # [tl! add]
+      XDG_CONFIG_HOME:  /var/www/html/config # [tl! add]
+      XDG_DATA_HOME:  /var/www/html/data # [tl! add]
 ```
+
+HTTPS、HTTP/2、HTTP/3を有効にするには、代わりに以下の修正をしてください。
+
+```yaml
+services:
+  laravel.test:
+    ports:
+        - '${APP_PORT:-80}:80'
+        - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+        - '443:443' # [tl! add]
+        - '443:443/udp' # [tl! add]
+    environment:
+      SUPERVISOR_PHP_COMMAND: "/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan octane:start --host=localhost --port=443 --admin-port=2019 --https" # [tl! add]
+      XDG_CONFIG_HOME:  /var/www/html/config # [tl! add]
+      XDG_DATA_HOME:  /var/www/html/data # [tl! add]
+```
+
+通常、FrankenPHP Sailアプリケーションは、`https://localhost`よりアクセスします。`https://127.0.0.1`を使うには追加の設定が必要であり、[推奨していません](https://frankenphp.dev/docs/known-issues/#using-https127001-with-docker) 。
 
 <a name="frankenphp-via-docker"></a>
 #### DockerでのFrankenPHPの利用
@@ -133,7 +153,7 @@ FrankenPHPをDockerで実行するための詳細は、[FrankenPHP公式ドキ�
 ```shell
 ./vendor/bin/sail up
 
-./vendor/bin/sail composer require laravel/octane spiral/roadrunner-cli spiral/roadrunner-http 
+./vendor/bin/sail composer require laravel/octane spiral/roadrunner-cli spiral/roadrunner-http
 ```
 
 次に、Sailシェルを起動し、`rr`実行可能ファイルを使用して、RoadRunnerバイナリのLinuxベースの最新ビルドを取得します。
@@ -185,7 +205,7 @@ Laravel OctaneとOpen Swooleを併用することで、同時並行タスク、t
 <a name="swoole-via-laravel-sail"></a>
 #### Laravel Sailを使用するSwoole
 
-> [!WARNING]  
+> [!WARNING]
 > Sailを介してOctaneアプリケーションを動作させる前に、最新バージョンのLaravel Sailであることを確認し、アプリケーションのルートディレクトリ内で`./vendor/bin/sail build --no-cache`を実行してください。
 
 あるいは、Laravelの公式Dockerベース開発環境である[Laravel Sail](/docs/{{version}}/sail)を使用して、SwooleベースのOctaneアプリケーションを開発することもできます。Laravel SailにはデフォルトでSwooleエクステンションが含まれています。ただし、Sailが使用する`docker-compose.yml`ファイルを調整する必要があります。
@@ -242,7 +262,7 @@ Octaneはデフォルトで、ポート8000​​のサーバを起動するの�
 <a name="serving-your-application-via-nginx"></a>
 ### Nginxを使用するアプリケーションの提供
 
-> [!NOTE]  
+> [!NOTE]
 > あなた自身のサーバ設定を管理すること、または堅牢なLaravel Octaneアプリケーションを実行するのに必要なさまざまなサービスをすべて設定するのに慣れていない場合は、[Laravel Forge](https://forge.laravel.com)の使用を考慮してください。
 
 本番環境では，NginxやApacheのような伝統的なWebサーバの背後で、Octaneアプリケーションを提供するべきです。そうすることでWebサーバは，画像やスタイルシートなどの静的資産を提供でき，またSSL証明書のターミネーションを管理できます。
@@ -463,7 +483,7 @@ $service->method($request->input('name'));
 
 グローバルな`request`ヘルパは、常にアプリケーションが現在処理しているリクエストを返すので、アプリケーション内で安全に使用できます。
 
-> [!WARNING]  
+> [!WARNING]
 > コントローラのメソッドやルートクロージャで、`Illuminate\Http\Request`インスタンスをタイプヒントしても構いません。
 
 <a name="configuration-repository-injection"></a>
@@ -534,7 +554,7 @@ public function index(Request $request): array
 <a name="concurrent-tasks"></a>
 ## 現在のタスク
 
-> [!WARNING]  
+> [!WARNING]
 > この機能は[Swoole](#swoole)が必要です。
 
 Swooleを使用している場合，軽量のバックグラウンドタスクを介して，複数操作を同時に実行できます。これには，Octaneの`concurrently`メソッドを使用します。このメソッドとPHP配列のデストラクションを組み合わせて，各操作の結果を取得できます。
@@ -561,7 +581,7 @@ php artisan octane:start --workers=4 --task-workers=6
 <a name="ticks-and-intervals"></a>
 ## Tickと間隔
 
-> [!WARNING]  
+> [!WARNING]
 > この機能は[Swoole](#swoole)が必要です。
 
 Swooleでは、指定した秒数ごとに実行される"tick"オペレーションが登録できます。"tick"コールバックの登録には、`tick`メソッドを使用します。`tick`メソッドの第１引数は、ティッカー(Ticker)の名前を表す文字列を指定します。２番目の引数は、指定した間隔で起動するコールバックを指定します。
@@ -584,7 +604,7 @@ Octane::tick('simple-ticker', fn () => ray('Ticking...'))
 <a name="the-octane-cache"></a>
 ## Octaneのキャッシュ
 
-> [!WARNING]  
+> [!WARNING]
 > この機能は[Swoole](#swoole)が必要です。
 
 Swooleを使用する際には、最大２００万回／秒の読み取り／書き込み速度を実現するOctaneキャッシュドライバが活用できます。したがって、このキャッシュドライバは、キャッシング層からの極端なリード／ライト速度を必要とするアプリケーションに最適な選択肢です。
@@ -595,7 +615,7 @@ Swooleを使用する際には、最大２００万回／秒の読み取り／�
 Cache::store('octane')->put('framework', 'Laravel', 30);
 ```
 
-> [!NOTE]  
+> [!NOTE]
 > Octaneキャッシュで許可するエントリの最大数は，アプリケーションの`octane`設定ファイルで定義できます。
 
 <a name="cache-intervals"></a>
@@ -614,7 +634,7 @@ Cache::store('octane')->interval('random', function () {
 <a name="tables"></a>
 ## テーブル
 
-> [!WARNING]  
+> [!WARNING]
 > この機能は[Swoole](#swoole)が必要です。
 
 Swooleを使用する場合は、任意に独自の[Swooleテーブル](https://www.swoole.co.uk/docs/modules/swoole-table)を定義し、操作できます。Swooleテーブルは、非常に高いパフォーマンスのスループットを提供し、これらのテーブルのデータは、サーバ上のすべてのワーカーからアクセスできます。ただし、サーバを再起動するとテーブル内のデータは失われます。
@@ -643,5 +663,5 @@ Octane::table('example')->set('uuid', [
 return Octane::table('example')->get('uuid');
 ```
 
-> [!WARNING]  
+> [!WARNING]
 > Swooleのテーブルがサポートする、カラムの型は`string`、`int`、`float`です。

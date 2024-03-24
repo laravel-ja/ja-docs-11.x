@@ -106,7 +106,7 @@ $name = text(
 
 クロージャは入力された値を受け取り、エラーメッセージを返すか、バリデーションに合格した場合は、`null`を返します。
 
-Alternatively, you may leverage the power of Laravel's [validator](/docs/{{version}}/validation). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
+あるいは、Laravelの[バリデーション](/docs/{{version}}/validation)を活用することもできます。そのためには、`validate`引数に属性名と必要なバリデーションルールを含む配列を指定します。
 
 ```php
 $name = text(
@@ -174,7 +174,7 @@ $password = password(
 
 クロージャは入力された値を受け取り、エラーメッセージを返すか、バリデーションに合格した場合は、`null`を返します。
 
-Alternatively, you may leverage the power of Laravel's [validator](/docs/{{version}}/validation). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
+あるいは、Laravelの[バリデーション](/docs/{{version}}/validation)を活用することもできます。そのためには、`validate`引数に属性名と必要なバリデーションルールを含む配列を指定します。
 
 ```php
 $password = password(
@@ -470,7 +470,7 @@ $name = suggest(
 
 クロージャは入力された値を受け取り、エラーメッセージを返すか、バリデーションに合格した場合は、`null`を返します。
 
-Alternatively, you may leverage the power of Laravel's [validator](/docs/{{version}}/validation). To do so, provide an array containing the name of the attribute and the desired validation rules to the `validate` argument:
+あるいは、Laravelの[バリデーション](/docs/{{version}}/validation)を活用することもできます。そのためには、`validate`引数に属性名と必要なバリデーションルールを含む配列を指定します。
 
 ```php
 $name = suggest(
@@ -762,7 +762,7 @@ $progress->finish();
 
 Laravel PromptsはmacOS、Linux、WindowsのWSLをサポートしています。Windows版のPHPの制限により、現在のところWSL以外のWindowsでは、Laravel Promptsを使用できません。
 
-For this reason, Laravel Prompts supports falling back to an alternative implementation such as the [Symfony Console Question Helper](https://symfony.com/doc/7.0/components/console/helpers/questionhelper.html).
+このため、Laravel Promptsは[Symfony Console Question Helper](https://symfony.com/doc/7.0/components/console/helpers/questionhelper.html)のような代替実装のフォールバックをサポートしています。
 
 > [!NOTE]
 > LaravelフレームワークでLaravel Promptsを使用する場合、各プロンプトのフォールバックが設定済みで、未サポートの環境では自動的に有効になります。

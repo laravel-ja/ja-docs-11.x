@@ -21,9 +21,9 @@
 
 パッケージは、Laravelに機能を追加するための主要な方法です。パッケージは、[Carbon](https://github.com/briannesbitt/Carbon)のような日付を処理するための優れた方法から、Spatieの[Laravel Media Library](https://github.com/spatie/laravel-medialibrary)のようなEloquentモデルにファイルを関連付けることができるパッケージまであります。
 
-There are different types of packages. Some packages are stand-alone, meaning they work with any PHP framework. Carbon and Pest are examples of stand-alone packages. Any of these packages may be used with Laravel by requiring them in your `composer.json` file.
+パッケージにはさまざまな種類があります。スタンドアロン型のパッケージもあり、どのPHPフレームワークでも動作します。CarbonやPestはスタンドアロンパッケージの例です。これらのパッケージは、`composer.json`ファイルで要求すれば、Laravelで使用できます。
 
-逆にLaravelと一緒に使用することを意図したパッケージもあります。こうしたパッケージはLaravelアプリケーションを高めることをとくに意図したルート、コントローラ、ビュー、設定を持つことでしょう。このガイドはLaravelに特化したパッケージの開発を主に説明します。
+逆にLaravelと一緒に使用することを意図したパッケージもあります。こうしたパッケージはLaravelアプリケーションを高めること特に意図したルート、コントローラ、ビュー、設定を持つでしょう。このガイドでは、Laravelに特化したパッケージの開発を主に説明します。
 
 <a name="a-note-on-facades"></a>
 ### ファサード使用の注意
@@ -33,7 +33,7 @@ Laravelアプリケーションを作成する場合、コントラクトとフ�
 <a name="package-discovery"></a>
 ## パッケージディスカバリー
 
-A Laravel application's `bootstrap/providers.php` file contains the list of service providers that should be loaded by Laravel. However, instead of requiring users to manually add your service provider to the list, you may define the provider in the `extra` section of your package's `composer.json` file so that it is automatically loaded by Laravel. In addition to service providers, you may also list any [facades](/docs/{{version}}/facades) you would like to be registered:
+Laravelアプリケーションの`bootstrap/providers.php`ファイルには、Laravelがロードするべきサービスプロバイダのリストが含まれています。しかし、ユーザーが自分でサービスプロバイダをリストへ追加する代わりに、パッケージの`composer.json`ファイルの`extra`セクションプロバイダを定義して、Laravelが自動的にロードすることもできます。サービスプロバイダに加え、登録したい[ファサード](/docs/{{version}}/facades)をリストすることもできます。
 
 ```json
 "extra": {
@@ -145,7 +145,7 @@ A Laravel application's `bootstrap/providers.php` file contains the list of serv
 <a name="migrations"></a>
 ### マイグレーション
 
-If your package contains [database migrations](/docs/{{version}}/migrations), you may use the `publishesMigrations` method to inform Laravel that the given directory or file contains migrations. When Laravel publishes the migrations, it will automatically update the timestamp within their filename to reflect the current date and time:
+パッケージに[データベースマイグレーション](/docs/{{version}}/migrations)が含まれている場合、`publishesMigrations`メソッドを使用して、指定ディレクトリまたはファイルにマイグレーションが含まれていることをLaravelに知らせることができます。Laravelがマイグレーションをリソース公開すると、ファイル名内のタイムスタンプが自動的に更新され、現在の日時が反映されます：
 
     /**
      * 全パッケージサービスの初期起動処理

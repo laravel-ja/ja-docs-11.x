@@ -513,7 +513,7 @@ class ExampleTest extends TestCase
 <a name="fluent-json-testing"></a>
 ### FluentなJSONテスト
 
-また、LaravelはアプリケーションのJSONレスポンスを流暢にテストする美しい方法を提供しています。まず始めに、`assertJson`メソッドにクロージャを渡します。このクロージャは、アプリケーションが返すJSONに対してアサートを行うために使用できる、`Illuminate\Testing\Fluent\AssertableJson`のインスタンスで呼び出されます。`where`メソッドはJSONの特定の属性に対してアサートを行うために使用でき、`missing`メソッドはJSONに特定の属性がないことをアサートするために使用できます。
+また、LaravelはアプリケーションのJSONレスポンスをスムーズにテストする美しい方法を提供しています。まず始めに、`assertJson`メソッドにクロージャを渡します。このクロージャは、アプリケーションが返すJSONに対してアサートを行うために使用できる、`Illuminate\Testing\Fluent\AssertableJson`のインスタンスで呼び出されます。`where`メソッドはJSONの特定の属性に対してアサートを行うために使用でき、`missing`メソッドはJSONに特定の属性がないことをアサートするために使用できます。
 
 ```php tab=Pest
 use Illuminate\Testing\Fluent\AssertableJson;
@@ -537,7 +537,7 @@ test('fluent json', function () {
 use Illuminate\Testing\Fluent\AssertableJson;
 
 /**
- * A basic functional test example.
+ * 基本的な機能テスト例
  */
 public function test_fluent_json(): void
 {

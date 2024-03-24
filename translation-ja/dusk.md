@@ -221,7 +221,7 @@ class ExampleTest extends DuskTestCase
 デフォルトでこのトレイトは、`migrations`を除くすべてのテーブルを切り捨てます。切り捨てるテーブルをカスタマイズしたい場合は、`$tablesToTruncate`プロパティをテストクラスで定義してください。
 
 > [!NOTE]
-> If you are using Pest, you should define properties or methods on the base `DuskTestCase` class or on any class your test file extends.
+> Pestを使用する場合は、ベースの`DuskTestCase`クラス、もしくはテストファイルを拡張した全クラスで、プロパティやメソッドを定義する必要があります。
 
     /**
      * 切り捨てるテーブルを指定
@@ -281,7 +281,7 @@ php artisan dusk
 php artisan dusk:fails
 ```
 
-The `dusk` command accepts any argument that is normally accepted by the Pest / PHPUnit test runner, such as allowing you to only run the tests for a given [group](https://phpunit.readthedocs.io/en/10.1/annotations.html#group):
+`dusk`コマンドは、Pest／PHPUnitテストランナーが通常受け付ける任意の引数を受け付けます。たとえば、指定する[グループ](https://docs.phpunit.de/en/10.5/annotations.html#group)のテストだけを実行したい場合などに使用します。
 
 ```shell
 php artisan dusk --group=foo
@@ -1794,7 +1794,7 @@ test('vue', function () {
 
 ```php tab=PHPUnit
 /**
- * A basic Vue test example.
+ * 基本的なVueテスト例
  */
 public function test_vue(): void
 {
@@ -2069,7 +2069,7 @@ use Tests\DuskTestCase;
 class ExampleTest extends DuskTestCase
 {
     /**
-     * A basic component test example.
+     * 基本的なコンポーネントテスト例
      */
     public function test_basic_example(): void
     {

@@ -196,9 +196,9 @@ protected function address(): Attribute
 <a name="attribute-casting"></a>
 ## 属性のキャスト
 
-Attribute casting provides functionality similar to accessors and mutators without requiring you to define any additional methods on your model. Instead, your model's `casts` method provides a convenient way of converting attributes to common data types.
+属性のキャストは、モデルに追加のメソッドを定義しなくても、アクセサやミューテータと似た機能を提供します。モデルの`casts`メソッドで、属性を一般的なデータ型に変換する、便利な方法を提供します。
 
-The `casts` method should return an array where the key is the name of the attribute being cast and the value is the type you wish to cast the column to. The supported cast types are:
+`casts`メソッドから、キーがキャストする属性の名前、値にそのカラムをキャストする型の配列を返します。以下のキャスト型をサポートしています。
 
 <div class="content-list" markdown="1">
 
@@ -237,7 +237,7 @@ The `casts` method should return an array where the key is the name of the attri
     class User extends Model
     {
         /**
-         * Get the attributes that should be cast.
+         * キャストする属性の取得
          *
          * @return array<string, string>
          */
@@ -282,7 +282,7 @@ The `casts` method should return an array where the key is the name of the attri
     class User extends Model
     {
         /**
-         * Get the attributes that should be cast.
+         * キャストする属性の取得
          *
          * @return array<string, string>
          */
@@ -308,7 +308,7 @@ The `casts` method should return an array where the key is the name of the attri
     class User extends Model
     {
         /**
-         * Get the attributes that should be cast.
+         * キャストする属性の取得
          *
          * @return array<string, string>
          */
@@ -354,7 +354,7 @@ The `casts` method should return an array where the key is the name of the attri
     use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 
     /**
-     * Get the attributes that should be cast.
+     * キャストする属性の取得
      *
      * @return array<string, string>
      */
@@ -370,7 +370,7 @@ The `casts` method should return an array where the key is the name of the attri
     use Illuminate\Database\Eloquent\Casts\AsCollection;
 
     /**
-     * Get the attributes that should be cast.
+     * キャストする属性の取得
      *
      * @return array<string, string>
      */
@@ -387,7 +387,7 @@ The `casts` method should return an array where the key is the name of the attri
     use Illuminate\Database\Eloquent\Casts\AsCollection;
 
     /**
-     * Get the attributes that should be cast.
+     * キャストする属性の取得
      *
      * @return array<string, string>
      */
@@ -401,12 +401,12 @@ The `casts` method should return an array where the key is the name of the attri
 <a name="date-casting"></a>
 ### 日付のキャスト
 
-By default, Eloquent will cast the `created_at` and `updated_at` columns to instances of [Carbon](https://github.com/briannesbitt/Carbon), which extends the PHP `DateTime` class and provides an assortment of helpful methods. You may cast additional date attributes by defining additional date casts within your model's `casts` method. Typically, dates should be cast using the `datetime` or `immutable_datetime` cast types.
+Eloquentはデフォルトで、`created_at`と`updated_at`カラムを[Cabon](https://github.com/briannesbitt/Carbon)インスタンスへキャストします。モデルの`casts`メソッド内で追加の日付キャストを定義すれば、さらに日付属性をキャストできます。一般的に、日付は`datetime`または`immutable_datetime`型のキャストを使ってキャストします。
 
 `date`または`datetime`キャストを定義するときに、日付の形式を指定することもできます。この形式は、[モデルが配列またはJSONにシリアル化される](/docs/{{version}}/eloquent-serialization)場合に使用されます。
 
     /**
-     * Get the attributes that should be cast.
+     * キャストする属性の取得
      *
      * @return array<string, string>
      */
@@ -448,12 +448,12 @@ By default, Eloquent will cast the `created_at` and `updated_at` columns to inst
 <a name="enum-casting"></a>
 ### Enumキャスト
 
-Eloquent also allows you to cast your attribute values to PHP [Enums](https://www.php.net/manual/en/language.enumerations.backed.php). To accomplish this, you may specify the attribute and enum you wish to cast in your model's `casts` method:
+Eloquentでは、属性の値をPHPの[Enum](https://www.php.net/manual/ja/language.enumerations.backed.php)へキャストすることもできます。これを行うには、モデルの`casts`メソッドでキャストしたい属性と列挙型を指定します：
 
     use App\Enums\ServerStatus;
 
     /**
-     * Get the attributes that should be cast.
+     * キャストする属性の取得
      *
      * @return array<string, string>
      */
@@ -481,7 +481,7 @@ Eloquent also allows you to cast your attribute values to PHP [Enums](https://ww
     use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
 
     /**
-     * Get the attributes that should be cast.
+     * キャストする属性の取得
      *
      * @return array<string, string>
      */
@@ -582,7 +582,7 @@ php artisan make:cast Json
     class User extends Model
     {
         /**
-         * Get the attributes that should be cast.
+         * キャストする属性の取得
          *
          * @return array<string, string>
          */
@@ -738,7 +738,7 @@ php artisan make:cast Hash --inbound
 カスタムキャストをモデルへ指定する場合、`:`文字を使用してクラス名から分離し、複数のパラメータをコンマで区切ることでキャストパラメータを指定できます。パラメータは、キャストクラスのコンストラクタへ渡されます。
 
     /**
-     * Get the attributes that should be cast.
+     * キャストする属性の取得
      *
      * @return array<string, string>
      */
@@ -785,7 +785,7 @@ php artisan make:cast Hash --inbound
         }
     }
 
-When using `Castable` classes, you may still provide arguments in the `casts` method definition. The arguments will be passed to the `castUsing` method:
+`castable`クラスを使用する場合でも、`casts`メソッド定義へ引数を指定できます。引数は`castUsing`メソッドへ渡します。
 
     use App\ValueObjects\Address;
 

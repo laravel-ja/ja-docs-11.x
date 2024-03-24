@@ -29,31 +29,31 @@ Laravelアプリケーションへのすべてのリクエストのエントリ�
 <a name="http-console-kernels"></a>
 ### HTTP／コンソールカーネル
 
-Next, the incoming request is sent to either the HTTP kernel or the console kernel, using the `handleRequest` or `handleCommand` methods of the application instance, depending on the type of request entering the application. These two kernels serve as the central location through which all requests flow. For now, let's just focus on the HTTP kernel, which is an instance of `Illuminate\Foundation\Http\Kernel`.
+次に、アプリケーションインスタンスの`handleRequest`メソッドまたは`handleCommand`メソッドを使い、アプリケーションが受け取るリクエストのタイプに応じて、HTTPカーネルまたはコンソールカーネルへリクエストが送られます。これら２つのカーネルは、すべてのリクエストが流れる中心的な場所として機能します。今回は、`Illuminate\Foundation\Http\Kernel`インスタンスであるHTTPカーネルへ注目してみましょう。
 
-The HTTP kernel defines an array of `bootstrappers` that will be run before the request is executed. These bootstrappers configure error handling, configure logging, [detect the application environment](/docs/{{version}}/configuration#environment-configuration), and perform other tasks that need to be done before the request is actually handled. Typically, these classes handle internal Laravel configuration that you do not need to worry about.
+HTTPカーネルはリクエストを処理する前に実行する、 初期起動処理（`bootstrappers`）の配列を定義しています。これらの初期起動処理は、エラー処理の設定、ログの設定、[アプリケーション環境の検出](/docs/{{version}}/configuration#environment-configuration)など、リクエストを実際に処理する前に行う必要のあるタスクを実行します。通常、これらのクラスは、あなたが心配する必要のないLaravel内部の設定を処理します。
 
-The HTTP kernel is also responsible for passing the request though the application's middleware stack. These middleware handle reading and writing the [HTTP session](/docs/{{version}}/session), determining if the application is in maintenance mode, [verifying the CSRF token](/docs/{{version}}/csrf), and more. We'll talk more about these soon.
+HTTPカーネルは、アプリケーションのミドルウェアスタックへリクエストを渡す役割も担います。これらのミドルウェアは、[HTTPセッション](/docs/{{version}}/session)の読み書き、アプリケーションがメンテナンスモードかどうかの判断、[CSRFトークンの検証](/docs/{{version}}/csrf)などを処理します。これらについてはこのあとに、詳しく説明します。
 
 HTTPカーネルの`handle`メソッドの引数は非常に単純です。`Request`を受け取り、`Response`を返します。カーネルをアプリケーション全体を表す大きなブラックボックスであると考えてください。HTTPリクエストを取り込み、HTTPレスポンスを返します。
 
 <a name="service-providers"></a>
 ### サービスプロバイダ
 
-One of the most important kernel bootstrapping actions is loading the [service providers](/docs/{{version}}/providers) for your application. Service providers are responsible for bootstrapping all of the framework's various components, such as the database, queue, validation, and routing components.
+最も重要なカーネル初期起動アクションの1つは、アプリケーションの[サービスプロバイダ](/docs/{{version}}/providers)をロードすることです。サービスプロバイダは、データベース、キュー、バリデーション、ルーティングコンポーネントなど、フレームワークのさまざまなコンポーネントをすべて初期起動処理する役割を担っています。
 
 Laravelはこのプロバイダのリストを繰り返し処理し、それぞれをインスタンス化します。プロバイダをインスタンス化した後、すべてのプロバイダの`register`メソッドを呼び出します。次に、すべてのプロバイダを登録し、各プロバイダで`boot`メソッドを呼び出します。これは、`boot`メソッドが実行されるまでに、すべてのコンテナバインディングが登録され、利用可能になっていることに、サービスプロバイダが依存しているからです。
 
 Laravelが提供する基本的なすべての主機能は、サービスプロバイダによって初期起動および設定されます。フレームワークによって提供される非常に多くの機能を初期起動し設定するため、サービスプロバイダはLaravel初期起動プロセス全体の最も重要な側面です。
 
-While the framework internally uses dozens of service providers, you also have the option to create your own. You can find a list of the user-defined or third-party service providers that your application is using in the `bootstrap/providers.php` file.
+フレームワークは内部的に何十ものサービスプロバイダを使いますが、あなた自身のものを作るオプションもあります。`bootstrap/providers.php`ファイルで、アプリケーションが使用しているユーザー定義またはサードパーティーのサービス・プロバイダのリストを見つけることができます。
 
 <a name="routing"></a>
 ### ルート
 
 アプリケーションが初期起動され、すべてのサービスプロバイダが登録されると、`Request`がルータに渡されてディスパッチされます。ルータは、ルートまたはコントローラへリクエストをディスパッチし、ルート固有のミドルウェアを実行します。
 
-Middleware provide a convenient mechanism for filtering or examining HTTP requests entering your application. For example, Laravel includes a middleware that verifies if the user of your application is authenticated. If the user is not authenticated, the middleware will redirect the user to the login screen. However, if the user is authenticated, the middleware will allow the request to proceed further into the application. Some middleware are assigned to all routes within the application, like `PreventRequestsDuringMaintenance`, while some are only assigned to specific routes or route groups. You can learn more about middleware by reading the complete [middleware documentation](/docs/{{version}}/middleware).
+ミドルウェアはアプリケーションが受け取る、HTTPリクエストをフィルタリングまたは検査する便利なメカニズムを提供します。例えば、Laravelには、アプリケーションのユーザーが認証済みかを確認するミドルウェアがあります。ユーザーが認証されていない場合、ミドルウェアはユーザーをログイン画面にリダイレクトします。しかし、ユーザーが認証済であれば、ミドルウェアはリクエストをアプリケーションへ進めます。ミドルウェアの中には `PreventRequestsDuringMaintenance`のように、アプリケーション内のすべてのルートに割り当てられるものもあれば、特定のルートやルートグループにのみ割り当てられるものもあります。ミドルウェアの詳細については、[ミドルウェアのドキュメント](/docs/{{version}}/middleware)を読んでください。
 
 リクエストが一致したルートへ割り当てられたすべてのミドルウェアをパスした場合は、ルートまたはコントローラメソッドが実行され、ルートまたはコントローラメソッドが返すレスポンスがルートのミドルウェアチェーンを介して返送されます。
 
@@ -62,13 +62,13 @@ Middleware provide a convenient mechanism for filtering or examining HTTP reques
 
 ルートまたはコントローラメソッドがレスポンスを返すと、レスポンスはルートのミドルウェアを介して外側に戻り、アプリケーションに送信レスポンスを変更または検査する機会を与えます。
 
-Finally, once the response travels back through the middleware, the HTTP kernel's `handle` method returns the response object to the `handleRequest` of the application instance, and this method calls the `send` method on the returned response. The `send` method sends the response content to the user's web browser. We've now completed our journey through the entire Laravel request lifecycle!
+最後に、レスポンスがミドルウェアを経由して戻ってくると、HTTPカーネルの`handle`メソッドはレスポンスオブジェクトをアプリケーションインスタンスの`handleRequest`へ返し、このメソッドは返されたレスポンスに対して`send`メソッドを呼び出します。`send`メソッドはレスポンスの内容をユーザのウェブブラウザに送信します。これで、Laravelのリクエストライフサイクル全体の旅が終わりました！
 
 <a name="focus-on-service-providers"></a>
 ## サービスプロバイダに注目
 
 サービスプロバイダは、Laravelアプリケーションを初期起動するための真の鍵です。アプリケーションインスタンスが作成され、サービスプロバイダが登録され、リクエストが初期起動を終えたアプリケーションに渡されます。とても簡単です！
 
-Having a firm grasp of how a Laravel application is built and bootstrapped via service providers is very valuable. Your application's user-defined service providers are stored in the `app/Providers` directory.
+Laravelアプリケーションをどのように構築し、サービスプロバイダを経由して初期起動処理するかをしっかり把握することは、非常に価値があります。アプリケーションのユーザー定義サービスプロバイダは、`app/Providers`ディレクトリに保存します。
 
 デフォルトの`AppServiceProvider`はほとんど空です。このプロバイダは、アプリケーション独自の初期起動処理およびサービスコンテナ結合を追加するのに最適な場所です。大規模なアプリケーションの場合、アプリケーションで使用する特定のサービスに対して、それぞれがよりきめ細かい初期処理を備えた複数のサービスプロバイダを作成することをお勧めします。

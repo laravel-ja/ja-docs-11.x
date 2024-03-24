@@ -18,7 +18,7 @@
     - [ポリシーフィルタ](#policy-filters)
 - [ポリシーを使用したアクションの認可](#authorizing-actions-using-policies)
     - [ユーザーモデル経由](#via-the-user-model)
-    - [Via the Gate Facade](#via-the-gate-facade)
+    - [Gateファサード経由](#via-the-gate-facade)
     - [ミドルウェア経由](#via-middleware)
     - [Bladeテンプレート経由](#via-blade-templates)
     - [追加コンテキストの提供](#supplying-additional-context)
@@ -41,7 +41,7 @@ Laravelは、アクションを認可する2つの主要な方法を提供しま
 > [!WARNING]
 > ゲートは、Laravelの認可機能の基本を学ぶための優れた方法です。ただし、堅牢なLaravelアプリケーションを構築するときは、[ポリシー](#creating-policies)を使用して認可ルールを整理することを検討する必要があります。
 
-Gates are simply closures that determine if a user is authorized to perform a given action. Typically, gates are defined within the `boot` method of the `App\Providers\AppServiceProvider` class using the `Gate` facade. Gates always receive a user instance as their first argument and may optionally receive additional arguments such as a relevant Eloquent model.
+ゲートは、指定アクションをユーザーが実行する権限があるかを判定するシンプルなクロージャです。通常、ゲートは`Gate`ファサードを使用して、`App\Providers\AppServiceProvider`クラスの`boot`メソッド内で定義します。ゲートは常に最初の引数としてユーザーインスタンスを受け取り、オプションで関連するEloquentモデルなどの追加の引数を受け取ることもできます。
 
 以下の例では、ユーザーが特定の`App\Models\Post`モデルを更新できるかどうかを判断するためのゲートを定義します。ユーザーの`id`と、投稿を作成したユーザーの`user_id`を比較することで、このゲートは可否を判定します。
 
@@ -50,7 +50,7 @@ Gates are simply closures that determine if a user is authorized to perform a gi
     use Illuminate\Support\Facades\Gate;
 
     /**
-     * Bootstrap any application services.
+     * アプリケーションの全サービスの初期起動処理
      */
     public function boot(): void
     {
@@ -65,7 +65,7 @@ Gates are simply closures that determine if a user is authorized to perform a gi
     use Illuminate\Support\Facades\Gate;
 
     /**
-     * Bootstrap any application services.
+     * アプリケーションの全サービスの初期起動処理
      */
     public function boot(): void
     {
@@ -127,7 +127,7 @@ Gates are simply closures that determine if a user is authorized to perform a gi
 <a name="authorizing-or-throwing-exceptions"></a>
 #### 認可または例外を投げる
 
-If you would like to attempt to authorize an action and automatically throw an `Illuminate\Auth\Access\AuthorizationException` if the user is not allowed to perform the given action, you may use the `Gate` facade's `authorize` method. Instances of `AuthorizationException` are automatically converted to a 403 HTTP response by Laravel:
+アクションの認可を試みて、ユーザーが指定アクションを実行できない場合、自動的に`Illuminate\Auth\Access\AuthorizationException`を投げたい場合、`Gate`ファサードの`authorize`メソッドを使用します。`AuthorizationException`のインスタンスは、Laravelによって自動的に403 HTTPレスポンスに変換されます。
 
     Gate::authorize('update-post', $post);
 
@@ -282,11 +282,11 @@ php artisan make:policy PostPolicy --model=Post
 ### ポリシーの登録
 
 <a name="policy-discovery"></a>
-#### Policy Discovery
+#### ポリシーの検出
 
-By default, Laravel automatically discover policies as long as the model and policy follow standard Laravel naming conventions. Specifically, the policies must be in a `Policies` directory at or above the directory that contains your models. So, for example, the models may be placed in the `app/Models` directory while the policies may be placed in the `app/Policies` directory. In this situation, Laravel will check for policies in `app/Models/Policies` then `app/Policies`. In addition, the policy name must match the model name and have a `Policy` suffix. So, a `User` model would correspond to a `UserPolicy` policy class.
+デフォルトでは、モデルとポリシーが標準的なLaravelの命名規則に従っている限り、Laravelは自動的にポリシーを検出します。具体的にはモデルを含むディレクトリの上、またはそのディレクトリの中の`Policies`ディレクトリへ、ポリシーを置く必要があります。例えば、モデルは `app/Models`ディレクトリに配置し、ポリシーは `app/Policies`ディレクトリに配置します。この場合、Laravelは`app/Models/Policies`にあるポリシーをチェックし、次に`app/Policies`にあるポリシーをチェックします。さらに、ポリシー名はモデル名と一致し、最後に`Policy`を付ける必要があります。つまり、`User`モデルは、`UserPolicy`ポリシークラスに対応します。
 
-If you would like to define your own policy discovery logic, you may register a custom policy discovery callback using the `Gate::guessPolicyNamesUsing` method. Typically, this method should be called from the `boot` method of your application's `AppServiceProvider`:
+独自のポリシー検出ロジックを定義したい場合は、`Gate::guessPolicyNamesUsing`メソッドを使用し、カスタムポリシー検出コールバックを登録してください。通常、このメソッドはアプリケーションの`AppServiceProvider`の`boot`メソッドから呼び出します。
 
     use Illuminate\Support\Facades\Gate;
 
@@ -295,16 +295,16 @@ If you would like to define your own policy discovery logic, you may register a 
     });
 
 <a name="manually-registering-policies"></a>
-#### Manually Registering Policies
+#### ポリシーの手作業による登録
 
-Using the `Gate` facade, you may manually register policies and their corresponding models within the `boot` method of your application's `AppServiceProvider`:
+`Gate`ファサードを使用すると、アプリケーションの `AppServiceProvider`の`boot`メソッド内で、ポリシーと対応するモデルを手作業で登録できます。
 
     use App\Models\Order;
     use App\Policies\OrderPolicy;
     use Illuminate\Support\Facades\Gate;
 
     /**
-     * Bootstrap any application services.
+     * アプリケーションの全サービスの初期起動処理
      */
     public function boot(): void
     {
@@ -546,9 +546,9 @@ Laravelアプリケーションに含まれている`App\Models\User`モデル�
     }
 
 <a name="via-the-gate-facade"></a>
-### Via the `Gate` Facade
+### `Gate`ファサード経由
 
-In addition to helpful methods provided to the `App\Models\User` model, you can always authorize actions via the `Gate` facade's `authorize` method.
+`AppModelsUser`モデルに用意している便利なメソッドに加え、`Gate`ファサードの`authorize`メソッドでいつでもアクションを認可できます。
 
 `can`メソッドと同様に、このメソッドは、認可するアクションの名前とリレーションモデルを受け入れます。アクションが認可されていない場合、`authorize`メソッドは`Illuminate\Auth\Access\AuthorizationException`例外を投げ、Laravel例外ハンドラは自動的に403ステータスコードのHTTPレスポンスに変換します。
 
@@ -606,7 +606,7 @@ In addition to helpful methods provided to the `App\Models\User` model, you can 
 <a name="via-middleware"></a>
 ### ミドルウェア経由
 
-Laravel includes a middleware that can authorize actions before the incoming request even reaches your routes or controllers. By default, the `Illuminate\Auth\Middleware\Authorize` middleware may be attached to a route using the `can` [middleware alias](/docs/{{version}}/middleware#middleware-alias), which is automatically registered by Laravel. Let's explore an example of using the `can` middleware to authorize that a user can update a post:
+Laravelは、リクエストがルートやコントローラに到達する前にアクションを認可するミドルウェアを用意しています。デフォルトでは、`can`[ミドルウェアエイリアス](/docs/{{version}}/middleware#middleware-alias)を使い、`Illuminate\Auth\Middleware\Authorize`ミドルウェアをルートへ指定できます。`can`ミドルウェアを使用して、ユーザーが投稿を更新するのを許可する例を見てみましょう：
 
     use App\Models\Post;
 

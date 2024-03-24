@@ -16,5 +16,5 @@ mix.js('resources/js/app.js', 'public/js')
 
 Webpackとアセットのコンパイルを使い始めようとして混乱し圧倒されたことがある方は、Laravel　Mixを気に入ってくれるでしょう。ただし、アプリケーションの開発に必ず使用する必要はありません。お好きなアセットパイプラインツールを使用するも、まったく使用しないのも自由です。
 
-> [!NOTE]  
+> [!NOTE]
 > 新しいLaravelのインストールから、Laravel MixをViteへ置き換えました。Mixのドキュメントは、[公式Laravel Mix](https://laravel-mix.com/)のウェブサイトをご覧ください。Viteへ切り替える場合は、[Vite移行ガイド](https://github.com/laravel/vite-plugin/blob/main/UPGRADE.md#migrating-from-laravel-mix-to-vite)を参照してください。

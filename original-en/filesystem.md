@@ -91,7 +91,17 @@ Before using the S3 driver, you will need to install the Flysystem S3 package vi
 composer require league/flysystem-aws-s3-v3 "^3.0" --with-all-dependencies
 ```
 
-The S3 driver configuration information is located in your `config/filesystems.php` configuration file. This file contains an example configuration array for an S3 driver. You are free to modify this array with your own S3 configuration and credentials. For convenience, these environment variables match the naming convention used by the AWS CLI.
+An S3 disk configuration array is located in your `config/filesystems.php` configuration file. Typically, you should configure your S3 information and credentials using the following environment variables which are referenced by the `config/filesystems.php` configuration file:
+
+```
+AWS_ACCESS_KEY_ID=<your-key-id>
+AWS_SECRET_ACCESS_KEY=<your-secret-access-key>
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=<your-bucket-name>
+AWS_USE_PATH_STYLE_ENDPOINT=false
+```
+
+For convenience, these environment variables match the naming convention used by the AWS CLI.
 
 <a name="ftp-driver-configuration"></a>
 #### FTP Driver Configuration
@@ -102,7 +112,7 @@ Before using the FTP driver, you will need to install the Flysystem FTP package 
 composer require league/flysystem-ftp "^3.0"
 ```
 
-Laravel's Flysystem integrations work great with FTP; however, a sample configuration is not included with the framework's default `filesystems.php` configuration file. If you need to configure an FTP filesystem, you may use the configuration example below:
+Laravel's Flysystem integrations work great with FTP; however, a sample configuration is not included with the framework's default `config/filesystems.php` configuration file. If you need to configure an FTP filesystem, you may use the configuration example below:
 
     'ftp' => [
         'driver' => 'ftp',
@@ -127,7 +137,7 @@ Before using the SFTP driver, you will need to install the Flysystem SFTP packag
 composer require league/flysystem-sftp-v3 "^3.0"
 ```
 
-Laravel's Flysystem integrations work great with SFTP; however, a sample configuration is not included with the framework's default `filesystems.php` configuration file. If you need to configure an SFTP filesystem, you may use the configuration example below:
+Laravel's Flysystem integrations work great with SFTP; however, a sample configuration is not included with the framework's default `config/filesystems.php` configuration file. If you need to configure an SFTP filesystem, you may use the configuration example below:
 
     'sftp' => [
         'driver' => 'sftp',
@@ -289,13 +299,14 @@ When using the `local` driver, all files that should be publicly accessible shou
 <a name="url-host-customization"></a>
 #### URL Host Customization
 
-If you would like to pre-define the host for URLs generated using the `Storage` facade, you may add a `url` option to the disk's configuration array:
+If you would like to modify the host for URLs generated using the `Storage` facade, you may add or change the `url` option in the disk's configuration array:
 
     'public' => [
         'driver' => 'local',
         'root' => storage_path('app/public'),
         'url' => env('APP_URL').'/storage',
         'visibility' => 'public',
+        'throw' => false,
     ],
 
 <a name="temporary-urls"></a>
@@ -586,6 +597,7 @@ When using the `local` driver, `public` [visibility](#file-visibility) translate
                 'private' => 0700,
             ],
         ],
+        'throw' => false,
     ],
 
 <a name="deleting-files"></a>
@@ -647,37 +659,66 @@ Finally, the `deleteDirectory` method may be used to remove a directory and all 
 
 The `Storage` facade's `fake` method allows you to easily generate a fake disk that, combined with the file generation utilities of the `Illuminate\Http\UploadedFile` class, greatly simplifies the testing of file uploads. For example:
 
-    <?php
+```php tab=Pest
+<?php
 
-    namespace Tests\Feature;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
-    use Illuminate\Http\UploadedFile;
-    use Illuminate\Support\Facades\Storage;
-    use Tests\TestCase;
+test('albums can be uploaded', function () {
+    Storage::fake('photos');
 
-    class ExampleTest extends TestCase
+    $response = $this->json('POST', '/photos', [
+        UploadedFile::fake()->image('photo1.jpg'),
+        UploadedFile::fake()->image('photo2.jpg')
+    ]);
+
+    // Assert one or more files were stored...
+    Storage::disk('photos')->assertExists('photo1.jpg');
+    Storage::disk('photos')->assertExists(['photo1.jpg', 'photo2.jpg']);
+
+    // Assert one or more files were not stored...
+    Storage::disk('photos')->assertMissing('missing.jpg');
+    Storage::disk('photos')->assertMissing(['missing.jpg', 'non-existing.jpg']);
+
+    // Assert that a given directory is empty...
+    Storage::disk('photos')->assertDirectoryEmpty('/wallpapers');
+});
+```
+
+```php tab=PHPUnit
+<?php
+
+namespace Tests\Feature;
+
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
+
+class ExampleTest extends TestCase
+{
+    public function test_albums_can_be_uploaded(): void
     {
-        public function test_albums_can_be_uploaded(): void
-        {
-            Storage::fake('photos');
+        Storage::fake('photos');
 
-            $response = $this->json('POST', '/photos', [
-                UploadedFile::fake()->image('photo1.jpg'),
-                UploadedFile::fake()->image('photo2.jpg')
-            ]);
+        $response = $this->json('POST', '/photos', [
+            UploadedFile::fake()->image('photo1.jpg'),
+            UploadedFile::fake()->image('photo2.jpg')
+        ]);
 
-            // Assert one or more files were stored...
-            Storage::disk('photos')->assertExists('photo1.jpg');
-            Storage::disk('photos')->assertExists(['photo1.jpg', 'photo2.jpg']);
+        // Assert one or more files were stored...
+        Storage::disk('photos')->assertExists('photo1.jpg');
+        Storage::disk('photos')->assertExists(['photo1.jpg', 'photo2.jpg']);
 
-            // Assert one or more files were not stored...
-            Storage::disk('photos')->assertMissing('missing.jpg');
-            Storage::disk('photos')->assertMissing(['missing.jpg', 'non-existing.jpg']);
+        // Assert one or more files were not stored...
+        Storage::disk('photos')->assertMissing('missing.jpg');
+        Storage::disk('photos')->assertMissing(['missing.jpg', 'non-existing.jpg']);
 
-            // Assert that a given directory is empty...
-            Storage::disk('photos')->assertDirectoryEmpty('/wallpapers');
-        }
+        // Assert that a given directory is empty...
+        Storage::disk('photos')->assertDirectoryEmpty('/wallpapers');
     }
+}
+```
 
 By default, the `fake` method will delete all files in its temporary directory. If you would like to keep these files, you may use the "persistentFake" method instead. For more information on testing file uploads, you may consult the [HTTP testing documentation's information on file uploads](/docs/{{version}}/http-tests#testing-file-uploads).
 

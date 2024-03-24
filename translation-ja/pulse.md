@@ -80,7 +80,7 @@ php artisan vendor:publish --tag=pulse-config
 <a name="dashboard-authorization"></a>
 ### 認可
 
-The Pulse dashboard may be accessed via the `/pulse` route. By default, you will only be able to access this dashboard in the `local` environment, so you will need to configure authorization for your production environments by customizing the `'viewPulse'` authorization gate. You can accomplish this within your application's `app/Providers/AppServiceProvider.php` file:
+Pulseダッシュボードは、`/pulse`ルートでアクセスできます。このダッシュボードにアクセスできるのは、デフォルトでは`local`環境だけなため、`'viewPulse'`認証ゲートをカスタマイズして、本番環境の認証を設定する必要があります。この設定は、アプリケーションの`app/Providers/AppServiceProvider.php`ファイルで行います。
 
 ```php
 use App\Models\User;
@@ -248,6 +248,15 @@ php artisan pulse:check
 
 > [!NOTE]
 > `pulse:check`プロセスをバックグラウンドで永続的に実行し続けるには、Supervisorのようなプロセスモニタを使い、コマンドの実行が止まらないようにする必要があります。
+
+`pulse:check`コマンドは起動終了しないプロセスなため、再起動しないとコードベースの変更が現れません。アプリケーションのデプロイ処理中に、`pulse:restart`コマンドを呼び出し、コマンドを悠然と再起動する必要があります。
+
+```sh
+php artisan pulse:restart
+```
+
+> [!NOTE]
+> Pulseは再起動シグナルを保持するために[キャッシュ](/docs/{{version}}/cache)を使用します。そのため、この機能を使用する前に、アプリケーション用にキャッシュドライバを適切に設定済みであることを確認する必要があります。
 
 <a name="recorders"></a>
 ### レコーダ
@@ -424,6 +433,15 @@ php artisan pulse:work
 
 > [!NOTE]
 > `pulse:work`プロセスをバックグラウンドで永久に実行し続けるには、Supervisorのようなプロセスモニタを使い、Pulseワーカの実行を止めないようにする必要があります。
+
+`pulse:work`コマンドは起動終了しないプロセスなため、再起動しないとコードベースの変更が現れません。アプリケーションのデプロイ処理中に、`pulse:restart`コマンドを呼び出し、コマンドを悠然と再起動する必要があります。
+
+```sh
+php artisan pulse:restart
+```
+
+> [!NOTE]
+> Pulseは再起動シグナルを保持するために[キャッシュ](/docs/{{version}}/cache)を使用します。そのため、この機能を使用する前に、アプリケーション用にキャッシュドライバを適切に設定済みであることを確認する必要があります。
 
 <a name="sampling"></a>
 ### サンプリング
