@@ -38,7 +38,7 @@ Let's take a look at an example of a basic controller. A controller may have any
     <?php
 
     namespace App\Http\Controllers;
-
+    
     use App\Models\User;
     use Illuminate\View\View;
 
@@ -63,7 +63,7 @@ Once you have written a controller class and method, you may define a route to t
 
 When an incoming request matches the specified route URI, the `show` method on the `App\Http\Controllers\UserController` class will be invoked and the route parameters will be passed to the method.
 
-> [!NOTE]
+> [!NOTE]  
 > Controllers are not **required** to extend a base class. However, it is sometimes convenient to extend a base controller class that contains methods that should be shared across all of your controllers.
 
 <a name="single-action-controllers"></a>
@@ -98,7 +98,7 @@ You may generate an invokable controller by using the `--invokable` option of th
 php artisan make:controller ProvisionServer --invokable
 ```
 
-> [!NOTE]
+> [!NOTE]  
 > Controller stubs may be customized using [stub publishing](/docs/{{version}}/artisan#stub-customization).
 
 <a name="controller-middleware"></a>
@@ -181,15 +181,15 @@ You may even register many resource controllers at once by passing an array to t
 <a name="actions-handled-by-resource-controllers"></a>
 #### Actions Handled by Resource Controllers
 
-| Verb      | URI                    | Action  | Route Name     |
-| --------- | ---------------------- | ------- | -------------- |
-| GET       | `/photos`              | index   | photos.index   |
-| GET       | `/photos/create`       | create  | photos.create  |
-| POST      | `/photos`              | store   | photos.store   |
-| GET       | `/photos/{photo}`      | show    | photos.show    |
-| GET       | `/photos/{photo}/edit` | edit    | photos.edit    |
-| PUT/PATCH | `/photos/{photo}`      | update  | photos.update  |
-| DELETE    | `/photos/{photo}`      | destroy | photos.destroy |
+Verb      | URI                    | Action       | Route Name
+----------|------------------------|--------------|---------------------
+GET       | `/photos`              | index        | photos.index
+GET       | `/photos/create`       | create       | photos.create
+POST      | `/photos`              | store        | photos.store
+GET       | `/photos/{photo}`      | show         | photos.show
+GET       | `/photos/{photo}/edit` | edit         | photos.edit
+PUT/PATCH | `/photos/{photo}`      | update       | photos.update
+DELETE    | `/photos/{photo}`      | destroy      | photos.destroy
 
 <a name="customizing-missing-model-behavior"></a>
 #### Customizing Missing Model Behavior
@@ -305,15 +305,15 @@ Often, it is not entirely necessary to have both the parent and the child IDs wi
 
 This route definition will define the following routes:
 
-| Verb      | URI                               | Action  | Route Name             |
-| --------- | --------------------------------- | ------- | ---------------------- |
-| GET       | `/photos/{photo}/comments`        | index   | photos.comments.index  |
-| GET       | `/photos/{photo}/comments/create` | create  | photos.comments.create |
-| POST      | `/photos/{photo}/comments`        | store   | photos.comments.store  |
-| GET       | `/comments/{comment}`             | show    | comments.show          |
-| GET       | `/comments/{comment}/edit`        | edit    | comments.edit          |
-| PUT/PATCH | `/comments/{comment}`             | update  | comments.update        |
-| DELETE    | `/comments/{comment}`             | destroy | comments.destroy       |
+Verb      | URI                               | Action       | Route Name
+----------|-----------------------------------|--------------|---------------------
+GET       | `/photos/{photo}/comments`        | index        | photos.comments.index
+GET       | `/photos/{photo}/comments/create` | create       | photos.comments.create
+POST      | `/photos/{photo}/comments`        | store        | photos.comments.store
+GET       | `/comments/{comment}`             | show         | comments.show
+GET       | `/comments/{comment}/edit`        | edit         | comments.edit
+PUT/PATCH | `/comments/{comment}`             | update       | comments.update
+DELETE    | `/comments/{comment}`             | destroy      | comments.destroy
 
 <a name="restful-naming-resource-routes"></a>
 ### Naming Resource Routes
@@ -390,7 +390,7 @@ If you need to add additional routes to a resource controller beyond the default
     Route::get('/photos/popular', [PhotoController::class, 'popular']);
     Route::resource('photos', PhotoController::class);
 
-> [!NOTE]
+> [!NOTE]  
 > Remember to keep your controllers focused. If you find yourself routinely needing methods outside of the typical set of resource actions, consider splitting your controller into two, smaller controllers.
 
 <a name="singleton-resource-controllers"></a>
@@ -407,11 +407,11 @@ Route::singleton('profile', ProfileController::class);
 
 The singleton resource definition above will register the following routes. As you can see, "creation" routes are not registered for singleton resources, and the registered routes do not accept an identifier since only one instance of the resource may exist:
 
-| Verb      | URI             | Action | Route Name     |
-| --------- | --------------- | ------ | -------------- |
-| GET       | `/profile`      | show   | profile.show   |
-| GET       | `/profile/edit` | edit   | profile.edit   |
-| PUT/PATCH | `/profile`      | update | profile.update |
+Verb      | URI                               | Action       | Route Name
+----------|-----------------------------------|--------------|---------------------
+GET       | `/profile`                        | show         | profile.show
+GET       | `/profile/edit`                   | edit         | profile.edit
+PUT/PATCH | `/profile`                        | update       | profile.update
 
 Singleton resources may also be nested within a standard resource:
 
@@ -421,11 +421,11 @@ Route::singleton('photos.thumbnail', ThumbnailController::class);
 
 In this example, the `photos` resource would receive all of the [standard resource routes](#actions-handled-by-resource-controller); however, the `thumbnail` resource would be a singleton resource with the following routes:
 
-| Verb      | URI                              | Action | Route Name              |
-| --------- | -------------------------------- | ------ | ----------------------- |
-| GET       | `/photos/{photo}/thumbnail`      | show   | photos.thumbnail.show   |
-| GET       | `/photos/{photo}/thumbnail/edit` | edit   | photos.thumbnail.edit   |
-| PUT/PATCH | `/photos/{photo}/thumbnail`      | update | photos.thumbnail.update |
+| Verb      | URI                              | Action  | Route Name               |
+|-----------|----------------------------------|---------|--------------------------|
+| GET       | `/photos/{photo}/thumbnail`      | show    | photos.thumbnail.show    |
+| GET       | `/photos/{photo}/thumbnail/edit` | edit    | photos.thumbnail.edit    |
+| PUT/PATCH | `/photos/{photo}/thumbnail`      | update  | photos.thumbnail.update  |
 
 <a name="creatable-singleton-resources"></a>
 #### Creatable Singleton Resources
@@ -439,7 +439,7 @@ Route::singleton('photos.thumbnail', ThumbnailController::class)->creatable();
 In this example, the following routes will be registered. As you can see, a `DELETE` route will also be registered for creatable singleton resources:
 
 | Verb      | URI                                | Action  | Route Name               |
-| --------- | ---------------------------------- | ------- | ------------------------ |
+|-----------|------------------------------------|---------|--------------------------|
 | GET       | `/photos/{photo}/thumbnail/create` | create  | photos.thumbnail.create  |
 | POST      | `/photos/{photo}/thumbnail`        | store   | photos.thumbnail.store   |
 | GET       | `/photos/{photo}/thumbnail`        | show    | photos.thumbnail.show    |

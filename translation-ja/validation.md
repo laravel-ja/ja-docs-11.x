@@ -916,6 +916,7 @@ The credit card number field is required when payment type is credit card.
 [JSON](#rule-json)
 [より小さい](#rule-lt)
 [以下](#rule-lte)
+[リスト](#rule-list)
 [小文字](#rule-lowercase)
 [MACアドレス](#rule-mac)
 [最大値](#rule-max)
@@ -1470,6 +1471,11 @@ Rule::enum(ServerStatus::class)
 #### lowercase
 
 フィールドが小文字であることをバリデートします。
+
+<a name="rule-list"></a>
+#### list
+
+フィールドが、リストの配列であることをバリデートします。配列は、キーが0から`count($array) - 1`までの連続した数値で構成されている場合、リストとみなします。
 
 <a name="rule-mac"></a>
 #### mac_address

@@ -209,7 +209,7 @@ Laravelの例外ハンドラはデフォルトで、例外をHTTPレスポンス
 <a name="rendering-exceptions-as-json"></a>
 #### 例外をJSONでレンダーする
 
-例外をレンダーするとき、Laravelはリクエストの`Content-Type`ヘッダに基づいて、例外をHTMLレスポンスとしてレンダーするか、JSONレスポンスとしてレンダーするかを自動的に判断します。Laravelが例外レスポンスをHTMLとJSONのどちらでレンダーするかを決定する方法をカスタマイズしたい場合は、`shouldRenderJsonWhen`メソッドを利用します。
+例外をレンダーするとき、Laravelはリクエストの`Accept`ヘッダに基づいて、例外をHTMLレスポンスとしてレンダーするか、JSONレスポンスとしてレンダーするかを自動的に判断します。Laravelが例外レスポンスをHTMLとJSONのどちらでレンダーするかを決定する方法をカスタマイズしたい場合は、`shouldRenderJsonWhen`メソッドを利用します。
 
     use Illuminate\Http\Request;
     use Throwable;
