@@ -59,7 +59,7 @@ Laravel11.xには、最低でPHP8.2のバージョンが必要です。
 <a name="structure"></a>
 ### 合理化したアプリケーション構造
 
-*Laravelの合理化したアプリケーション構造は、[Taylor Otwell](https://github.com/taylorotwell)と[Nuno Maduro](https://github.com/nunomaduro)*が開発しました。
+*Laravelの合理化したアプリケーション構造は、[Taylor Otwell](https://github.com/taylorotwell)と[Nuno Maduro](https://github.com/nunomaduro)が開発しました。*
 
 Laravel11では、既存のアプリケーションに変更を加えることなく、**新しい**Laravelアプリケーション向けに合理化したアプリケーション構造を導入しました。新しいアプリケーション構造は、Laravel開発者がすでに慣れ親しんでいるコンセプトの多くを保持しながら、よりスリムでモダンなエクスペリエンスを提供することを目的としています。以降で、Laravelの新しいアプリケーション構造のハイライトについて説明します。
 
