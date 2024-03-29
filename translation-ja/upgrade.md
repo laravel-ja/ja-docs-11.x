@@ -339,7 +339,7 @@ $table->geometry('dimension', subtype: 'polygon', srid: 0);
 $table->geography('latitude', subtype: 'point', srid: 4326);
 ```
 
-これに伴い、PostgreSQL文法の`isGeometry`としました。`projection`カラム修飾子を削除しました。
+これに伴い、PostgreSQL文法の`isGeometry`および`projection`カラム修飾子を削除しました。
 
 <a name="doctrine-dbal-removal"></a>
 #### Doctrine DBALの削除
