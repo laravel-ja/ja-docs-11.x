@@ -23,7 +23,7 @@
 ## イントロダクション
 
 > [!NOTE]
-> macOS上でLaravelアプリケーションをより簡単に開発する方法をお探しですか？[Laravel Herd](https://herd.laravel.com)をチェックしてください。Valet、PHP、Composerなど、Laravel開発を始めるために必要なものをHerdはすべて用意します。
+> macOSかWindows上でLaravelアプリケーションをより簡単に開発する方法をお探しですか？[Laravel Herd](https://herd.laravel.com)をチェックしてください。Valet、PHP、Composerなど、Laravel開発を始めるために必要なものをHerdはすべて用意します。
 
 [Laravel Valet](https://github.com/laravel/valet)（バレット：従者）は、macOSミニマリスト向けのLaravel開発環境です。Larave lValetは、マシンの起動時に常にバックグラウンドで[Nginx](https://www.nginx.com/)を実行するようにMacを設定します。次に、[DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq)を使用して、Valetは`*.test`ドメイン上のすべてのリクエストをプロキシし、ローカルマシンにインストールしているサイトへ転送します。
 

@@ -25,8 +25,8 @@
     - [機能の削除](#purging-features)
 - [テスト](#testing)
 - [カスタム機能ドライバの追加](#adding-custom-pennant-drivers)
-    - [Implementing the Driver](#implementing-the-driver)
-    - [Registering the Driver](#registering-the-driver)
+    - [ドライバの実装](#implementing-the-driver)
+    - [ドライバの登録](#registering-the-driver)
 - [イベント](#events)
 
 <a name="introduction"></a>
@@ -985,15 +985,17 @@ class AppServiceProvider extends ServiceProvider
 
 Pennantは、アプリケーション全体の機能フラグを追跡するときに便利な、さまざまなイベントを発行します。
 
-### `Laravel\Pennant\Events\RetrievingKnownFeature`
+### `Laravel\Pennant\Events\FeatureRetrieved`
 
-このイベントは、特定のスコープに対するリクエスト中に、既知の機能を初めて取得したときに発行します。このイベントは、アプリケーション全体で使用する機能フラグに対するメトリックを作成し、追跡するのに便利です。
+このイベントは、[機能をチェックする](#checking-features)たびディスパッチします。このイベントは、アプリケーション全体で機能フラグの使用状況に対するメトリクスを作成し、追跡するのに便利でしょう。
 
-### `Laravel\Pennant\Events\RetrievingUnknownFeature`
+### `Laravel\Pennant\Events\FeatureResolved`
 
-このイベントは、特定のスコープへのリクエスト中に、未知の機能を初めて取得したときに発行します。このイベントは、ある機能フラグを削除するつもりが、誤ってアプリケーション全体にそのフラグへの参照を残してしまった場合に便利です。
+このイベントは、機能の値を特定のスコープで初めて解決したときにディスパッチします。
 
-例えば、このイベントをリッスンして、それが発生したときに、`report`や例外を投げるのが便利でしょう。
+### `Laravel\Pennant\Events\UnknownFeatureResolved`
+
+このイベントは、未知の機能を特定のスコープで初めて解決したときにディスパッチします。このイベントをリッスンしておくと、機能フラグを削除したつもりが、誤ってアプリケーション全体にその機能への参照を残してしまった場合に便利です。
 
 ```php
 <?php
@@ -1002,7 +1004,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
-use Laravel\Pennant\Events\RetrievingUnknownFeature;
+use Illuminate\Support\Facades\Log;
+use Laravel\Pennant\Events\UnknownFeatureResolved;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -1011,13 +1014,53 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Event::listen(function (RetrievingUnknownFeature $event) {
-            report("Resolving unknown feature [{$event->feature}].");
+        Event::listen(function (UnknownFeatureResolved $event) {
+            Log::error("Resolving unknown feature [{$event->feature}].");
         });
     }
 }
 ```
 
-### `Laravel\Pennant\Events\DynamicallyDefiningFeature`
+### `Laravel\Pennant\Events\DynamicallyRegisteringFeatureClass`
 
-このイベントは、クラスベースの機能をリクエスト中に、初めて動的にチェックするときに発行します。
+このイベントは、リクエスト中で[クラスベースの機能](#class-based-features)を初めて動的にチェックしたときにディスパッチします。
+
+### `Laravel\Pennant\Events\UnexpectedNullScopeEncountered`
+
+このイベントは、[nullをサポートしない](#nullable-scope)機能定義へ、`null`スコープを渡したときにディスパッチします。
+
+この状況をスムーズに処理し、その機能は`false`を返します。しかし、この機能のデフォルトのスムーズな動作を外したければ、アプリケーションの`AppServiceProvider`の`boot`メソッドでこのイベントのリスナを登録してください。
+
+```php
+use Illuminate\Support\Facades\Log;
+use Laravel\Pennant\Events\UnexpectedNullScopeEncountered;
+
+/**
+ * アプリケーションの全サービスの初期起動処理
+ */
+public function boot(): void
+{
+    Event::listen(UnexpectedNullScopeEncountered::class, fn () => abort(500));
+}
+
+```
+
+### `Laravel\Pennant\Events\FeatureUpdated`
+
+このイベントは、通常`activate`または`deactivate`を呼び出すことにより、スコープの機能を更新したときにディスパッチします。
+
+### `Laravel\Pennant\Events\FeatureUpdatedForAllScopes`
+
+このイベントは、通常`activateForEveryone`または`deactivateForEveryone`を呼び出すことで、すべてのスコープの機能を更新したときにディスパッチします。
+
+### `Laravel\Pennant\Events\FeatureDeleted`
+
+このイベントは、スコープの機能を削除するときにディスパッチします。
+
+### `Laravel\Pennant\Events\FeaturesPurged`
+
+このイベントは、特定の機能をパージするときにディスパッチします。
+
+### `Laravel\Pennant\Events\AllFeaturesPurged`
+
+このイベントは、すべての機能をパージするときにディスパッチします。

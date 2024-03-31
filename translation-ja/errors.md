@@ -321,7 +321,7 @@ LaravelやSymfonyの組み込み済み例外など、既存のレンダー可能
     use Throwable;
 
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->throttle(function (Throwable Throwable) {
+        $exceptions->throttle(function (Throwable $e) {
             return Lottery::odds(1, 1000);
         });
     })
@@ -333,7 +333,7 @@ LaravelやSymfonyの組み込み済み例外など、既存のレンダー可能
     use Throwable;
 
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->throttle(function (Throwable Throwable) {
+        $exceptions->throttle(function (Throwable $e) {
             if ($e instanceof ApiMonitoringException) {
                 return Lottery::odds(1, 1000);
             }
@@ -347,7 +347,7 @@ LaravelやSymfonyの組み込み済み例外など、既存のレンダー可能
     use Throwable;
 
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->throttle(function (Throwable Throwable) {
+        $exceptions->throttle(function (Throwable $e) {
             if ($e instanceof BroadcastException) {
                 return Limit::perMinute(300);
             }
@@ -361,7 +361,7 @@ LaravelやSymfonyの組み込み済み例外など、既存のレンダー可能
     use Throwable;
 
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->throttle(function (Throwable Throwable) {
+        $exceptions->throttle(function (Throwable $e) {
             if ($e instanceof BroadcastException) {
                 return Limit::perMinute(300)->by($e->getMessage());
             }
@@ -378,7 +378,7 @@ LaravelやSymfonyの組み込み済み例外など、既存のレンダー可能
     use Throwable;
 
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->throttle(function (Throwable Throwable) {
+        $exceptions->throttle(function (Throwable $e) {
             return match (true) {
                 $e instanceof BroadcastException => Limit::perMinute(300),
                 $e instanceof ApiMonitoringException => Lottery::odds(1, 1000),

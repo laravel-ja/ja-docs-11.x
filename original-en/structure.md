@@ -130,7 +130,7 @@ This directory does not exist by default, but will be created for you by the `ev
 <a name="the-exceptions-directory"></a>
 #### The Exceptions Directory
 
-The `Exceptions` directory contains your application's exception handler and is also a good place to place any exceptions thrown by your application. If you would like to customize how your exceptions are logged or rendered, you should modify the `Handler` class in this directory.
+The `Exceptions` directory contains all of the custom exceptions for your application. These exceptions may be generated using the `make:exception` command.
 
 <a name="the-http-directory"></a>
 #### The Http Directory
@@ -172,7 +172,7 @@ This directory does not exist by default, but will be created for you if you exe
 
 The `Providers` directory contains all of the [service providers](/docs/{{version}}/providers) for your application. Service providers bootstrap your application by binding services in the service container, registering events, or performing any other tasks to prepare your application for incoming requests.
 
-In a fresh Laravel application, this directory will already contain several providers. You are free to add your own providers to this directory as needed.
+In a fresh Laravel application, this directory will already contain the `AppServiceProvider`. You are free to add your own providers to this directory as needed.
 
 <a name="the-rules-directory"></a>
 #### The Rules Directory

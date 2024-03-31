@@ -43,6 +43,14 @@ Laravelのコマンドスケジューラは、サーバ上のタスクのスケ�
 
     Schedule::call(new DeleteRecentUsers)->daily();
 
+`routes/console.php`ファイルをコマンド定義のためだけに使用したい場合は、アプリケーションの`bootstrap/app.php`ファイルで`withSchedule`メソッドを使用して、スケジュールするタスクを定義できます。このメソッドは、スケジューラのインスタンスを受け取るクロージャを引数に取ります。
+
+    use Illuminate\Console\Scheduling\Schedule;
+
+    ->withSchedule(function (Schedule $schedule) {
+        $schedule->call(new DeleteRecentUsers)->daily();
+    })
+
 スケジュールしたタスクの概要と、次に実行がスケジュールされている時間を表示したい場合は、`schedule:list` Artisanコマンドを使用します。
 
 ```bash

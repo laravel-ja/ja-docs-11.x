@@ -19,7 +19,6 @@
     - [ブロードキャスト条件](#broadcast-conditions)
     - [ブロードキャストとデータベーストランザクション](#broadcasting-and-database-transactions)
 - [チャンネルの認可](#authorizing-channels)
-    - [認可ルートの定義](#defining-authorization-routes)
     - [認可コールバックの定義](#defining-authorization-callbacks)
     - [チャンネルクラスの定義](#defining-channel-classes)
 - [ブロードキャストイベント](#broadcasting-events)
