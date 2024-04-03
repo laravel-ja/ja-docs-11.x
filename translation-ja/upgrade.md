@@ -298,7 +298,7 @@ $table->float('amount', precision: 53)->unsigned();
 ```
 
 <a name="dedicated-mariadb-driver"></a>
-#### Dedicated MariaDB Driver
+#### MariaDB専用ドライバ
 
 **影響の可能性： かなり低い**
 
