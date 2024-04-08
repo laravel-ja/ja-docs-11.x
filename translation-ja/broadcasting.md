@@ -67,7 +67,9 @@ Laravelのイベントブロードキャストの使用を開始するには、L
 <a name="configuration"></a>
 ### 設定
 
-アプリケーションのすべてのイベントブロードキャスト設定は、`config/broadcasting.php`設定ファイルに保存してあります。Laravelはいくつかのブロードキャストドライバをあらかじめサポートしています。 [Laravel Reverb](/docs/{{version}}/reverb)、[Pusher Channels](https://pusher.com/channels)、[Ably](https://ably.com)、ローカル開発とデバッグ用の`log`ドライバです。さらに、テスト中にブロードキャストを完全に無効にできる、`null`ドライバも用意しています。これらの各ドライバの設定例は、`config/broadcasting.php`設定ファイルにあります。
+アプリケーションのイベントブロードキャスト設定はすべて`config/broadcasting.php`設定ファイルに保存されます。アプリケーションの中にこのファイルがなくても、心配ありません。`install:broadcasting` Artisanコマンドを実行するで作成できます。
+
+Laravelはいくつかのブロードキャストドライバをあらかじめサポートしています。 [Laravel Reverb](/docs/{{version}}/reverb)、[Pusher Channels](https://pusher.com/channels)、[Ably](https://ably.com)、ローカル開発とデバッグ用の`log` ドライバです。さらに、テスト中にブロードキャストを完全に 無効にできる、`null`ドライバも用意しています。これらの各ドライバの設定例は、`config/broadcasting.php`設定ファイルにあります。
 
 <a name="installation"></a>
 #### インストール
@@ -78,7 +80,7 @@ Laravelのイベントブロードキャストの使用を開始するには、L
 php artisan install:broadcasting
 ```
 
-`install:broadcasting`コマンドを実行すると、`routes/channels.php`ファイルを作成し、アプリケーションのブロードキャスト認可ルートとコールバックを登録します。
+`install:broadcasting`コマンドを実行すると、`config/broadcasting.php`ファイルができます。更に、`routes/channels.php`ファイルも生成され、これでアプリケーションのブロードキャスト認可ルートとコールバックを登録します。
 
 <a name="queue-configuration"></a>
 #### キュー設定

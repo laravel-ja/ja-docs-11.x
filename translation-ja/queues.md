@@ -656,6 +656,40 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
         return [(new ThrottlesExceptions(10, 10))->by('key')];
     }
 
+このミドルウェアはデフォルトで、すべての例外をスロットル処理します。このミドルウェアをジョブへ指定するときに、`when`メソッドを呼び出し、この動作を変更できます。この場合、`when`メソッドで指定するクロージャが、`true`を返した場合のみ、その例外をスロットルします。
+
+    use Illuminate\Http\Client\HttpClientException;
+    use Illuminate\Queue\Middleware\ThrottlesExceptions;
+
+    /**
+     * ジョブを通過させるミドルウェアを取得
+     *
+     * @return array<int, object>
+     */
+    public function middleware(): array
+    {
+        return [(new ThrottlesExceptions(10, 10))->when(
+            fn (Throwable $throwable) => $throwable instanceof HttpClientException
+        )];
+    }
+
+スロットルした例外をアプリケーションの例外ハンドラへ報告させたい場合は、ミドルウェアをジョブへ指定するときに、`report`メソッドを呼び出してください。`report`めそっどのオプションとしてクロージャを指定でき、その指定クロージャが`true`を返した場合にのみ例外を報告します。
+
+    use Illuminate\Http\Client\HttpClientException;
+    use Illuminate\Queue\Middleware\ThrottlesExceptions;
+
+    /**
+     * ジョブを通過させるミドルウェアを取得
+     *
+     * @return array<int, object>
+     */
+    public function middleware(): array
+    {
+        return [(new ThrottlesExceptions(10, 10))->report(
+            fn (Throwable $throwable) => $throwable instanceof HttpClientException
+        )];
+    }
+
 > [!NOTE]
 > Redisを使用している場合は、Redis用に細かく調整され、基本的な例外スロットリングミドルウェアよりも効率的な、`Illuminate\Queue\Middleware\ThrottlesExceptionsWithRedis`ミドルウェアを使用できます。
 
@@ -857,6 +891,27 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
         new OptimizePodcast,
         new ReleasePodcast,
     ])->onConnection('redis')->onQueue('podcasts')->dispatch();
+
+<a name="adding-jobs-to-the-chain"></a>
+#### チェーンへのジョブ追加
+
+時に、既存のジョブチェーンへ、そのチェーン内の別のジョブからジョブを追加する必要があるかもしれません。それには`prependToChain`メソッドと`appendToChain`メソッドを使用してください。
+
+```php
+/**
+ * ジョブを実行
+ */
+public function handle(): void
+{
+    // ...
+
+    // Prepend to the current chain, run job immediately after current job...
+    $this->prependToChain(new TranscribePodcast);
+
+    // Append to the current chain, run job at end of chain...
+    $this->appendToChain(new TranscribePodcast);
+}
+```
 
 <a name="chain-failures"></a>
 #### チェーンの失敗
@@ -2272,6 +2327,29 @@ public function test_orders_can_be_shipped(): void
 `assertDispatchedWithoutChain`メソッドを使用すると、ジョブをチェーンせずに、投入したことをアサートできます。
 
     Bus::assertDispatchedWithoutChain(ShipOrder::class);
+
+<a name="testing-chain-modifications"></a>
+#### チェーン変更のテスト
+
+チェーンしたジョブが、[既存のチェーンへジョブを追加または前置き](#adding-jobs-to-the-chain)している場合、ジョブの`assertHasChain`メソッドを使って、そのジョブが期待通りの連鎖を持つことをアサートできます。
+
+```php
+$job = new ProcessPodcast;
+
+$job->handle();
+
+$job->assertHasChain([
+    new TranscribePodcast,
+    new OptimizePodcast,
+    new ReleasePodcast,
+]);
+```
+
+`assertDoesntHaveChain`メソッドは、ジョブの残りのチェーンが空であることをアサートするために使用します。
+
+```php
+$job->assertDoesntHaveChain();
+```
 
 <a name="testing-chained-batches"></a>
 #### チェーンしたバッチのテスト

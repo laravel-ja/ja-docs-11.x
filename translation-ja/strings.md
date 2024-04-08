@@ -97,6 +97,9 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 [Str::title](#method-title-case)
 [Str::toBase64](#method-str-to-base64)
 [Str::toHtmlString](#method-str-to-html-string)
+[Str::trim](#method-str-trim)
+[Str::ltrim](#method-str-ltrim)
+[Str::rtrim](#method-str-rtrim)
 [Str::ucfirst](#method-str-ucfirst)
 [Str::ucsplit](#method-str-ucsplit)
 [Str::upper](#method-str-upper)
@@ -154,7 +157,6 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 [length](#method-fluent-str-length)
 [limit](#method-fluent-str-limit)
 [lower](#method-fluent-str-lower)
-[ltrim](#method-fluent-str-ltrim)
 [markdown](#method-fluent-str-markdown)
 [mask](#method-fluent-str-mask)
 [match](#method-fluent-str-match)
@@ -177,7 +179,6 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 [replaceMatches](#method-fluent-str-replace-matches)
 [replaceStart](#method-fluent-str-replace-start)
 [replaceEnd](#method-fluent-str-replace-end)
-[rtrim](#method-fluent-str-rtrim)
 [scan](#method-fluent-str-scan)
 [singular](#method-fluent-str-singular)
 [slug](#method-fluent-str-slug)
@@ -197,6 +198,8 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 [title](#method-fluent-str-title)
 [toBase64](#method-fluent-str-to-base64)
 [trim](#method-fluent-str-trim)
+[ltrim](#method-fluent-str-ltrim)
+[rtrim](#method-fluent-str-rtrim)
 [ucfirst](#method-fluent-str-ucfirst)
 [ucsplit](#method-fluent-str-ucsplit)
 [unwrap](#method-fluent-str-unwrap)
@@ -500,12 +503,12 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 デフォルトでMarkdownは素のHTMLをサポートしており、ユーザー入力を直接使用すると、クロスサイト・スクリプティング（XSS）の脆弱性が生まれます。[CommonMarkの安全性のドキュメント](https://commonmark.thephpleague.com/security/)にあるように、`html_input`オプションを使い、素のHTMLをエスケープ処理もしくは除去できます。また、`allow_unsafe_links`オプションを使って安全でないリンクを許可するかも指定できます。素のHTMLを許可する必要がある場合は、コンパイル済みのMarkdownをHTML Purifierへ通す必要があります。
 
     use Illuminate\Support\Str;
-    
+
     Str::inlineMarkdown('Inject: <script>alert("Hello XSS!");</script>', [
         'html_input' => 'strip',
         'allow_unsafe_links' => false,
     ]);
-    
+
     // Inject: alert(&quot;Hello XSS!&quot;);
 
 <a name="method-str-is"></a>
@@ -1207,6 +1210,39 @@ $repeat = Str::repeat($string, 5);
 
     $htmlString = Str::of('Nuno Maduro')->toHtmlString();
 
+<a name="method-str-trim"></a>
+#### `Str::trim()` {.collection-method}
+
+`Str::trim`メソッドは、指定した文字列の先頭と末尾から空白文字 (またはその他の文字) を除去します。PHPネイティブの`trim`関数と異なり、`Str::trim`メソッドはユニコードの空白文字も除去します。
+
+    use Illuminate\Support\Str;
+
+    $string = Str::trim(' foo bar ');
+
+    // 'foo bar'
+
+<a name="method-str-ltrim"></a>
+#### `Str::ltrim()` {.collection-method}
+
+`Str::ltrim`メソッドは、指定した文字列の先頭から空白文字 (またはその他の文字) を除去します。PHPネイティブの`ltrim`関数と異なり、`Str::ltrim`メソッドはユニコードの空白文字も除去します。
+
+    use Illuminate\Support\Str;
+
+    $string = Str::ltrim('  foo bar  ');
+
+    // 'foo bar  '
+
+<a name="method-str-rtrim"></a>
+#### `Str::rtrim()` {.collection-method}
+
+`Str::rtrim`メソッドは、与えられた文字列の末尾から空白文字 (またはその他の文字) を除去します。PHPネイティブの`rtrim`関数と異なり、`Str::rtrim`メソッドはユニコードの空白文字も除去します。
+
+    use Illuminate\Support\Str;
+
+    $string = Str::rtrim('  foo bar  ');
+
+    // '  foo bar'
+
 <a name="method-str-ucfirst"></a>
 #### `Str::ucfirst()` {.collection-method}
 
@@ -1248,7 +1284,7 @@ $repeat = Str::repeat($string, 5);
     use Illuminate\Support\Str;
 
     return (string) Str::ulid();
-    
+
     // 01gd6r360bp37zj17nxb55yv40
 
 指定したULIDが作成された日時を表す`Illuminate\Support\Carbon`日付インスタンスを取得したい場合、LaravelのCarbon統合が提供している`createFromId`メソッドを使用してください。
@@ -1918,21 +1954,6 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 
     // 'laravel'
 
-<a name="method-fluent-str-ltrim"></a>
-#### `ltrim` {.collection-method}
-
-`ltrim`メソッドは、文字列の左側をトリムします。
-
-    use Illuminate\Support\Str;
-
-    $string = Str::of('  Laravel  ')->ltrim();
-
-    // 'Laravel  '
-
-    $string = Str::of('/Laravel/')->ltrim('/');
-
-    // 'Laravel/'
-
 <a name="method-fluent-str-markdown"></a>
 #### `markdown` {.collection-method}
 
@@ -2292,21 +2313,6 @@ $repeated = Str::of('a')->repeat(5);
 
     // Hello World
 
-<a name="method-fluent-str-rtrim"></a>
-#### `rtrim` {.collection-method}
-
-`rtrim`メソッドは、指定した文字列の右側をトリムします。
-
-    use Illuminate\Support\Str;
-
-    $string = Str::of('  Laravel  ')->rtrim();
-
-    // '  Laravel'
-
-    $string = Str::of('/Laravel/')->rtrim('/');
-
-    // '/Laravel'
-
 <a name="method-fluent-str-scan"></a>
 #### `scan` {.collection-method}
 
@@ -2538,7 +2544,7 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
 <a name="method-fluent-str-trim"></a>
 #### `trim` {.collection-method}
 
-`trim`メソッドは、文字列をトリムします。
+`trim`メソッドは指定文字列をトリムします。PHPネイティブの`trim`関数と異なり、Laravelの`trim`メソッドはユニコードの空白文字も除去します。
 
     use Illuminate\Support\Str;
 
@@ -2549,6 +2555,36 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
     $string = Str::of('/Laravel/')->trim('/');
 
     // 'Laravel'
+
+<a name="method-fluent-str-ltrim"></a>
+#### `ltrim` {.collection-method}
+
+`ltrim`メソッドは指定文字列の左側をトリムします。PHPネイティブの`ltrim`関数と異なり、Laravelの`ltrim`メソッドはユニコードの空白文字も除去します。
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('  Laravel  ')->ltrim();
+
+    // 'Laravel  '
+
+    $string = Str::of('/Laravel/')->ltrim('/');
+
+    // 'Laravel/'
+
+<a name="method-fluent-str-rtrim"></a>
+#### `rtrim` {.collection-method}
+
+`rtrim`メソッドは指定文字列の右側をトリムします。PHPネイティブの`rtrim`関数と異なり、Laravelの`rtrim`メソッドはユニコードの空白文字も除去します。
+
+    use Illuminate\Support\Str;
+
+    $string = Str::of('  Laravel  ')->rtrim();
+
+    // '  Laravel'
+
+    $string = Str::of('/Laravel/')->rtrim('/');
+
+    // '/Laravel'
 
 <a name="method-fluent-str-ucfirst"></a>
 #### `ucfirst` {.collection-method}

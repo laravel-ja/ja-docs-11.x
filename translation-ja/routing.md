@@ -65,7 +65,7 @@ php artisan install:api
 
     Route::get('/user', function (Request $request) {
         return $request->user();
-    })->middleware(Authenticate::using('sanctum'));
+    })->middleware('auth:sanctum');
 
 `routes/api.php`のルートはステートレスで、`api`[ミドルウェアグループ](/docs/{{version}}/middleware#laravels-default-middleware-groups)が指定されます。さらに、`/api` URIプレフィックスがこれらのルートに自動的に適用されるため、ファイル内のすべてのルートへ手作業で適用する必要はありません。アプリケーションの`bootstrap/app.php`ファイルを修正して、このプレフィックスを変更できます。
 

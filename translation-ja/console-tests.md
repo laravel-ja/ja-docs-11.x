@@ -90,6 +90,28 @@ public function test_console_command(): void
 }
 ```
 
+また、`doesntExpectOutput`メソッドを使い、コンソールコマンドが出力を生成しないこともアサートできます。
+
+```php tab=Pest
+test('console command', function () {
+    $this->artisan('example')
+         ->doesntExpectOutput()
+         ->assertExitCode(0);
+});
+```
+
+```php tab=PHPUnit
+/**
+ * コンソールコマンドのテスト
+ */
+public function test_console_command(): void
+{
+    $this->artisan('example')
+            ->doesntExpectOutput()
+            ->assertExitCode(0);
+}
+```
+
 <a name="confirmation-expectations"></a>
 #### 確認の期待
 

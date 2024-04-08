@@ -333,7 +333,7 @@ Eloquentモデルの主キーへ、自動増分整数を使用する代わりに
          *
          * @var string
          */
-        protected $connection = 'sqlite';
+        protected $connection = 'mysql';
     }
 
 <a name="default-attribute-values"></a>
