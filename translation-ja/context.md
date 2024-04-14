@@ -200,6 +200,12 @@ $value = Context::get('key');
 $data = Context::only(['first_key', 'second_key']);
 ```
 
+`pull`メソッドは、コンテキストから情報を取得し、すぐにコンテキストから削除するために使用します。
+
+```php
+$value = Context::pull('key');
+```
+
 コンテキストが格納しているすべての情報を取得したい場合は、`all` メソッドを呼び出します。
 
 ```php
@@ -275,6 +281,7 @@ Context::addHidden(/* ... */);
 Context::addHiddenIf(/* ... */);
 Context::pushHidden(/* ... */);
 Context::getHidden(/* ... */);
+Context::pullHidden(/* ... */);
 Context::onlyHidden(/* ... */);
 Context::allHidden(/* ... */);
 Context::hasHidden(/* ... */);

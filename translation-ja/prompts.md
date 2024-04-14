@@ -4,6 +4,7 @@
 - [インストール](#installation)
 - [利用可能なプロンプト](#available-prompts)
     - [テキスト](#text)
+    - [テキストエリア](#textarea)
     - [パスワード](#password)
     - [確認](#confirm)
     - [選択](#select)
@@ -112,6 +113,75 @@ $name = text(
 $name = text(
     label: 'What is your name?',
     validate: ['name' => 'required|max:255|unique:users,name']
+);
+```
+
+<a name="textarea"></a>
+### テキストエリア
+
+`textarea`関数は、指定した質問をユーザーに促し、複数行のtextareaで入力を受け付け、それを返します。
+
+```php
+use function Laravel\Prompts\textarea;
+
+$story = textarea('Tell me a story.');
+```
+
+プレースホルダ・テキスト、デフォルト値、情報のヒントを含めることもできます。
+
+```php
+$story = textarea(
+    label: 'Tell me a story.',
+    placeholder: 'This is a story about...',
+    hint: 'This will be displayed on your profile.'
+);
+```
+
+<a name="textarea-required"></a>
+#### 必須値
+
+入力値が必要な場合は、`required`引数を渡してください。
+
+```php
+$story = textarea(
+    label: 'Tell me a story.',
+    required: true
+);
+```
+
+バリデーションメッセージをカスタマイズしたい場合は、文字列を渡すこともできます。
+
+```php
+$story = textarea(
+    label: 'Tell me a story.',
+    required: 'A story is required.'
+);
+```
+
+<a name="textarea-validation"></a>
+#### 追加のバリデーション
+
+最後に、追加のバリデーションロジックを実行したい場合は、`validate`引数にクロージャを渡します。
+
+```php
+$story = textarea(
+    label: 'Tell me a story.',
+    validate: fn (string $value) => match (true) {
+        strlen($value) < 250 => 'The story must be at least 250 characters.',
+        strlen($value) > 10000 => 'The story must not exceed 10,000 characters.',
+        default => null
+    }
+);
+```
+
+このクロージャは入力値を受け取り、エラーメッセージを返すか、バリデーションをパスした場合は、`null`を返します。
+
+あるいは、Laravelの[バリデータ](/docs/{{version}}/validation)を利用することもできます。それには、`validate`引数へ属性名と必要なバリデーションルールを含む配列を指定します。
+
+```php
+$story = textarea(
+    label: 'Tell me a story.',
+    validate: ['story' => 'required|max:10000']
 );
 ```
 

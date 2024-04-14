@@ -1939,6 +1939,7 @@ Duskをインストールすると、ベース`Page`クラスが`tests/Browser/P
     namespace Tests\Browser\Pages;
 
     use Laravel\Dusk\Browser;
+    use Laravel\Dusk\Page;
 
     class Dashboard extends Page
     {

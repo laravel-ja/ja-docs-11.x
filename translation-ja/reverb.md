@@ -74,11 +74,11 @@ REVERB_APP_SECRET=my-app-secret
 ```php
 'apps' => [
     [
-        'id' => 'my-app-one',
+        'app_id' => 'my-app-one',
         // ...
     ],
     [
-        'id' => 'my-app-two',
+        'app_id' => 'my-app-two',
         // ...
     ],
 ],
@@ -125,6 +125,16 @@ php artisan reverb:start --host=127.0.0.1 --port=9000
 ```
 
 もしくは、アプリケーションの`.env`設定ファイルに、`REVERB_SERVER_HOST`と`REVERB_SERVER_PORT`環境変数を定義してください。
+
+`REVERB_SERVER_HOST`と`REVERB_SERVER_PORT`環境変数は、`REVERB_HOST`と`REVERB_PORT`と混同してはいけません。前者はReverbサーバ自身を実行するホストとポートを指定するのに対し、一方、後者はブロードキャストメッセージの送信先をLaravelへ指示します。例えば、本番環境では、ポート`443`にある公開Reverbホスト名からのリクエストを、`0.0.0.0:8080`で動作するReverbサーバにルーティングするとしましょう。この場合、環境変数は以下のように定義します。
+
+```ini
+REVERB_SERVER_HOST=0.0.0.0
+REVERB_SERVER_PORT=8080
+
+REVERB_HOST=ws.laravel.com
+REVERB_PORT=443
+```
 
 <a name="debugging"></a>
 ### デバッグ

@@ -58,7 +58,7 @@ LaravelはPHPエコシステムで最高のパッケージを組み合わせ、�
 PHPとComposerをインストールしたら、Composerの`create-project`コマンドで新しいLaravelプロジェクトを作成してください。
 
 ```nothing
-composer create-project laravel/laravel:^11.0 example-app
+composer create-project laravel/laravel example-app
 ```
 
 もしくは、Composerを使い、[Laravelインストーラ](https://github.com/laravel/installer)をグローバルにインストールして、新しいLaravelプロジェクトを作成することもできます。

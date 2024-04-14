@@ -225,7 +225,7 @@
 <a name="method-unique"></a>
 #### `unique($key = null, $strict = false)` {.collection-method}
 
-`unique`メソッドは、コレクション内のすべての一意のモデルを返します。コレクション内の、同じタイプで同じ主キーを持つモデルをすべて削除します。
+`unique`メソッドは、コレクション内のすべての一意のモデルを返します。コレクション内の同じ主キーを持つモデルは、すべて削除します。
 
     $users = $users->unique();
 

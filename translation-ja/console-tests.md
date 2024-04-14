@@ -58,7 +58,7 @@ Laravelで`expectsQuestion`メソッドを使用すれば、コンソールコ�
         $this->line('Your name is '.$name.' and you prefer '.$language.'.');
     });
 
-このコマンドは、`expectsQuestion`、`expectsOutput`、`doesntExpectOutput`、`expectsOutputToContain`、`doesntExpectOutputToContain`、`assertExitCode`メソッドを利用する以下の例でテストできます。
+このコマンドは以下のように、テストしてください。
 
 ```php tab=Pest
 test('console command', function () {
@@ -67,8 +67,6 @@ test('console command', function () {
          ->expectsQuestion('Which language do you prefer?', 'PHP')
          ->expectsOutput('Your name is Taylor Otwell and you prefer PHP.')
          ->doesntExpectOutput('Your name is Taylor Otwell and you prefer Ruby.')
-         ->expectsOutputToContain('Taylor Otwell')
-         ->doesntExpectOutputToContain('you prefer Ruby')
          ->assertExitCode(0);
 });
 ```
@@ -84,8 +82,6 @@ public function test_console_command(): void
          ->expectsQuestion('Which language do you prefer?', 'PHP')
          ->expectsOutput('Your name is Taylor Otwell and you prefer PHP.')
          ->doesntExpectOutput('Your name is Taylor Otwell and you prefer Ruby.')
-         ->expectsOutputToContain('Taylor Otwell')
-         ->doesntExpectOutputToContain('you prefer Ruby')
          ->assertExitCode(0);
 }
 ```
@@ -108,6 +104,28 @@ public function test_console_command(): void
 {
     $this->artisan('example')
             ->doesntExpectOutput()
+            ->assertExitCode(0);
+}
+```
+
+ `expectsOutputToContain`と`doesntExpectOutputToContain`メソッドは、出力の一部に対してアサートするために使います。
+
+```php tab=Pest
+test('console command', function () {
+    $this->artisan('example')
+         ->expectsOutputToContain('Taylor')
+         ->assertExitCode(0);
+});
+```
+
+```php tab=PHPUnit
+/**
+ * Test a console command.
+ */
+public function test_console_command(): void
+{
+    $this->artisan('example')
+            ->expectsOutputToContain('Taylor')
             ->assertExitCode(0);
 }
 ```
