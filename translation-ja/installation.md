@@ -219,7 +219,7 @@ cd example-app
 これらのツールをインストールしたら、Windowsターミナルを使用してアプリケーションのルートディレクトリから `code .`コマンドを実行することで、任意のLaravelプロジェクトを開けます。
 
 <a name="sail-on-linux"></a>
-### Sail on Linux
+### LinuxでのSail
 
 Linuxで開発しており、[Docker Compose](https://docs.docker.com/compose/install/)を既にインストールしている場合は、簡単なターミナルコマンドで新しいLaravelプロジェクトを作成できます。
 
