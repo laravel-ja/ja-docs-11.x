@@ -892,7 +892,7 @@ LaravelはCORS `OPTIONS` HTTPリクエストに対して、設定した値で自
 php artisan config:publish cors
 ```
 
-This command will place a `cors.php` configuration file within your application's `config` directory.
+このコマンドは、`cors.php`設定ファイルをアプリケーションの`config`ディレクトリへ配置します。
 
 > [!NOTE]
 > CORSおよびCORSヘッダの詳細は、[CORSに関するMDN Webドキュメント](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#The_HTTP_response_headers)を参照してください。
