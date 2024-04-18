@@ -745,7 +745,7 @@ Route::get('/categories/{category}', function (Category $category) {
 
 Laravelには、強力でカスタマイズ可能なレート制限サービスがあり、特定のルートやルートグループのトラフィック量を制限するために利用できます。使い始めるには、アプリケーションのニーズに合わせ、レート制限の設定を定義する必要があります。
 
-Rate limiters may be defined within the `boot` method of your application's `App\Providers\AppServiceProvider` class:
+レート制限は、アプリケーションの`App\Providers\AppServiceProvider`クラスの`boot`メソッドの中で定義します。
 
 ```php
 use Illuminate\Cache\RateLimiting\Limit;
