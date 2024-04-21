@@ -13,6 +13,7 @@
     - [検索](#search)
     - [マルチ検索](#multisearch)
     - [一時停止](#pause)
+- [フォーム](#forms)
 - [情報メッセージ](#informational-messages)
 - [テーブル](#tables)
 - [スピン](#spin)
@@ -718,6 +719,61 @@ $ids = multisearch(
 use function Laravel\Prompts\pause;
 
 pause('Press ENTER to continue.');
+```
+
+<a name="forms"></a>
+## フォーム
+
+追加のアクションを実行する前に、情報を収集するため複数のプロンプトを順番に表示することがよくあります。`form`関数でユーザーに埋めてもらうプロンプトをグループ化して作成できます。
+
+```php
+use function Laravel\Prompts\form;
+
+$responses = form()
+    ->text('What is your name?', required: true)
+    ->password('What is your password?', validate: ['password' => 'min:8'])
+    ->confirm('Do you accept the terms?')
+    ->submit();
+```
+
+`submit`メソッドは、フォームのプロンプトから受け取る、全レスポンスを含む数値添字配列を返します。しかし、`name`引数で各プロンプトの名前を指定することも可能です。名前を指定した場合、その名前に対応するプロンプトのレスポンスへアクセスできます。
+
+```php
+use App\Models\User;
+use function Laravel\Prompts\form;
+
+$responses = form()
+    ->text('What is your name?', required: true, name: 'name')
+    ->password(
+        'What is your password?',
+        validate: ['password' => 'min:8'],
+        name: 'password',
+    )
+    ->confirm('Do you accept the terms?')
+    ->submit();
+
+User::create([
+    'name' => $responses['name'],
+    'password' => $responses['password']
+]);
+```
+
+`form`機能を使用する一番の利点は、ユーザーが`CTRL + U`を使用してフォーム内の前のプロンプトに戻ることができることです。これにより、ユーザーはフォーム全体をキャンセルして再開することなく、間違いを直したり、選択を変更したりできます。
+
+フォームのプロンプトをより細かくコントロールする必要がある場合は、プロンプト関数を直接呼び出す代わりに、`add`メソッドを呼び出してください。`add`メソッドには、ユーザーが過去に入力したすべてのレスポンスを渡します。
+
+```php
+use function Laravel\Prompts\form;
+use function Laravel\Prompts\outro;
+
+$responses = form()
+    ->text('What is your name?', required: true, name: 'name')
+    ->add(function ($responses) {
+        return text("How old are you, {$responses['name']}?");
+    }, name: 'age')
+    ->submit();
+
+outro("Your name is {$responses['name']} and you are {$responses['age']} years old.");
 ```
 
 <a name="informational-messages"></a>

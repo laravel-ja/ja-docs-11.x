@@ -197,6 +197,8 @@ SlackのAPIは[さまざまなタイプのアクセストークン](https://api.
 
     $user = Socialite::driver('github')->userFromToken($token);
 
+iOSアプリケーションでFacebook限定ログインを使用している場合、Facebookはアクセストークンの代わりにOIDCトークンを返します。アクセストークンと同様に、OIDCトークンも`userFromToken`メソッドへ渡し、ユーザーの詳細情報を取得できます。
+
 <a name="retrieving-user-details-from-a-token-and-secret-oauth1"></a>
 #### トークンとSecretからのユーザー詳細情報の取得(OAuth1)
 

@@ -347,7 +347,69 @@ class ExampleTest extends TestCase
 <a name="exception-handling"></a>
 ### 例外処理
 
-時には、アプリケーションが特定の例外を投げているかをテストしたい場合も起きます。例外がLaravelの例外ハンドラに捕捉され、HTTPレスポンスとして返されないようにするために、リクエストを行う前に、`withoutExceptionHandling`メソッドを呼び出してください。
+ときには、アプリケーションが特定の例外を投げているかをテストしたい場合も起きます。これを行うために、`Exceptions`ファサードで例外ハンドラを「Fake」できます。例外ハンドラをFakeしたら、`assertReported`メソッドと`assertNotReported`メソッドを使用して、 リクエスト処理中に投げられる例外に対するアサートを行います。
+
+```php tab=Pest
+<?php
+
+use App\Exceptions\InvalidOrderException;
+use Illuminate\Support\Facades\Exceptions;
+
+test('exception is thrown', function () {
+    Exceptions::fake();
+
+    $response = $this->get('/order/1');
+
+    // ある例外が投げられることをアサート
+    Exceptions::assertReported(InvalidOrderException::class);
+
+    // 例外に対してアサート
+    Exceptions::assertReported(function (InvalidOrderException $e) {
+        return $e->getMessage() === 'The order was invalid.';
+    });
+});
+```
+
+```php tab=PHPUnit
+<?php
+
+namespace Tests\Feature;
+
+use App\Exceptions\InvalidOrderException;
+use Illuminate\Support\Facades\Exceptions;
+use Tests\TestCase;
+
+class ExampleTest extends TestCase
+{
+    /**
+     * 基本的なテスト例。
+     */
+    public function test_exception_is_thrown(): void
+    {
+        Exceptions::fake();
+
+        $response = $this->get('/');
+
+        // ある例外が投げられることをアサート
+        Exceptions::assertReported(InvalidOrderException::class);
+
+        // 例外に対してアサート
+        Exceptions::assertReported(function (InvalidOrderException $e) {
+            return $e->getMessage() === 'The order was invalid.';
+        });
+    }
+}
+```
+
+`assertNotReported`メソッドと`assertNothingReported`メソッドを使うと、リクエスト処理中に指定例外が投げられなかった、もしくは例外が全く投げられなかったことを宣言できます。
+
+```php
+Exceptions::assertNotReported(InvalidOrderException::class);
+
+Exceptions::assertNothingReported();
+```
+
+リクエストを行う前に`withoutExceptionHandling`メソッドを呼び出せば、指定リクエストの例外処理を完全に無効にできます。
 
     $response = $this->withoutExceptionHandling()->get('/');
 
@@ -815,6 +877,11 @@ class ExampleTest extends TestCase
     $view = $this->component(Profile::class, ['name' => 'Taylor']);
 
     $view->assertSee('Taylor');
+
+<a name="testing-exceptions"></a>
+## 例外のテスト
+
+If you are testing a（原文のまま。文章が途切れている）
 
 <a name="available-assertions"></a>
 ## 利用可能なアサート

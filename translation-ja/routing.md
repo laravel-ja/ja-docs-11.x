@@ -625,7 +625,7 @@ Laravelは、タイプヒントの変数名がルートセグメント名と一�
 <a name="implicit-enum-binding"></a>
 ### 暗黙のEnumバインディング
 
-PHP8.1から、[Enums](https://www.php.net/manual/ja/language.enumerations.backed.php)のサポートが導入されました。この機能を補完するために、Laravelではルート定義に[「値に依存した（backed）」Enums](https://www.php.net/manual/ja/language.enumerations.backed.php)をタイプヒントすることができ、Laravelはそのルートセグメントが有効なEnum値に対応する場合のみルートを呼び出します。そうでない場合は、404 HTTPレスポンスが自動的に返されます。例えば、次のようなEnumがあるとします。
+PHP8.1から、[Enum](https://www.php.net/manual/ja/language.enumerations.backed.php)のサポートが導入されました。この機能を補完するために、Laravelではルート定義に[値に依存したEnums](https://www.php.net/manual/ja/language.enumerations.backed.php)をタイプヒントすることができ、Laravelはそのルートセグメントが有効なEnum値に対応する場合のみルートを呼び出します。そうでない場合は、404 HTTPレスポンスが自動的に返されます。例えば、次のようなEnumがあるとします。
 
 ```php
 <?php

@@ -948,6 +948,7 @@ The credit card number field is required when payment type is credit card.
 [必須](#rule-required)
 [指定フィールド値一致時必須](#rule-required-if)
 [受け入れ時必須](#rule-required-if-accepted)
+[受け入れ拒否時必須](#rule-required-if-declined)
 [指定フィールド値非一致時必須](#rule-required-unless)
 [指定フィールド存在時必須](#rule-required-with)
 [全指定フィールド存在時必須](#rule-required-with-all)
@@ -1730,7 +1731,12 @@ Internally, this rule uses the PHP `preg_match` function. The pattern specified 
 <a name="rule-required-if-accepted"></a>
 #### required_if_accepted:_他のフィールド_,...
 
-The field under validation must be present and not empty if the _anotherfield_ field is equal to `"yes"`, `"on"`, `1`, `"1"`, `true`, or `"true"`.
+*他のフィールド*が`"yes"`、`"on"`、`1`、`"1"`、`true`、`"true"`と等しい場合、このフィールドが存在し、かつ空でないことをバリデートします。
+
+<a name="rule-required-if-declined"></a>
+#### required_if_declined:_anotherfield_,...
+
+*他のフィールド*が`"no"`、`"off"`、`0`、`"0"`、`false`、`"false"`と等しい場合、このフィールドが存在し、かつ空でないことをバリデートします。
 
 <a name="rule-required-unless"></a>
 #### required\_unless:_他のフィールド_,_値_,...

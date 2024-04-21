@@ -339,7 +339,7 @@ SPAで[プライベート／プレゼンスブロードキャストチャンネ�
         )
         ->withBroadcasting(
             __DIR__.'/../routes/channels.php',
-            ['prefix' => 'api', 'middleware' => ['auth:sanctum']],
+            ['prefix' => 'api', 'middleware' => ['api', 'auth:sanctum']],
         )
 
 次に、Pusherの許可リクエストを成功させるために、[Laravel Echo](/docs/{{version}}/Broadcasting#client-side-installation)を初期化するときにカスタムPusher `authorizer`を提供する必要があります。これにより、アプリケーションは、[クロスドメインリクエスト用に適切に設定した](#cors-and-cookies)`axios`インスタンスを使用するようにPusherを構成できます。

@@ -1492,7 +1492,7 @@ class ExampleTest extends TestCase
         /**
          * 指定イベントの処理
          */
-        public function handle(NotificationSending $event): void
+        public function handle(NotificationSent $event): void
         {
             // ...
         }
