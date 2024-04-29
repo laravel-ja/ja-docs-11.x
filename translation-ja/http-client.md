@@ -35,7 +35,7 @@ Laravelは、[Guzzle HTTPクライアント](http://docs.guzzlephp.org/en/stable
 `get`メソッドは`Illuminate\Http\Client\Response`のインスタンスを返します。これは、レスポンスを調べるために使用できるさまざまなメソッドを提供します。
 
     $response->body() : string;
-    $response->json($key = null, $default = null) : array|mixed;
+    $response->json($key = null, $default = null) : mixed;
     $response->object() : object;
     $response->collect($key = null) : Illuminate\Support\Collection;
     $response->status() : int;

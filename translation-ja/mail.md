@@ -188,6 +188,14 @@ MAIL_FROM_NAME="App Name"
 MAILERSEND_API_KEY=your-api-key
 ```
 
+最後に、アプリケーションの`config/mail.php`設定ファイルの、`mailers`配列へMailerSendを追加します。
+
+```php
+'mailersend' => [
+    'transport' => 'mailersend',
+],
+```
+
 ホストしたテンプレートの使用方法など、MailerSendの詳細は、[MailerSendドライバのドキュメント](https://github.com/mailersend/mailersend-laravel-driver#usage)を参照してください。
 
 <a name="failover-configuration"></a>

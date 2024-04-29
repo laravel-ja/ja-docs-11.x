@@ -205,6 +205,15 @@ Fortify::authenticateThrough(function (Request $request) {
 });
 ```
 
+#### 認証の絞り込み
+
+Fortifyはデフォルトで、`EnsureLoginIsNotThrottled`ミドルウェアを使って認証の試行を絞り込み（throttle）ます。このミドルウェアの絞り込みは、ユーザー名とIPアドレスによる一意の組み合わに対し試みます。
+
+IPアドレスだけによる制限など、アプリケーションによっては、認証の試みを制限する別のアプローチを必要とする場合があるでしょう。そのため、Fortifyでは、`fortify.limiters.login`設定オプションを使い、独自の[レート制限](/docs/{{version}}/routing#rate-limiting) を指定できます。もちろん、この設定オプションはアプリケーションの`config/fortify.php` 設定ファイルにあります。
+
+> [!NOTE]
+> 絞り込み、[２要素認証](/docs/{{version}}/fortify#two-factor-authentication)、外部のウェブ・アプリケーション・ファイアウォール(WAF)を混合して利用することは、アプリケーションの正規ユーザーのための最も強固な防御の提供となるでしょう。
+
 <a name="customizing-authentication-redirects"></a>
 ### リダイレクトのカスタマイズ
 

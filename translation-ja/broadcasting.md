@@ -24,6 +24,7 @@
 - [ブロードキャストイベント](#broadcasting-events)
     - [他の人だけへの送信](#only-to-others)
     - [コネクションのカスタマイズ](#customizing-the-connection)
+    - [無名イベント](#anonymous-events)
 - [ブロードキャストの受け取り](#receiving-broadcasts)
     - [イベントのリッスン](#listening-for-events)
     - [チャンネルの離脱](#leaving-a-channel)
@@ -766,6 +767,65 @@ var socketId = Echo.socketId();
             $this->broadcastVia('pusher');
         }
     }
+
+<a name="anonymous-events"></a>
+### 無名イベント
+
+専用のイベントクラスを作成せずに、アプリケーションのフロントエンドに単純なイベントをブロードキャストしたい場合も起こるでしょう。これを行うため、`Broadcast`ファサードは、「匿名イベント」をブロードキャスト可能です。
+
+```php
+Broadcast::on('orders.'.$order->id)->send();
+```
+
+上記の例は、以下のイベントをブロードキャストします。
+
+```json
+{
+    "event": "AnonymousEvent",
+    "data": "[]",
+    "channel": "orders.1"
+}
+```
+
+`as`と`with`メソッドを使い、イベント名とデータをカスタマイズできます。
+
+```php
+Broadcast::on('orders.'.$order->id)
+    ->as('OrderPlaced')
+    ->with($order)
+    ->send();
+```
+
+上記の例は、以下のイベントをブロードキャストします。
+
+```json
+{
+    "event": "OrderPlaced",
+    "data": "{ id: 1, total: 100 }",
+    "channel": "orders.1"
+}
+```
+
+匿名イベントをプライベートチャンネルやプレゼンスチャンネルでブロードキャストしたい場合は、`private`メソッドと`presence`メソッドを使用します。
+
+```php
+Broadcast::private('orders.'.$order->id)->send();
+Broadcast::presence('channels.'.$channel->id)->send();
+```
+
+`send`メソッドを使って匿名イベントをブロードキャストすると、アプリケーションの[キュー](/docs/{{version}}/queues)へイベントを投入します。しかし、イベントをすぐにブロードキャストしたい場合は、`sendNow`メソッドを使用します。
+
+```php
+Broadcast::on('orders.'.$order->id)->sendNow();
+```
+
+現在認証しているユーザー以外のすべてのチャネル購入者へイベントをブロードキャストするには、`toOthers`メソッドを呼び出します。
+
+```php
+Broadcast::on('orders.'.$order->id)
+    ->toOthers()
+    ->send();
+```
 
 <a name="receiving-broadcasts"></a>
 ## ブロードキャストの受け取り

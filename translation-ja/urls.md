@@ -28,6 +28,32 @@ Laravelは、アプリケーションのURLを生成するのに役立つヘル�
 
     // http://example.com/posts/1
 
+クエリ文字列パラメータを用いたURLを生成するには、`query`メソッドを使います。
+
+    echo url()->query('/posts', ['search' => 'Laravel']);
+
+    // https://example.com/posts?search=Laravel
+
+    echo url()->query('/posts?sort=latest', ['search' => 'Laravel']);
+
+    // http://example.com/posts?sort=latest&search=Laravel
+
+あらかじめパスに存在するクエリ文字列パラメータを指定すると、既存の値を上書きします。
+
+    echo url()->query('/posts?sort=latest', ['sort' => 'oldest']);
+
+    // http://example.com/posts?sort=oldest
+
+値の配列もクエリパラメータとして渡すことができます。これらの値は生成するURLの中で、適切にキー付し、エンコードします。
+
+    echo $url = url()->query('/posts', ['columns' => ['title', 'body']]);
+
+    // http://example.com/posts?columns%5B0%5D=title&columns%5B1%5D=body
+
+    echo urldecode($url);
+
+    // http://example.com/posts?columns[0]=title&columns[1]=body
+
 <a name="accessing-the-current-url"></a>
 ### 現在のURLへのアクセス
 

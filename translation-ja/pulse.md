@@ -35,17 +35,10 @@
 > [!WARNING]
 > 現在、Pulseのファーストパーティストレージの実装には、MySQL、MariaDB、PostgreSQLデータベースが必要です。他のデータベースエンジンを使用する場合は、Pulseデータ用のため別にMySQL、MariaDB、またはPostgreSQLデータベースを必要する必要があります。
 
-Pulseは現在ベータ版なため、ベータリリース版のパッケージをインストールできるように、アプリケーションの`composer.json`ファイルを調整する必要があるでしょう。
-
-```json
-"minimum-stability": "beta",
-"prefer-stable": true
-```
-
-次に、Composerパッケージマネージャを使い、LaravelプロジェクトへPulseをインストールします。
+Pulseは現在ベータ版のため、明示的にベータ版をインストールする必要があります。
 
 ```sh
-composer require laravel/pulse
+composer require laravel/pulse:@beta
 ```
 
 次に、`vendor:publish` Artisanコマンドを使用し、Pulse設定ファイルとマイグレーションファイルをリソース公開します。
