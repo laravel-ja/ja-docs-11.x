@@ -249,7 +249,7 @@ sail yarn
 <a name="meilisearch"></a>
 ### Meilisearch
 
-Sailのインストール時に[Meilisearch](https://www.meilisearch.com)サービスのインストールを選択した場合、アプリケーションの`docker-compose.yml`ファイルには、[Laravel Scout](/docs/{{version}}/scout)と[コンパチブル](https://github.com/meilisearch/meilisearch-laravel-scout)である、この強力な検索エンジンのエントリが含まれます。コンテナを起動したら、環境変数`MEILISEARCH_HOST`に`http://meilisearch:7700`を設定すると、アプリケーション内のMeilisearchインスタンスに接続できます。
+Sailのインストール時に[Meilisearch](https://www.meilisearch.com)サービスのインストールを選択した場合、アプリケーションの`docker-compose.yml`ファイルには[Laravel Scout](/docs/{{version}}/scout)と統合した、この強力な検索エンジンのエントリを用意してあります。コンテナを起動したら、`MEILISEARCH_HOST`環境変数を`http://meilisearch:7700`に設定し、アプリケーション内でMeilisearchインスタンスに接続できます。
 
 ローカルマシンから、Webブラウザの`http://localhost:7700`に移動して、MeilisearchのWebベース管理パネルへアクセスできます。
 

@@ -53,10 +53,7 @@ php artisan octane:install
 <a name="frankenphp"></a>
 ### FrankenPHP
 
-> [!WARNING]  
-> FrankenPHP's Octane integration is in beta and should be used with caution in production.
-
-[FrankenPHP](https://frankenphp.dev) is a PHP application server, written in Go, that supports modern web features like early hints and Zstandard compression. When you install Octane and choose FrankenPHP as your server, Octane will automatically download and install the FrankenPHP binary for you.
+[FrankenPHP](https://frankenphp.dev) is a PHP application server, written in Go, that supports modern web features like early hints, Brotli, and Zstandard compression. When you install Octane and choose FrankenPHP as your server, Octane will automatically download and install the FrankenPHP binary for you.
 
 <a name="frankenphp-via-laravel-sail"></a>
 #### FrankenPHP via Laravel Sail
@@ -107,7 +104,7 @@ Typically, you should access your FrankenPHP Sail application via `https://local
 <a name="frankenphp-via-docker"></a>
 #### FrankenPHP via Docker
 
-Using FrankenPHP's official Docker images can offer improved performance and the use additional extensions not included with static installations of FrankenPHP. In addition, the official Docker images provide support for running FrankenPHP on platforms it doesn't natively support, such as Windows. FrankenPHP's official Docker images are suitable for both local development and production usage.
+Using FrankenPHP's official Docker images can offer improved performance and the use of additional extensions not included with static installations of FrankenPHP. In addition, the official Docker images provide support for running FrankenPHP on platforms it doesn't natively support, such as Windows. FrankenPHP's official Docker images are suitable for both local development and production usage.
 
 You may use the following Dockerfile as a starting point for containerizing your FrankenPHP powered Laravel application:
 

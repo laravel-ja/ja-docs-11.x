@@ -878,11 +878,6 @@ class ExampleTest extends TestCase
 
     $view->assertSee('Taylor');
 
-<a name="testing-exceptions"></a>
-## 例外のテスト
-
-If you are testing a（原文のまま。文章が途切れている）
-
 <a name="available-assertions"></a>
 ## 利用可能なアサート
 

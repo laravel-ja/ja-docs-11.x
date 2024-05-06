@@ -361,7 +361,7 @@ Laravelのイベントブロードキャストを使用すると、WebSocketに�
         /**
          * 注文インスタンス
          *
-         * @var \App\Order
+         * @var \App\Models\Order
          */
         public $order;
     }

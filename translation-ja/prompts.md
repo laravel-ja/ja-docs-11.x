@@ -372,7 +372,7 @@ $role = select(
 <a name="multiselect"></a>
 ### 複数選択
 
-ユーザーが複数の選択肢を選択できるようにする必要がある場合は、`multiselect`関数を使用します。
+ユーザーが複数のオプションを選択できるようにする必要がある場合は、`multiselect`関数を使用してください。
 
 ```php
 use function Laravel\Prompts\multiselect;

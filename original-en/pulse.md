@@ -35,10 +35,10 @@ For in-depth debugging of individual events, check out [Laravel Telescope](/docs
 > [!WARNING]  
 > Pulse's first-party storage implementation currently requires a MySQL, MariaDB, or PostgreSQL database. If you are using a different database engine, you will need a separate MySQL, MariaDB, or PostgreSQL database for your Pulse data.
 
-Since Pulse is currently in beta, you will need to explicitly install the beta release:
+You may install Pulse using the Composer package manager:
 
 ```sh
-composer require laravel/pulse:@beta
+composer require laravel/pulse
 ```
 
 Next, you should publish the Pulse configuration and migration files using the `vendor:publish` Artisan command:
@@ -213,6 +213,12 @@ The `<livewire:pulse.slow-jobs />` card shows the queued jobs in your applicatio
 The `<livewire:pulse.slow-queries />` card shows the database queries in your application that exceed the configured threshold, which is 1,000ms by default.
 
 By default, slow queries are grouped based on the SQL query (without bindings) and the location where it occurred, but you may choose to not capture the location if you wish to group solely on the SQL query.
+
+If you encounter rendering performance issues due to extremely large SQL queries receiving syntax highlighting, you may disable highlighting by adding the `disable-highlighting` prop:
+
+```blade
+<livewire:pulse.slow-queries disable-highlighting />
+```
 
 See the [slow queries recorder](#slow-queries-recorder) documentation for more information.
 
@@ -659,7 +665,7 @@ class TopSellers extends Card
 }
 ```
 
-The `aggregate` method returns return a collection of PHP `stdClass` objects. Each object will contain the `key` property captured earlier, along with keys for each of the requested aggregates:
+The `aggregate` method returns a collection of PHP `stdClass` objects. Each object will contain the `key` property captured earlier, along with keys for each of the requested aggregates:
 
 ```
 @foreach ($topSellers as $seller)

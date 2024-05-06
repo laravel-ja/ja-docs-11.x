@@ -1714,7 +1714,7 @@ Number::spell`メソッドは、指定する数字を単語の文字列へ変換
 
     $value = context('trace_id');
 
-    $value = config('trace_id', $default);
+    $value = context('trace_id', $default);
 
 コンテキストの値を設定するには、キーと値のペアの配列を渡します。
 

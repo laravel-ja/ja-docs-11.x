@@ -35,10 +35,10 @@
 > [!WARNING]
 > 現在、Pulseのファーストパーティストレージの実装には、MySQL、MariaDB、PostgreSQLデータベースが必要です。他のデータベースエンジンを使用する場合は、Pulseデータ用のため別にMySQL、MariaDB、またはPostgreSQLデータベースを必要する必要があります。
 
-Pulseは現在ベータ版のため、明示的にベータ版をインストールする必要があります。
+Pulseは、Composerパッケージマネージャを使ってインストールしてください。
 
 ```sh
-composer require laravel/pulse:@beta
+composer require laravel/pulse
 ```
 
 次に、`vendor:publish` Artisanコマンドを使用し、Pulse設定ファイルとマイグレーションファイルをリソース公開します。
@@ -213,6 +213,12 @@ Pulseがユーザー情報を取得・表示する方法をカスタマイズす
 `<livewire:pulse.slow-queries />`カードは、設定したしきい値（デフォルトでは1,000ms）を超えるアプリケーションのデータベースクエリを表示します。
 
 スロークエリはデフォルトで、ＳＱＬクエリ（バインディングなし）と発生場所に基づいてグループ化されますが、ＳＱＬクエリのみでグループ化したい場合は、発生場所をキャプチャしないこともできます。
+
+非常に大きなSQLクエリがシンタックスハイライトのため、レンダーのパフォーマンスに問題が発生する場合は、`disable-highlighting`プロパティを追加し、ハイライトを無効にできます。
+
+```blade
+<livewire:pulse.slow-queries disable-highlighting />
+```
 
 詳しくは[スロークエリレコーダ](#slow-queries-recorder)のドキュメントを参照してください。
 

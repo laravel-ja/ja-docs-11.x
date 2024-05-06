@@ -4,6 +4,7 @@
 - [サーバ要件](#server-requirements)
 - [サーバ設定](#server-configuration)
     - [Nginx](#nginx)
+    - [FrankenPHP](#frankenphp)
 - [最適化](#optimization)
     - [設定のキャッシュ](#optimizing-configuration-loading)
     - [イベントのキャッシュ](#caching-events)
@@ -86,6 +87,17 @@ server {
     }
 }
 ```
+
+<a name="frankenphp"></a>
+### FrankenPHP
+
+[FrankenPHP](https://frankenphp.dev/)は、Laravelアプリケーションのサーバとしても使用できます。FrankenPHPはGoで書かれたモダンなPHPアプリケーションサーバです。FrankenPHPを利用してLaravelのPHPアプリケーションを提供するには、`php-server`コマンドを実行するだけです：
+
+```shell
+frankenphp php-server -r public/
+```
+
+[Laravel Octane](/docs/{{version}}/octane)統合、HTTP/3、最新の圧縮、Laravelアプリケーションをスタンドアロンバイナリとしてパッケージ化する機能など、FrankenPHPがサポートするより強力な機能を利用するには、FrankenPHPの[Laravelドキュメント](https://frankenphp.dev/docs/laravel/)を参照してください。
 
 <a name="optimization"></a>
 ## 最適化

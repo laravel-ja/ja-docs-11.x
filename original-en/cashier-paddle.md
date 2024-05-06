@@ -160,7 +160,7 @@ Paddle relies on its own JavaScript library to initiate the Paddle checkout widg
 <a name="currency-configuration"></a>
 ### Currency Configuration
 
-You can specify a locale to be used when formatting money values for display on invoices. Internally, Cashier utilizes [PHP's `NumberFormatter` class](https://www.php.net/manual/en/class.numberformatter.php) class to set the currency locale:
+You can specify a locale to be used when formatting money values for display on invoices. Internally, Cashier utilizes [PHP's `NumberFormatter` class](https://www.php.net/manual/en/class.numberformatter.php) to set the currency locale:
 
 ```ini
 CASHIER_CURRENCY_LOCALE=nl_BE
@@ -579,7 +579,7 @@ The currency will be determined based on the IP address of the request; however,
 
     use Laravel\Paddle\Cashier;
 
-    $prices = Cashier::productPrices(['pri_123', 'pri_456'], ['address' => [
+    $prices = Cashier::previewPrices(['pri_123', 'pri_456'], ['address' => [
         'country_code' => 'BE',
         'postal_code' => '1234',
     ]]);
@@ -599,7 +599,7 @@ You may also display the subtotal price and tax amount separately:
 ```blade
 <ul>
     @foreach ($prices as $price)
-        <li>{{ $price->product_title }} - {{ $price->subtotal() }} (+ {{ $price->tax() }} tax)</li>
+        <li>{{ $price->product['name'] }} - {{ $price->subtotal() }} (+ {{ $price->tax() }} tax)</li>
     @endforeach
 </ul>
 ```
@@ -703,7 +703,7 @@ To create a subscription, first retrieve an instance of your billable model from
 
 The first argument given to the `subscribe` method is the specific price the user is subscribing to. This value should correspond to the price's identifier in Paddle. The `returnTo` method accepts a URL that your user will be redirected to after they successfully complete the checkout. The second argument passed to the `subscribe` method should be the internal "type" of the subscription. If your application only offers a single subscription, you might call this `default` or `primary`. This subscription type is only for internal application usage and is not meant to be displayed to users. In addition, it should not contain spaces and it should never be changed after creating the subscription.
 
-You may also provide an array of custom meta data regarding the subscription using the `customData` method:
+You may also provide an array of custom metadata regarding the subscription using the `customData` method:
 
     $checkout = $request->user()->subscribe($premium = 12345, 'default')
         ->customData(['key' => 'value'])
@@ -722,7 +722,7 @@ After the user has finished their checkout, a `subscription_created` webhook wil
 <a name="checking-subscription-status"></a>
 ### Checking Subscription Status
 
-Once a user is subscribed to your application, you may check their subscription status using a variety of convenient methods. First, the `subscribed` method returns `true` if the user has an valid subscription, even if the subscription is currently within its trial period:
+Once a user is subscribed to your application, you may check their subscription status using a variety of convenient methods. First, the `subscribed` method returns `true` if the user has a valid subscription, even if the subscription is currently within its trial period:
 
     if ($user->subscribed()) {
         // ...
