@@ -1,6 +1,6 @@
-# Laravel1.x公式ドキュメント翻訳リポジトリ
+# Laravel11.x公式ドキュメント翻訳リポジトリ
 
-このリポジトリはPHP Webアプリフレームワーク、Laravel11.xの公式英文ドキュメントを日本語へ翻訳しています。
+このリポジトリはPHP Webアプリフレームワーク、Laravel11.xの公式英文ドキュメントを日本語へ翻訳しています。ドキュメントはreadouble.comでも、公開しています。
 
 This is a Japanese translation repository for Laravel 11.x official documentations.
 
@@ -79,7 +79,7 @@ Issueで報告していただくのが、一番簡単です。
 
 ### メンテナンス期間
 
-原則、Laravel1１.xのメンテ（バグフィックス）期間である１年６ヶ月間。
+原則、Laravel11.xのメンテ（バグフィックス）期間である１年６ヶ月間。
 
 ### メンテナンス方針
 
