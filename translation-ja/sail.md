@@ -140,7 +140,7 @@ sail up -d
 
 アプリケーションのコンテナが開始されると、Webブラウザ（http:// localhost）でプロジェクトにアクセスできます。
 
-To stop all of the containers, you may simply press Control + C to stop the container's execution. Or, if the containers are running in the background, you may use the `stop` command:
+すべてのコンテナを停止するには、単にControl+Cキーを押してコンテナの実行を停止してください。あるいは、コンテナをバックグラウンドで実行している場合は、`stop`コマンドを使ってください。
 
 ```shell
 sail stop
