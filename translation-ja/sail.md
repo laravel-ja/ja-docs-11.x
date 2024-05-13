@@ -132,7 +132,7 @@ Sailを開始する前に、ローカルコンピューターで他のWebサー�
 sail up
 ```
 
-すべてのDockerコンテナをバックグラウンドで起動するには、Sailを「デタッチdetached)」モードで起動します。
+すべてのDockerコンテナをバックグラウンドで起動するには、Sailを「デタッチ(detached)」モードで起動します。
 
 ```shell
 sail up -d
