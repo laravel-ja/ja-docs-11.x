@@ -169,8 +169,14 @@ public function boot(): void
 
 `<livewire:pulse.servers />`カードは、`pulse:check`コマンドを実行しているすべてのサーバのシステムリソースの使用状況を表示します。システムリソースのレポートについては、[サーバレコーダ](#servers-recorder) のドキュメントを参照してください。
 
+インフラのサーバをリプレースしている場合、非アクティブなサーバをPulseダッシュボードへ表示しないようにしたい場合が起きるかと思います。この場合は、`ignore-after`プロップを使用します。このプロップには、非アクティブなサーバをPulseダッシュボードから削除するまでの秒数を指定します。もしくは、`1 hour`や`3 days and 1 hour`のように、相対時間形式の文字列を指定することもできます。
+
+```blade
+<livewire:pulse.servers ignore-after="3 hours" />
+```
+
 <a name="application-usage-card"></a>
-#### Application Usage
+#### アプリケーション使用状況
 
 `<livewire:pulse.usage />`カードは、アプリケーションへのリクエスト、ジョブのディスパッチ、遅いリクエストを作り出した上位１０ユーザーを表示します。
 
@@ -214,10 +220,10 @@ Pulseがユーザー情報を取得・表示する方法をカスタマイズす
 
 スロークエリはデフォルトで、ＳＱＬクエリ（バインディングなし）と発生場所に基づいてグループ化されますが、ＳＱＬクエリのみでグループ化したい場合は、発生場所をキャプチャしないこともできます。
 
-非常に大きなSQLクエリがシンタックスハイライトのため、レンダーのパフォーマンスに問題が発生する場合は、`disable-highlighting`プロパティを追加し、ハイライトを無効にできます。
+非常に大きなSQLクエリがシンタックスハイライトのため、レンダーのパフォーマンスに問題が発生する場合は、`without-highlighting`プロパティを追加し、ハイライトを無効にできます。
 
 ```blade
-<livewire:pulse.slow-queries disable-highlighting />
+<livewire:pulse.slow-queries without-highlighting />
 ```
 
 詳しくは[スロークエリレコーダ](#slow-queries-recorder)のドキュメントを参照してください。

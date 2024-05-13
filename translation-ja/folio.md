@@ -109,7 +109,7 @@ php artisan folio:list
 Folioのディレクトリ内にディレクトリを１つ以上作成すれば、ネストしたルートを作成できます。例えば、`/user/profile`からアクセスできるページを作成するには、`pages/user`ディレクトリ内に`profile.blade.php`テンプレートを作成します。
 
 ```bash
-php artisan make:folio user/profile
+php artisan folio:page user/profile
 
 # pages/user/profile.blade.php → /user/profile
 ```
@@ -120,10 +120,10 @@ php artisan make:folio user/profile
 特定のページをディレクトリの「インデックス」にしたい場合があります。Folioディレクトリ内に、`index.blade.php`テンプレートを配置すると、そのディレクトリのルートへのリクエストは、すべてそのページにルーティングされます。
 
 ```bash
-php artisan make:folio index
+php artisan folio:page index
 # pages/index.blade.php → /
 
-php artisan make:folio users/index
+php artisan folio:page users/index
 # pages/users/index.blade.php → /users
 ```
 
@@ -133,7 +133,7 @@ php artisan make:folio users/index
 多くの場合、リクエストのURLセグメントをページに注入し、それらをやりとりできるようにする必要があります。例えば、プロフィールを表示しているユーザーの"ID"にアクセスする必要があるかもしれません。これを実現するには、ページのファイル名のセグメントを角括弧で囲みます。
 
 ```bash
-php artisan make:folio "users/[id]"
+php artisan folio:page "users/[id]"
 
 # pages/users/[id].blade.php → /users/1
 ```
@@ -149,7 +149,7 @@ php artisan make:folio "users/[id]"
 複数のセグメントをキャプチャするには、カプセル化するセグメントの前に３つのドット（`...`）を付けます。
 
 ```bash
-php artisan make:folio "users/[...ids]"
+php artisan folio:page "users/[...ids]"
 
 # pages/users/[...ids].blade.php → /users/1/2/3
 ```
@@ -170,7 +170,7 @@ php artisan make:folio "users/[...ids]"
 ページテンプレートのファイル名のワイルドカードセグメントが、アプリケーションのEloquentモデルに対応する場合、Folioは自動的にLaravelのルートモデルバインディング機能を利用し、依存解決したモデルインスタンスをページに注入しようとします。
 
 ```bash
-php artisan make:folio "users/[User]"
+php artisan folio:page "users/[User]"
 
 # pages/users/[User].blade.php → /users/1
 ```
@@ -194,7 +194,7 @@ Windowsの場合は、`-`でモデル名とキーを区切ります。例：`[Po
 Folioはデフォルトで、アプリケーションの`app/Models`ディレクトリ内でモデルを検索します。しかし必要であれば、テンプレートのファイル名に完全修飾したモデルクラス名を指定できます。
 
 ```bash
-php artisan make:folio "users/[.App.Models.User]"
+php artisan folio:page "users/[.App.Models.User]"
 
 # pages/users/[.App.Models.User].blade.php → /users/1
 ```

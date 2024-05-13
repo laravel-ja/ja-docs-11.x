@@ -185,23 +185,7 @@ Laravelは、認証したユーザーをゲートクロージャへ自動的に�
 <a name="upgrading-horizon"></a>
 ## Horizonのアップグレード
 
-Horizo​​nの新しいメジャーバージョンにアップグレードするときは、[アップグレードガイド](https://github.com/laravel/horizo​​n/blob/master/UPGRADE.md)を注意深く確認することが重要です。さらに、新しいHorizo​​nバージョンにアップグレードするときは、Horizo​​nのアセットを再公開する必要があります。
-
-```shell
-php artisan horizon:publish
-```
-
-アセットを最新の状態に保ち、将来の更新で問題が発生しないようにするには、アプリケーションの`composer.json`ファイルの`post-update-cmd`スクリプトに、`vendor:publish --tag=laravel-assets`コマンドを追加します。
-
-```json
-{
-    "scripts": {
-        "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-        ]
-    }
-}
-```
+Horizonの新しいメジャーバージョンへアップグレードするときは、[アップグレードガイド](https://github.com/laravel/horizon/blob/master/UPGRADE.md)を注意深く確認することが重要です。
 
 <a name="running-horizon"></a>
 ## Horizonの実行

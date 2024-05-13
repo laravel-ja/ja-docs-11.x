@@ -1170,7 +1170,7 @@ You may use the `onGenericTrial` method if you wish to know specifically that th
 
 You can extend an existing trial period on a subscription by invoking the `extendTrial` method and specifying the moment in time that the trial should end:
 
-    $user->subsription()->extendTrial(now()->addDays(5));
+    $user->subscription()->extendTrial(now()->addDays(5));
 
 Or, you may immediately activate a subscription by ending its trial by calling the `activate` method on the subscription:
 
@@ -1220,7 +1220,7 @@ Cashier automatically handles subscription cancelation on failed charges and oth
 - `Laravel\Paddle\Events\WebhookReceived`
 - `Laravel\Paddle\Events\WebhookHandled`
 
-Both events contain the full payload of the Paddle webhook. For example, if you wish to handle the `transaction_billed` webhook, you may register a [listener](/docs/{{version}}/events#defining-listeners) that will handle the event:
+Both events contain the full payload of the Paddle webhook. For example, if you wish to handle the `transaction.billed` webhook, you may register a [listener](/docs/{{version}}/events#defining-listeners) that will handle the event:
 
     <?php
 
@@ -1235,7 +1235,7 @@ Both events contain the full payload of the Paddle webhook. For example, if you 
          */
         public function handle(WebhookReceived $event): void
         {
-            if ($event->payload['alert_name'] === 'transaction_billed') {
+            if ($event->payload['event_type'] === 'transaction.billed') {
                 // Handle the incoming event...
             }
         }

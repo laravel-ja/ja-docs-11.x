@@ -879,6 +879,7 @@ The credit card number field is required when payment type is credit card.
 [範囲](#rule-between)
 [論理](#rule-boolean)
 [確認](#rule-confirmed)
+[包含](#rule-contains)
 [現在のパスワード](#rule-current-password)
 [日付](#rule-date)
 [同一日付](#rule-date-equals)
@@ -1096,6 +1097,11 @@ The credit card number field is required when payment type is credit card.
 #### confirmed
 
 フィールドが、`{field}_confirmation`フィールドと一致する必要があります。たとえば、バリデーション中のフィールドが「password」の場合、「password_confirmation」フィールドが入力に存在し一致している必要があります。
+
+<a name="rule-contains"></a>
+#### contains:_foo_,_bar_,...
+
+フィールドが、指定するパラメータ値を全部含んでいる配列であることをバリデートします。
 
 <a name="rule-current-password"></a>
 #### current_password
