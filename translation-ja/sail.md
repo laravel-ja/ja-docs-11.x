@@ -88,7 +88,7 @@ php artisan sail:install --devcontainer
 <a name="rebuilding-sail-images"></a>
 ### Sailイメージの再構築
 
-すべてのパッケージやソフトウェアが最新であることを確認するために、セイルイメージを完全に作り直したいと思うこともあるでしょう。それには、`build`コマンドを使用します。
+すべてのパッケージやソフトウェアが最新であることを確認するために、sailイメージを完全に作り直したいと思うこともあるでしょう。それには、`build`コマンドを使用します。
 
 ```shell
 docker compose down -v
