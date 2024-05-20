@@ -317,12 +317,16 @@ For convenience, some commonly used regular expression patterns have helper meth
     })->whereUuid('id');
 
     Route::get('/user/{id}', function (string $id) {
-        //
+        // ...
     })->whereUlid('id');
 
     Route::get('/category/{category}', function (string $category) {
         // ...
     })->whereIn('category', ['movie', 'song', 'painting']);
+    
+    Route::get('/category/{category}', function (string $category) {
+        // ...
+    })->whereIn('category', CategoryEnum::cases());
 
 If the incoming request does not match the route pattern constraints, a 404 HTTP response will be returned.
 

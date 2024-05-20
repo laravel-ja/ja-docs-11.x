@@ -309,6 +309,20 @@ php artisan pulse:restart
 
 オプションで、スロージョブのしきい値、[サンプル・レート](#sampling)、無視するジョブのパターンを調整できます。
 
+他よりも時間がかかると予想されるジョブがあるかもしれません。その場合、ジョブごとにしきい値を設定してください。
+
+```php
+Recorders\SlowJobs::class => [
+    // ...
+    'threshold' => [
+        '#^App\Jobs\GenerateYearlyReports$#' => 5000,
+        'default' => env('PULSE_SLOW_JOBS_THRESHOLD', 1000),
+    ],
+],
+```
+
+ジョブのクラス名にマッチする正規表現パターンがない場合は、`'default'`値を使用します。
+
 <a name="slow-outgoing-requests-recorder"></a>
 #### スロー送信リクエスト
 
@@ -316,10 +330,24 @@ php artisan pulse:restart
 
 オプションで、スロー送信リクエストのしきい値、[サンプルレート](#sampling)、無視するURLパターンを調整できます。
 
+他より時間がかかると予想される送信リクエストがあるかもしれません。その場合、リクエスト毎のしきい値を設定してください。
+
+```php
+Recorders\SlowOutgoingRequests::class => [
+    // ...
+    'threshold' => [
+        '#backup.zip$#' => 5000,
+        'default' => env('PULSE_SLOW_OUTGOING_REQUESTS_THRESHOLD', 1000),
+    ],
+],
+```
+
+リクエストのURLにマッチする正規表現パターンがない場合は、`'default'`値を使います。
+
 また、URLのグループ化を設定して、類似のURLを同じエントリとしてグループ化することもできます。例えば、URLパスから一意のIDを削除したり、ドメインのみでグループ化したりすることができます。グループは、URLの一部を「FindしてReplaceする」正規表現を使用して設定します。一例を設定ファイルに用意しています。
 
 ```php
-レコード\OutgoingRequests::class => [
+Recorders\SlowOutgoingRequests::class => [
     // ...
     'groups' => [
         // '#^https://api\.github\.com/repos/.*$#' => 'api.github.com/repos/*',
@@ -338,12 +366,40 @@ php artisan pulse:restart
 
 オプションで、スロークエリのしきい値、[サンプルレート](#sampling)、無視するクエリパターンを調整できます。また、クエリの場所をキャプチャするかも設定可能です。キャプチャした場所は、Pulseダッシュボードに表示され、クエリの発信元を追跡するのに役立ちますが、同じクエリが複数の場所で行われた場合は、それぞれの場所で複数回表示します。
 
+他よりも時間がかかると予想されるクエリがあるかもしれません。その場合、クエリ毎にしきい値を設定してください。
+
+```php
+Recorders\SlowQueries::class => [
+    // ...
+    'threshold' => [
+        '#^insert into `yearly_reports`#' => 5000,
+        'default' => env('PULSE_SLOW_QUERIES_THRESHOLD', 1000),
+    ],
+],
+```
+
+クエリのSQLにマッチする正規表現パターンがない場合は、`'default'`値を使います。
+
 <a name="slow-requests-recorder"></a>
 #### スローリクエスト
 
 `Requests`レコーダは、アプリケーションへのリクエストに関する情報を記録し、[スローリクエスト](#slow-requests-card)カードと[アプリケーションの使用状況](#application-usage-card)カードに表示します。
 
 オプションで、スロールートのしきい値、[サンプルレート](#sampling)、無視するパスを調整できます。
+
+他よりも時間がかかると予想されるリクエストがあるかもしれません。その場合は、リクエスト毎にしきい値を設定してください。
+
+```php
+Recorders\SlowRequests::class => [
+    // ...
+    'threshold' => [
+        '#^/admin/#' => 5000,
+        'default' => env('PULSE_SLOW_REQUESTS_THRESHOLD', 1000),
+    ],
+],
+```
+
+リクエストのURLにマッチする正規表現パターンがない場合は、`'default'`値を使います。
 
 <a name="servers-recorder"></a>
 #### サーバ

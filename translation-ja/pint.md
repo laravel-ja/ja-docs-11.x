@@ -7,6 +7,8 @@
     - [プリセット](#presets)
     - [ルール](#rules)
     - [ファイル／フォルダの除外](#excluding-files-or-folders)
+- [継続的インテグレーション](#continuous-integration)
+    - [GitHub Actions](#running-tests-on-github-actions)
 
 <a name="introduction"></a>
 ## イントロダクション
@@ -155,4 +157,48 @@ Pintは、[PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)上に構�
         "path/to/excluded-file.php"
     ]
 }
+```
+
+<a name="continuous-integration"></a>
+## 継続的インテグレーション
+
+<a name="running-tests-on-github-actions"></a>
+### GitHub Actions
+
+Laravel Pintでプロジェクトのリントを自動化するには、[GitHub Actions](https://github.com/features/actions)を設定し、新しいコードをGitHubにプッシュするたびにPintを実行します。まず、**Settings > Actions > General > Workflow permissions**で、GitHub内のワークフローへ、"Read and write permissions"を付与してください。次に、`.github/workflows/lint.yml`ファイルを以下の内容で作成します。
+
+```yaml
+name: Fix Code Style
+
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.3]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: json, dom, curl, libxml, mbstring
+          coverage: none
+
+      - name: Install Pint
+        run: composer global require laravel/pint
+
+      - name: Run Pint
+        run: pint
+
+      - name: Commit linted files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Fixes coding style"
 ```

@@ -317,12 +317,16 @@ Laravelサービスコンテナにより、ルートのコールバックへ自�
     })->whereUuid('id');
 
     Route::get('/user/{id}', function (string $id) {
-        //
+        // ...
     })->whereUlid('id');
 
     Route::get('/category/{category}', function (string $category) {
         // ...
     })->whereIn('category', ['movie', 'song', 'painting']);
+    
+    Route::get('/category/{category}', function (string $category) {
+        // ...
+    })->whereIn('category', CategoryEnum::cases());
 
 受信リクエストがルートパターンの制約と一致しない場合、404 HTTPレスポンスを返します。
 
