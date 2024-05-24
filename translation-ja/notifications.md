@@ -169,9 +169,6 @@ php artisan make:notification InvoicePaid
 
     $user->notify((new InvoicePaid($invoice))->delay($delay));
 
-<a name="delaying-notifications-per-channel"></a>
-#### チャンネルごとの遅延通知
-
 特定のチャンネルの遅​​延量を指定するため、配列を`delay`メソッドに渡せます。
 
     $user->notify((new InvoicePaid($invoice))->delay([
@@ -251,6 +248,27 @@ php artisan make:notification InvoicePaid
             'mail' => 'mail-queue',
             'slack' => 'slack-queue',
         ];
+    }
+
+<a name="queued-notification-middleware"></a>
+#### キュー投入する通知
+
+キュー投入する通知は、[キュー投入するジョブと同じく](/docs/{{version}}/queues#job-middleware)ミドルウェアを定義できます。これを使い始めるには、通知クラスで`middleware`メソッドを定義します。`middleware`メソッドは`$notifiable`変数と`$channel`変数を受け取り、通知の宛先に応じて返すミドルウェアをカスタマイズできます。
+
+    use Illuminate\Queue\Middleware\RateLimited;
+
+    /**
+     * 通知ジョブを通過させるミドルウェアを取得
+     *
+     * @return array<int, object>
+     */
+    public function middleware(object $notifiable, string $channel)
+    {
+        return match ($channel) {
+            'email' => [new RateLimited('postmark')],
+            'slack' => [new RateLimited('slack')],
+            default => [],
+        };
     }
 
 <a name="queued-notifications-and-database-transactions"></a>
@@ -1492,7 +1510,7 @@ class ExampleTest extends TestCase
         /**
          * 指定イベントの処理
          */
-        public function handle(NotificationSending $event): void
+        public function handle(NotificationSent $event): void
         {
             // ...
         }

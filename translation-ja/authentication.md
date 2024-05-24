@@ -25,6 +25,7 @@
 - [カスタムユーザープロバイダの追加](#adding-custom-user-providers)
     - [ユーザープロバイダ契約](#the-user-provider-contract)
     - [Authenticatable契約](#the-authenticatable-contract)
+- [パスワードの自動再ハッシュ](#automatic-password-rehashing)
 - [ソーシャル認証](/docs/{{version}}/socialite)
 - [イベント](#events)
 
@@ -715,6 +716,25 @@ Laravelは、現在のデバイスのセッションを無効にすることな�
 このインターフェイスはシンプルです。`getAuthIdentifierName`メソッドはユーザーの「主キー」カラムの名前を返し、`getAuthIdentifier`メソッドはユーザーの「主キー」を返します。MySQLバックエンドを使用している場合は、ユーザーレコードに割り当てられている自動インクリメントの主キーになるでしょう。`getAuthPasswordName`メソッドは、ユーザーのパスワードカラムの名前を返します。`getAuthPassword`メソッドは、ユーザーのハッシュ化済みパスワードを返します。
 
 このインターフェイスにより、使用しているORMまたはストレージ抽象化レイヤーに関係なく、認証システムは任意の「ユーザー」クラスと連携できます。デフォルトでLaravelは`app/Models`ディレクトリに、このインターフェイスを実装する`App\Models\User`クラスを持っています。
+
+<a name="automatic-password-rehashing"></a>
+## パスワードの自動再ハッシュ
+
+Laravelのデフォルトのパスワードハッシュアルゴリズムはbcryptです。bcryptハッシュの「ストレッチング（ワークファクター）」は、アプリケーションの`config/hashing.php`設定ファイル、または`BCRYPT_ROUNDS`環境変数で調整できます。
+
+通常、bcryptのワークファクターは、ＣＰＵ／ＧＰＵの処理能力が上がるにつれ増やし、時間をかけていく必要があります。アプリケーションのbcryptワークファクターを上げると、Laravelのスターターキットや、`attempt`メソッドにより[手作業でユーザーを認証する](#authenticating-users)時に、Laravelはユーザーのパスワードをスムーズかつ自動的にリハッシュします。
+
+通常、パスワードの自動再ハッシュは、アプリケーションを混乱させることはありません。しかし、`hashing`設定ファイルを公開することで、この動作を無効にすることができます：
+
+```shell
+php artisan config:publish hashing
+```
+
+設定ファイルを公開したら、`rehash_on_login`設定値を`false`へ設定してください。
+
+```php
+'rehash_on_login' => false,
+```
 
 <a name="events"></a>
 ## イベント

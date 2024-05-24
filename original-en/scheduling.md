@@ -43,6 +43,14 @@ In addition to scheduling using closures, you may also schedule [invokable objec
 
     Schedule::call(new DeleteRecentUsers)->daily();
 
+If you prefer to reserve your `routes/console.php` file for command definitions only, you may use the `withSchedule` method in your application's `bootstrap/app.php` file to define your scheduled tasks. This method accepts a closure that receives an instance of the scheduler:
+
+    use Illuminate\Console\Scheduling\Schedule;
+
+    ->withSchedule(function (Schedule $schedule) {
+        $schedule->call(new DeleteRecentUsers)->daily();
+    })
+
 If you would like to view an overview of your scheduled tasks and the next time they are scheduled to run, you may use the `schedule:list` Artisan command:
 
 ```bash
@@ -381,7 +389,7 @@ On most operating systems, cron jobs are limited to running a maximum of once pe
 
 When sub-minute tasks are defined within your application, the `schedule:run` command will continue running until the end of the current minute instead of exiting immediately. This allows the command to invoke all required sub-minute tasks throughout the minute.
 
-Since sub-minute tasks that take longer than expected to run could delay the execution of later sub-minute tasks, it is recommend that all sub-minute tasks dispatch queued jobs or background commands to handle the actual task processing:
+Since sub-minute tasks that take longer than expected to run could delay the execution of later sub-minute tasks, it is recommended that all sub-minute tasks dispatch queued jobs or background commands to handle the actual task processing:
 
     use App\Jobs\DeleteRecentUsers;
 

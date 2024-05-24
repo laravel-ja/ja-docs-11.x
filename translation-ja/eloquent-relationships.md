@@ -1558,7 +1558,7 @@ Eloquentは、`withCount`メソッドに加えて、`withMin`、`withMax`、`wit
 <a name="eager-loading"></a>
 ## Eagerロード
 
-When accessing Eloquent relationships as properties, the related models are "lazy loaded". This means the relationship data is not actually loaded until you first access the property. However, Eloquent can "eager load" relationships at the time you query the parent model. Eager loading alleviates the "N + 1" query problem. To illustrate the N + 1 query problem, consider a `Book` model that "belongs to" to an `Author` model:
+Eloquentのリレーションにプロパティとしてアクセスする場合、関連モデルは「遅延ロード」されます。これは、最初にプロパティにアクセスするまでリレーションデータが実際にロードされないことを意味します。しかし、Eloquentは親モデルへのクエリ時に「Eagerロード」可能です。Eagerロードは、「Ｎ＋１」クエリ問題を軽減します。Ｎ＋１クエリ問題を説明するため、`Author`モデルに「属する（belongs）」`Book`モデルを考えてみましょう：
 
     <?php
 

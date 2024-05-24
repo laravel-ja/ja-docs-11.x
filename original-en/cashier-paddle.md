@@ -160,7 +160,7 @@ Paddle relies on its own JavaScript library to initiate the Paddle checkout widg
 <a name="currency-configuration"></a>
 ### Currency Configuration
 
-You can specify a locale to be used when formatting money values for display on invoices. Internally, Cashier utilizes [PHP's `NumberFormatter` class](https://www.php.net/manual/en/class.numberformatter.php) class to set the currency locale:
+You can specify a locale to be used when formatting money values for display on invoices. Internally, Cashier utilizes [PHP's `NumberFormatter` class](https://www.php.net/manual/en/class.numberformatter.php) to set the currency locale:
 
 ```ini
 CASHIER_CURRENCY_LOCALE=nl_BE
@@ -407,10 +407,10 @@ Besides swapping plans you'll also need to allow your customers to cancel their 
         return redirect()->route('dashboard');
     })->name('subscription.cancel');
 
-And now your subscription will get cancelled at the end of its billing period.
+And now your subscription will get canceled at the end of its billing period.
 
 > [!NOTE]  
-> As long as you have configured Cashier's webhook handling, Cashier will automatically keep your application's Cashier-related database tables in sync by inspecting the incoming webhooks from Paddle. So, for example, when you cancel a customer's subscription via Paddle's dashboard, Cashier will receive the corresponding webhook and mark the subscription as "cancelled" in your application's database.
+> As long as you have configured Cashier's webhook handling, Cashier will automatically keep your application's Cashier-related database tables in sync by inspecting the incoming webhooks from Paddle. So, for example, when you cancel a customer's subscription via Paddle's dashboard, Cashier will receive the corresponding webhook and mark the subscription as "canceled" in your application's database.
 
 <a name="checkout-sessions"></a>
 ## Checkout Sessions
@@ -579,7 +579,7 @@ The currency will be determined based on the IP address of the request; however,
 
     use Laravel\Paddle\Cashier;
 
-    $prices = Cashier::productPrices(['pri_123', 'pri_456'], ['address' => [
+    $prices = Cashier::previewPrices(['pri_123', 'pri_456'], ['address' => [
         'country_code' => 'BE',
         'postal_code' => '1234',
     ]]);
@@ -599,7 +599,7 @@ You may also display the subtotal price and tax amount separately:
 ```blade
 <ul>
     @foreach ($prices as $price)
-        <li>{{ $price->product_title }} - {{ $price->subtotal() }} (+ {{ $price->tax() }} tax)</li>
+        <li>{{ $price->product['name'] }} - {{ $price->subtotal() }} (+ {{ $price->tax() }} tax)</li>
     @endforeach
 </ul>
 ```
@@ -703,7 +703,7 @@ To create a subscription, first retrieve an instance of your billable model from
 
 The first argument given to the `subscribe` method is the specific price the user is subscribing to. This value should correspond to the price's identifier in Paddle. The `returnTo` method accepts a URL that your user will be redirected to after they successfully complete the checkout. The second argument passed to the `subscribe` method should be the internal "type" of the subscription. If your application only offers a single subscription, you might call this `default` or `primary`. This subscription type is only for internal application usage and is not meant to be displayed to users. In addition, it should not contain spaces and it should never be changed after creating the subscription.
 
-You may also provide an array of custom meta data regarding the subscription using the `customData` method:
+You may also provide an array of custom metadata regarding the subscription using the `customData` method:
 
     $checkout = $request->user()->subscribe($premium = 12345, 'default')
         ->customData(['key' => 'value'])
@@ -722,7 +722,7 @@ After the user has finished their checkout, a `subscription_created` webhook wil
 <a name="checking-subscription-status"></a>
 ### Checking Subscription Status
 
-Once a user is subscribed to your application, you may check their subscription status using a variety of convenient methods. First, the `subscribed` method returns `true` if the user has an valid subscription, even if the subscription is currently within its trial period:
+Once a user is subscribed to your application, you may check their subscription status using a variety of convenient methods. First, the `subscribed` method returns `true` if the user has a valid subscription, even if the subscription is currently within its trial period:
 
     if ($user->subscribed()) {
         // ...
@@ -1170,7 +1170,7 @@ You may use the `onGenericTrial` method if you wish to know specifically that th
 
 You can extend an existing trial period on a subscription by invoking the `extendTrial` method and specifying the moment in time that the trial should end:
 
-    $user->subsription()->extendTrial(now()->addDays(5));
+    $user->subscription()->extendTrial(now()->addDays(5));
 
 Or, you may immediately activate a subscription by ending its trial by calling the `activate` method on the subscription:
 
@@ -1220,7 +1220,7 @@ Cashier automatically handles subscription cancelation on failed charges and oth
 - `Laravel\Paddle\Events\WebhookReceived`
 - `Laravel\Paddle\Events\WebhookHandled`
 
-Both events contain the full payload of the Paddle webhook. For example, if you wish to handle the `transaction_billed` webhook, you may register a [listener](/docs/{{version}}/events#defining-listeners) that will handle the event:
+Both events contain the full payload of the Paddle webhook. For example, if you wish to handle the `transaction.billed` webhook, you may register a [listener](/docs/{{version}}/events#defining-listeners) that will handle the event:
 
     <?php
 
@@ -1235,7 +1235,7 @@ Both events contain the full payload of the Paddle webhook. For example, if you 
          */
         public function handle(WebhookReceived $event): void
         {
-            if ($event->payload['alert_name'] === 'transaction_billed') {
+            if ($event->payload['event_type'] === 'transaction.billed') {
                 // Handle the incoming event...
             }
         }

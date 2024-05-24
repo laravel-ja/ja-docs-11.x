@@ -36,7 +36,7 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-メール送信は複雑であってはいけません。Laravelは、人気のある[Symfony Mailer](https://symfony.com/doc/7.0/mailer.html)コンポーネントを利用した、クリーンでシンプルなメールAPIを提供します。LaravelとSymfony Mailerは、SMTP、Mailgun、Postmark、Amazon SES、および`sendmail`経由でメールを送信するためのドライバを提供し、ローカルまたはクラウドベースのお好みのサービスを通して、メールの送信をすぐに始められます。
+メール送信は複雑であってはいけません。Laravelは、人気のある[Symfony Mailer](https://symfony.com/doc/7.0/mailer.html)コンポーネントを利用した、クリーンでシンプルなメールAPIを提供します。LaravelとSymfony Mailerは、SMTP、Mailgun、Postmark、Resend、Amazon SES、および`sendmail`経由でメールを送信するためのドライバを提供し、ローカルまたはクラウドベースのお好みのサービスを通して、メールの送信をすぐに始められます。
 
 <a name="configuration"></a>
 ### 設定
@@ -48,7 +48,7 @@ Laravelのメールサービスは、アプリケーションの`config/mail.php
 <a name="driver-prerequisites"></a>
 ### ドライバ／トランスポートの前提条件
 
-Mailgun、Postmark、 MailerSendなどのAPIベースドライバは、SMTPサーバを経由してメールを送信するよりもシンプルで高速です。可能であれば、こうしたドライバのいずれかを使用することをお勧めします。
+Mailgun、Postmark、Resend、MailerSendなどのAPIベースドライバは、SMTPサーバを経由してメールを送信するよりもシンプルで高速です。可能であれば、こうしたドライバのいずれかを使用することをお勧めします。
 
 <a name="mailgun-driver"></a>
 #### Mailgunドライバ
@@ -89,7 +89,7 @@ composer require symfony/mailgun-mailer symfony/http-client
 <a name="postmark-driver"></a>
 #### Postmarkドライバ
 
-Postmarkドライバを使用する場合は、Composerを使い、SymfonyのPostmark Mailerトランスポートをインストールします。
+[Postmark](https://postmarkapp.com/)ドライバを使用する場合は、Composerを使い、SymfonyのPostmark Mailerトランスポートをインストールします。
 
 ```shell
 composer require symfony/postmark-mailer symfony/http-client
@@ -112,6 +112,21 @@ composer require symfony/postmark-mailer symfony/http-client
     ],
 
 この方法で、メッセージストリームが異なる複数のPostmarkメーラを設定することもできます。
+
+<a name="resend-driver"></a>
+#### Resendドライバ
+
+[Resend](https://resend.com/)ドライバを使用する場合は、ComposerでResendのPHP SDKをインストールしてください。
+
+```shell
+composer require resend/resend-php
+```
+
+次に、アプリケーションの`config/mail.php`設定ファイルの`default`オプションを`resend`に設定します。アプリケーションのデフォルトメーラを設定したら、`config/services.php`設定ファイルに以下のオプションを確実に含めてください。
+
+    'resend' => [
+        'key' => env('RESEND_KEY'),
+    ],
 
 <a name="ses-driver"></a>
 #### SESドライバ
@@ -186,6 +201,14 @@ MAIL_FROM_ADDRESS=app@yourdomain.com
 MAIL_FROM_NAME="App Name"
 
 MAILERSEND_API_KEY=your-api-key
+```
+
+最後に、アプリケーションの`config/mail.php`設定ファイルの、`mailers`配列へMailerSendを追加します。
+
+```php
+'mailersend' => [
+    'transport' => 'mailersend',
+],
 ```
 
 ホストしたテンプレートの使用方法など、MailerSendの詳細は、[MailerSendドライバのドキュメント](https://github.com/mailersend/mailersend-laravel-driver#usage)を参照してください。

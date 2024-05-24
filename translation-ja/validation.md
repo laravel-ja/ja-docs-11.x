@@ -879,6 +879,7 @@ The credit card number field is required when payment type is credit card.
 [範囲](#rule-between)
 [論理](#rule-boolean)
 [確認](#rule-confirmed)
+[包含](#rule-contains)
 [現在のパスワード](#rule-current-password)
 [日付](#rule-date)
 [同一日付](#rule-date-equals)
@@ -948,6 +949,7 @@ The credit card number field is required when payment type is credit card.
 [必須](#rule-required)
 [指定フィールド値一致時必須](#rule-required-if)
 [受け入れ時必須](#rule-required-if-accepted)
+[受け入れ拒否時必須](#rule-required-if-declined)
 [指定フィールド値非一致時必須](#rule-required-unless)
 [指定フィールド存在時必須](#rule-required-with)
 [全指定フィールド存在時必須](#rule-required-with-all)
@@ -1095,6 +1097,11 @@ The credit card number field is required when payment type is credit card.
 #### confirmed
 
 フィールドが、`{field}_confirmation`フィールドと一致する必要があります。たとえば、バリデーション中のフィールドが「password」の場合、「password_confirmation」フィールドが入力に存在し一致している必要があります。
+
+<a name="rule-contains"></a>
+#### contains:_foo_,_bar_,...
+
+フィールドが、指定するパラメータ値を全部含んでいる配列であることをバリデートします。
 
 <a name="rule-current-password"></a>
 #### current_password
@@ -1730,7 +1737,12 @@ Internally, this rule uses the PHP `preg_match` function. The pattern specified 
 <a name="rule-required-if-accepted"></a>
 #### required_if_accepted:_他のフィールド_,...
 
-The field under validation must be present and not empty if the _anotherfield_ field is equal to `"yes"`, `"on"`, `1`, `"1"`, `true`, or `"true"`.
+*他のフィールド*が`"yes"`、`"on"`、`1`、`"1"`、`true`、`"true"`と等しい場合、このフィールドが存在し、かつ空でないことをバリデートします。
+
+<a name="rule-required-if-declined"></a>
+#### required_if_declined:_anotherfield_,...
+
+*他のフィールド*が`"no"`、`"off"`、`0`、`"0"`、`false`、`"false"`と等しい場合、このフィールドが存在し、かつ空でないことをバリデートします。
 
 <a name="rule-required-unless"></a>
 #### required\_unless:_他のフィールド_,_値_,...

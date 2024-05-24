@@ -19,12 +19,12 @@
     - [ブロードキャスト条件](#broadcast-conditions)
     - [ブロードキャストとデータベーストランザクション](#broadcasting-and-database-transactions)
 - [チャンネルの認可](#authorizing-channels)
-    - [認可ルートの定義](#defining-authorization-routes)
     - [認可コールバックの定義](#defining-authorization-callbacks)
     - [チャンネルクラスの定義](#defining-channel-classes)
 - [ブロードキャストイベント](#broadcasting-events)
     - [他の人だけへの送信](#only-to-others)
     - [コネクションのカスタマイズ](#customizing-the-connection)
+    - [無名イベント](#anonymous-events)
 - [ブロードキャストの受け取り](#receiving-broadcasts)
     - [イベントのリッスン](#listening-for-events)
     - [チャンネルの離脱](#leaving-a-channel)
@@ -68,7 +68,9 @@ Laravelのイベントブロードキャストの使用を開始するには、L
 <a name="configuration"></a>
 ### 設定
 
-アプリケーションのすべてのイベントブロードキャスト設定は、`config/broadcasting.php`設定ファイルに保存してあります。Laravelはいくつかのブロードキャストドライバをあらかじめサポートしています。 [Laravel Reverb](/docs/{{version}}/reverb)、[Pusher Channels](https://pusher.com/channels)、[Ably](https://ably.com)、ローカル開発とデバッグ用の`log`ドライバです。さらに、テスト中にブロードキャストを完全に無効にできる、`null`ドライバも用意しています。これらの各ドライバの設定例は、`config/broadcasting.php`設定ファイルにあります。
+アプリケーションのイベントブロードキャスト設定はすべて`config/broadcasting.php`設定ファイルに保存されます。アプリケーションの中にこのファイルがなくても、心配ありません。`install:broadcasting` Artisanコマンドを実行するで作成できます。
+
+Laravelはいくつかのブロードキャストドライバをあらかじめサポートしています。 [Laravel Reverb](/docs/{{version}}/reverb)、[Pusher Channels](https://pusher.com/channels)、[Ably](https://ably.com)、ローカル開発とデバッグ用の`log` ドライバです。さらに、テスト中にブロードキャストを完全に 無効にできる、`null`ドライバも用意しています。これらの各ドライバの設定例は、`config/broadcasting.php`設定ファイルにあります。
 
 <a name="installation"></a>
 #### インストール
@@ -79,7 +81,7 @@ Laravelのイベントブロードキャストの使用を開始するには、L
 php artisan install:broadcasting
 ```
 
-`install:broadcasting`コマンドを実行すると、`routes/channels.php`ファイルを作成し、アプリケーションのブロードキャスト認可ルートとコールバックを登録します。
+`install:broadcasting`コマンドを実行すると、`config/broadcasting.php`ファイルができます。更に、`routes/channels.php`ファイルも生成され、これでアプリケーションのブロードキャスト認可ルートとコールバックを登録します。
 
 <a name="queue-configuration"></a>
 #### キュー設定
@@ -359,7 +361,7 @@ Laravelのイベントブロードキャストを使用すると、WebSocketに�
         /**
          * 注文インスタンス
          *
-         * @var \App\Order
+         * @var \App\Models\Order
          */
         public $order;
     }
@@ -765,6 +767,65 @@ var socketId = Echo.socketId();
             $this->broadcastVia('pusher');
         }
     }
+
+<a name="anonymous-events"></a>
+### 無名イベント
+
+専用のイベントクラスを作成せずに、アプリケーションのフロントエンドに単純なイベントをブロードキャストしたい場合も起こるでしょう。これを行うため、`Broadcast`ファサードは、「匿名イベント」をブロードキャスト可能です。
+
+```php
+Broadcast::on('orders.'.$order->id)->send();
+```
+
+上記の例は、以下のイベントをブロードキャストします。
+
+```json
+{
+    "event": "AnonymousEvent",
+    "data": "[]",
+    "channel": "orders.1"
+}
+```
+
+`as`と`with`メソッドを使い、イベント名とデータをカスタマイズできます。
+
+```php
+Broadcast::on('orders.'.$order->id)
+    ->as('OrderPlaced')
+    ->with($order)
+    ->send();
+```
+
+上記の例は、以下のイベントをブロードキャストします。
+
+```json
+{
+    "event": "OrderPlaced",
+    "data": "{ id: 1, total: 100 }",
+    "channel": "orders.1"
+}
+```
+
+匿名イベントをプライベートチャンネルやプレゼンスチャンネルでブロードキャストしたい場合は、`private`メソッドと`presence`メソッドを使用します。
+
+```php
+Broadcast::private('orders.'.$order->id)->send();
+Broadcast::presence('channels.'.$channel->id)->send();
+```
+
+`send`メソッドを使って匿名イベントをブロードキャストすると、アプリケーションの[キュー](/docs/{{version}}/queues)へイベントを投入します。しかし、イベントをすぐにブロードキャストしたい場合は、`sendNow`メソッドを使用します。
+
+```php
+Broadcast::on('orders.'.$order->id)->sendNow();
+```
+
+現在認証しているユーザー以外のすべてのチャネル購入者へイベントをブロードキャストするには、`toOthers`メソッドを呼び出します。
+
+```php
+Broadcast::on('orders.'.$order->id)
+    ->toOthers()
+    ->send();
+```
 
 <a name="receiving-broadcasts"></a>
 ## ブロードキャストの受け取り

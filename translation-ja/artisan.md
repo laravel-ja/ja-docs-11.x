@@ -645,7 +645,7 @@ Laravelが必要な引数をユーザーから収集する必要がある場合�
 Laravelはデフォルトで、自動的に`app/Console/Commands`ディレクトリ内の全てのコマンドを登録します。しかし、アプリケーションの`bootstrap/app.php`ファイル内の`withCommands`メソッドを使用すれば、他のディレクトリをスキャンし、Artisanコマンドを探すようLaravelに指示できます。
 
     ->withCommands([
-        __DIR__.'../app/Domain/Orders/Commands',
+        __DIR__.'/../app/Domain/Orders/Commands',
     ])
 
 必要であれば、`withCommands`メソッドへコマンドのクラス名を与え、手作業でコマンドを登録することもできます。

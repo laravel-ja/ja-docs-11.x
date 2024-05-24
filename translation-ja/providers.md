@@ -26,7 +26,7 @@ Laravelは、メーラー、キュー、キャッシュなどのコアサービ�
 
 すべてのサービスプロバイダは、`Illuminate\Support\ServiceProvider`クラスを拡張します。ほとんどのサービスプロバイダは、`register`と`boot`メソッドを持っています。`register`メソッドの中では**[サービスコンテナ](/docs/{{version}}/container)への登録だけ**を行わなくてはなりません。他のイベントリスナやルート、その他の機能の一部でも、`register`メソッドの中で登録しようとしてはいけません。
 
-`make:provider` Artisanコマンドラインにより、新しいプロバイダが生成できます。
+`make:provider` Artisanコマンドラインにより、新しいプロバイダを生成できます。Laravelは、アプリケーションの`bootstrap/providers.php`ファイルへ、新しいプロバイダーを自動的に登録します。
 
 ```shell
 php artisan make:provider RiakServiceProvider

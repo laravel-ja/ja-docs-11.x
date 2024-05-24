@@ -65,7 +65,7 @@ php artisan install:api
 
     Route::get('/user', function (Request $request) {
         return $request->user();
-    })->middleware(Authenticate::using('sanctum'));
+    })->middleware('auth:sanctum');
 
 `routes/api.php`のルートはステートレスで、`api`[ミドルウェアグループ](/docs/{{version}}/middleware#laravels-default-middleware-groups)が指定されます。さらに、`/api` URIプレフィックスがこれらのルートに自動的に適用されるため、ファイル内のすべてのルートへ手作業で適用する必要はありません。アプリケーションの`bootstrap/app.php`ファイルを修正して、このプレフィックスを変更できます。
 
@@ -317,12 +317,16 @@ Laravelサービスコンテナにより、ルートのコールバックへ自�
     })->whereUuid('id');
 
     Route::get('/user/{id}', function (string $id) {
-        //
+        // ...
     })->whereUlid('id');
 
     Route::get('/category/{category}', function (string $category) {
         // ...
     })->whereIn('category', ['movie', 'song', 'painting']);
+    
+    Route::get('/category/{category}', function (string $category) {
+        // ...
+    })->whereIn('category', CategoryEnum::cases());
 
 受信リクエストがルートパターンの制約と一致しない場合、404 HTTPレスポンスを返します。
 
@@ -625,7 +629,7 @@ Laravelは、タイプヒントの変数名がルートセグメント名と一�
 <a name="implicit-enum-binding"></a>
 ### 暗黙のEnumバインディング
 
-PHP8.1から、[Enums](https://www.php.net/manual/ja/language.enumerations.backed.php)のサポートが導入されました。この機能を補完するために、Laravelではルート定義に[「値に依存した（backed）」Enums](https://www.php.net/manual/ja/language.enumerations.backed.php)をタイプヒントすることができ、Laravelはそのルートセグメントが有効なEnum値に対応する場合のみルートを呼び出します。そうでない場合は、404 HTTPレスポンスが自動的に返されます。例えば、次のようなEnumがあるとします。
+PHP8.1から、[Enum](https://www.php.net/manual/ja/language.enumerations.backed.php)のサポートが導入されました。この機能を補完するために、Laravelではルート定義に[値に依存したEnums](https://www.php.net/manual/ja/language.enumerations.backed.php)をタイプヒントすることができ、Laravelはそのルートセグメントが有効なEnum値に対応する場合のみルートを呼び出します。そうでない場合は、404 HTTPレスポンスが自動的に返されます。例えば、次のようなEnumがあるとします。
 
 ```php
 <?php
@@ -745,7 +749,7 @@ Route::get('/categories/{category}', function (Category $category) {
 
 Laravelには、強力でカスタマイズ可能なレート制限サービスがあり、特定のルートやルートグループのトラフィック量を制限するために利用できます。使い始めるには、アプリケーションのニーズに合わせ、レート制限の設定を定義する必要があります。
 
-Rate limiters may be defined within the `boot` method of your application's `App\Providers\AppServiceProvider` class:
+レート制限は、アプリケーションの`App\Providers\AppServiceProvider`クラスの`boot`メソッドの中で定義します。
 
 ```php
 use Illuminate\Cache\RateLimiting\Limit;
@@ -892,7 +896,7 @@ LaravelはCORS `OPTIONS` HTTPリクエストに対して、設定した値で自
 php artisan config:publish cors
 ```
 
-This command will place a `cors.php` configuration file within your application's `config` directory.
+このコマンドは、`cors.php`設定ファイルをアプリケーションの`config`ディレクトリへ配置します。
 
 > [!NOTE]
 > CORSおよびCORSヘッダの詳細は、[CORSに関するMDN Webドキュメント](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#The_HTTP_response_headers)を参照してください。

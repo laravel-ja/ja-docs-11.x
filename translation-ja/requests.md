@@ -431,7 +431,7 @@ JSONリクエストをアプリケーションに送信する場合、リクエ�
         // ...
     }
 
-    $request->whenMissing('name', function (array $input) {
+    $request->whenMissing('name', function () {
         // "name"の値がない
     }, function () {
         // "name"が存在する場合の処理…
@@ -620,7 +620,7 @@ TLS/SSL証明書を末端とするロードバランサーの背後でアプリ�
     })
 
 > [!NOTE]
-> AWS Elastic Load Balancingを使用している場合、`headers`の値は`Request::HEADER_X_FORWARDED_AWS_ELB`でなければなりません。`headers`の値で使用できる定数の詳細については、Symfonyのドキュメント、[信頼するプロキシ](https://symfony.com/doc/7.0/deployment/proxies.html)を参照してください。
+> AWS Elastic Load Balancingを使用する場合、`headers`の値は`Request::HEADER_X_FORWARDED_AWS_ELB`である必要があります。ロードバランサが[RFC 7239](https://www.rfc-editor.org/rfc/rfc7239#section-4)にある標準の`Forwarded`ヘッダを使用している場合、`headers`の値は`Request::HEADER_FORWARDED`である必要があります。`headers`の値で使われる定数の詳細は、Symfonyの[信用するプロキシ](https://symfony.com/doc/7.0/deployment/proxies.html)のドキュメントを参照してください。
 
 <a name="trusting-all-proxies"></a>
 #### すべてのプロキシを信頼する

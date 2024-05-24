@@ -60,6 +60,10 @@
 
 Laravelは、PHP8.2.0以上が必要になりました。
 
+#### curl7.34.0必須
+
+LaravelのHTTPクライアントは、curl7.34.0以上が必要になりました。
+
 #### Composerの依存パッケージ
 
 アプリケーションの`composer.json`ファイルにある、以下の依存パッケージを更新してください。
@@ -294,7 +298,7 @@ $table->float('amount', precision: 53)->unsigned();
 ```
 
 <a name="dedicated-mariadb-driver"></a>
-#### Dedicated MariaDB Driver
+#### MariaDB専用ドライバ
 
 **影響の可能性： かなり低い**
 
@@ -410,7 +414,7 @@ public function scalar($query, $bindings = [], $useReadPdo = true);
 
 **影響の可能性： 中程度**
 
-Laravel11はCarbon2とCarbon3の両方をサポートしています。Carbonは、Laravelやエコシステム全体のパッケージで広く利用されている日付操作ライブラリです。Carbon3をインストールする場合は、Carbonの[変更ログ](https://github.com/briannesbitt/Carbon/releases/tag/3.0.0)を確認してください。
+Laravel11は、Carbon2とCarbon3の両方をサポートしています。Carbonは、Laravelやエコシステム全体のパッケージで広く利用されている日付操作ライブラリです。Carbon3にアップグレードする場合、`diffIn*`メソッドが浮動小数点数を返すようになり、時差を示す負の値を返す可能性があることに注意してください。Carbonの [変更履歴](https://github.com/briannesbitt/Carbon/releases/tag/3.0.0)に、これやその他の変更点に対する処理の詳細が記載されています。
 
 <a name="mail"></a>
 ### メール

@@ -4,6 +4,7 @@
 - [インストール](#installation)
 - [利用可能なプロンプト](#available-prompts)
     - [テキスト](#text)
+    - [テキストエリア](#textarea)
     - [パスワード](#password)
     - [確認](#confirm)
     - [選択](#select)
@@ -12,6 +13,7 @@
     - [検索](#search)
     - [マルチ検索](#multisearch)
     - [一時停止](#pause)
+- [フォーム](#forms)
 - [情報メッセージ](#informational-messages)
 - [テーブル](#tables)
 - [スピン](#spin)
@@ -112,6 +114,75 @@ $name = text(
 $name = text(
     label: 'What is your name?',
     validate: ['name' => 'required|max:255|unique:users,name']
+);
+```
+
+<a name="textarea"></a>
+### テキストエリア
+
+`textarea`関数は、指定した質問をユーザーに促し、複数行のtextareaで入力を受け付け、それを返します。
+
+```php
+use function Laravel\Prompts\textarea;
+
+$story = textarea('Tell me a story.');
+```
+
+プレースホルダ・テキスト、デフォルト値、情報のヒントを含めることもできます。
+
+```php
+$story = textarea(
+    label: 'Tell me a story.',
+    placeholder: 'This is a story about...',
+    hint: 'This will be displayed on your profile.'
+);
+```
+
+<a name="textarea-required"></a>
+#### 必須値
+
+入力値が必要な場合は、`required`引数を渡してください。
+
+```php
+$story = textarea(
+    label: 'Tell me a story.',
+    required: true
+);
+```
+
+バリデーションメッセージをカスタマイズしたい場合は、文字列を渡すこともできます。
+
+```php
+$story = textarea(
+    label: 'Tell me a story.',
+    required: 'A story is required.'
+);
+```
+
+<a name="textarea-validation"></a>
+#### 追加のバリデーション
+
+最後に、追加のバリデーションロジックを実行したい場合は、`validate`引数にクロージャを渡します。
+
+```php
+$story = textarea(
+    label: 'Tell me a story.',
+    validate: fn (string $value) => match (true) {
+        strlen($value) < 250 => 'The story must be at least 250 characters.',
+        strlen($value) > 10000 => 'The story must not exceed 10,000 characters.',
+        default => null
+    }
+);
+```
+
+このクロージャは入力値を受け取り、エラーメッセージを返すか、バリデーションをパスした場合は、`null`を返します。
+
+あるいは、Laravelの[バリデータ](/docs/{{version}}/validation)を利用することもできます。それには、`validate`引数へ属性名と必要なバリデーションルールを含む配列を指定します。
+
+```php
+$story = textarea(
+    label: 'Tell me a story.',
+    validate: ['story' => 'required|max:10000']
 );
 ```
 
@@ -301,7 +372,7 @@ $role = select(
 <a name="multiselect"></a>
 ### 複数選択
 
-ユーザーが複数の選択肢を選択できるようにする必要がある場合は、`multiselect`関数を使用します。
+ユーザーが複数のオプションを選択できるようにする必要がある場合は、`multiselect`関数を使用してください。
 
 ```php
 use function Laravel\Prompts\multiselect;
@@ -648,6 +719,61 @@ $ids = multisearch(
 use function Laravel\Prompts\pause;
 
 pause('Press ENTER to continue.');
+```
+
+<a name="forms"></a>
+## フォーム
+
+追加のアクションを実行する前に、情報を収集するため複数のプロンプトを順番に表示することがよくあります。`form`関数でユーザーに埋めてもらうプロンプトをグループ化して作成できます。
+
+```php
+use function Laravel\Prompts\form;
+
+$responses = form()
+    ->text('What is your name?', required: true)
+    ->password('What is your password?', validate: ['password' => 'min:8'])
+    ->confirm('Do you accept the terms?')
+    ->submit();
+```
+
+`submit`メソッドは、フォームのプロンプトから受け取る、全レスポンスを含む数値添字配列を返します。しかし、`name`引数で各プロンプトの名前を指定することも可能です。名前を指定した場合、その名前に対応するプロンプトのレスポンスへアクセスできます。
+
+```php
+use App\Models\User;
+use function Laravel\Prompts\form;
+
+$responses = form()
+    ->text('What is your name?', required: true, name: 'name')
+    ->password(
+        'What is your password?',
+        validate: ['password' => 'min:8'],
+        name: 'password',
+    )
+    ->confirm('Do you accept the terms?')
+    ->submit();
+
+User::create([
+    'name' => $responses['name'],
+    'password' => $responses['password']
+]);
+```
+
+`form`機能を使用する一番の利点は、ユーザーが`CTRL + U`を使用してフォーム内の前のプロンプトに戻ることができることです。これにより、ユーザーはフォーム全体をキャンセルして再開することなく、間違いを直したり、選択を変更したりできます。
+
+フォームのプロンプトをより細かくコントロールする必要がある場合は、プロンプト関数を直接呼び出す代わりに、`add`メソッドを呼び出してください。`add`メソッドには、ユーザーが過去に入力したすべてのレスポンスを渡します。
+
+```php
+use function Laravel\Prompts\form;
+use function Laravel\Prompts\outro;
+
+$responses = form()
+    ->text('What is your name?', required: true, name: 'name')
+    ->add(function ($responses) {
+        return text("How old are you, {$responses['name']}?");
+    }, name: 'age')
+    ->submit();
+
+outro("Your name is {$responses['name']} and you are {$responses['age']} years old.");
 ```
 
 <a name="informational-messages"></a>

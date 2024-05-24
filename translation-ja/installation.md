@@ -53,12 +53,12 @@ LaravelはPHPエコシステムで最高のパッケージを組み合わせ、�
 <a name="creating-a-laravel-project"></a>
 ## Laravelプロジェクトの作成
 
-最初のLaravelプロジェクトを作成する前に、ローカルマシンにPHPと[Composer](https://getcomposer.org)を確実にインストールしてください。macOSで開発している場合、PHPとComposerは[Laravel Herd](https://herd.laravel.com)を介して数分でインストールできます。さらに、[NodeとNPMのインストール](https://nodejs.org)も推奨します。
+最初のLaravelプロジェクトを作成する前に、ローカルマシンにPHPと[Composer](https://getcomposer.org)を確実にインストールしてください。macOSやWindowsで開発している場合、PHPとComposerは[Laravel Herd](https://herd.laravel.com)を介して数分でインストールできます。さらに、[NodeとNPMのインストール](https://nodejs.org)も推奨します。
 
 PHPとComposerをインストールしたら、Composerの`create-project`コマンドで新しいLaravelプロジェクトを作成してください。
 
 ```nothing
-composer create-project laravel/laravel:^11.0 example-app
+composer create-project laravel/laravel example-app
 ```
 
 もしくは、Composerを使い、[Laravelインストーラ](https://github.com/laravel/installer)をグローバルにインストールして、新しいLaravelプロジェクトを作成することもできます。
@@ -219,7 +219,7 @@ cd example-app
 これらのツールをインストールしたら、Windowsターミナルを使用してアプリケーションのルートディレクトリから `code .`コマンドを実行することで、任意のLaravelプロジェクトを開けます。
 
 <a name="sail-on-linux"></a>
-### Sail on Linux
+### LinuxでのSail
 
 Linuxで開発しており、[Docker Compose](https://docs.docker.com/compose/install/)を既にインストールしている場合は、簡単なターミナルコマンドで新しいLaravelプロジェクトを作成できます。
 

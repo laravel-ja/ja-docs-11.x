@@ -879,6 +879,7 @@ Below is a list of all available validation rules and their function:
 [Between](#rule-between)
 [Boolean](#rule-boolean)
 [Confirmed](#rule-confirmed)
+[Contains](#rule-contains)
 [Current Password](#rule-current-password)
 [Date](#rule-date)
 [Date Equals](#rule-date-equals)
@@ -948,6 +949,7 @@ Below is a list of all available validation rules and their function:
 [Required](#rule-required)
 [Required If](#rule-required-if)
 [Required If Accepted](#rule-required-if-accepted)
+[Required If Declined](#rule-required-if-declined)
 [Required Unless](#rule-required-unless)
 [Required With](#rule-required-with)
 [Required With All](#rule-required-with-all)
@@ -1095,6 +1097,11 @@ The field under validation must be able to be cast as a boolean. Accepted input 
 #### confirmed
 
 The field under validation must have a matching field of `{field}_confirmation`. For example, if the field under validation is `password`, a matching `password_confirmation` field must be present in the input.
+
+<a name="rule-contains"></a>
+#### contains:_foo_,_bar_,...
+
+The field under validation must be an array that contains all of the given parameter values.
 
 <a name="rule-current-password"></a>
 #### current_password
@@ -1731,6 +1738,11 @@ If you would like to construct a more complex condition for the `required_if` ru
 #### required_if_accepted:_anotherfield_,...
 
 The field under validation must be present and not empty if the _anotherfield_ field is equal to `"yes"`, `"on"`, `1`, `"1"`, `true`, or `"true"`.
+
+<a name="rule-required-if-declined"></a>
+#### required_if_declined:_anotherfield_,...
+
+The field under validation must be present and not empty if the _anotherfield_ field is equal to `"no"`, `"off"`, `0`, `"0"`, `false`, or `"false"`.
 
 <a name="rule-required-unless"></a>
 #### required_unless:_anotherfield_,_value_,...

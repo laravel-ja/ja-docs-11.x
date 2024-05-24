@@ -53,10 +53,7 @@ php artisan octane:install
 <a name="frankenphp"></a>
 ### FrankenPHP
 
-> [!WARNING]
-> FrankenPHPのOctane統合はベータ版であり、本番環境での使用には注意が必要です。
-
-[FrankenPHP](https://frankenphp.dev)は、Goで書かれたPHPアプリケーションサーバで、アーリーヒントやZstandard圧縮といった最新のウェブ機能をサポートしています。Octaneをインストールし、FrankenPHP をサーバとして選択すると、Octaneが自動でFrankenPHPのバイナリをダウンロードしてインストールします。
+[FrankenPHP](https://frankenphp.dev)はGoで書かれたPHPアプリケーションサーバです。Early hints、Brotli、Zstandard圧縮といった最新のウェブ機能をサポートしています。Octane をインストールし、FrankenPHP をサーバとして選択すると、Octaneが自動的にFrankenPHPのバイナリをダウンロードしてインストールします。
 
 <a name="frankenphp-via-laravel-sail"></a>
 #### Laravel SailでのFrankenPHPの利用

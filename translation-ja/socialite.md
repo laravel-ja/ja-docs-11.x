@@ -39,7 +39,7 @@ Socialiteの新しいメジャーバージョンにアップグレードする�
 
 Socialiteを使用する前に、アプリケーションが利用するOAuthプロバイダの認証情報を追加する必要があります。通常、これらの認証情報は、認証するサービスのダッシュボード内で「開発者用アプリケーション」を作成することで取得できます。
 
-こうした認証情報は、アプリケーションの`config/services.php`設定ファイルへ記述します。キーは`facebook`, `twitter`（OAuth1.0）、`twitter-oauth-2`（OAuth 2.0）、`linkedin-openid`、`google`、`github`、`gitlab`、`bitbucket`、`slack`で、アプリケーションで必要なプロバイダによります。
+こうした認証情報は、アプリケーションの`config/services.php`設定ファイルへ記述します。キーは`facebook`, `twitter`（OAuth1.0）、`twitter-oauth-2`（OAuth 2.0）、`linkedin-openid`、`google`、`github`、`gitlab`、`bitbucket`、`slack`、`slack-openid`で、アプリケーションで必要なプロバイダによります。
 
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),
@@ -196,6 +196,8 @@ SlackのAPIは[さまざまなタイプのアクセストークン](https://api.
     use Laravel\Socialite\Facades\Socialite;
 
     $user = Socialite::driver('github')->userFromToken($token);
+
+iOSアプリケーションでFacebook限定ログインを使用している場合、Facebookはアクセストークンの代わりにOIDCトークンを返します。アクセストークンと同様に、OIDCトークンも`userFromToken`メソッドへ渡し、ユーザーの詳細情報を取得できます。
 
 <a name="retrieving-user-details-from-a-token-and-secret-oauth1"></a>
 #### トークンとSecretからのユーザー詳細情報の取得(OAuth1)

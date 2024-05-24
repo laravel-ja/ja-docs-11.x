@@ -10,7 +10,7 @@
 - [Hidden Context](#hidden-context)
 - [Events](#events)
     - [Dehydrating](#dehydrating)
-    - [Hydrating](#hydrating)
+    - [Hydrated](#hydrated)
 
 <a name="introduction"></a>
 ## Introduction
@@ -136,10 +136,26 @@ Context::get('key');
 // "first"
 ```
 
+<a name="conditional-context"></a>
+#### Conditional Context
+
+The `when` method may be used to add data to the context based on a given condition. The first closure provided to the `when` method will be invoked if the given condition evaluates to `true`, while the second closure will be invoked if the condition evaluates to `false`:
+
+```php
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Context;
+
+Context::when(
+    Auth::user()->isAdmin(),
+    fn ($context) => $context->add('permissions', Auth::user()->permissions),
+    fn ($context) => $context->add('permissions', []),
+);
+```
+
 <a name="stacks"></a>
 ### Stacks
 
-Context offers the ability to create "stacks", which are lists of data stored in the order that they where added. You can add information to a stack by invoking the `push` method:
+Context offers the ability to create "stacks", which are lists of data stored in the order that they were added. You can add information to a stack by invoking the `push` method:
 
 ```php
 use Illuminate\Support\Facades\Context;
@@ -182,6 +198,12 @@ The `only` method may be used to retrieve a subset of the information in the con
 
 ```php
 $data = Context::only(['first_key', 'second_key']);
+```
+
+The `pull` method may be used to retrieve information from the context and immediately remove it from the context:
+
+```php
+$value = Context::pull('key');
 ```
 
 If you would like to retrieve all of the information stored in the context, you may invoke the `all` method:
@@ -259,6 +281,7 @@ Context::addHidden(/* ... */);
 Context::addHiddenIf(/* ... */);
 Context::pushHidden(/* ... */);
 Context::getHidden(/* ... */);
+Context::pullHidden(/* ... */);
 Context::onlyHidden(/* ... */);
 Context::allHidden(/* ... */);
 Context::hasHidden(/* ... */);
@@ -268,7 +291,7 @@ Context::forgetHidden(/* ... */);
 <a name="events"></a>
 ## Events
 
-Context dispatches two events that allow you to hook into the dehydrating and hydrating process of the context.
+Context dispatches two events that allow you to hook into the hydration and dehydration process of the context.
 
 To illustrate how these events may be used, imagine that in a middleware of your application you set the `app.locale` configuration value based on the incoming HTTP request's `Accept-Language` header. Context's events allow you to capture this value during the request and restore it on the queue, ensuring notifications sent on the queue have the correct `app.locale` value. We can use context's events and [hidden](#hidden-context) data to achieve this, which the following documentation will illustrate.
 
@@ -298,12 +321,12 @@ public function boot(): void
 > [!NOTE]
 > You should not use the `Context` facade within the `dehydrating` callback, as that will change the context of the current process. Ensure you only make changes to the repository passed to the callback.
 
-<a name="hydrating"></a>
-### Hydrating
+<a name="hydrated"></a>
+### Hydrated
 
-Whenever a queued job begins executing on the queue, any context that was shared with the job will be "hydrated" back into the current context. The `Context::hydrating` method allows you to register a closure that will be invoked during the hydration process.
+Whenever a queued job begins executing on the queue, any context that was shared with the job will be "hydrated" back into the current context. The `Context::hydrated` method allows you to register a closure that will be invoked during the hydration process.
 
-Typically, you should register `hydrating` callbacks within the `boot` method of your application's `AppServiceProvider` class:
+Typically, you should register `hydrated` callbacks within the `boot` method of your application's `AppServiceProvider` class:
 
 ```php
 use Illuminate\Log\Context\Repository;
@@ -315,7 +338,7 @@ use Illuminate\Support\Facades\Context;
  */
 public function boot(): void
 {
-    Context::hydrating(function (Repository $context) {
+    Context::hydrated(function (Repository $context) {
         if ($context->hasHidden('locale')) {
             Config::set('app.locale', $context->getHidden('locale'));
         }
@@ -324,4 +347,4 @@ public function boot(): void
 ```
 
 > [!NOTE]
-> You should not use the `Context` facade within the `hydrating` callback and instead ensure you only make changes to the repository passed to the callback.
+> You should not use the `Context` facade within the `hydrated` callback and instead ensure you only make changes to the repository passed to the callback.

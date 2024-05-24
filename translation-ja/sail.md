@@ -88,7 +88,7 @@ php artisan sail:install --devcontainer
 <a name="rebuilding-sail-images"></a>
 ### Sailイメージの再構築
 
-すべてのパッケージやソフトウェアが最新であることを確認するために、セイルイメージを完全に作り直したいと思うこともあるでしょう。それには、`build`コマンドを使用します。
+すべてのパッケージやソフトウェアが最新であることを確認するために、sailイメージを完全に作り直したいと思うこともあるでしょう。それには、`build`コマンドを使用します。
 
 ```shell
 docker compose down -v
@@ -132,7 +132,7 @@ Sailを開始する前に、ローカルコンピューターで他のWebサー�
 sail up
 ```
 
-すべてのDockerコンテナをバックグラウンドで起動するには、Sailを「デタッチdetached)」モードで起動します。
+すべてのDockerコンテナをバックグラウンドで起動するには、Sailを「デタッチ(detached)」モードで起動します。
 
 ```shell
 sail up -d
@@ -140,7 +140,7 @@ sail up -d
 
 アプリケーションのコンテナが開始されると、Webブラウザ（http:// localhost）でプロジェクトにアクセスできます。
 
-To stop all of the containers, you may simply press Control + C to stop the container's execution. Or, if the containers are running in the background, you may use the `stop` command:
+すべてのコンテナを停止するには、単にControl+Cキーを押してコンテナの実行を停止してください。あるいは、コンテナをバックグラウンドで実行している場合は、`stop`コマンドを使ってください。
 
 ```shell
 sail stop
@@ -249,7 +249,7 @@ sail yarn
 <a name="meilisearch"></a>
 ### Meilisearch
 
-Sailのインストール時に[Meilisearch](https://www.meilisearch.com)サービスのインストールを選択した場合、アプリケーションの`docker-compose.yml`ファイルには、[Laravel Scout](/docs/{{version}}/scout)と[コンパチブル](https://github.com/meilisearch/meilisearch-laravel-scout)である、この強力な検索エンジンのエントリが含まれます。コンテナを起動したら、環境変数`MEILISEARCH_HOST`に`http://meilisearch:7700`を設定すると、アプリケーション内のMeilisearchインスタンスに接続できます。
+Sailのインストール時に[Meilisearch](https://www.meilisearch.com)サービスのインストールを選択した場合、アプリケーションの`docker-compose.yml`ファイルには[Laravel Scout](/docs/{{version}}/scout)と統合した、この強力な検索エンジンのエントリを用意してあります。コンテナを起動したら、`MEILISEARCH_HOST`環境変数を`http://meilisearch:7700`に設定し、アプリケーション内でMeilisearchインスタンスに接続できます。
 
 ローカルマシンから、Webブラウザの`http://localhost:7700`に移動して、MeilisearchのWebベース管理パネルへアクセスできます。
 

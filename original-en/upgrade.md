@@ -60,6 +60,10 @@
 
 Laravel now requires PHP 8.2.0 or greater.
 
+#### curl 7.34.0 Required
+
+Laravel's HTTP client now requires curl 7.34.0 or greater.
+
 #### Composer Dependencies
 
 You should update the following dependencies in your application's `composer.json` file:
@@ -410,7 +414,7 @@ public function scalar($query, $bindings = [], $useReadPdo = true);
 
 **Likelihood Of Impact: Medium**
 
-Laravel 11 supports both Carbon 2 and Carbon 3. Carbon is a date manipulation library utilized extensively by Laravel and packages throughout the ecosystem. If you install Carbon 3, you should review Carbon's [change log](https://github.com/briannesbitt/Carbon/releases/tag/3.0.0).
+Laravel 11 supports both Carbon 2 and Carbon 3. Carbon is a date manipulation library utilized extensively by Laravel and packages throughout the ecosystem. If you upgrade to Carbon 3, be aware that `diffIn*` methods now return floating-point numbers and may return negative values to indicate time direction, which is a significant change from Carbon 2. Review Carbon's [change log](https://github.com/briannesbitt/Carbon/releases/tag/3.0.0) for detailed information on how to handle these and other changes.
 
 <a name="mail"></a>
 ### Mail

@@ -3665,6 +3665,22 @@ staticの`wrap`メソッドは適用可能であれば、指定値をコレク�
     // 2
     // 3
 
+<a name="method-throttle"></a>
+#### `throttle()` {.collection-method}
+
+`throttle`メソッドは、指定秒数後に各値を返すようにレイジーコレクションを調整します。このメソッドは、リクエストを制限する外部APIとやりとりする場合に特に便利です。
+
+```php
+use App\Models\User;
+
+User::where('vip', true)
+    ->cursor()
+    ->throttle(seconds: 1)
+    ->each(function (User $user) {
+        // Call external API...
+    });
+```
+
 <a name="method-remember"></a>
 #### `remember()` {.collection-method}
 

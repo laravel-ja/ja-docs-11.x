@@ -22,6 +22,7 @@
     - [ミドルウェア経由](#via-middleware)
     - [Bladeテンプレート経由](#via-blade-templates)
     - [追加コンテキストの提供](#supplying-additional-context)
+- [認可とInertia](#authorization-and-inertia)
 
 <a name="introduction"></a>
 ## イントロダクション
@@ -728,3 +729,45 @@ Bladeテンプレートを作成するとき、ユーザーが特定のアクシ
 
         return redirect('/posts');
     }
+
+<a name="authorization-and-inertia"></a>
+## 認可とInertia
+
+認可は常にバリデータ上で処理しなくてはなりませんが、アプリケーションのUIを適切にレンダーするために、フロントエンドアプリケーションに認可データを提供すると便利なことがあります。Inertiaを使用したフロントエンドへ認可情報を公開するために必要な規約をLaravelは定義してません。
+
+しかし、LaravelのInertiaベースの[スターターキット](/docs/{{version}}/starter-kits)を使用する場合、アプリケーションはあらかじめ`HandleInertiaRequests`ミドルウェアを用意しています。このミドルウェアの`share`メソッド内から、アプリケーション内のすべてのInertiaページへ提供する共有データを返してください。この共有データは、ユーザーの認可情報を定義するための便利な場所として役立ちます。
+
+```php
+<?php
+
+namespace App\Http\Middleware;
+
+use App\Models\Post;
+use Illuminate\Http\Request;
+use Inertia\Middleware;
+
+class HandleInertiaRequests extends Middleware
+{
+    // ...
+
+    /**
+     * デフォルトとして共有するプロップを定義
+     *
+     * @return array<string, mixed>
+     */
+    public function share(Request $request)
+    {
+        return [
+            ...parent::share($request),
+            'auth' => [
+                'user' => $request->user(),
+                'permissions' => [
+                    'post' => [
+                        'create' => $request->user()->can('create', Post::class),
+                    ],
+                ],
+            ],
+        ];
+    }
+}
+```

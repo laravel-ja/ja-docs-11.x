@@ -4,6 +4,7 @@
 - [Server Requirements](#server-requirements)
 - [Server Configuration](#server-configuration)
     - [Nginx](#nginx)
+    - [FrankenPHP](#frankenphp)
 - [Optimization](#optimization)
     - [Caching Configuration](#optimizing-configuration-loading)
     - [Caching Events](#caching-events)
@@ -79,6 +80,7 @@ server {
         fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         include fastcgi_params;
+        fastcgi_hide_header X-Powered-By;
     }
 
     location ~ /\.(?!well-known).* {
@@ -86,6 +88,17 @@ server {
     }
 }
 ```
+
+<a name="frankenphp"></a>
+### FrankenPHP
+
+[FrankenPHP](https://frankenphp.dev/) may also be used to serve your Laravel applications. FrankenPHP is a modern PHP application server written in Go. To serve a Laravel PHP application using FrankenPHP, you may simply invoke its `php-server` command:
+
+```shell
+frankenphp php-server -r public/
+```
+
+To take advantage of more powerful features supported by FrankenPHP, such as its [Laravel Octane](/docs/{{version}}/octane) integration, HTTP/3, modern compression, or the ability to package Laravel applications as standalone binaries, please consult FrankenPHP's [Laravel documentation](https://frankenphp.dev/docs/laravel/).
 
 <a name="optimization"></a>
 ## Optimization

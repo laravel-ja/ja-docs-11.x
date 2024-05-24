@@ -90,6 +90,25 @@ Redisの設定の詳細については、[Laravelドキュメントページ](/d
 
 このテーブルには、アプリケーションの`cache`設定ファイル内の`stores.dynamodb.attributes.key`設定項目の値に対応する名前の、文字列パーティションキーもあります。デフォルトでは、パーティションキーは`key`という名前にする必要があります。
 
+次に、LaravelアプリケーションがDynamoDBと通信できるように、AWS SDKをインストールします。
+
+```shell
+composer require aws/aws-sdk-php
+```
+
+加えて、DynamoDBキャッシュストアの設定オプションへ値を確実に指定してください。`AWS_ACCESS_KEY_ID`や`AWS_SECRET_ACCESS_KEY`などのオプションは、アプリケーションの`.env`設定ファイルで定義する必要があります。
+
+```php
+'dynamodb' => [
+    'driver' => 'dynamodb',
+    'key' => env('AWS_ACCESS_KEY_ID'),
+    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+    'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+    'table' => env('DYNAMODB_CACHE_TABLE', 'cache'),
+    'endpoint' => env('DYNAMODB_ENDPOINT'),
+],
+```
+
 <a name="cache-usage"></a>
 ## キャッシュ使用法
 
@@ -425,3 +444,13 @@ MongoDB接続を使用してこれらの各メソッドを実装する必要が�
 `Illuminate\Cache\Events\CacheMissed` |
 `Illuminate\Cache\Events\KeyForgotten` |
 `Illuminate\Cache\Events\KeyWritten` |
+
+パフォーマンスを向上させるために、`config/cache.php`設定ファイルの`events`設定オプションを`false`に設定し、イベントのキャッシュ保存を無効にできます。
+
+```php
+'database' => [
+    'driver' => 'database',
+    // ...
+    'events' => false,
+],
+```

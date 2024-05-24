@@ -914,9 +914,9 @@ iframe内の要素をやり取りする必要がある場合は、`withinFrame`�
 
     $browser->withinFrame('#credit-card-details', function ($browser) {
         $browser->type('input[name="cardnumber"]', '4242424242424242')
-            ->type('input[name="exp-date"]', '12/24')
-            ->type('input[name="cvc"]', '123');
-        })->press('Pay');
+            ->type('input[name="exp-date"]', '1224')
+            ->type('input[name="cvc"]', '123')
+            ->press('Pay');
     });
 
 <a name="scoping-selectors"></a>
@@ -1184,6 +1184,8 @@ Duskはアプリケーションに対する数多くのアサートを提供し�
 [assertPortIs](#assert-port-is)
 [assertPortIsNot](#assert-port-is-not)
 [assertPathBeginsWith](#assert-path-begins-with)
+[assertPathEndsWith](#assert-path-ends-with)
+[assertPathContains](#assert-path-contains)
 [assertPathIs](#assert-path-is)
 [assertPathIsNot](#assert-path-is-not)
 [assertRouteIs](#assert-route-is)
@@ -1321,6 +1323,20 @@ Duskはアプリケーションに対する数多くのアサートを提供し�
 現在のURLパスが指定したパスで始まることを宣言します。
 
     $browser->assertPathBeginsWith('/home');
+
+<a name="assert-path-ends-with"></a>
+#### assertPathEndsWith
+
+現在のURLパスが指定したパスで終わることを宣言します。
+
+    $browser->assertPathEndsWith('/home');
+
+<a name="assert-path-contains"></a>
+#### assertPathContains
+
+現在のURLパスが指定したパスを含んでいることを宣言します。
+
+    $browser->assertPathContains('/home');
 
 <a name="assert-path-is"></a>
 #### assertPathIs
@@ -1939,6 +1955,7 @@ Duskをインストールすると、ベース`Page`クラスが`tests/Browser/P
     namespace Tests\Browser\Pages;
 
     use Laravel\Dusk\Browser;
+    use Laravel\Dusk\Page;
 
     class Dashboard extends Page
     {

@@ -656,6 +656,40 @@ Internally, this middleware uses Laravel's cache system to implement rate limiti
         return [(new ThrottlesExceptions(10, 10))->by('key')];
     }
 
+By default, this middleware will throttle every exception. You can modify this behaviour by invoking the `when` method when attaching the middleware to your job. The exception will then only be throttled if closure provided to the `when` method returns `true`:
+
+    use Illuminate\Http\Client\HttpClientException;
+    use Illuminate\Queue\Middleware\ThrottlesExceptions;
+
+    /**
+     * Get the middleware the job should pass through.
+     *
+     * @return array<int, object>
+     */
+    public function middleware(): array
+    {
+        return [(new ThrottlesExceptions(10, 10))->when(
+            fn (Throwable $throwable) => $throwable instanceof HttpClientException
+        )];
+    }
+
+If you would like to have the throttled exceptions reported to your application's exception handler, you can do so by invoking the `report` method when attaching the middleware to your job. Optionally, you may provide a closure to the `report` method and the exception will only be reported if the given closure returns `true`:
+
+    use Illuminate\Http\Client\HttpClientException;
+    use Illuminate\Queue\Middleware\ThrottlesExceptions;
+
+    /**
+     * Get the middleware the job should pass through.
+     *
+     * @return array<int, object>
+     */
+    public function middleware(): array
+    {
+        return [(new ThrottlesExceptions(10, 10))->report(
+            fn (Throwable $throwable) => $throwable instanceof HttpClientException
+        )];
+    }
+
 > [!NOTE]  
 > If you are using Redis, you may use the `Illuminate\Queue\Middleware\ThrottlesExceptionsWithRedis` middleware, which is fine-tuned for Redis and more efficient than the basic exception throttling middleware.
 
@@ -857,6 +891,27 @@ If you would like to specify the connection and queue that should be used for th
         new OptimizePodcast,
         new ReleasePodcast,
     ])->onConnection('redis')->onQueue('podcasts')->dispatch();
+
+<a name="adding-jobs-to-the-chain"></a>
+#### Adding Jobs to the Chain
+
+Occasionally, you may need to prepend or append a job to an existing job chain from within another job in that chain. You may accomplish this using the `prependToChain` and `appendToChain` methods:
+
+```php
+/**
+ * Execute the job.
+ */
+public function handle(): void
+{
+    // ...
+
+    // Prepend to the current chain, run job immediately after current job...
+    $this->prependToChain(new TranscribePodcast);
+
+    // Append to the current chain, run job at end of chain...
+    $this->appendToChain(new TranscribePodcast);
+}
+```
 
 <a name="chain-failures"></a>
 #### Chain Failures
@@ -2272,6 +2327,29 @@ As you can see in the example above, the array of chained jobs may be an array o
 You may use the `assertDispatchedWithoutChain` method to assert that a job was pushed without a chain of jobs:
 
     Bus::assertDispatchedWithoutChain(ShipOrder::class);
+
+<a name="testing-chain-modifications"></a>
+#### Testing Chain Modifications
+
+If a chained job [prepends or appends jobs to an existing chain](#adding-jobs-to-the-chain), you may use the job's `assertHasChain` method to assert that the job has the expected chain of remaining jobs:
+
+```php
+$job = new ProcessPodcast;
+
+$job->handle();
+
+$job->assertHasChain([
+    new TranscribePodcast,
+    new OptimizePodcast,
+    new ReleasePodcast,
+]);
+```
+
+The `assertDoesntHaveChain` method may be used to assert that the job's remaining chain is empty:
+
+```php
+$job->assertDoesntHaveChain();
+```
 
 <a name="testing-chained-batches"></a>
 #### Testing Chained Batches

@@ -33,16 +33,9 @@
 ## インストール
 
 > [!WARNING]
-> Pulseのファーストパーティストレージの実装は、現在MySQLかPostgreSQLデータベースを使っています。別のデータベースエンジンを使用している場合は別に、Pulseデータ用のMySQL／PostgreSQLデータベースが必要になります。
+> 現在、Pulseのファーストパーティストレージの実装には、MySQL、MariaDB、PostgreSQLデータベースが必要です。他のデータベースエンジンを使用する場合は、Pulseデータ用のため別にMySQL、MariaDB、またはPostgreSQLデータベースを必要する必要があります。
 
-Pulseは現在ベータ版なため、ベータリリース版のパッケージをインストールできるように、アプリケーションの`composer.json`ファイルを調整する必要があるでしょう。
-
-```json
-"minimum-stability": "beta",
-"prefer-stable": true
-```
-
-次に、Composerパッケージマネージャを使い、LaravelプロジェクトへPulseをインストールします。
+Pulseは、Composerパッケージマネージャを使ってインストールしてください。
 
 ```sh
 composer require laravel/pulse
@@ -176,8 +169,14 @@ public function boot(): void
 
 `<livewire:pulse.servers />`カードは、`pulse:check`コマンドを実行しているすべてのサーバのシステムリソースの使用状況を表示します。システムリソースのレポートについては、[サーバレコーダ](#servers-recorder) のドキュメントを参照してください。
 
+インフラのサーバをリプレースしている場合、非アクティブなサーバをPulseダッシュボードへ表示しないようにしたい場合が起きるかと思います。この場合は、`ignore-after`プロップを使用します。このプロップには、非アクティブなサーバをPulseダッシュボードから削除するまでの秒数を指定します。もしくは、`1 hour`や`3 days and 1 hour`のように、相対時間形式の文字列を指定することもできます。
+
+```blade
+<livewire:pulse.servers ignore-after="3 hours" />
+```
+
 <a name="application-usage-card"></a>
-#### Application Usage
+#### アプリケーション使用状況
 
 `<livewire:pulse.usage />`カードは、アプリケーションへのリクエスト、ジョブのディスパッチ、遅いリクエストを作り出した上位１０ユーザーを表示します。
 
@@ -220,6 +219,12 @@ Pulseがユーザー情報を取得・表示する方法をカスタマイズす
 `<livewire:pulse.slow-queries />`カードは、設定したしきい値（デフォルトでは1,000ms）を超えるアプリケーションのデータベースクエリを表示します。
 
 スロークエリはデフォルトで、ＳＱＬクエリ（バインディングなし）と発生場所に基づいてグループ化されますが、ＳＱＬクエリのみでグループ化したい場合は、発生場所をキャプチャしないこともできます。
+
+非常に大きなSQLクエリがシンタックスハイライトのため、レンダーのパフォーマンスに問題が発生する場合は、`without-highlighting`プロパティを追加し、ハイライトを無効にできます。
+
+```blade
+<livewire:pulse.slow-queries without-highlighting />
+```
 
 詳しくは[スロークエリレコーダ](#slow-queries-recorder)のドキュメントを参照してください。
 
@@ -304,6 +309,20 @@ php artisan pulse:restart
 
 オプションで、スロージョブのしきい値、[サンプル・レート](#sampling)、無視するジョブのパターンを調整できます。
 
+他よりも時間がかかると予想されるジョブがあるかもしれません。その場合、ジョブごとにしきい値を設定してください。
+
+```php
+Recorders\SlowJobs::class => [
+    // ...
+    'threshold' => [
+        '#^App\Jobs\GenerateYearlyReports$#' => 5000,
+        'default' => env('PULSE_SLOW_JOBS_THRESHOLD', 1000),
+    ],
+],
+```
+
+ジョブのクラス名にマッチする正規表現パターンがない場合は、`'default'`値を使用します。
+
 <a name="slow-outgoing-requests-recorder"></a>
 #### スロー送信リクエスト
 
@@ -311,10 +330,24 @@ php artisan pulse:restart
 
 オプションで、スロー送信リクエストのしきい値、[サンプルレート](#sampling)、無視するURLパターンを調整できます。
 
+他より時間がかかると予想される送信リクエストがあるかもしれません。その場合、リクエスト毎のしきい値を設定してください。
+
+```php
+Recorders\SlowOutgoingRequests::class => [
+    // ...
+    'threshold' => [
+        '#backup.zip$#' => 5000,
+        'default' => env('PULSE_SLOW_OUTGOING_REQUESTS_THRESHOLD', 1000),
+    ],
+],
+```
+
+リクエストのURLにマッチする正規表現パターンがない場合は、`'default'`値を使います。
+
 また、URLのグループ化を設定して、類似のURLを同じエントリとしてグループ化することもできます。例えば、URLパスから一意のIDを削除したり、ドメインのみでグループ化したりすることができます。グループは、URLの一部を「FindしてReplaceする」正規表現を使用して設定します。一例を設定ファイルに用意しています。
 
 ```php
-レコード\OutgoingRequests::class => [
+Recorders\SlowOutgoingRequests::class => [
     // ...
     'groups' => [
         // '#^https://api\.github\.com/repos/.*$#' => 'api.github.com/repos/*',
@@ -333,12 +366,40 @@ php artisan pulse:restart
 
 オプションで、スロークエリのしきい値、[サンプルレート](#sampling)、無視するクエリパターンを調整できます。また、クエリの場所をキャプチャするかも設定可能です。キャプチャした場所は、Pulseダッシュボードに表示され、クエリの発信元を追跡するのに役立ちますが、同じクエリが複数の場所で行われた場合は、それぞれの場所で複数回表示します。
 
+他よりも時間がかかると予想されるクエリがあるかもしれません。その場合、クエリ毎にしきい値を設定してください。
+
+```php
+Recorders\SlowQueries::class => [
+    // ...
+    'threshold' => [
+        '#^insert into `yearly_reports`#' => 5000,
+        'default' => env('PULSE_SLOW_QUERIES_THRESHOLD', 1000),
+    ],
+],
+```
+
+クエリのSQLにマッチする正規表現パターンがない場合は、`'default'`値を使います。
+
 <a name="slow-requests-recorder"></a>
 #### スローリクエスト
 
 `Requests`レコーダは、アプリケーションへのリクエストに関する情報を記録し、[スローリクエスト](#slow-requests-card)カードと[アプリケーションの使用状況](#application-usage-card)カードに表示します。
 
 オプションで、スロールートのしきい値、[サンプルレート](#sampling)、無視するパスを調整できます。
+
+他よりも時間がかかると予想されるリクエストがあるかもしれません。その場合は、リクエスト毎にしきい値を設定してください。
+
+```php
+Recorders\SlowRequests::class => [
+    // ...
+    'threshold' => [
+        '#^/admin/#' => 5000,
+        'default' => env('PULSE_SLOW_REQUESTS_THRESHOLD', 1000),
+    ],
+],
+```
+
+リクエストのURLにマッチする正規表現パターンがない場合は、`'default'`値を使います。
 
 <a name="servers-recorder"></a>
 #### サーバ

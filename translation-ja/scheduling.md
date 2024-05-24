@@ -43,6 +43,14 @@ Laravelのコマンドスケジューラは、サーバ上のタスクのスケ�
 
     Schedule::call(new DeleteRecentUsers)->daily();
 
+`routes/console.php`ファイルをコマンド定義のためだけに使用したい場合は、アプリケーションの`bootstrap/app.php`ファイルで`withSchedule`メソッドを使用して、スケジュールするタスクを定義できます。このメソッドは、スケジューラのインスタンスを受け取るクロージャを引数に取ります。
+
+    use Illuminate\Console\Scheduling\Schedule;
+
+    ->withSchedule(function (Schedule $schedule) {
+        $schedule->call(new DeleteRecentUsers)->daily();
+    })
+
 スケジュールしたタスクの概要と、次に実行がスケジュールされている時間を表示したい場合は、`schedule:list` Artisanコマンドを使用します。
 
 ```bash
@@ -390,7 +398,7 @@ Schedule::call(fn () => User::resetApiRequestCount())
     Schedule::command('users:delete')->everyTenSeconds()->runInBackground();
 
 <a name="interrupting-sub-minute-tasks"></a>
-#### Interrupting Sub-Minute Tasks
+#### 秒単位のタスクの中断
 
 `schedule:run`コマンドは秒単位実行タスクが定義されている場合、起動した分の間ずっと実行を持続するため、アプリケーションをデプロイするときにコマンドを中断する必要があるかもしれません。そうしないと、すでに実行されている`schedule:run`コマンドのインスタンスは現在の分が終了するまで、アプリケーションの以前にデプロイされたコードを使い続けることになります。
 
@@ -509,9 +517,9 @@ Laravelスケジューラはスケジュールしたタスクが生成する出�
 <a name="events"></a>
 ## イベント
 
-Laravel dispatches a variety of [events](/docs/{{version}}/events) during the scheduling process. You may [define listeners](/docs/{{version}}/events) for any of the following events:
+Laravelは、スケジュールの処理中に様々な[イベント](/docs/{{version}}/events)をディスパッチします。以下のイベントに対して、リスナを[定義](/docs/{{version}}/events)できます。
 
-Event Name |
+イベント名 |
 ------------- |
 `Illuminate\Console\Events\ScheduledTaskStarting` |
 `Illuminate\Console\Events\ScheduledTaskFinished` |

@@ -239,9 +239,7 @@ JavaScriptでCSSをインポートする場合は、JavaScriptのエントリー
 時には、アセットでバージョン管理したURLへリンクするのではなく、アセットの素のコンテンツを含める必要があるかもしれません。例えば、HTMLコンテンツをPDFジェネレータに渡すときに、アセットコンテンツを直接ページに含める必要があるかもしれません。`Vite`ファサードが提供する`content`メソッドを使用して、Viteアセットのコンテンツを出力できます。
 
 ```blade
-@php
-use Illuminate\Support\Facades\Vite;
-@endphp
+@use('Illuminate\Support\Facades\Vite')
 
 <!doctype html>
 <head>

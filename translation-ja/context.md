@@ -1,16 +1,16 @@
 # コンテキスト
 
 - [イントロダクション](#introduction)
-    - [How it Works](#how-it-works)
-- [Capturing Context](#capturing-context)
-    - [Stacks](#stacks)
-- [Retrieving Context](#retrieving-context)
-    - [Determining Item Existence](#determining-item-existence)
-- [Removing Context](#removing-context)
-- [Hidden Context](#hidden-context)
-- [Events](#events)
-    - [Dehydrating](#dehydrating)
-    - [Hydrating](#hydrating)
+    - [動作の仕組み](#how-it-works)
+- [コンテキストのチャプタ](#capturing-context)
+    - [スタック](#stacks)
+- [コンテキストの取得](#retrieving-context)
+    - [アイテムの存在判定](#determining-item-existence)
+- [コンテキストの削除](#removing-context)
+- [隠しコンテキスト](#hidden-context)
+- [イベント](#events)
+    - [分離](#dehydrating)
+    - [合成](#hydrated)
 
 <a name="introduction"></a>
 ## イントロダクション
@@ -18,7 +18,7 @@
 Laravelの「コンテキスト」機能により、アプリケーション内で実行されているリクエスト、ジョブ、コマンド実行に渡る情報をキャプチャ、取得、共有ができます。このキャプチャした情報は、アプリケーションが書き込むログにも含まれ、ログエントリが書き込まれる前に発生していた周辺のコード実行履歴をより深く理解することができ、分散システム全体の実行フローをトレースできるようにします。
 
 <a name="how-it-works"></a>
-### どう動作するか
+### 動作の仕組み
 
 Laravelのコンテキスト機能を理解する最良の方法は、組み込まれているログ機能を使い、実際に見てみることです。開始するには、`Context`ファサードを使い、[コンテキストへ情報を追加](#capturing-context)してください。この例では、[ミドルウェア](/docs/{{version}}/middleware)を使い、リクエストURLと一意なトレースIDを受信リクエストごとにコンテキストへ追加してみます。
 
@@ -136,6 +136,22 @@ Context::get('key');
 // "first"
 ```
 
+<a name="conditional-context"></a>
+#### 条件付きコンテキスト
+
+`when`メソッドは、指定する条件に基づき、コンテキストへデータを追加するために使用します。指定条件を`true`と評価した場合、`when`メソッドに渡す最初のクロージャを呼び出し、`false`と評価した場合は、２番目のクロージャを呼び出します。
+
+```php
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Context;
+
+Context::when(
+    Auth::user()->isAdmin(),
+    fn ($context) => $context->add('permissions', Auth::user()->permissions),
+    fn ($context) => $context->add('permissions', []),
+);
+```
+
 <a name="stacks"></a>
 ### スタック
 
@@ -182,6 +198,12 @@ $value = Context::get('key');
 
 ```php
 $data = Context::only(['first_key', 'second_key']);
+```
+
+`pull`メソッドは、コンテキストから情報を取得し、すぐにコンテキストから削除するために使用します。
+
+```php
+$value = Context::pull('key');
 ```
 
 コンテキストが格納しているすべての情報を取得したい場合は、`all` メソッドを呼び出します。
@@ -259,6 +281,7 @@ Context::addHidden(/* ... */);
 Context::addHiddenIf(/* ... */);
 Context::pushHidden(/* ... */);
 Context::getHidden(/* ... */);
+Context::pullHidden(/* ... */);
 Context::onlyHidden(/* ... */);
 Context::allHidden(/* ... */);
 Context::hasHidden(/* ... */);
@@ -268,7 +291,7 @@ Context::forgetHidden(/* ... */);
 <a name="events"></a>
 ## イベント
 
-コンテキストは２つのイベントをディスパッチし、コンテキストの親和と分離のプロセスへフックできるようにしています。
+コンテキストは、コンテキストの合成と分離プロセスをフックできる、２つのイベントをディスパッチします。
 
 これらのイベントがどのように使うかを説明するため、アプリケーションのミドルウェアで、HTTPリクエストの`Accept-Language`ヘッダに基づいて、`app.locale`設定値を設定する事を考えてみましょう。コンテキストのイベントにより、リクエスト中にこの値を取得し、キューへリストアすることができ、キューに送信する通知が正しい`app.locale`値を持つようにできます。これを実現するには、コンテキストのイベントと [隠し](#hidden-context)データが使えます。
 
@@ -298,12 +321,12 @@ public function boot(): void
 > [!NOTE]
 > `dehydrating`コールバック内で、`Context`ファサードを使用してはいけません。コールバックへ渡されたリポジトリにのみ、変更を加えるようにしてください。
 
-<a name="hydrating"></a>
-### 親和
+<a name="hydrated"></a>
+### 合成
 
-キュー投入したジョブが、キュー上で実行を開始するたびに、そのジョブと共有したコンテキストは現在のコンテキストと「親和（hydrating）」します。`Context::hydrating`メソッドは、親和するときに呼び出すクロージャを登録できます。
+キュー投入したジョブがキュー上で実行を開始するたび、そのジョブで共有されていたコンテキストは、現在のコンテキストへ「合成（hydrated）」します。`Context::hydrated`メソッドを使用すると、合成のプロセスで呼び出すクロージャを登録できます。
 
-通常、アプリケーションの`AppServiceProvider`クラスの`boot`メソッド内で、`hydrating`コールバックを登録すべきでしょう。
+通常、アプリケーションの`AppServiceProvider`クラスの`boot`メソッド内で、`hydrated`コールバックを登録する必要があります。
 
 ```php
 use Illuminate\Log\Context\Repository;
@@ -315,7 +338,7 @@ use Illuminate\Support\Facades\Context;
  */
 public function boot(): void
 {
-    Context::hydrating(function (Repository $context) {
+    Context::hydrated(function (Repository $context) {
         if ($context->hasHidden('locale')) {
             Config::set('app.locale', $context->getHidden('locale'));
         }
@@ -324,4 +347,4 @@ public function boot(): void
 ```
 
 > [!NOTE]
-> `Hydrating`コールバック内では、`Context`ファサードを使用せず、コールバックへ渡されたリポジトリにのみ変更を加えるようにしてください。
+> `Hydrated`コールバック内では`Context`ファサードを使用せず、代わりにコールバックへ渡すリポジトリにのみ変更を加えてください。
