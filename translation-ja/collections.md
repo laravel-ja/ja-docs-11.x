@@ -2131,7 +2131,7 @@ $percentage = $collection->percentage(fn ($value) => $value === 1, precision: 3)
 
 検索は「緩い」比較で行われます。つまり、整数値を持つ文字列は、同じ値の整数に等しいと判断されます。「厳格」な比較を行いたい場合は`true`をメソッドの第２引数に渡します。
 
-    collect([2, 4, 6, 8])->search('4', $strict = true);
+    collect([2, 4, 6, 8])->search('4', strict: true);
 
     // false
 
