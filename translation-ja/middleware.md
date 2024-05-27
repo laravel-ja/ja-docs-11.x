@@ -113,7 +113,7 @@ php artisan make:middleware EnsureTokenIsValid
 <a name="global-middleware"></a>
 ### グローバルミドルウェア
 
-アプリケーションがHTTPリクエストを受診するたび、ミドルウェアを実行したい場合は、アプリケーションの`bootstrap/app.php`ファイルにあるグローバルミドルウェアスタックにミドルウェアを追加します：
+アプリケーションがHTTPリクエストを受信するたび、ミドルウェアを実行したい場合は、アプリケーションの`bootstrap/app.php`ファイルにあるグローバルミドルウェアスタックにミドルウェアを追加します：
 
     use App\Http\Middleware\EnsureTokenIsValid;
 
