@@ -595,6 +595,10 @@ Eloquentクエリインスタンスで`searchable`メソッドを呼び出して
 
     $orders->unsearchable();
 
+すべてのモデルレコードを対応するインデックスから削除するには、`removeAllFromSearch`メソッドを呼び出します。
+
+    Order::removeAllFromSearch();
+
 <a name="pausing-indexing"></a>
 ### インデックスの一時停止
 

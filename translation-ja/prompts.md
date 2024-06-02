@@ -421,6 +421,14 @@ $categories = multiselect(
 );
 ```
 
+`canSelectAll`引数によって、ユーザーがすべてのオプションを簡単に選択できるようにできます。
+
+$categories = multiselect(
+    label: 'What categories should be assigned?',
+    options: Category::pluck('name', 'id'),
+    canSelectAll: true
+);
+
 <a name="multiselect-required"></a>
 #### 必須値
 

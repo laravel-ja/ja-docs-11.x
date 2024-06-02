@@ -266,8 +266,8 @@ StripeへのAPI呼び出しで発生した例外は、アプリケーション�
         ]);
     })->name('checkout');
 
-    Route::view('checkout.success')->name('checkout-success');
-    Route::view('checkout.cancel')->name('checkout-cancel');
+    Route::view('/checkout/success', 'checkout.success')->name('checkout-success');
+    Route::view('/checkout/cancel', 'checkout.cancel')->name('checkout-cancel');
 
 上の例でわかるように、Cashierが提供する`checkout`メソッドを利用して、指定した「価格識別子」で顧客をStripe Checkoutへリダイレクトします。Stripeを使用する場合、「価格」は[特定の商品に対して定義した価格](https://stripe.com/docs/products-prices/how-products-and-prices-work)を意味します。
 
