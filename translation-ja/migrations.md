@@ -1221,5 +1221,6 @@ Laravelは、データベースレベルで参照整合性を強制するため�
  | `Illuminate\Database\Events\MigrationsEnded`   | マイグレーションのバッチが実行終了した           |
  | `Illuminate\Database\Events\MigrationStarted`  | 単一マイグレーションが実行されようとしている     |
  | `Illuminate\Database\Events\MigrationEnded`    | 単一マイグレーションが実行終了した               |
+| `Illuminate\Database\Events\NoPendingMigrations` | 未適用のマイグレーションをみつけられなかった     |
  | `Illuminate\Database\Events\SchemaDumped`      | データベーススキマのダンプが終了した             |
  | `Illuminate\Database\Events\SchemaLoaded`      | 既存のデータベーススキマのダンプをロードした     |

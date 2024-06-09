@@ -1026,10 +1026,26 @@ havingBetween`メソッドを使うと、指定した範囲内の結果をフィ
             ['votes' => '2']
         );
 
+`updateOrInsert`メソッドにクロージャを渡し、マッチするレコードの存在に基づいて、データベースに更新または挿入する属性をカスタマイズできます。
+
+```php
+DB::table('users')->updateOrInsert(
+    ['user_id' => $user_id],
+    fn ($exists) => $exists ? [
+        'name' => $data['name'],
+        'email' => $data['email'],
+    ] : [
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'marketable' => true,
+    ],
+);
+```
+
 <a name="updating-json-columns"></a>
 ### JSONカラムの更新
 
-When updating a JSON column, you should use `->` syntax to update the appropriate key in the JSON object. This operation is supported on MySQL 5.7+ and PostgreSQL 9.5+:
+JSONカラムを更新する場合は、JSONオブジェクトの適切なキーを更新するため、`->`構文を使用する必要があります。この操作は、MySQL5.7以上とPostgreSQL9.5以上でサポートされています。
 
     $affected = DB::table('users')
                   ->where('id', 1)
