@@ -861,7 +861,7 @@ class ExampleTest extends TestCase
     $view->assertSee('Please provide a valid name.');
 
 <a name="rendering-blade-and-components"></a>
-### Bladeとコンポーネントのレンダー
+### Bladeとコンポーネントのレンダ
 
 必要に応じて、`blade`メソッドを使用して、素の[Blade](/docs/{{version}}/blade)文字列を評価およびレンダできます。`view`メソッドと同様に、`blade`メソッドは`Illuminate\Testing\TestView`のインスタンスを返します。
 

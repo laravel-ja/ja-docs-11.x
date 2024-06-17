@@ -10,7 +10,7 @@
 - [ルートパラメータ](#route-parameters)
 - [ルートモデル結合](#route-model-binding)
     - [モデルのソフトデリート](#soft-deleted-models)
-- [レンダーフック](#render-hooks)
+- [レンダフック](#render-hooks)
 - [名前付きルート](#named-routes)
 - [ミドルウェア](#middleware)
 - [ルートのキャッシュ](#route-caching)
@@ -219,11 +219,11 @@ withTrashed();
 ```
 
 <a name="render-hooks"></a>
-## レンダーフック
+## レンダフック
 
 Folioは受信リクエストに対するレスポンスとして、ページのBladeテンプレートのコンテンツをデフォルトで返します。しかし、ページのテンプレート内で`render`関数を呼び出せば、レスポンスをカスタマイズできます。
 
-`render`関数は、Folioがレンダーする`View`インスタンスを受け取るクロージャを引数に取ります。`View`インスタンスの受け取りに加え、追加のルートパラメータやモデルバインディングも、`render`クロージャへ渡します。
+`render`関数は、Folioがレンダする`View`インスタンスを受け取るクロージャを引数に取ります。`View`インスタンスの受け取りに加え、追加のルートパラメータやモデルバインディングも、`render`クロージャへ渡します。
 
 ```php
 <?php

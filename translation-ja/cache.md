@@ -209,6 +209,8 @@ composer require aws/aws-sdk-php
 
     $value = Cache::pull('key');
 
+    $value = Cache::pull('key', 'default');
+
 <a name="storing-items-in-the-cache"></a>
 ### キャッシュへのアイテム保存
 

@@ -15,7 +15,7 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-新しいLaravelプロジェクトを開始すると、エラーと例外処理はあらかじめ設定済みです。しかし、いつでも、アプリケーションの`bootstrap/app.php`の`withExceptions`メソッドを使用して、例外をどのように報告し、アプリケーションによってレンダーするかを管理できます。
+新しいLaravelプロジェクトを開始すると、エラーと例外処理はあらかじめ設定済みです。しかし、いつでも、アプリケーションの`bootstrap/app.php`の`withExceptions`メソッドを使用して、例外をどのように報告し、アプリケーションによってレンダするかを管理できます。
 
 `withExceptions`クロージャへ渡される`$exceptions`オブジェクトは`Illuminate\Foundation\Configuration\Exceptions`インスタンスで、アプリケーションの例外処理を管理します。このドキュメントを通して、このオブジェクトを深く掘り下げていきましょう。
 
@@ -176,11 +176,11 @@ Laravelは内部的に、あらかじめいくつかのタイプのエラーを�
     })
 
 <a name="rendering-exceptions"></a>
-### 例外のレンダー
+### 例外のレンダ
 
-Laravelの例外ハンドラはデフォルトで、例外をHTTPレスポンスへ変換します。しかし、特定タイプの例外のためにカスタムレンダークロージャを自由に登録することもできます。アプリケーションの`boostrap/app.php`ファイルで、`render`例外メソッドを使うことで、これを実現できます。
+Laravelの例外ハンドラはデフォルトで、例外をHTTPレスポンスへ変換します。しかし、特定タイプの例外のためにカスタムレンダクロージャを自由に登録することもできます。アプリケーションの`boostrap/app.php`ファイルで、`render`例外メソッドを使うことで、これを実現できます。
 
-`render`メソッドへ渡すクロージャは`Illuminate\Http\Response`インスタンスを返す必要があり、これは`response`ヘルパで生成できます。Laravelは、クロージャのタイプヒントを調べ、クロージャがレンダーする例外タイプを決定します。
+`render`メソッドへ渡すクロージャは`Illuminate\Http\Response`インスタンスを返す必要があり、これは`response`ヘルパで生成できます。Laravelは、クロージャのタイプヒントを調べ、クロージャがレンダする例外タイプを決定します。
 
     use App\Exceptions\InvalidOrderException;
     use Illuminate\Http\Request;
@@ -191,7 +191,7 @@ Laravelの例外ハンドラはデフォルトで、例外をHTTPレスポンス
         });
     })
 
-`render`メソッドを使用して、`NotFoundHttpException`のようなLaravelやSymfonyの組み込み例外のレンダー動作をオーバーライドすることもできます。`render`メソッドに渡たしたクロージャが値を返さない場合、Laravelデフォルトの例外レンダーを利用します。
+`render`メソッドを使用して、`NotFoundHttpException`のようなLaravelやSymfonyの組み込み例外のレンダ動作をオーバーライドすることもできます。`render`メソッドに渡たしたクロージャが値を返さない場合、Laravelデフォルトの例外レンダを利用します。
 
     use Illuminate\Http\Request;
     use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -207,9 +207,9 @@ Laravelの例外ハンドラはデフォルトで、例外をHTTPレスポンス
     })
 
 <a name="rendering-exceptions-as-json"></a>
-#### 例外をJSONでレンダーする
+#### 例外をJSONでレンダする
 
-例外をレンダーするとき、Laravelはリクエストの`Accept`ヘッダに基づいて、例外をHTMLレスポンスとしてレンダーするか、JSONレスポンスとしてレンダーするかを自動的に判断します。Laravelが例外レスポンスをHTMLとJSONのどちらでレンダーするかを決定する方法をカスタマイズしたい場合は、`shouldRenderJsonWhen`メソッドを利用します。
+例外をレンダするとき、Laravelはリクエストの`Accept`ヘッダに基づいて、例外をHTMLレスポンスとしてレンダするか、JSONレスポンスとしてレンダするかを自動的に判断します。Laravelが例外レスポンスをHTMLとJSONのどちらでレンダするかを決定する方法をカスタマイズしたい場合は、`shouldRenderJsonWhen`メソッドを利用します。
 
     use Illuminate\Http\Request;
     use Throwable;
@@ -227,7 +227,7 @@ Laravelの例外ハンドラはデフォルトで、例外をHTTPレスポンス
 <a name="customizing-the-exception-response"></a>
 #### 例外レスポンスのカスタマイズ
 
-まれに、Laravelの例外ハンドラがレンダーするHTTPレスポンス全体をカスタマイズする必要があるかもしれません。これを行うには、`respond`メソッドを使用してレスポンスのカスタマイズクロージャを登録します。
+まれに、Laravelの例外ハンドラがレンダするHTTPレスポンス全体をカスタマイズする必要があるかもしれません。これを行うには、`respond`メソッドを使用してレスポンスのカスタマイズクロージャを登録します。
 
     use Symfony\Component\HttpFoundation\Response;
 
@@ -246,7 +246,7 @@ Laravelの例外ハンドラはデフォルトで、例外をHTTPレスポンス
 <a name="renderable-exceptions"></a>
 ### Reportable／Renderable例外
 
-アプリケーションの`bootstrap/app.php`ファイルでカスタムレポートとレンダー動作を定義する代わりに、アプリケーションの例外に直接、`report`と`render`メソッドを定義できます。これらのメソッドが存在するとき、フレームワークは自動的に呼び出します。
+アプリケーションの`bootstrap/app.php`ファイルでカスタムレポートとレンダ動作を定義する代わりに、アプリケーションの例外に直接、`report`と`render`メソッドを定義できます。これらのメソッドが存在するとき、フレームワークは自動的に呼び出します。
 
     <?php
 
@@ -267,7 +267,7 @@ Laravelの例外ハンドラはデフォルトで、例外をHTTPレスポンス
         }
 
         /**
-         * 例外をHTTPレスポンスへレンダー
+         * 例外をHTTPレスポンスへレンダ
          */
         public function render(Request $request): Response
         {
@@ -275,10 +275,10 @@ Laravelの例外ハンドラはデフォルトで、例外をHTTPレスポンス
         }
     }
 
-LaravelやSymfonyの組み込み済み例外など、既存のレンダー可能（Renderable）な例外を拡張している場合は、例外の`render`メソッドから`false`を返し、例外のデフォルトHTTPレスポンスをレンダできます。
+LaravelやSymfonyの組み込み済み例外など、既存のレンダ可能（Renderable）な例外を拡張している場合は、例外の`render`メソッドから`false`を返し、例外のデフォルトHTTPレスポンスをレンダできます。
 
     /**
-     * 例外をHTTPレスポンスへレンダーする
+     * 例外をHTTPレスポンスへレンダする
      */
     public function render(Request $request): Response|bool
     {
@@ -411,3 +411,5 @@ php artisan vendor:publish --tag=laravel-errors
 #### HTTPエラーページのフォールバック
 
 一連のHTTPステータスコードに対応する「フォールバック」エラーページを定義することもできます。このページは、発生した特定のHTTPステータスコードに対応するページが存在しない場合にレンダされます。これには、アプリケーションの`resources/views/errors`ディレクトリに、`4xx.blade.php`テンプレートと`5xx.blade.php`テンプレートを定義します。
+
+フォールバックエラーページを定義する場合、フォールバックページは`404`、`500`、`503`エラーレスポンスには影響しません。Laravelは内部的に、これらのステータスコード専用のページを持っているためです。これらのステータスコードに対してレンダするページをカスタマイズするには、個別にカスタムエラーページを定義する必要があります。

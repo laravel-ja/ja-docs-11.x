@@ -313,7 +313,7 @@ Eloquentモデルの主キーへ、自動増分整数を使用する代わりに
 
 モデルの`updated_at`タイムスタンプを変更せずに、モデル操作を行いたい場合は、`withoutTimestamps`メソッドへ指定するクロージャ内で、そのモデルを操作できます。
 
-    Model::withoutTimestamps(fn () => $post->increment(['reads']));
+    Model::withoutTimestamps(fn () => $post->increment('reads'));
 
 <a name="database-connections"></a>
 ### データベース接続

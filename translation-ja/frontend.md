@@ -95,7 +95,7 @@ class Counter extends Component
 
 ご覧の通り、Livewireでは、Laravelアプリケーションのフロントエンドとバックエンドをつなぐ、`wire:click`のような新しいHTML属性を書けます。さらに、シンプルなBlade式を使って、コンポーネントの現在の状態をレンダできます。
 
-多くの人にとって、LivewireはLaravelでのフロントエンド開発に革命を起こし、Laravelの快適さを保ちながら、モダンでダイナミックなWebアプリケーションを構築することを可能にしました。通常、Livewireを使用している開発者は、[Alpine.js](https://alpinejs.dev/)も利用して、ダイアログウィンドウのレンダーなど、必要な場合にのみフロントエンドにJavaScriptを「トッピング」します。
+多くの人にとって、LivewireはLaravelでのフロントエンド開発に革命を起こし、Laravelの快適さを保ちながら、モダンでダイナミックなWebアプリケーションを構築することを可能にしました。通常、Livewireを使用している開発者は、[Alpine.js](https://alpinejs.dev/)も利用して、ダイアログウィンドウのレンダなど、必要な場合にのみフロントエンドにJavaScriptを「トッピング」します。
 
 Laravelに慣れていない方は、[ビュー](/docs/{{version}}/views)と[Blade](/docs/{{version}}/blade)の基本的な使い方に、まず慣れることをお勧めします。その後、公式の[Laravel Livewireドキュメント](https://livewire.laravel.com/docs)を参照し、インタラクティブなLivewireコンポーネントでアプリケーションを次のレベルに引き上げる方法を学んでください。
 
