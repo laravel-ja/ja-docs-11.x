@@ -5,6 +5,7 @@
 - [サーバ設定](#server-configuration)
     - [Nginx](#nginx)
     - [FrankenPHP](#frankenphp)
+    - [ディレクトリパーミッション](#directory-permissions)
 - [最適化](#optimization)
     - [設定のキャッシュ](#optimizing-configuration-loading)
     - [イベントのキャッシュ](#caching-events)
@@ -99,6 +100,11 @@ frankenphp php-server -r public/
 ```
 
 [Laravel Octane](/docs/{{version}}/octane)統合、HTTP/3、最新の圧縮、Laravelアプリケーションをスタンドアロンバイナリとしてパッケージ化する機能など、FrankenPHPがサポートするより強力な機能を利用するには、FrankenPHPの[Laravelドキュメント](https://frankenphp.dev/docs/laravel/)を参照してください。
+
+<a name="directory-permissions"></a>
+### ディレクトリパーミッション
+
+Laravelは、`bootstrap/cache`と`storage`ディレクトリに書き込む必要があるため、Webサーバのプロセスオーナーがこれらのディレクトリへの書き込み権限を持っていることを確認してください。
 
 <a name="optimization"></a>
 ## 最適化

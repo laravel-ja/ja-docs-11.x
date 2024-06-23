@@ -149,8 +149,6 @@ php artisan make:provider RiakServiceProvider
 
     <?php
 
-    // このファイルはLaravelにより、自動的に生成されたものです
-
     return [
         App\Providers\AppServiceProvider::class,
     ];
@@ -158,8 +156,6 @@ php artisan make:provider RiakServiceProvider
 `make:providers` Artisanコマンドを実行すると、Laravelは生成したプロバイダを自動的に、`bootstrap/providers.php`ファイルへ追加します。しかし、自分でプロバイダクラスを作成した場合は、プロバイダクラスを配列へ手作業で追加する必要があります。
 
     <?php
-
-    // このファイルはLaravelにより、自動的に生成されたものです
 
     return [
         App\Providers\AppServiceProvider::class,

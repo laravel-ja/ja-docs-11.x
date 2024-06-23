@@ -7,6 +7,9 @@
     - [環境ベースの設定](#environment-based-configuration)
     - [データベースとマイグレーション](#databases-and-migrations)
     - [ディレクトリ設定](#directory-configuration)
+- [Herd使用のローカルインストール](#local-installation-using-herd)
+    - [macOSでのHerd](#herd-on-macos)
+    - [WindowsでのHerd](#herd-on-windows)
 - [Sailで使用するDockerのインストール](#docker-installation-using-sail)
     - [macOSでのSail](#sail-on-macos)
     - [WindowsでのSail](#sail-on-windows)
@@ -53,7 +56,7 @@ LaravelはPHPエコシステムで最高のパッケージを組み合わせ、�
 <a name="creating-a-laravel-project"></a>
 ## Laravelプロジェクトの作成
 
-最初のLaravelプロジェクトを作成する前に、ローカルマシンにPHPと[Composer](https://getcomposer.org)を確実にインストールしてください。macOSやWindowsで開発している場合、PHPとComposerは[Laravel Herd](https://herd.laravel.com)を介して数分でインストールできます。さらに、[NodeとNPMのインストール](https://nodejs.org)も推奨します。
+最初のLaravelプロジェクトを作成する前に、ローカルマシンにPHPと[Composer](https://getcomposer.org)を確実にインストールしてください。macOSやWindowsで開発している場合、PHP、Composer、Node、NPMは[Laravel Herd](#local-installation-using-herd)を使って数分でインストールできます。
 
 PHPとComposerをインストールしたら、Composerの`create-project`コマンドで新しいLaravelプロジェクトを作成してください。
 
@@ -124,12 +127,62 @@ php artisan migrate
 ```
 
 > [!NOTE]
-> もしmacOS上で開発していて、MySQL、PostgreSQL、Redisをローカルにインストールする必要がある場合は、[DBngin](https://dbngin.com/)の使用を検討してください。
+> macOSやWindowsで開発していて、MySQL、PostgreSQL、Redisをローカルにインストールする必要がある場合は、[Herd Pro](https://herd.laravel.com/#plans)の使用を検討してください。
 
 <a name="directory-configuration"></a>
 ### ディレクトリ設定
 
 Laravelは常に、Webサーバで設定した「Webディレクトリ」のルートから提供されるべきです。「Webディレクトリ」のサブディレクトリからLaravelアプリケーションを提供しようとしないでください。そうすると、アプリケーション内に存在する機密ファイルが公開されてしまう可能性があります。
+
+<a name="local-installation-using-herd"></a>
+## Herd使用のローカルインストール
+
+[Laravel Herd](https://herd.laravel.com)は、macOSとWindowsのための、超高速でネイティブなLaravelとPHPの開発環境です。Herdには、PHPやNginxなど、Laravel開発を始めるために必要なものがすべて含まれています。
+
+Herdをインストールすれば、Laravelを使う開発を始める準備ができます。Herdは、`php`、`composer`、`laravel`、`expose`、`node`、`npm`、`nvm`用のコマンドラインツールを用意してあります。
+
+> [!NOTE]
+> [Herd Pro](https://herd.laravel.com/#plans)は、ローカルのMySQL、Postgres、Redisデータベースを作成・管理する機能や、ローカルのメール閲覧、ログ監視など、Herdをさらに強力な機能で強化します。
+
+<a name="herd-on-macos"></a>
+### macOSでのHerd
+
+macOSで開発する場合は、[Herd website](https://herd.laravel.com)からHerdインストーラをダウンロードできます。このインストーラは自動的に最新バージョンのPHPをダウンロードし、バックグラウンドで常に[Nginx](https://www.nginx.com/)を実行するようにMacを設定します。
+
+macOS向けHerdは、[dnsmasq](https://en.wikipedia.org/wiki/Dnsmasq)を使用し、「parked」ディレクトリをサポートします。パークしたディレクトリにあるLaravelアプリケーションは、自動的にHerdが提供します。デフォルトでHerdは、`~/Herd`にパークするディレクトリを作成し、そのディレクトリ名を使用して`.test`ドメイン上のこのディレクトリ内の任意のLaravelアプリケーションへアクセスできます。
+
+Herdのインストール後、最も速く新しいLaravelプロジェクトを作成する方法は、Herdにバンドル済みのLaravel CLIを使用します。
+
+```nothing
+cd ~/Herd
+laravel new my-app
+cd my-app
+herd open
+```
+
+もちろん、システムトレイにあるHerdメニューから開くことができるHerdのUIで、いつでもパークしたディレクトリやその他のPHP設定を管理することができます。
+
+Herdについての詳細は、[Herd documentation](https://herd.laravel.com/docs)をご覧ください。
+
+<a name="herd-on-windows"></a>
+### WindowsでのHerd
+
+[Herd website](https://herd.laravel.com/windows)から、Windowsインストーラをダウンロードできます。インストールし終えたら、Herdを起動してインストール処理を完了し、Herd UIにアクセスできます。
+
+Herdのシステムトレイアイコンを左クリックで、Herd UIへアクセスできます。右クリックするとクイックメニューが開き、日常的に必要なすべてのツールにアクセスできます。
+
+インストール中、Herdはホームディレクトリの`%USERPROFILE%\Herd`に、「parked」ディレクトリを作成します。パークしたディレクトリにあるLaravelアプリケーションは、自動的にHerdが提供しますので、ディレクトリ名`.test`ドメインで、Laravelアプリケーションへアクセスできます。
+
+Herdインストール後、最も速く新しいLaravelプロジェクトを作成する方法は、Herdにバンドル済みのLaravel CLIを使用することです。開始するには、Powershellを開き、以下のコマンドを実行します：
+
+```nothing
+cd ~\Herd
+laravel new my-app
+cd my-app
+herd open
+```
+
+Herdの詳細は、[Windows向けHerdドキュメント](https://herd.laravel.com/docs/windows)をご覧ください。
 
 <a name="docker-installation-using-sail"></a>
 ## Sailで使用するDockerのインストール

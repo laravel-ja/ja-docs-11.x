@@ -94,9 +94,11 @@
 
 <div class="collection-method-list" markdown="1">
 
+[after](#method-after)
 [all](#method-all)
 [average](#method-average)
 [avg](#method-avg)
+[before](#method-before)
 [chunk](#method-chunk)
 [chunkWhile](#method-chunkwhile)
 [collapse](#method-collapse)
@@ -255,8 +257,37 @@
     }
 </style>
 
+<a name="method-after"></a>
+#### `after()` {.collection-method .first-collection-method}
+
+`after`メソッドは、指定アイテムの後のアイテムを返します。指定アイテムが見つからない場合や、それが最後のアイテムの場合は、`null`を返します。
+
+    $collection = collect([1, 2, 3, 4, 5]);
+
+    $collection->after(3);
+
+    // 4
+
+    $collection->after(5);
+
+    // null
+
+このメソッドは「ゆるい」比較で指定アイテムを探します。つまり、整数値を含む文字列は、同じ値の整数と等しいとみなします。「厳密な」比較を使用するには、メソッドへ`strict`引数を指定します。
+
+    collect([2, 4, 6, 8])->after('4', strict: true);
+
+    // null
+
+他に、真偽テストに合格する最初の項目を検索する、独自クロージャを用意することもできます。
+
+    collect([2, 4, 6, 8])->after(function (int $item, int $key) {
+        return $item > 5;
+    });
+
+    // 8
+
 <a name="method-all"></a>
-#### `all()` {.collection-method .first-collection-method}
+#### `all()` {.collection-method}
 
 `all`メソッドはコレクションの元の配列表現を返します。
 
@@ -286,6 +317,31 @@
     $average = collect([1, 1, 2, 4])->avg();
 
     // 2
+
+<a name="method-before"></a>
+#### `before()` {.collection-method}
+
+`before`メソッドは、[`after`](#method-after)メソッドの逆です。これは指定アイテムの前のアイテムを返します。指定アイテムが見つからなかったり、最初のアイテムの場合は、`null`を返します。
+
+    $collection = collect([1, 2, 3, 4, 5]);
+
+    $collection->before(3);
+
+    // 2
+
+    $collection->before(1);
+
+    // null
+
+    collect([2, 4, 6, 8])->before('4', strict: true);
+
+    // null
+
+    collect([2, 4, 6, 8])->before(function (int $item, int $key) {
+        return $item > 5;
+    });
+
+    // 4
 
 <a name="method-chunk"></a>
 #### `chunk()` {.collection-method}
