@@ -276,7 +276,7 @@ php artisan schema:dump
 
 **影響の可能性： 高い**
 
-`double`と`float`のマイグレーションカラム型は、すべてのデータベースで一貫性があるように書き直された。
+`double`と`float`のマイグレーションカラム型は、すべてのデータベースで一貫性があるように書き直されました。
 
 `double`カラムタイプは、合計桁数と桁数(小数点以下の桁数) を含まない、`DOUBLE`と同等のカラムを作成するようになりました。そのため、`$total`と`$places`の引数を削除してください。
 
@@ -394,7 +394,7 @@ Schema::connection('database')->hasTable('schema.table');
 
 **影響の可能性： かなり低い**
 
-`Schema::getColumnType()`メソッドは、Doctrine DBALと同等の型ではなく、常に指定カラムの実際の型を返すようになった。
+`Schema::getColumnType()`メソッドは、Doctrine DBALと同等の型ではなく、常に指定カラムの実際の型を返すようになりました。
 
 <a name="database-connection-interface"></a>
 #### データベース接続インターフェイス
