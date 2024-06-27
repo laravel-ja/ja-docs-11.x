@@ -361,7 +361,7 @@ Laravelをどのように使用するかにより、旅の次の行き先も決�
 
 Laravelは、フルスタックフレームワークとして機能させることができます。「フルスタック」フレームワークとは、Laravelを使用して、アプリケーションへのリクエストをルーティングし、[Bladeテンプレート](/docs/{{version}}/blade)や[Inertia](https://inertiajs.com)などのシングルページアプリケーションハイブリッド技術でフロントエンドをレンダすることを意味します。これは、Laravelフレームワークの最も一般的な使用方法であり、私たちの意見では、Laravelを使用する最も生産的な方法です。
 
-もし、Laravelをどうしようしようかと考えているのであれば、[フロントエンド開発](/docs/{{version}}/frontend)、[ルーティング](/docs/{{version}}/routing)、[ビュー](/docs/{{version}}/views)、[Eloquent ORM](/docs/{{version}}/eloquent)についてのドキュメントをチェックすると良いかも知れません。さらに、[Livewire](https://livewire.laravel.com)や[Inertia](https://inertiajs.com)といったコミュニティパッケージについても学ぶことに興味があるかもしれません。これらのパッケージにより、Laravelをフルスタックフレームワークとして使用しながら、シングルページのJavaScriptアプリケーションが提供するUIの、利点をたくさん享受できます。
+この方法でLaravelの使用を計画している場合は、[フロントエンド開発](/docs/{{version}}/frontend)、[ルーティング](/docs/{{version}}/routing)、[ビュー](/docs/{{version}}/views)、[Eloquent ORM](/docs/{{version}}/eloquent)についてのドキュメントをチェックすると良いかも知れません。さらに、[Livewire](https://livewire.laravel.com)や[Inertia](https://inertiajs.com)といったコミュニティパッケージについても学ぶことに興味があるかもしれません。これらのパッケージにより、Laravelをフルスタックフレームワークとして使用しながら、シングルページのJavaScriptアプリケーションが提供するUIの、利点をたくさん享受できます。
 
 Laravelをフルスタックフレームワークとして使用している場合、[Vite](/docs/{{version}}/vite)を使用してアプリケーションのCSSとJavaScriptをコンパイルする方法を学ぶのも強く推奨します。
 
