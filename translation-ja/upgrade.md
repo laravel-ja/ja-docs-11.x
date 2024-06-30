@@ -82,6 +82,7 @@ LaravelのHTTPクライアントは、curl7.34.0以上が必要になりまし�
 - `laravel/scout`を`^10.0`へ（インストール済みの場合）
 - `laravel/spark-stripe`を`^5.0`へ（インストール済みの場合）
 - `laravel/telescope`を`^5.0`へ（インストール済みの場合）
+- `livewire/livewire`を`^3.4`へ（インストール済みの場合）
 - `inertiajs/inertia-laravel`を`^1.0`へ（インストール済みの場合）
 
 </div>
