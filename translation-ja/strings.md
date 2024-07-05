@@ -43,6 +43,8 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 [Str::betweenFirst](#method-str-between-first)
 [Str::camel](#method-camel-case)
 [Str::charAt](#method-char-at)
+[Str::chopStart](#method-str-chop-start)
+[Str::chopEnd](#method-str-chop-end)
 [Str::contains](#method-str-contains)
 [Str::containsAll](#method-str-contains-all)
 [Str::endsWith](#method-ends-with)
@@ -134,6 +136,8 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 [camel](#method-fluent-str-camel)
 [charAt](#method-fluent-str-char-at)
 [classBasename](#method-fluent-str-class-basename)
+[chopStart](#method-fluent-str-chop-start)
+[chopEnd](#method-fluent-str-chop-end)
 [contains](#method-fluent-str-contains)
 [containsAll](#method-fluent-str-contains-all)
 [dirname](#method-fluent-str-dirname)
@@ -376,6 +380,44 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
     $character = Str::charAt('This is my name.', 6);
 
     // 's'
+
+<a name="method-str-chop-start"></a>
+#### `Str::chopStart()` {.collection-method}
+
+`Str::chopStart`メソッドは、指定値が文字列の最初に現れる場合のみ、その値を削除します。
+
+    use Illuminate\Support\Str;
+
+    $url = Str::chopStart('https://laravel.com', 'https://');
+
+    // 'laravel.com'
+
+第２引数へ配列を渡すこともできます。文字列が配列のいずれかの値で始まる場合、その値を文字列から削除します。
+
+    use Illuminate\Support\Str;
+
+    $url = Str::chopStart('http://laravel.com', ['https://', 'http://']);
+
+    // 'laravel.com'
+
+<a name="method-str-chop-end"></a>
+#### `Str::chopEnd()` {.collection-method}
+
+`Str::chopEnd`メソッドは、指定値が文字列の最後に現れる場合のみ、その値を削除します。
+
+    use Illuminate\Support\Str;
+
+    $url = Str::chopEnd('app/Models/Photograph.php', '.php');
+
+    // 'app/Models/Photograph'
+
+第２引数へ配列を渡すこともできます。文字列が配列のいずれかの値で終わる場合、その値を文字列から削除します。
+
+    use Illuminate\Support\Str;
+
+    $url = Str::chopEnd('laravel.com/index.php', ['/index.html', '/index.php']);
+
+    // 'laravel.com'
 
 <a name="method-str-contains"></a>
 #### `Str::contains()` {.collection-method}
@@ -1586,6 +1628,44 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
     $class = Str::of('Foo\Bar\Baz')->classBasename();
 
     // 'Baz'
+
+<a name="method-fluent-str-chop-start"></a>
+#### `chopStart` {.collection-method}
+
+`chopStart`メソッドは、指定値が文字列の最初に現れる場合のみ、その値を削除します。
+
+    use Illuminate\Support\Str;
+
+    $url = Str::of('https://laravel.com')->chopStart('https://');
+
+    // 'laravel.com'
+
+配列を渡すこともできます。文字列が配列のいずれかの値で始まる場合、その値を文字列から取り取きます。
+
+    use Illuminate\Support\Str;
+
+    $url = Str::of('http://laravel.com')->chopStart(['https://', 'http://']);
+
+    // 'laravel.com'
+
+<a name="method-fluent-str-chop-end"></a>
+#### `chopEnd` {.collection-method}
+
+`chopEnd`メソッドは、指定値が文字列の最後に現れる場合のみ、その値を削除します。
+
+    use Illuminate\Support\Str;
+
+    $url = Str::of('https://laravel.com')->chopEnd('https://');
+
+    // 'laravel.com'
+
+配列を渡すこともできます。文字列が配列のいずれかの値で始まる場合、その値を文字列から取り除きます。
+
+    use Illuminate\Support\Str;
+
+    $url = Str::of('http://laravel.com')->chopEnd(['https://', 'http://']);
+
+    // 'laravel.com'
 
 <a name="method-fluent-str-contains"></a>
 #### `contains` {.collection-method}

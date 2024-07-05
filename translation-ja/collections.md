@@ -163,6 +163,7 @@
 [mergeRecursive](#method-mergerecursive)
 [min](#method-min)
 [mode](#method-mode)
+[multiply](#method-multiply)
 [nth](#method-nth)
 [only](#method-only)
 [pad](#method-pad)
@@ -1688,6 +1689,29 @@ staticの`make`メソッドは、新しいコレクションインスタンス�
     $mode = collect([1, 1, 2, 2])->mode();
 
     // [1, 2]
+
+<a name="method-multiply"></a>
+#### `multiply()` {.collection-method}
+
+`multiply`メソッドは、コレクション内のすべてのアイテムの複製を指定数作成する。
+
+```php
+$users = collect([
+    ['name' => 'User #1', 'email' => 'user1@example.com'],
+    ['name' => 'User #2', 'email' => 'user2@example.com'],
+])->multiply(3);
+
+/*
+    [
+        ['name' => 'User #1', 'email' => 'user1@example.com'],
+        ['name' => 'User #2', 'email' => 'user2@example.com'],
+        ['name' => 'User #1', 'email' => 'user1@example.com'],
+        ['name' => 'User #2', 'email' => 'user2@example.com'],
+        ['name' => 'User #1', 'email' => 'user1@example.com'],
+        ['name' => 'User #2', 'email' => 'user2@example.com'],
+    ]
+*/
+```
 
 <a name="method-nth"></a>
 #### `nth()` {.collection-method}

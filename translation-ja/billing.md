@@ -200,9 +200,6 @@ CASHIER_CURRENCY_LOCALE=nl_BE
 
 この機能を正常に動作させるためには、顧客の氏名、住所、課税IDなどの請求情報がStripeに同期されている必要があります。そのために、Cashierが提供する[顧客データの同期](#syncing-customer-data-with-stripe)や[課税ID](#tax-ids)のメソッドを使用できます。
 
-> [!WARNING]
-> [一回限りの課金](#single-charges)や[一回限りの支払い](#single-charge-checkouts)では税金が計算されません。
-
 <a name="logging"></a>
 ### ログ
 

@@ -257,7 +257,10 @@ server {
 }
 ```
 
-通常、Webサーバはサーバの過負荷を防ぐため、許可する接続数を制限するように設定されています。Nginxウェブサーバで許可する接続数を１０，０００へ増やすには、`nginx.conf`ファイルの`worker_rlimit_nofile`と`worker_connections`の値を更新する必要があります。
+> [!WARNING]
+> Reverbは`/app`でWebSocket接続をリッスンし、`/apps`でAPIリクエストを処理します。Reverbリクエストを処理するウェブサーバで確実に、これら両方のURIを処理してください。サーバの管理に[Laravel Forge](https://forge.laravel.com)を使用している場合、Reverbサーバはデフォルトで正しく設定されます。
+
+通常、Webサーバはサーバの過負荷を防ぐため、許可する接続数を制限するように設定します。Nginxウェブサーバで許可する接続数を１０，０００へ増やすには、`nginx.conf`ファイルの`worker_rlimit_nofile`と`worker_connections`の値を更新する必要があります。
 
 ```nginx
 user forge;
