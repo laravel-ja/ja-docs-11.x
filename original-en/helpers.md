@@ -1218,15 +1218,15 @@ The `Number::currency` method returns the currency representation of the given v
 
     $currency = Number::currency(1000);
 
-    // $1,000
+    // $1,000.00
 
     $currency = Number::currency(1000, in: 'EUR');
 
-    // €1,000
+    // €1,000.00
 
     $currency = Number::currency(1000, in: 'EUR', locale: 'de');
 
-    // 1.000 €
+    // 1.000,00 €
 
 <a name="method-number-file-size"></a>
 #### `Number::fileSize()` {.collection-method}
@@ -1867,7 +1867,7 @@ An array of contextual data may also be passed to the function:
 <a name="method-literal"></a>
 #### `literal()` {.collection-method}
 
-"The `literal` function creates a new [stdClass](https://www.php.net/manual/en/class.stdclass.php) instance with the given named arguments as properties:
+The `literal` function creates a new [stdClass](https://www.php.net/manual/en/class.stdclass.php) instance with the given named arguments as properties:
 
     $obj = literal(
         name: 'Joe',

@@ -91,10 +91,10 @@ php artisan install:broadcasting
 <a name="reverb"></a>
 ### Reverb
 
-`install:broadcasting`コマンドを実行すると、[Laravel Reverb](/docs/{{version}}/reverb)をインストールするよう促されます。もちろん、Composerパッケージマネージャを使い、手作業でReverbをインストールすることもできます。Reverbは現在ベータ版なため、明示的にベータリリースをインストールする必要があります。
+`install:broadcasting`コマンドを実行すると、[Laravel Reverb](/docs/{{version}}/reverb)をインストールするよう促されます。もちろん、Composerパッケージマネージャを使い、手作業でReverbをインストールすることもできます。
 
 ```sh
-composer require laravel/reverb:@beta
+composer require laravel/reverb
 ```
 
 パッケージをインストールしたら、Reverbのインストールコマンドを実行して設定をリソース公開し、Reverbに必要な環境変数を追加して、アプリケーションでイベントブロードキャストを有効にします。

@@ -423,7 +423,7 @@ class ExampleTest extends DuskTestCase
 
 `visitRoute`メソッドを使用して[名前付きルート](/docs/{{version}}/routing#named-routes)へ移動できます。
 
-    $browser->visitRoute('login');
+    $browser->visitRoute($routeName, $parameters);
 
 `back`および`forward`メソッドを使用して「戻る」および「進む」をナビゲートできます。
 
