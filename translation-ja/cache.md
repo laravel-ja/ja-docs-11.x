@@ -325,7 +325,7 @@ composer require aws/aws-sdk-php
     } catch (LockTimeoutException $e) {
         // ロック取得失敗
     } finally {
-        $lock?->release();
+        $lock->release();
     }
 
 上記の例は、クロージャを`block`メソッドに渡すことで簡略化できます。クロージャがこのメソッドに渡されると、Laravelは指定された秒数の間ロックを取得しようとし、クロージャが実行されると自動的にロックを解放します。

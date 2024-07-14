@@ -71,7 +71,7 @@ php artisan schema:dump --database=testing --prune
 チームの新しい開発者がアプリケーションの初期データベース構造をすばやく作成できるようにするため、データベーススキーマファイルはソース管理にコミットすべきでしょう。
 
 > [!WARNING]
-> マイグレーションの圧縮は、MySQL、PostgreSQL、SQLiteデータベースでのみ利用可能で、データベースのコマンドラインクライアントを利用しています。
+> マイグレーションの圧縮は、MariaDB、MySQL、PostgreSQL、SQLiteデータベースでのみ利用可能で、データベースのコマンドラインクライアントを利用しています。
 
 <a name="migration-structure"></a>
 ## マイグレーションの構造
@@ -290,7 +290,7 @@ php artisan migrate:fresh --database=admin
         $table->id();
     });
 
-さらに、他のプロパティやメソッドを使用して、テーブル作成の他の部分を定義できます。`engine`プロパティはMySQLを使用するときにテーブルのストレージエンジンを指定するために使用します。
+さらに、他のプロパティやメソッドを使用して、テーブル作成の他の部分を定義できます。`engine`プロパティはMariaDBとMySQLを使用するとき、テーブルのストレージエンジンを指定するために使用します。
 
     Schema::create('users', function (Blueprint $table) {
         $table->engine('InnoDB');
@@ -298,7 +298,7 @@ php artisan migrate:fresh --database=admin
         // ...
     });
 
-`charset`プロパティと`collat​​ion`プロパティはMySQLを使用するときに、作成されたテーブルの文字セットと照合順序を指定するために使用します。
+`charset`プロパティと`collat​​ion`プロパティはMariaDBとMySQLを使用するとき、作成するテーブルの文字セットと照合順序を指定するために使用します。
 
     Schema::create('users', function (Blueprint $table) {
         $table->charset('utf8mb4');
@@ -315,7 +315,7 @@ php artisan migrate:fresh --database=admin
         // ...
     });
 
-データベーステーブルに「コメント」を追加したい場合は、テーブルインスタンスに対して、`comment`メソッドを呼び出してください。テーブルコメントは現在、MySQLとPostgreSQLでのみサポートしています。
+データベーステーブルに「コメント」を追加したい場合は、テーブルインスタンスに対して、`comment`メソッドを呼び出してください。テーブルコメントは現在、MariaDB、MySQL、PostgreSQLでのみサポートしています。
 
     Schema::create('calculations', function (Blueprint $table) {
         $table->comment('Business calculations');
@@ -941,21 +941,21 @@ MySQLまたはMariaDBを使用する場合、`TINYBLOB`カラムを作成する�
 
 | 修飾子                              | 説明                                                                                      |
 | ----------------------------------- | ----------------------------------------------------------------------------------------- |
-| `->after('column')`                 | カラムを別のカラムの「後に」配置（MySQL）                                                 |
+| `->after('column')`                 | カラムを別のカラムの「後に」配置（MariaDB／MySQL）                                                 |
 | `->autoIncrement()`                 | INTEGERカラムを自動増分（主キー）として設定                                               |
-| `->charset('utf8mb4')`              | カラムの文字セットを指定（MySQL）                                                         |
+| `->charset('utf8mb4')`              | カラムの文字セットを指定（MariaDB／MySQL）                                                         |
 | `->collation('utf8mb4_unicode_ci')` | カラムのコロケーションを指定                                                              |
-| `->comment('my comment')`           | カラムへコメントを追加（MySQL／PostgreSQL）                                               |
+| `->comment('my comment')`           | カラムへコメントを追加（MariaDB／MySQL／PostgreSQL）                                               |
 | `->default($value)`                 | カラムの「デフォルト」値を指定                                                            |
-| `->first()`                         | テーブルの「最初の」カラムを配置（MySQL）                                                 |
-| `->from($integer)`                  | 自動増分フィールドの開始値を設定（MySQL／PostgreSQL）                                     |
-| `->invisible()`                     | `SELECT *`クエリに対しカラムを「不可視」にする（MySQL）                                   |
+| `->first()`                         | テーブルの「最初の」カラムを配置（MariaDB／MySQL）                                                 |
+| `->from($integer)`                  | 自動増分フィールドの開始値を設定（MariaDB／MySQL／PostgreSQL）                                     |
+| `->invisible()`                     | `SELECT *`クエリに対しカラムを「不可視」にする（MariaDB／MySQL）                                   |
 | `->nullable($value = true)`         | NULL値をカラムに保存可能に設定                                                            |
-| `->storedAs($expression)`           | storedカラムを生成（MySQL／PostgreSQL／SQLite）                                           |
-| `->unsigned()`                      | INTEGERカラムをUNSIGNEDとして設定（MySQL）                                                |
+| `->storedAs($expression)`           | storedカラムを生成（MariaDB／MySQL／PostgreSQL／SQLite）                                           |
+| `->unsigned()`                      | INTEGERカラムをUNSIGNEDとして設定（MariaDB／MySQL）                                                |
 | `->useCurrent()`                    | CURRENT_TIMESTAMPをデフォルト値として使用するようにTIMESTAMPカラムを設定                  |
-| `->useCurrentOnUpdate()`            | レコードが更新されたときにCURRENT_TIMESTAMPを使用するようにTIMESTAMPカラムを設定（MySQL） |
-| `->virtualAs($expression)`          | 仮想カラムを生成（MySQL／SQLite）                                                         |
+| `->useCurrentOnUpdate()`            | レコードが更新されたときにCURRENT_TIMESTAMPを使用するようにTIMESTAMPカラムを設定（MariaDB／MySQL） |
+| `->virtualAs($expression)`          | 仮想カラムを生成（MariaDB／MySQL／SQLite）                                                         |
 | `->generatedAs($expression)`        | 指定のシーケンスオプションで、識別カラムを生成（PostgreSQL）                              |
 | `->always()`                        | IDカラムの入力に対するシーケンス値の優先順位を定義（PostgreSQL）                          |
 
@@ -992,7 +992,7 @@ MySQLまたはMariaDBを使用する場合、`TINYBLOB`カラムを作成する�
 <a name="column-order"></a>
 #### カラム順序
 
-MySQLデータベースを使用するときは、スキーマ内の既存の列の後に列を追加するために`after`メソッドを使用できます。
+MariaDBとMySQLデータベースを使用するときは、スキーマ内の既存の列の後に列を追加するために`after`メソッドを使用できます。
 
     $table->after('password', function (Blueprint $table) {
         $table->string('address_line1');
@@ -1101,7 +1101,7 @@ LaravelのスキーマビルダBlueprintクラスは、Laravelでサポートし
 | `$table->primary(['id', 'parent_id']);`          | 複合キーを追加                                  |
 | `$table->unique('email');`                       | 一意のインデックスを追加                        |
 | `$table->index('state');`                        | インデックスを追加                              |
-| `$table->fullText('body');`                      | 全文検索インデックスを追加（MySQL／PostgreSQL） |
+| `$table->fullText('body');`                      | 全文検索インデックスを追加（MariaDB／MySQL／PostgreSQL） |
 | `$table->fullText('body')->language('english');` | 特定言語のフルテキストインデックス追加          |
 | `$table->spatialIndex('location');`              | 空間インデックスを追加（SQLiteを除く）          |
 

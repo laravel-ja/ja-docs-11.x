@@ -552,7 +552,7 @@ WHERE published = true AND (
 <a name="json-where-clauses"></a>
 ### JSON Where Clauses
 
-Laravel also supports querying JSON column types on databases that provide support for JSON column types. Currently, this includes MySQL 8.0+, PostgreSQL 12.0+, SQL Server 2017+, and SQLite 3.39.0+ (with the [JSON1 extension](https://www.sqlite.org/json1.html)). To query a JSON column, use the `->` operator:
+Laravel also supports querying JSON column types on databases that provide support for JSON column types. Currently, this includes MariaDB 10.3+, MySQL 8.0+, PostgreSQL 12.0+, SQL Server 2017+, and SQLite 3.39.0+. To query a JSON column, use the `->` operator:
 
     $users = DB::table('users')
                     ->where('preferences->dining->meal', 'salad')
@@ -564,7 +564,7 @@ You may use `whereJsonContains` to query JSON arrays:
                     ->whereJsonContains('options->languages', 'en')
                     ->get();
 
-If your application uses the MySQL or PostgreSQL databases, you may pass an array of values to the `whereJsonContains` method:
+If your application uses the MariaDB, MySQL, or PostgreSQL databases, you may pass an array of values to the `whereJsonContains` method:
 
     $users = DB::table('users')
                     ->whereJsonContains('options->languages', ['en', 'de'])
@@ -804,9 +804,9 @@ Or, you may need to construct a "where" clause that compares a column to the res
 ### Full Text Where Clauses
 
 > [!WARNING]  
-> Full text where clauses are currently supported by MySQL and PostgreSQL.
+> Full text where clauses are currently supported by MariaDB, MySQL, and PostgreSQL.
 
-The `whereFullText` and `orWhereFullText` methods may be used to add full text "where" clauses to a query for columns that have [full text indexes](/docs/{{version}}/migrations#available-index-types). These methods will be transformed into the appropriate SQL for the underlying database system by Laravel. For example, a `MATCH AGAINST` clause will be generated for applications utilizing MySQL:
+The `whereFullText` and `orWhereFullText` methods may be used to add full text "where" clauses to a query for columns that have [full text indexes](/docs/{{version}}/migrations#available-index-types). These methods will be transformed into the appropriate SQL for the underlying database system by Laravel. For example, a `MATCH AGAINST` clause will be generated for applications utilizing MariaDB or MySQL:
 
     $users = DB::table('users')
                ->whereFullText('bio', 'web developer')
@@ -1002,7 +1002,7 @@ The `upsert` method will insert records that do not exist and update the records
 In the example above, Laravel will attempt to insert two records. If a record already exists with the same `departure` and `destination` column values, Laravel will update that record's `price` column.
 
 > [!WARNING]  
-> All databases except SQL Server require the columns in the second argument of the `upsert` method to have a "primary" or "unique" index. In addition, the MySQL database driver ignores the second argument of the `upsert` method and always uses the "primary" and "unique" indexes of the table to detect existing records.
+> All databases except SQL Server require the columns in the second argument of the `upsert` method to have a "primary" or "unique" index. In addition, the MariaDB and MySQL database drivers ignore the second argument of the `upsert` method and always use the "primary" and "unique" indexes of the table to detect existing records.
 
 <a name="update-statements"></a>
 ## Update Statements
@@ -1045,7 +1045,7 @@ DB::table('users')->updateOrInsert(
 <a name="updating-json-columns"></a>
 ### Updating JSON Columns
 
-When updating a JSON column, you should use `->` syntax to update the appropriate key in the JSON object. This operation is supported on MySQL 5.7+ and PostgreSQL 9.5+:
+When updating a JSON column, you should use `->` syntax to update the appropriate key in the JSON object. This operation is supported on MariaDB 10.3+, MySQL 5.7+, and PostgreSQL 9.5+:
 
     $affected = DB::table('users')
                   ->where('id', 1)

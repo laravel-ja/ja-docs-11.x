@@ -97,6 +97,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Number::forHumans](#method-number-for-humans)
 [Number::format](#method-number-format)
 [Number::ordinal](#method-number-ordinal)
+[Number::pairs](#method-number-pairs)
 [Number::percentage](#method-number-percentage)
 [Number::spell](#method-number-spell)
 [Number::useLocale](#method-number-use-locale)
@@ -1307,6 +1308,23 @@ $classes = Arr::toCssStyles($array);
     $number = Number::ordinal(21);
 
     // 21st
+
+<a name="method-number-pairs"></a>
+#### `Number::pairs()` {.collection-method}
+
+`Number::pairs`メソッドは、指定する範囲とステップ値に基づき、数値のペア（部分範囲）の配列を生成します。このメソッドは、ペジネーションやバッチ処理などのために、大きな範囲の数値を管理しやすい小さな範囲に分割するのに便利です。`pairs`メソッドは配列の配列を返し、各内部配列は数値のペア（部分範囲）を表します。
+
+```php
+use Illuminate\Support\Number;
+
+$result = Number::pairs(25, 10);
+
+// [[1, 10], [11, 20], [21, 25]]
+
+$result = Number::pairs(25, 10, offset: 0);
+
+// [[0, 10], [10, 20], [20, 25]]
+```
 
 <a name="method-number-percentage"></a>
 #### `Number::percentage()` {.collection-method}

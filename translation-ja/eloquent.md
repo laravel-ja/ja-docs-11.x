@@ -897,7 +897,7 @@ Eloquentの`upsert`メソッドを使用すると、単一で極小の操作で�
     ], uniqueBy: ['departure', 'destination'], update: ['price']);
 
 > [!WARNING]
-> SQL Server以外のすべてのデータベースでは、`upsert`メソッドの第２引数のカラムへ"primary"、または"unique"インデックスを指定する必要があります。さらに、MySQLデータベースドライバは、`upsert`メソッドの第２引数を無視し、常にテーブルの"primary"および"unique"インデックスを既存レコードの検出に使用します。
+> SQL Server以外のすべてのデータベースでは、`upsert`メソッドの第２引数のカラムへ"primary"、または"unique"インデックスを指定する必要があります。さらに、MariaDBとMySQLデータベースドライバは、`upsert`メソッドの第２引数を無視し、常にテーブルの"primary"および"unique"インデックスを既存レコードの検出に使用します。
 
 <a name="deleting-models"></a>
 ## モデルの削除

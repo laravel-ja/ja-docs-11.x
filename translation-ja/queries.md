@@ -552,7 +552,7 @@ WHERE published = true AND (
 <a name="json-where-clauses"></a>
 ### JSON WHERE句
 
-Laravelは、JSONカラム型をサポートしているデータベースで、JSONカラム型のクエリもサポートしています。現在のところ、MySQL8.0以上、PostgreSQL12.0以上、SQLServer2017以上、SQLite3.39.0以上（[JSON1拡張](https://www.sqlite.org/json1.html)使用）です。JSONカラムクエリするには、`->`演算子を使用します。
+Laravelは、JSONカラム型をサポートしているデータベースでは、JSONカラム型のクエリもサポートしています。現在のところ、MariaDB10.3以上、MySQL8.0以上、PostgreSQL12.0以上、SQLServer2017以上、SQLite3.39.0以上をサポートしています。JSONカラムクエリするには、`->`演算子を使用します。
 
     $users = DB::table('users')
                     ->where('preferences->dining->meal', 'salad')
@@ -564,7 +564,7 @@ Laravelは、JSONカラム型をサポートしているデータベースで、
                     ->whereJsonContains('options->languages', 'en')
                     ->get();
 
-アプリケーションがMySQLまたはPostgreSQLデータベースを使用している場合は、値の配列を`whereJsonContains`メソッドで渡してください。
+アプリケーションがMariaDB、MySQL、PostgreSQLデータベースを使用している場合は、値の配列を`whereJsonContains`メソッドで渡してください。
 
     $users = DB::table('users')
                     ->whereJsonContains('options->languages', ['en', 'de'])
@@ -804,9 +804,9 @@ where exists (
 ### フルテキストのWHERE句
 
 > [!WARNING]
-> フルテキストのwhere句は現在、MySQLとPostgreSQLでサポートされています。
+> フルテキストのwhere句は現在、MariaDB、MySQL、PostgreSQLをサポートしています。
 
-`whereFullText`と`orWhereFullText`メソッドを使用すると、[フルテキストインデックス](/docs/{{version}}/migrations#available-index-types)を持つカラムヘのクエリに、フルテキストの"where"句を追加できます。これらのメソッドは、Laravelによって、利用するデータベースシステムに適したSQLへ変換されます。例えば、MySQLを利用するアプリケーションでは、`MATCH AGAINST`句を生成します。
+`whereFullText`と`orWhereFullText`メソッドを使用すると、[フルテキストインデックス](/docs/{{version}}/migrations#available-index-types)を持つカラムヘのクエリに、フルテキストの"where"句を追加できます。これらのメソッドは、Laravelによって、利用するデータベースシステムに適したSQLへ変換されます。例えば、MariaDBやMySQLを利用するアプリケーションでは、`MATCH AGAINST`句を生成します。
 
     $users = DB::table('users')
                ->whereFullText('bio', 'web developer')
@@ -1002,7 +1002,7 @@ havingBetween`メソッドを使うと、指定した範囲内の結果をフィ
 上記の例では、Laravelは２つのレコードを挿入しようとします。同じ`departure`カラムと`destination`カラムの値を持つレコードがすでに存在する場合、Laravelはそのレコードの`price`カラムを更新します。
 
 > [!WARNING]
-> SQL Serverを除くすべてのデータベースでは、`upsert`メソッドの２番目の引数のカラムに「プライマリ」または「ユニーク」インデックスが必要です。また、MySQLデータベースドライバは、`upert`メソッドの第２引数を無視し、常にテーブルの「プライマリ」および「ユニーク」インデックスを使用して既存のレコードを検出します。
+> SQL Serverを除くすべてのデータベースでは、`upsert`メソッドの２番目の引数のカラムに「プライマリ」または「ユニーク」インデックスが必要です。また、MariaDBとMySQLデータベースドライバは、`upert`メソッドの第２引数を無視し、常にテーブルの「プライマリ」および「ユニーク」インデックスを使用して既存のレコードを検出します。
 
 <a name="update-statements"></a>
 ## UPDATE文
@@ -1045,7 +1045,7 @@ DB::table('users')->updateOrInsert(
 <a name="updating-json-columns"></a>
 ### JSONカラムの更新
 
-JSONカラムを更新する場合は、JSONオブジェクトの適切なキーを更新するため、`->`構文を使用する必要があります。この操作は、MySQL5.7以上とPostgreSQL9.5以上でサポートされています。
+JSONカラムを更新する場合は、JSONオブジェクトの適切なキーを更新するため、`->`構文を使用する必要があります。この操作は、MariaDB10.3以上、MySQL5.7以上、PostgreSQL9.5以上をサポートしています。
 
     $affected = DB::table('users')
                   ->where('id', 1)

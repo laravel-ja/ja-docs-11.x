@@ -10,6 +10,7 @@
     - [ `HasFeatures`トレイト](#the-has-features-trait)
     - [Bladeディレクティブ](#blade-directive)
     - [ミドルウェア](#middleware)
+    - [機能チェックの割り込み](#intercepting-feature-checks)
     - [メモリ内キャッシュ](#in-memory-cache)
 - [スコープ](#scope)
     - [スコープの指定](#specifying-the-scope)
@@ -123,6 +124,7 @@ php artisan pennant:feature NewApi
 
 namespace App\Features;
 
+use App\Models\User;
 use Illuminate\Support\Lottery;
 
 class NewApi
@@ -397,6 +399,78 @@ public function boot(): void
             return new Response(status: 403);
         }
     );
+
+    // ...
+}
+```
+
+<a name="intercepting-feature-checks"></a>
+### 機能チェックの割り込み
+
+場合により、保存している機能の値を取り出す前に、何らかのチェックをメモリ内で行えると便利なことがあります。たとえば、機能フラグの背後にある新しいAPIを開発していて、ストレージ中の解決済み機能値を失わずに新しいAPIを無効にする機能が欲しいと想像してください。もし新APIにバグがあることに気づいたら、内部チームメンバー以外の全員に対してそのAPIを簡単に無効化し、バグを修正した後、以前その機能にアクセスしていたユーザーに対し、再度新APIを有効化できます。
+
+[クラスベースの機能](#class-based-features)の`before`メソッドでこれを実現できます。存在する場合、`before`メソッドはストレージから値を取得する前に常にメモリ内で実行します。メソッドから`null`でない値を返す場合、リクエストの間は保存している機能値の代わりにその値を使用します。
+
+```php
+<?php
+
+namespace App\Features;
+
+use App\Models\User;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Lottery;
+
+class NewApi
+{
+    /**
+     * 保存値を取得する前に、常にメモリ内で実行
+     */
+    public function before(User $user): mixed
+    {
+        if (Config::get('features.new-api.disabled')) {
+            return $user->isInternalTeamMember();
+        }
+    }
+
+    /**
+     * 機能の初期値を解決
+     */
+    public function resolve(User $user): mixed
+    {
+        return match (true) {
+            $user->isInternalTeamMember() => true,
+            $user->isHighTrafficCustomer() => false,
+            default => Lottery::odds(1 / 100),
+        };
+    }
+}
+```
+
+また、この機能を使用して、以前は機能フラグの後ろにあった機能のグローバルロールアウトをスケジュールすることもできます。
+
+```php
+<?php
+
+namespace App\Features;
+
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
+
+class NewApi
+{
+    /**
+     * 保存値を取得する前に、常にメモリ内で実行
+     */
+    public function before(User $user): mixed
+    {
+        if (Config::get('features.new-api.disabled')) {
+            return $user->isInternalTeamMember();
+        }
+
+        if (Carbon::parse(Config::get('features.new-api.rollout-date'))->isPast()) {
+            return true;
+        }
+    }
 
     // ...
 }
