@@ -440,12 +440,12 @@ MongoDB接続を使用してこれらの各メソッドを実装する必要が�
 
 すべてのキャッシュ操作でコードを実行できるように、キャッシュがディスパッチするさまざまな[イベント](/docs/{{version}}/events)をリッスンできます。
 
-イベント名 |
-------------- |
-`Illuminate\Cache\Events\CacheHit` |
-`Illuminate\Cache\Events\CacheMissed` |
-`Illuminate\Cache\Events\KeyForgotten` |
-`Illuminate\Cache\Events\KeyWritten` |
+| イベント名 |
+| --- |
+| `Illuminate\Cache\Events\CacheHit` |
+| `Illuminate\Cache\Events\CacheMissed` |
+| `Illuminate\Cache\Events\KeyForgotten` |
+| `Illuminate\Cache\Events\KeyWritten` |
 
 パフォーマンスを向上させるために、`config/cache.php`設定ファイルの`events`設定オプションを`false`に設定し、イベントのキャッシュ保存を無効にできます。
 

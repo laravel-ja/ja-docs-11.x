@@ -76,7 +76,7 @@ ProcessPodcast::dispatch($podcast);
 ```php
 class ProcessPodcast implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Queueable;
 
     // ...
 

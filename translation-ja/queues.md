@@ -181,15 +181,12 @@ php artisan make:job ProcessPodcast
 
     use App\Models\Podcast;
     use App\Services\AudioProcessor;
-    use Illuminate\Bus\Queueable;
     use Illuminate\Contracts\Queue\ShouldQueue;
-    use Illuminate\Foundation\Bus\Dispatchable;
-    use Illuminate\Queue\InteractsWithQueue;
-    use Illuminate\Queue\SerializesModels;
+    use Illuminate\Foundation\Queue\Queueable;
 
     class ProcessPodcast implements ShouldQueue
     {
-        use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+        use Queueable;
 
         /**
          * 新しいジョブインスタンスの生成
@@ -207,7 +204,7 @@ php artisan make:job ProcessPodcast
         }
     }
 
-この例では、[Eloquentモデル](/docs/{{version}}/eloquent)をキュー投入するジョブのコンストラクタへ直接渡すことができたことに注意してください。ジョブが使用している`SerializesModels`トレイトにより、Eloquentモデルとそれらのロード済みリレーションは、ジョブの処理時に正常にシリアル化および非シリアル化されます。
+この例では、[Eloquentモデル](/docs/{{version}}/eloquent)をキュー投入するジョブのコンストラクタへ直接渡すことができたことに注意してください。ジョブが使用している`Queueable`トレイトにより、Eloquentモデルとそれらのロード済みリレーションは、ジョブの処理時に正常にシリアル化および非シリアル化されます。
 
 キュー投入するジョブがコンストラクタでEloquentモデルを受け入れる場合、モデルの識別子のみがキューにシリアル化されます。ジョブが実際に処理されると、キューシステムは、完全なモデルインスタンスとそのロード済みリレーションをデータベースから自動的に再取得します。モデルのシリアル化に対するこのアプローチにより、はるかに小さなジョブペイロードをキュードライバに送信できます。
 
@@ -973,15 +970,12 @@ public function handle(): void
 
     namespace App\Jobs;
 
-     use Illuminate\Bus\Queueable;
      use Illuminate\Contracts\Queue\ShouldQueue;
-     use Illuminate\Foundation\Bus\Dispatchable;
-     use Illuminate\Queue\InteractsWithQueue;
-     use Illuminate\Queue\SerializesModels;
+     use Illuminate\Foundation\Queue\Queueable;
 
     class ProcessPodcast implements ShouldQueue
     {
-        use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+        use Queueable;
 
         /**
          * 新しいジョブインスタンスの生成
@@ -1036,15 +1030,12 @@ public function handle(): void
 
     namespace App\Jobs;
 
-     use Illuminate\Bus\Queueable;
      use Illuminate\Contracts\Queue\ShouldQueue;
-     use Illuminate\Foundation\Bus\Dispatchable;
-     use Illuminate\Queue\InteractsWithQueue;
-     use Illuminate\Queue\SerializesModels;
+     use Illuminate\Foundation\Queue\Queueable;
 
     class ProcessPodcast implements ShouldQueue
     {
-        use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+        use Queueable;
 
         /**
          * 新しいジョブインスタンスの生成
@@ -1277,15 +1268,12 @@ php artisan migrate
     namespace App\Jobs;
 
     use Illuminate\Bus\Batchable;
-    use Illuminate\Bus\Queueable;
     use Illuminate\Contracts\Queue\ShouldQueue;
-    use Illuminate\Foundation\Bus\Dispatchable;
-    use Illuminate\Queue\InteractsWithQueue;
-    use Illuminate\Queue\SerializesModels;
+    use Illuminate\Foundation\Queue\Queueable;
 
     class ImportCsv implements ShouldQueue
     {
-        use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+        use Batchable, Queueable;
 
         /**
          * ジョブの実行
@@ -1932,15 +1920,13 @@ php artisan queue:work redis --tries=3 --backoff=3
 
     use App\Models\Podcast;
     use App\Services\AudioProcessor;
-    use Illuminate\Bus\Queueable;
     use Illuminate\Contracts\Queue\ShouldQueue;
-    use Illuminate\Queue\InteractsWithQueue;
-    use Illuminate\Queue\SerializesModels;
+    use Illuminate\Foundation\Queue\Queueable;
     use Throwable;
 
     class ProcessPodcast implements ShouldQueue
     {
-        use InteractsWithQueue, Queueable, SerializesModels;
+        use Queueable;
 
         /**
          * 新しいジョブインスタンスの生成

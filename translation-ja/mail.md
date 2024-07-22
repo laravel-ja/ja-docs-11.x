@@ -799,10 +799,10 @@ Thanks,<br>
 
 ```blade
 <x-mail::table>
-| Laravel  |   テーブル    |   例 |
-| -------- | :-----------: | ---: |
-| Col 2 is |   Centered    |  $10 |
-| Col 3 is | Right-Aligned |  $20 |
+| Laravel       | テーブル        | 例            |
+| ------------- | :-----------: | ------------: |
+| Col 2 is      | Centered      | $10           |
+| Col 3 is      | Right-Aligned | $20           |
 </x-mail::table>
 ```
 
@@ -1133,6 +1133,12 @@ test('orders can be shipped', function () {
     // Mailableを一つ２回送信したことをアサート
     Mail::assertSent(OrderShipped::class, 2);
 
+    // Mailableをメールアドレスへ送信したことをアサート
+    Mail::assertSent(OrderShipped::class, 'example@laravel.com');
+
+    // Mailableを複数のメールアドレスへ送信したことをアサート
+    Mail::assertSent(OrderShipped::class, ['example@laravel.com', '...']);
+
     // あるMailableを送信しないことをアサート
     Mail::assertNotSent(AnotherMailable::class);
 
@@ -1166,6 +1172,12 @@ class ExampleTest extends TestCase
 
         // Mailableを一つ２回送信したことをアサート
         Mail::assertSent(OrderShipped::class, 2);
+
+        // Mailableをメールアドレスへ送信したことをアサート
+        Mail::assertSent(OrderShipped::class, 'example@laravel.com');
+
+        // Mailableを複数のメールアドレスへ送信したことをアサート
+        Mail::assertSent(OrderShipped::class, ['example@laravel.com', '...']);
 
         // あるMailableを送信しないことをアサート
         Mail::assertNotSent(AnotherMailable::class);

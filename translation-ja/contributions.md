@@ -49,7 +49,7 @@ LaravelのソースコードはGitHubで管理され、各Laravelプロジェク
 - [Laravel Scout](https://github.com/laravel/scout)
 - [Laravel Socialite](https://github.com/laravel/socialite)
 - [Laravel Telescope](https://github.com/laravel/telescope)
-- [Laravel Webサイト](https://github.com/laravel/laravel.com-next)
+- [Laravel Webサイト](https://github.com/laravel/laravel.com)
 
 </div>
 

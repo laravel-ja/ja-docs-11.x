@@ -283,7 +283,7 @@ events {
 Unixベースのオペレーティング・システムでは通常、サーバ上でオープンできるポート数を制限しています。現在許可されている範囲は、以下のコマンドで確認できます。
 
  ```sh
- cat /proc/sys/net/ipv4/ip_local_port_range
+cat /proc/sys/net/ipv4/ip_local_port_range
 # 32768	60999
 ```
 

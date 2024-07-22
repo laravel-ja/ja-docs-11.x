@@ -201,7 +201,7 @@ If your file changes are not being reflected in the browser while the developmen
 With your Vite entry points configured, you may now reference them in a `@vite()` Blade directive that you add to the `<head>` of your application's root template:
 
 ```blade
-<!doctype html>
+<!DOCTYPE html>
 <head>
     {{-- ... --}}
 
@@ -212,7 +212,7 @@ With your Vite entry points configured, you may now reference them in a `@vite()
 If you're importing your CSS via JavaScript, you only need to include the JavaScript entry point:
 
 ```blade
-<!doctype html>
+<!DOCTYPE html>
 <head>
     {{-- ... --}}
 
@@ -866,7 +866,7 @@ For example, the `vite-imagetools` plugin outputs URLs like the following while 
 <img src="/@imagetools/f0b2f404b13f052c604e632f2fb60381bf61a520">
 ```
 
-The `vite-imagetools` plugin is expecting that the output URL will be intercepted by Vite and the plugin may then handle all URLs that start with `/@imagetools`. If you are using plugins that are expecting this behaviour, you will need to manually correct the URLs. You can do this in your `vite.config.js` file by using the `transformOnServe` option. 
+The `vite-imagetools` plugin is expecting that the output URL will be intercepted by Vite and the plugin may then handle all URLs that start with `/@imagetools`. If you are using plugins that are expecting this behaviour, you will need to manually correct the URLs. You can do this in your `vite.config.js` file by using the `transformOnServe` option.
 
 In this particular example, we will prepend the dev server URL to all occurrences of `/@imagetools` within the generated code:
 

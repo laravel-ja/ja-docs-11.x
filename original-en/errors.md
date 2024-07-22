@@ -54,7 +54,7 @@ When you register a custom exception reporting callback using the `report` metho
         });
     })
 
-> [!NOTE]  
+> [!NOTE]
 > To customize the exception reporting for a given exception, you may also utilize [reportable exceptions](/docs/{{version}}/errors#renderable-exceptions).
 
 <a name="global-log-context"></a>
@@ -187,7 +187,7 @@ The closure passed to the `render` method should return an instance of `Illumina
 
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (InvalidOrderException $e, Request $request) {
-            return response()->view('errors.invalid-order', [], 500);
+            return response()->view('errors.invalid-order', status: 500);
         });
     })
 
@@ -307,7 +307,7 @@ If your exception contains custom reporting logic that is only necessary when ce
         return false;
     }
 
-> [!NOTE]  
+> [!NOTE]
 > You may type-hint any required dependencies of the `report` method and they will automatically be injected into the method by Laravel's [service container](/docs/{{version}}/container).
 
 <a name="throttling-reported-exceptions"></a>
@@ -410,6 +410,6 @@ php artisan vendor:publish --tag=laravel-errors
 <a name="fallback-http-error-pages"></a>
 #### Fallback HTTP Error Pages
 
-You may also define a "fallback" error page for a given series of HTTP status codes. This page will be rendered if there is not a corresponding page for the specific HTTP status code that occurred. To accomplish this, define a `4xx.blade.php` template and a `5xx.blade.php` template in your application's `resources/views/errors` directory. 
+You may also define a "fallback" error page for a given series of HTTP status codes. This page will be rendered if there is not a corresponding page for the specific HTTP status code that occurred. To accomplish this, define a `4xx.blade.php` template and a `5xx.blade.php` template in your application's `resources/views/errors` directory.
 
 When defining fallback error pages, the fallback pages will not affect `404`, `500`, and `503` error responses since Laravel has internal, dedicated pages for these status codes. To customize the pages rendered for these status codes, you should define a custom error page for each of them individually.

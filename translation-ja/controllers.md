@@ -106,7 +106,7 @@ php artisan make:controller ProvisionServer --invokable
 
 [ミドルウェア](/docs/{{version}}/middleware)はルートファイルの中で、コントローラのルートに対して指定します。
 
-    Route::get('profile', [UserController::class, 'show'])->middleware('auth');
+    Route::get('/profile', [UserController::class, 'show'])->middleware('auth');
 
 あるいは、コントローラクラス内でミドルウェアを指定する便利な方法もあります。それには、コントローラでstaticな`middleware`メソッドを持つ、`HasMiddleware`インターフェイスを実装する必要があります。このメソッドから、コントローラのアクションに適用するミドルウェアの配列を返します。
 
@@ -181,15 +181,19 @@ php artisan make:controller PhotoController --resource
 <a name="actions-handled-by-resource-controller"></a>
 #### リソースコントローラが処理するアクション
 
-| 動詞      | URI                    | アクション | ルート名       |
-| --------- | ---------------------- | ---------- | -------------- |
-| GET       | `/photos`              | index      | photos.index   |
-| GET       | `/photos/create`       | create     | photos.create  |
-| POST      | `/photos`              | store      | photos.store   |
-| GET       | `/photos/{photo}`      | show       | photos.show    |
-| GET       | `/photos/{photo}/edit` | edit       | photos.edit    |
-| PUT/PATCH | `/photos/{photo}`      | update     | photos.update  |
-| DELETE    | `/photos/{photo}`      | destroy    | photos.destroy |
+<div class="overflow-auto">
+
+| 動詞       | URI                    | アクション | ルート名        |
+| --------- | ---------------------- | ------- | -------------- |
+| GET       | `/photos`              | index   | photos.index   |
+| GET       | `/photos/create`       | create  | photos.create  |
+| POST      | `/photos`              | store   | photos.store   |
+| GET       | `/photos/{photo}`      | show    | photos.show    |
+| GET       | `/photos/{photo}/edit` | edit    | photos.edit    |
+| PUT/PATCH | `/photos/{photo}`      | update  | photos.update  |
+| DELETE    | `/photos/{photo}`      | destroy | photos.destroy |
+
+</div>
 
 <a name="customizing-missing-model-behavior"></a>
 #### 見つからないモデルの動作のカスタマイズ
@@ -305,15 +309,19 @@ Laravelの[暗黙的なモデル結合](/docs/{{version}}/routing#implicit-model
 
 このルート定義は、以下のルートを定義します。
 
-| 動詞      | URI                               | アクション | ルート名               |
-| --------- | --------------------------------- | ---------- | ---------------------- |
-| GET       | `/photos/{photo}/comments`        | index      | photos.comments.index  |
-| GET       | `/photos/{photo}/comments/create` | create     | photos.comments.create |
-| POST      | `/photos/{photo}/comments`        | store      | photos.comments.store  |
-| GET       | `/comments/{comment}`             | show       | comments.show          |
-| GET       | `/comments/{comment}/edit`        | edit       | comments.edit          |
-| PUT/PATCH | `/comments/{comment}`             | update     | comments.update        |
-| DELETE    | `/comments/{comment}`             | destroy    | comments.destroy       |
+<div class="overflow-auto">
+
+| 動詞       | URI                               | アクション | ルート名                |
+| --------- | --------------------------------- | ------- | ---------------------- |
+| GET       | `/photos/{photo}/comments`        | index   | photos.comments.index  |
+| GET       | `/photos/{photo}/comments/create` | create  | photos.comments.create |
+| POST      | `/photos/{photo}/comments`        | store   | photos.comments.store  |
+| GET       | `/comments/{comment}`             | show    | comments.show          |
+| GET       | `/comments/{comment}/edit`        | edit    | comments.edit          |
+| PUT/PATCH | `/comments/{comment}`             | update  | comments.update        |
+| DELETE    | `/comments/{comment}`             | destroy | comments.destroy       |
+
+</div>
 
 <a name="restful-naming-resource-routes"></a>
 ### リソースルートの命名
@@ -407,11 +415,15 @@ Route::singleton('profile', ProfileController::class);
 
 上記のシングルトンリソース定義により、以下のルートを登録します。このように、シングルトンリソースでは「作成」ルートを登録しません。また、リソースのインスタンスが１つしか存在しないため、登録するルートは識別子を受け付けません。
 
-| 動詞      | URI             | アクション | ルート名       |
-| --------- | --------------- | ---------- | -------------- |
-| GET       | `/profile`      | show       | profile.show   |
-| GET       | `/profile/edit` | edit       | profile.edit   |
-| PUT/PATCH | `/profile`      | update     | profile.update |
+<div class="overflow-auto">
+
+| 動詞       | URI             | アクション | ルート名         |
+| --------- | --------------- | ------ | -------------- |
+| GET       | `/profile`      | show   | profile.show   |
+| GET       | `/profile/edit` | edit   | profile.edit   |
+| PUT/PATCH | `/profile`      | update | profile.update |
+
+</div>
 
 シングルトン・リソースは、標準リソースの中に入れ子にすることもできます。
 
@@ -421,11 +433,15 @@ Route::singleton('photos.thumbnail', ThumbnailController::class);
 
 この例では、`photos`リソースはすべての[標準リソースルート](#actions-handled-by-resource-controller)を受け取ります。しかし、`thumbnail`リソースは、以下のルートを持つシングルトンリソースとなります。
 
-| 動詞      | URI                              | アクション | ルート名                |
-| --------- | -------------------------------- | ---------- | ----------------------- |
-| GET       | `/photos/{photo}/thumbnail`      | show       | photos.thumbnail.show   |
-| GET       | `/photos/{photo}/thumbnail/edit` | edit       | photos.thumbnail.edit   |
-| PUT/PATCH | `/photos/{photo}/thumbnail`      | update     | photos.thumbnail.update |
+<div class="overflow-auto">
+
+| 動詞       | URI                              | アクション | ルート名                 |
+| --------- | -------------------------------- | ------ | ----------------------- |
+| GET       | `/photos/{photo}/thumbnail`      | show   | photos.thumbnail.show   |
+| GET       | `/photos/{photo}/thumbnail/edit` | edit   | photos.thumbnail.edit   |
+| PUT/PATCH | `/photos/{photo}/thumbnail`      | update | photos.thumbnail.update |
+
+</div>
 
 <a name="creatable-singleton-resources"></a>
 #### シングルトンリソースの作成
@@ -438,14 +454,18 @@ Route::singleton('photos.thumbnail', ThumbnailController::class)->creatable();
 
 この例では、以下のルートを登録します。ご覧の通り、作成可能なシングルトンリソースには、`DELETE`ルートも登録します。
 
+<div class="overflow-auto">
+
 | 動詞      | URI                                | アクション | ルート名                 |
-| --------- | ---------------------------------- | ---------- | ------------------------ |
+| --------- | ---------------------------------- | ------- | ------------------------ |
 | GET       | `/photos/{photo}/thumbnail/create` | create     | photos.thumbnail.create  |
 | POST      | `/photos/{photo}/thumbnail`        | store      | photos.thumbnail.store   |
 | GET       | `/photos/{photo}/thumbnail`        | show       | photos.thumbnail.show    |
 | GET       | `/photos/{photo}/thumbnail/edit`   | edit       | photos.thumbnail.edit    |
 | PUT/PATCH | `/photos/{photo}/thumbnail`        | update     | photos.thumbnail.update  |
 | DELETE    | `/photos/{photo}/thumbnail`        | destroy    | photos.thumbnail.destroy |
+
+</div>
 
 Laravelにシングルトンリソースの`DELETE`ルートを登録し、作成／保存ルートは登録したくない場合は、`destroyable`メソッドを利用します。
 

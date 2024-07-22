@@ -187,7 +187,7 @@ Laravelの例外ハンドラはデフォルトで、例外をHTTPレスポンス
 
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (InvalidOrderException $e, Request $request) {
-            return response()->view('errors.invalid-order', [], 500);
+            return response()->view('errors.invalid-order', status: 500);
         });
     })
 

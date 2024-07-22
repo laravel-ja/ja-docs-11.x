@@ -27,7 +27,7 @@
 php artisan make:middleware EnsureTokenIsValid
 ```
 
-このコマンドは、新しい`EnsureTokenIsValid`クラスを`app/Http/Middleware`ディレクトリ内に配置します。例としてこのミドルウェアで、リクエストが供給する`token`入力が、指定値と一致する場合にのみ、ルートへのアクセスを許可します。それ以外の場合は、ユーザーを`home` URIへリダイレクトしましょう。
+このコマンドは、新しい`EnsureTokenIsValid`クラスを`app/Http/Middleware`ディレクトリ内に配置します。例としてこのミドルウェアで、リクエストが供給する`token`入力が、指定値と一致する場合にのみ、ルートへのアクセスを許可します。それ以外の場合は、ユーザーを`/home` URIへリダイレクトしましょう。
 
     <?php
 
@@ -47,7 +47,7 @@ php artisan make:middleware EnsureTokenIsValid
         public function handle(Request $request, Closure $next): Response
         {
             if ($request->input('token') !== 'my-secret-token') {
-                return redirect('home');
+                return redirect('/home');
             }
 
             return $next($request);
@@ -222,18 +222,26 @@ Laravelのグローバルミドルウェアスタックを手作業で管理し�
 
 Laravelには定義済みの`web`ミドルウェアグループと`api`ミドルウェアグループがあり、WebルートとAPIルートへ適用する一般的なミドルウェアを用意しています。Laravelはこれらのミドルウェアグループを`routes/web.php`と`routes/api.php`ファイルに対応して、自動的に適用します。
 
-| `web`ミドルウェアグループ
-|--------------
-| `Illuminate\Cookie\Middleware\EncryptCookies`
-| `Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse`
-| `Illuminate\Session\Middleware\StartSession`
-| `Illuminate\View\Middleware\ShareErrorsFromSession`
-| `Illuminate\Foundation\Http\Middleware\ValidateCsrfToken`
-| `Illuminate\Routing\Middleware\SubstituteBindings`
+<div class="overflow-auto">
 
-| `api`ミドルウェアグループ
-|--------------
-| `Illuminate\Routing\Middleware\SubstituteBindings`
+|`web`ミドルウェアグループ |
+| --- |
+| `Illuminate\Cookie\Middleware\EncryptCookies` |
+| `Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse` |
+| `Illuminate\Session\Middleware\StartSession` |
+| `Illuminate\View\Middleware\ShareErrorsFromSession` |
+| `Illuminate\Foundation\Http\Middleware\ValidateCsrfToken` |
+| `Illuminate\Routing\Middleware\SubstituteBindings` |
+
+</div>
+
+<div class="overflow-auto">
+
+| The `api`ミドルウェアグループ |
+| --- |
+| `Illuminate\Routing\Middleware\SubstituteBindings` |
+
+</div>
 
 これらのグループの前後へミドルウェアを追加したい場合は、アプリケーションの`bootstrap/app.php`ファイル内で`web`メソッドと`api`メソッドを使用してください。`web`メソッドと`api`メソッドは、`appendToGroup`メソッドに代わる便利なメソッドです。
 
@@ -312,20 +320,24 @@ Laravelのデフォルトの`web`ミドルウェアグループと`api`ミドル
 
 便利なように、Laravelの組み込みミドルウェアのいくつかは、デフォルトでエイリアスを定義しています。例えば、`auth`ミドルウェアは`Illuminate\Auth\Middleware\Authenticate`ミドルウェアのエイリアスです。下記は、デフォルトミドルウェアのエイリアスのリストです。
 
-| エイリアス         | ミドルウェア                                                                                                  |
-| ------------------ | ------------------------------------------------------------------------------------------------------------- |
-| `auth`             | `Illuminate\Auth\Middleware\Authenticate`                                                                     |
-| `auth.basic`       | `Illuminate\Auth\Middleware\AuthenticateWithBasicAuth`                                                        |
-| `auth.session`     | `Illuminate\Session\Middleware\AuthenticateSession`                                                           |
-| `cache.headers`    | `Illuminate\Http\Middleware\SetCacheHeaders`                                                                  |
-| `can`              | `Illuminate\Auth\Middleware\Authorize`                                                                        |
-| `guest`            | `Illuminate\Auth\Middleware\RedirectIfAuthenticated`                                                          |
-| `password.confirm` | `Illuminate\Auth\Middleware\RequirePassword`                                                                  |
-| `precognitive`     | `Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests`                                            |
-| `signed`           | `Illuminate\Routing\Middleware\ValidateSignature`                                                             |
-| `subscribed`       | `\Spark\Http\Middleware\VerifyBillableIsSubscribed`                                                           |
-| `throttle`         | `Illuminate\Routing\Middleware\ThrottleRequests` or `Illuminate\Routing\Middleware\ThrottleRequestsWithRedis` |
-| `verified`         | `Illuminate\Auth\Middleware\EnsureEmailIsVerified`                                                            |
+<div class="overflow-auto">
+
+| エイリアス | ミドルウェア |
+| --- | --- |
+| `auth` | `Illuminate\Auth\Middleware\Authenticate` |
+| `auth.basic` | `Illuminate\Auth\Middleware\AuthenticateWithBasicAuth` |
+| `auth.session` | `Illuminate\Session\Middleware\AuthenticateSession` |
+| `cache.headers` | `Illuminate\Http\Middleware\SetCacheHeaders` |
+| `can` | `Illuminate\Auth\Middleware\Authorize` |
+| `guest` | `Illuminate\Auth\Middleware\RedirectIfAuthenticated` |
+| `password.confirm` | `Illuminate\Auth\Middleware\RequirePassword` |
+| `precognitive` | `Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests` |
+| `signed` | `Illuminate\Routing\Middleware\ValidateSignature` |
+| `subscribed` | `\Spark\Http\Middleware\VerifyBillableIsSubscribed` |
+| `throttle` | `Illuminate\Routing\Middleware\ThrottleRequests` or `Illuminate\Routing\Middleware\ThrottleRequestsWithRedis` |
+| `verified` | `Illuminate\Auth\Middleware\EnsureEmailIsVerified` |
+
+</div>
 
 <a name="sorting-middleware"></a>
 ### ミドルウェアの順序

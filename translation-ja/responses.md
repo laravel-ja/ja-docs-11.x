@@ -152,7 +152,7 @@
 リダイレクトのレスポンスは`Illuminate\Http\RedirectResponse`クラスのインスタンスであり、ユーザーを他のURLへリダイレクトさせるために必要なしっかりとしたヘッダを含んでいます。`RedirectResponse`インスタンスを生成するにはさまざまな方法があります。一番簡単な方法は、グローバルな`redirect`ヘルパを使う方法です。
 
     Route::get('/dashboard', function () {
-        return redirect('home/dashboard');
+        return redirect('/home/dashboard');
     });
 
 送信したフォームが無効な場合など、ユーザーを以前の場所にリダイレクトしたい場合があります。これは、グローバルな`back`ヘルパ関数を使用して行うことができます。この機能は[セッション](/docs/{{version}}/session)を利用するため、`back`関数を呼び出すルートが`web`ミドルウェアグループを使用していることを確認してください。
@@ -225,7 +225,7 @@ Eloquentモデルの"ID"をルートパラメーターとしてリダイレク�
     Route::post('/user/profile', function () {
         // …
 
-        return redirect('dashboard')->with('status', 'Profile updated!');
+        return redirect('/dashboard')->with('status', 'Profile updated!');
     });
 
 ユーザーを新しいページヘリダイレクトした後、[セッション](/docs/{{version}}/session)へ保存したフラッシュデータのメッセージを取り出して、表示します。たとえば、[Blade記法](/docs/{{version}}/blade)を使ってみましょう。

@@ -741,17 +741,17 @@ php artisan config:publish hashing
 
 Laravelは、認証プロセス中に様々な[イベント](/docs/{{version}}/events)をディスパッチします。以下のイベントに対して、[リスナを定義](/docs/{{version}}/events)できます.
 
-イベント名 |
-------------- |
-`Illuminate\Auth\Events\Registered` |
-`Illuminate\Auth\Events\Attempting` |
-`Illuminate\Auth\Events\Authenticated` |
-`Illuminate\Auth\Events\Login` |
-`Illuminate\Auth\Events\Failed` |
-`Illuminate\Auth\Events\Validated` |
-`Illuminate\Auth\Events\Verified` |
-`Illuminate\Auth\Events\Logout` |
-`Illuminate\Auth\Events\CurrentDeviceLogout` |
-`Illuminate\Auth\Events\OtherDeviceLogout` |
-`Illuminate\Auth\Events\Lockout` |
-`Illuminate\Auth\Events\PasswordReset` |
+| イベント名 |
+| --- |
+| `Illuminate\Auth\Events\Registered` |
+| `Illuminate\Auth\Events\Attempting` |
+| `Illuminate\Auth\Events\Authenticated` |
+| `Illuminate\Auth\Events\Login` |
+| `Illuminate\Auth\Events\Failed` |
+| `Illuminate\Auth\Events\Validated` |
+| `Illuminate\Auth\Events\Verified` |
+| `Illuminate\Auth\Events\Logout` |
+| `Illuminate\Auth\Events\CurrentDeviceLogout` |
+| `Illuminate\Auth\Events\OtherDeviceLogout` |
+| `Illuminate\Auth\Events\Lockout` |
+| `Illuminate\Auth\Events\PasswordReset` |

@@ -649,7 +649,7 @@ Sometimes, you may need more manual control over how a progress bar is advanced.
 
     $bar->finish();
 
-> [!NOTE]
+> [!NOTE]  
 > For more advanced options, check out the [Symfony Progress Bar component documentation](https://symfony.com/doc/7.0/components/console/helpers/progressbar.html).
 
 <a name="registering-commands"></a>
@@ -669,7 +669,7 @@ If necessary, you may also manually register commands by providing the command's
         SendEmails::class,
     ])
 
- When Artisan boots, all the commands in your application will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan.
+When Artisan boots, all the commands in your application will be resolved by the [service container](/docs/{{version}}/container) and registered with Artisan.
 
 <a name="programmatically-executing-commands"></a>
 ## Programmatically Executing Commands

@@ -332,6 +332,8 @@ Laravelは、[Bootstrap CSS](https://getbootstrap.com/)を使用し構築した�
 
 各ペジネーションインスタンスは、以下のメソッドで追加のペジネーション情報を提供します。
 
+<div class="overflow-auto">
+
 | メソッド                                | 説明                                                                               |
 | --------------------------------------- | ---------------------------------------------------------------------------------- |
 | `$paginator->count()`                   | 現在のページのアイテム数を取得                                                     |
@@ -354,10 +356,14 @@ Laravelは、[Bootstrap CSS](https://getbootstrap.com/)を使用し構築した�
 | `$paginator->setPageName($name)`        | ページの保存に使用するクエリ文字列変数を設定                                       |
 | `$paginator->through($callback)`        | コールバックを使い、各アイテムを変換                                               |
 
+</div>
+
 <a name="cursor-paginator-instance-methods"></a>
 ## カーソルPaginatorインスタンスのメソッド
 
 各カーソルペジネータインスタンスは、以降のメソッドで追加のペジネーション情報を提供します。
+
+<div class="overflow-auto">
 
 | メソッド                                | 説明                                                                               |
 | --------------------------------------- | ---------------------------------------------------------------------------------- |
@@ -377,3 +383,5 @@ Laravelは、[Bootstrap CSS](https://getbootstrap.com/)を使用し構築した�
 | `$paginator->previousPageUrl()`         | 前のページのURLを取得                                                              |
 | `$paginator->setCursorName()`   | カーソルの保存に使用するクエリ文字列変数を設定               |
 | `$paginator->url($cursor)`      | 指定するカーソルインスタンスのURLを取得                      |
+
+</div>

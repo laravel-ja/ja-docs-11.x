@@ -780,10 +780,10 @@ The table component allows you to transform a Markdown table into an HTML table.
 
 ```blade
 <x-mail::table>
-| Laravel       | Table         | Example  |
-| ------------- |:-------------:| --------:|
-| Col 2 is      | Centered      | $10      |
-| Col 3 is      | Right-Aligned | $20      |
+| Laravel       | Table         | Example       |
+| ------------- | :-----------: | ------------: |
+| Col 2 is      | Centered      | $10           |
+| Col 3 is      | Right-Aligned | $20           |
 </x-mail::table>
 ```
 
@@ -1267,7 +1267,7 @@ To direct Slack notifications to the appropriate Slack team and channel, define 
 - A `SlackRoute` instance, which allows you to specify an OAuth token and channel name, e.g. `SlackRoute::make($this->slack_channel, $this->slack_token)`. This method should be used to send notifications to external workspaces.
 
 For instance, returning `#support-channel` from the `routeNotificationForSlack` method will send the notification to the `#support-channel` channel in the workspace associated with the Bot User OAuth token located in your application's `services.php` configuration file:
- 
+
     <?php
 
     namespace App\Models;

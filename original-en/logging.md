@@ -41,17 +41,17 @@ Each log channel is powered by a "driver". The driver determines how and where t
 
 <div class="overflow-auto">
 
-Name | Description
-------------- | -------------
-`custom` | A driver that calls a specified factory to create a channel
-`daily` | A `RotatingFileHandler` based Monolog driver which rotates daily
-`errorlog` | An `ErrorLogHandler` based Monolog driver
-`monolog` | A Monolog factory driver that may use any supported Monolog handler
-`papertrail` | A `SyslogUdpHandler` based Monolog driver
-`single` | A single file or path based logger channel (`StreamHandler`)
-`slack` | A `SlackWebhookHandler` based Monolog driver
-`stack` | A wrapper to facilitate creating "multi-channel" channels
-`syslog` | A `SyslogHandler` based Monolog driver
+| Name         | Description                                                          |
+| ------------ | -------------------------------------------------------------------- |
+| `custom`     | A driver that calls a specified factory to create a channel.         |
+| `daily`      | A `RotatingFileHandler` based Monolog driver which rotates daily.    |
+| `errorlog`   | An `ErrorLogHandler` based Monolog driver.                           |
+| `monolog`    | A Monolog factory driver that may use any supported Monolog handler. |
+| `papertrail` | A `SyslogUdpHandler` based Monolog driver.                           |
+| `single`     | A single file or path based logger channel (`StreamHandler`).        |
+| `slack`      | A `SlackWebhookHandler` based Monolog driver.                        |
+| `stack`      | A wrapper to facilitate creating "multi-channel" channels.           |
+| `syslog`     | A `SyslogHandler` based Monolog driver.                              |
 
 </div>
 
@@ -79,11 +79,11 @@ The `single` and `daily` channels have three optional configuration options: `bu
 
 <div class="overflow-auto">
 
-Name | Description | Default
-------------- | ------------- | -------------
-`bubble` | Indicates if messages should bubble up to other channels after being handled | `true`
-`locking` | Attempt to lock the log file before writing to it | `false`
-`permission` | The log file's permissions | `0644`
+| Name         | Description                                                                   | Default |
+| ------------ | ----------------------------------------------------------------------------- | ------- |
+| `bubble`     | Indicates if messages should bubble up to other channels after being handled. | `true`  |
+| `locking`    | Attempt to lock the log file before writing to it.                            | `false` |
+| `permission` | The log file's permissions.                                                   | `0644`  |
 
 </div>
 
@@ -91,9 +91,9 @@ Additionally, the retention policy for the `daily` channel can be configured via
 
 <div class="overflow-auto">
 
-Name | Description                                                       | Default
-------------- |-------------------------------------------------------------------| -------------
-`days` | The number of days that daily log files should be retained | `7`
+| Name   | Description                                                 | Default |
+| ------ | ----------------------------------------------------------- | ------- |
+| `days` | The number of days that daily log files should be retained. | `7`     |
 
 </div>
 
@@ -295,7 +295,7 @@ If you would like to share contextual information across _all_ logging channels,
         }
     }
 
-> [!NOTE]
+> [!NOTE]  
 > If you need to share log context while processing queued jobs, you may utilize [job middleware](/docs/{{version}}/queues#job-middleware).
 
 <a name="writing-to-specific-channels"></a>
@@ -421,9 +421,9 @@ If you are using a Monolog handler that is capable of providing its own formatte
  <a name="monolog-processors"></a>
  #### Monolog Processors
 
- Monolog can also process messages before logging them. You can create your own processors or use the [existing processors offered by Monolog](https://github.com/Seldaek/monolog/tree/main/src/Monolog/Processor).
+Monolog can also process messages before logging them. You can create your own processors or use the [existing processors offered by Monolog](https://github.com/Seldaek/monolog/tree/main/src/Monolog/Processor).
 
- If you would like to customize the processors for a `monolog` driver, add a `processors` configuration value to your channel's configuration:
+If you would like to customize the processors for a `monolog` driver, add a `processors` configuration value to your channel's configuration:
 
      'memory' => [
          'driver' => 'monolog',

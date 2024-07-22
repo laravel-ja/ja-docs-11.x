@@ -963,7 +963,7 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
         {
             if ($request->user() && ! $request->user()->subscribed('default')) {
                 // このユーザーは、支払い済みユーザーではない
-                return redirect('billing');
+                return redirect('/billing');
             }
 
             return $next($request);

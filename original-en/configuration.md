@@ -51,7 +51,7 @@ Laravel's default `.env` file contains some common configuration values that may
 
 If you are developing with a team, you may wish to continue including and updating the `.env.example` file with your application. By putting placeholder values in the example configuration file, other developers on your team can clearly see which environment variables are needed to run your application.
 
-> [!NOTE]
+> [!NOTE]  
 > Any variable in your `.env` file can be overridden by external environment variables such as server-level or system-level environment variables.
 
 <a name="environment-file-security"></a>
@@ -72,7 +72,7 @@ Before loading your application's environment variables, Laravel determines if a
 All variables in your `.env` files are typically parsed as strings, so some reserved values have been created to allow you to return a wider range of types from the `env()` function:
 
 | `.env` Value | `env()` Value |
-|--------------|---------------|
+| ------------ | ------------- |
 | true         | (bool) true   |
 | (true)       | (bool) true   |
 | false        | (bool) false  |

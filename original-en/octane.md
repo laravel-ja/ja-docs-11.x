@@ -128,7 +128,7 @@ services:
   frankenphp:
     build:
       context: .
-    entrypoint: php artisan octane:frankenphp --max-requests=1
+    entrypoint: php artisan octane:frankenphp --workers=1 --max-requests=1
     ports:
       - "8000:8000"
     volumes:
@@ -150,7 +150,7 @@ If you plan to develop your application using [Laravel Sail](/docs/{{version}}/s
 ```shell
 ./vendor/bin/sail up
 
-./vendor/bin/sail composer require laravel/octane spiral/roadrunner-cli spiral/roadrunner-http 
+./vendor/bin/sail composer require laravel/octane spiral/roadrunner-cli spiral/roadrunner-http
 ```
 
 Next, you should start a Sail shell and use the `rr` executable to retrieve the latest Linux based build of the RoadRunner binary:

@@ -177,7 +177,7 @@ Laravelでは名前付きルートに対し、簡単に「署名付きURL」を�
 
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (InvalidSignatureException $e) {
-            return response()->view('error.link-expired', [], 403);
+            return response()->view('errors.link-expired', status: 403);
         });
     })
 

@@ -189,7 +189,7 @@ Laravelは、認証したユーザーをゲートクロージャへ自動的に�
 
     class ProcessPodcast implements ShouldQueue, Silenced
     {
-        use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+        use Queueable;
 
         // ...
     }
@@ -307,15 +307,12 @@ Horizo​​nを使用すると、メール可能、ブロードキャストイ�
     namespace App\Jobs;
 
     use App\Models\Video;
-    use Illuminate\Bus\Queueable;
     use Illuminate\Contracts\Queue\ShouldQueue;
-    use Illuminate\Foundation\Bus\Dispatchable;
-    use Illuminate\Queue\InteractsWithQueue;
-    use Illuminate\Queue\SerializesModels;
+    use Illuminate\Foundation\Queue\Queueable;
 
     class RenderVideo implements ShouldQueue
     {
-        use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+        use Queueable;
 
         /**
          * 新しいジョブインスタンスの生成

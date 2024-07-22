@@ -61,7 +61,7 @@ Laravelを使用してAPIを構築する場合、モデルとリレーション�
 
 モデルとコレクションは文字列にキャストされるとJSONに変換されるため、アプリケーションのルートまたはコントローラから直接Eloquentオブジェクトを返すことができます。Laravelはルートまたはコントローラから返されるときに、EloquentモデルコレクションをJSONへ自動的にシリアル化します。
 
-    Route::get('users', function () {
+    Route::get('/users', function () {
         return User::all();
     });
 

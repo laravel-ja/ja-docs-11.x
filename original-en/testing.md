@@ -123,7 +123,7 @@ By default, Laravel will create as many processes as there are available CPU cor
 php artisan test --parallel --processes=4
 ```
 
-> [!WARNING]  
+> [!WARNING]
 > When running tests in parallel, some Pest / PHPUnit options (such as `--do-not-cache-result`) may not be available.
 
 <a name="parallel-testing-and-databases"></a>
@@ -193,7 +193,7 @@ If you would like to access the current parallel process "token" from any other 
 <a name="reporting-test-coverage"></a>
 ### Reporting Test Coverage
 
-> [!WARNING]  
+> [!WARNING]
 > This feature requires [Xdebug](https://xdebug.org) or [PCOV](https://pecl.php.net/package/pcov).
 
 When running your application tests, you may want to determine whether your test cases are actually covering the application code and how much application code is used when running your tests. To accomplish this, you may provide the `--coverage` option when invoking the `test` command:

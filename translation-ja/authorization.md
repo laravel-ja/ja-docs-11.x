@@ -188,7 +188,7 @@ Laravelは、アクションを認可する2つの主要な方法を提供しま
 
     // アクションは認可されている
 
-<a name="customising-gate-response-status"></a>
+<a name="customizing-gate-response-status"></a>
 #### HTTPレスポンスステータスのカスタマイズ
 
 ゲートがアクションを拒否すると、`403` HTTPレスポンスを返します。しかし場合により、別のHTTPステータスコードを返すほうが、便利なことがあります。認可チェックに失敗したときに返すHTTPステータスコードは、`Illuminate\Auth\Access\Response`クラスの`denyWithStatus`静的コンストラクタを使用してカスタマイズできます。
@@ -384,7 +384,7 @@ Artisanコンソールを介してポリシーを生成するときに`--model`�
 
     // アクションは認可されている
 
-<a name="customising-policy-response-status"></a>
+<a name="customizing-policy-response-status"></a>
 #### HTTPレスポンスステータスのカスタマイズ
 
 ポリシーメソッドがアクションを拒否すると、`403` HTTPレスポンスを返します。しかし場合により、別のHTTPステータスコードを返すほうが、便利なことがあります。認可チェックに失敗したときに返すHTTPステータスコードは、`Illuminate\Auth\Access\Response`クラスの`denyWithStatus`静的コンストラクタを使用してカスタマイズできます。

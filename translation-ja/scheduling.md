@@ -519,10 +519,14 @@ Laravelスケジューラはスケジュールしたタスクが生成する出�
 
 Laravelは、スケジュールの処理中に様々な[イベント](/docs/{{version}}/events)をディスパッチします。以下のイベントに対して、リスナを[定義](/docs/{{version}}/events)できます。
 
-イベント名 |
-------------- |
-`Illuminate\Console\Events\ScheduledTaskStarting` |
-`Illuminate\Console\Events\ScheduledTaskFinished` |
-`Illuminate\Console\Events\ScheduledBackgroundTaskFinished` |
-`Illuminate\Console\Events\ScheduledTaskSkipped` |
-`Illuminate\Console\Events\ScheduledTaskFailed` |
+<div class="overflow-auto">
+
+| イベント名 |
+| --- |
+| `Illuminate\Console\Events\ScheduledTaskStarting` |
+| `Illuminate\Console\Events\ScheduledTaskFinished` |
+| `Illuminate\Console\Events\ScheduledBackgroundTaskFinished` |
+| `Illuminate\Console\Events\ScheduledTaskSkipped` |
+| `Illuminate\Console\Events\ScheduledTaskFailed` |
+
+</div>

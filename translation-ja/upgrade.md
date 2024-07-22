@@ -24,6 +24,7 @@
 - [Carbon3](#carbon-3)
 - [パスワードの再ハッシュ](#password-rehashing)
 - [毎秒のレート制限](#per-second-rate-limiting)
+- [SpatieのOnceパッケージ](#spatie-once-package)
 
 </div>
 
@@ -35,7 +36,6 @@
 - [Doctrine DBALの削除](#doctrine-dbal-removal)
 - [Eloquentモデルの`casts`メソッド](#eloquent-model-casts-method)
 - [空間タイプ](#spatial-types)
-- [SpatieのOnceパッケージ](#spatie-once-package)
 - [`Enumerable`契約](#the-enumerable-contract)
 - [`UserProvider`契約](#the-user-provider-contract)
 - [`Authenticatable`契約](#the-authenticatable-contract)

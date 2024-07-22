@@ -29,30 +29,30 @@ Laravelサービスコンテナは、クラスの依存関係を管理し、依�
 
     namespace App\Http\Controllers;
 
-    use App\Repositories\UserRepository;
+    use App\Services\AppleMusic;
     use Illuminate\View\View;
 
-    class UserController extends Controller
+    class PodcastController extends Controller
     {
         /**
          * 新しいコントローラインスタンスの生成
          */
         public function __construct(
-            protected UserRepository $users,
+            protected AppleMusic $apple,
         ) {}
 
         /**
-         * 指定ユーザーのプロファイル表示
+         * 指定ユーザーのプロフィールを表示
          */
         public function show(string $id): View
         {
-            $user = $this->users->find($id);
-
-            return view('user.profile', ['user' => $user]);
+            return view('podcasts.show', [
+                'podcast' => $this->apple->findPodcast($id)
+            ]);
         }
     }
 
-この例では、`UserController`はデータソースからユーザーを取得する必要があります。そのため、ユーザーを取得できるサービスを**注入**します。このコンテキストでは、`UserRepository`はおそらく[Eloquent](/docs/{{version}}/eloquent)を使用してデータベースからユーザー情報を取得します。しかし、リポジトリが挿入されているため、別の実装と簡単に交換可能です。また、アプリケーションをテストするときに、「UserRepository」のダミー実装を簡単に「モック」または作成することもできます。
+この例では、`PodcastController`はApple Musicなどのデータソースからポッドキャストを取得する必要があります。そこで、ポッドキャストを取得できるサービスを**依存注入**しています。サービスを依存注入することにより、アプリケーションをテストする際に`AppleMusic`サービスのダミー実装を簡単に作成できます。
 
 Laravelサービスコンテナを深く理解することは、強力で大規模なアプリケーションを構築するため、およびLaravelコア自体に貢献するために不可欠です。
 
@@ -388,32 +388,29 @@ Laravelコンテナインスタンス自体をコンテナにより解決中の�
 
 あるいは、そして重要なことに、[コントローラ](/docs/{{version}}/controllers)、[イベントリスナ](/docs/{{version}}/events)、[ミドルウェア](/docs/{{version}}/middleware)など、コンテナにより解決されるクラスのコンストラクターでは、依存関係をタイプヒントすることができます。さらに、[キュー投入するジョブ](/docs/{{version}}/queues)の`handle`メソッドでも、依存関係をタイプヒントできます。実践的に、ほとんどのオブジェクトはコンテナにより解決されるべきでしょう。
 
-たとえば、コントローラのコンストラクタでアプリケーションが定義したリポジトリをタイプヒントすることができます。リポジトリは自動的に解決され、クラスに依存注入されます。
+たとえば、コントローラのコンストラクタでアプリケーションが定義したサービスをタイプヒントすることができます。そのサービスを自動的に解決し、クラスに依存注入します。
 
     <?php
 
     namespace App\Http\Controllers;
 
-    use App\Repositories\UserRepository;
-    use App\Models\User;
+    use App\Services\AppleMusic;
 
-    class UserController extends Controller
+    class PodcastController extends Controller
     {
         /**
          * 新しいコントローラインスタンスの生成
          */
         public function __construct(
-            protected UserRepository $users,
+            protected AppleMusic $apple,
         ) {}
 
         /**
-         * 指定したIDのユーザーを表示
+         * 指定ポッドキャストの情報を表示
          */
-        public function show(string $id): User
+        public function show(string $id): Podcast
         {
-            $user = $this->users->findOrFail($id);
-
-            return $user;
+            return $this->apple->findPodcast($id);
         }
     }
 
@@ -426,14 +423,14 @@ Laravelコンテナインスタンス自体をコンテナにより解決中の�
 
     namespace App;
 
-    use App\Repositories\UserRepository;
+    use App\Services\AppleMusic;
 
-    class UserReport
+    class PodcastStats
     {
         /**
-         * 新しいユーザーレポートの生成
+         * 新しいポッドキャストの状況レポートを生成
          */
-        public function generate(UserRepository $repository): array
+        public function generate(AppleMusic $apple): array
         {
             return [
                 // ...
@@ -443,17 +440,17 @@ Laravelコンテナインスタンス自体をコンテナにより解決中の�
 
 次のように、コンテナを介して`generate`メソッドを呼び出せます。
 
-    use App\UserReport;
+    use App\PodcastStats;
     use Illuminate\Support\Facades\App;
 
-    $report = App::call([new UserReport, 'generate']);
+    $stats = App::call([new PodcastStats, 'generate']);
 
 `call`メソッドは任意のPHP callableを受け入れます。コンテナの`call`メソッドは、依存関係を自動的に注入しながら、クロージャを呼び出すためにも使用できます。
 
-    use App\Repositories\UserRepository;
+    use App\Services\AppleMusic;
     use Illuminate\Support\Facades\App;
 
-    $result = App::call(function (UserRepository $repository) {
+    $result = App::call(function (AppleMusic $apple) {
         // ...
     });
 

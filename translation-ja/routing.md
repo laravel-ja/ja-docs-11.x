@@ -323,7 +323,7 @@ Laravelサービスコンテナにより、ルートのコールバックへ自�
     Route::get('/category/{category}', function (string $category) {
         // ...
     })->whereIn('category', ['movie', 'song', 'painting']);
-    
+
     Route::get('/category/{category}', function (string $category) {
         // ...
     })->whereIn('category', CategoryEnum::cases());
@@ -479,7 +479,7 @@ Laravelルーティングコンポーネントでは、`/`を除くすべての�
 ルートグループは、サブドメインルーティングを処理するためにも使用できます。サブドメインには、ルートURIと同じようにルートパラメータを割り当てることができ、ルートまたはコントローラで使用するためにサブドメインの一部を取得できます。サブドメインは、グループを定義する前に`domain`メソッドを呼び出し指定します。
 
     Route::domain('{account}.example.com')->group(function () {
-        Route::get('user/{id}', function (string $account, string $id) {
+        Route::get('/user/{id}', function (string $account, string $id) {
             // ...
         });
     });

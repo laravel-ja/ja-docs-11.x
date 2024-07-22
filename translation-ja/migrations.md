@@ -191,7 +191,7 @@ php artisan migrate:rollback --step=5
 `rollback`コマンドで`batch`オプションを指定し、特定の 「バッチ」のマイグレーションをロールバックできます。このとき、`batch`オプションはアプリケーションの`migrations`データベーステーブル内のバッチの値に対応します。例えば、次のコマンドはバッチ3のすべてのマイグレーションをロールバックします。
 
  ```shell
- php artisan migrate:rollback --batch=3
+php artisan migrate:rollback --batch=3
  ```
 
 実際にマイグレーションを実行せず、そのマイグレーションが実行するSQL文を確認したい場合は、`--pretend`フラグを`migrate:rollback`コマンドへ指定します。
@@ -939,6 +939,8 @@ MySQLまたはMariaDBを使用する場合、`TINYBLOB`カラムを作成する�
 
 次の表は、使用可能なすべてのカラム修飾子を紹介しています。このリストには[インデックス修飾子](#creating-indexes)は含まれていません。
 
+<div class="overflow-auto">
+
 | 修飾子                              | 説明                                                                                      |
 | ----------------------------------- | ----------------------------------------------------------------------------------------- |
 | `->after('column')`                 | カラムを別のカラムの「後に」配置（MariaDB／MySQL）                                                 |
@@ -958,6 +960,8 @@ MySQLまたはMariaDBを使用する場合、`TINYBLOB`カラムを作成する�
 | `->virtualAs($expression)`          | 仮想カラムを生成（MariaDB／MySQL／SQLite）                                                         |
 | `->generatedAs($expression)`        | 指定のシーケンスオプションで、識別カラムを生成（PostgreSQL）                              |
 | `->always()`                        | IDカラムの入力に対するシーケンス値の優先順位を定義（PostgreSQL）                          |
+
+</div>
 
 <a name="default-expressions"></a>
 #### デフォルト式
@@ -1054,6 +1058,8 @@ $table->char('postal_code', 10)->unique(false)->change();
 
 Laravelは、一般的なタイプのカラムの削除の便利な方法を提供しています。各メソッドは以下の表で説明します。
 
+<div class="overflow-auto">
+
 | コマンド                           | 説明                                               |
 | ---------------------------------- | -------------------------------------------------- |
 | `$table->dropMorphs('morphable');` | `morphable_id`カラムと`morphable_type`カラムを削除 |
@@ -1062,6 +1068,8 @@ Laravelは、一般的なタイプのカラムの削除の便利な方法を提�
 | `$table->dropSoftDeletesTz();`     | `dropSoftDeletes（）`メソッドのエイリアス          |
 | `$table->dropTimestamps();`        | `created_at`カラムと`updated_at`カラムを削除       |
 | `$table->dropTimestampsTz();`      | `dropTimestamps（）`メソッドのエイリアス           |
+
+</div>
 
 <a name="indexes"></a>
 ## インデックス
@@ -1095,6 +1103,8 @@ Laravelスキーマビルダは多くのタイプのインデックスをサポ�
 
 LaravelのスキーマビルダBlueprintクラスは、Laravelでサポートしている各タイプのインデックスを作成するメソッドを提供しています。各indexメソッドは、オプションの２番目の引数を取り、インデックスの名前を指定します。省略した場合、名前は、インデックスに使用されるテーブルとカラムの名前、およびインデックスタイプから派生します。使用可能な各インデックスメソッドは、以下の表で説明します。
 
+<div class="overflow-auto">
+
 | コマンド                                         | 説明                                            |
 | ------------------------------------------------ | ----------------------------------------------- |
 | `$table->primary('id');`                         | 主キーを追加                                    |
@@ -1104,6 +1114,8 @@ LaravelのスキーマビルダBlueprintクラスは、Laravelでサポートし
 | `$table->fullText('body');`                      | 全文検索インデックスを追加（MariaDB／MySQL／PostgreSQL） |
 | `$table->fullText('body')->language('english');` | 特定言語のフルテキストインデックス追加          |
 | `$table->spatialIndex('location');`              | 空間インデックスを追加（SQLiteを除く）          |
+
+</div>
 
 <a name="renaming-indexes"></a>
 ### インデックスのリネーム
@@ -1117,6 +1129,8 @@ LaravelのスキーマビルダBlueprintクラスは、Laravelでサポートし
 
 インデックスを削除するには、インデックスの名前を指定する必要があります。デフォルトでは、Laravelはテーブル名、インデックス付きカラムの名前、およびインデックスタイプに基づいてインデックス名を自動的に割り当てます。ここではいくつかの例を示します。
 
+<div class="overflow-auto">
+
 | コマンド                                                 | 説明                                                    |
 | -------------------------------------------------------- | ------------------------------------------------------- |
 | `$table->dropPrimary('users_id_primary');`               | "users"テーブルから主キーを削除                         |
@@ -1124,6 +1138,8 @@ LaravelのスキーマビルダBlueprintクラスは、Laravelでサポートし
 | `$table->dropIndex('geo_state_index');`                  | "geo"テーブルから基本インデックスを削除                 |
 | `$table->dropFullText('posts_body_fulltext');`           | "posts"テーブルからフルテキストインデックスを削除       |
 | `$table->dropSpatialIndex('geo_location_spatialindex');` | "geo"テーブルから空間インデックスを削除（SQLiteを除く） |
+
+</div>
 
 インデックスを削除するメソッドにカラムの配列を渡すと、テーブル名、カラム、およびインデックスタイプに基づいてインデックス名が生成されます。
 
@@ -1168,14 +1184,18 @@ Laravelは、データベースレベルで参照整合性を強制するため�
 
 これらのアクションには、表現力の高い別構文も用意しています。
 
-| メソッド                      | 解説                                   |
-| ----------------------------- | -------------------------------------- |
+<div class="overflow-auto">
+
+| メソッド                        | 解説                                   |
+| ----------------------------- | ------------------------------------------------- |
 | `$table->cascadeOnUpdate();`  | 更新をカスケードします                 |
 | `$table->restrictOnUpdate();` | 更新を制限します                       |
 | `$table->noActionOnUpdate();` | 更新では何もしません                   |
 | `$table->cascadeOnDelete();`  | 削除をカスケードします                 |
 | `$table->restrictOnDelete();` | 削除を制限します。                     |
 | `$table->nullOnDelete();`     | 削除時に外部キーへNULLをセットします。 |
+
+</div>
 
 追加の[カラム修飾子](#column-modifiers)は、`constrained`メソッドの前に呼び出す必要があります。
 
@@ -1215,12 +1235,16 @@ Laravelは、データベースレベルで参照整合性を強制するため�
 
 利便が良いように、各マイグレート操作は[イベント](/docs/{{version}}/events)を発行します。以下のイベントはすべて、`Illuminate\Database\Events\MigrationEvent`基本クラスを継承しています。
 
- | クラス                                         | 説明                                             |
+<div class="overflow-auto">
+
+ | クラス                                             | 説明                                  |
  | ---------------------------------------------- | ------------------------------------------------ |
- | `Illuminate\Database\Events\MigrationsStarted` | マイグレーションのバッチが実行されようとしている |
- | `Illuminate\Database\Events\MigrationsEnded`   | マイグレーションのバッチが実行終了した           |
- | `Illuminate\Database\Events\MigrationStarted`  | 単一マイグレーションが実行されようとしている     |
- | `Illuminate\Database\Events\MigrationEnded`    | 単一マイグレーションが実行終了した               |
-| `Illuminate\Database\Events\NoPendingMigrations` | 未適用のマイグレーションをみつけられなかった     |
- | `Illuminate\Database\Events\SchemaDumped`      | データベーススキマのダンプが終了した             |
- | `Illuminate\Database\Events\SchemaLoaded`      | 既存のデータベーススキマのダンプをロードした     |
+ | `Illuminate\Database\Events\MigrationsStarted`   | マイグレーションのバッチが実行されようとしている |
+ | `Illuminate\Database\Events\MigrationsEnded`     | マイグレーションのバッチが実行終了した           |
+ | `Illuminate\Database\Events\MigrationStarted`    | 単一マイグレーションが実行されようとしている     |
+ | `Illuminate\Database\Events\MigrationEnded`      | 単一マイグレーションが実行終了した |               |
+ | `Illuminate\Database\Events\NoPendingMigrations` | 未適用のマイグレーションをみつけられなかった     |
+ | `Illuminate\Database\Events\SchemaDumped`        | データベーススキマのダンプが終了した             |
+ | `Illuminate\Database\Events\SchemaLoaded`        | 既存のデータベーススキマのダンプをロードした     |
+
+</div>

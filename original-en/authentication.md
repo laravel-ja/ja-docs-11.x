@@ -280,8 +280,8 @@ For complex query conditions, you may provide a closure in your array of credent
     use Illuminate\Database\Eloquent\Builder;
 
     if (Auth::attempt([
-        'email' => $email, 
-        'password' => $password, 
+        'email' => $email,
+        'password' => $password,
         fn (Builder $query) => $query->has('activeSubscription'),
     ])) {
         // Authentication was successful...
@@ -741,17 +741,17 @@ Once the configuration file has been published, you may set the `rehash_on_login
 
 Laravel dispatches a variety of [events](/docs/{{version}}/events) during the authentication process. You may [define listeners](/docs/{{version}}/events) for any of the following events:
 
-Event Name |
-------------- |
-`Illuminate\Auth\Events\Registered` |
-`Illuminate\Auth\Events\Attempting` |
-`Illuminate\Auth\Events\Authenticated` |
-`Illuminate\Auth\Events\Login` |
-`Illuminate\Auth\Events\Failed` |
-`Illuminate\Auth\Events\Validated` |
-`Illuminate\Auth\Events\Verified` |
-`Illuminate\Auth\Events\Logout` |
-`Illuminate\Auth\Events\CurrentDeviceLogout` |
-`Illuminate\Auth\Events\OtherDeviceLogout` |
-`Illuminate\Auth\Events\Lockout` |
-`Illuminate\Auth\Events\PasswordReset` |
+| Event Name |
+| --- |
+| `Illuminate\Auth\Events\Registered` |
+| `Illuminate\Auth\Events\Attempting` |
+| `Illuminate\Auth\Events\Authenticated` |
+| `Illuminate\Auth\Events\Login` |
+| `Illuminate\Auth\Events\Failed` |
+| `Illuminate\Auth\Events\Validated` |
+| `Illuminate\Auth\Events\Verified` |
+| `Illuminate\Auth\Events\Logout` |
+| `Illuminate\Auth\Events\CurrentDeviceLogout` |
+| `Illuminate\Auth\Events\OtherDeviceLogout` |
+| `Illuminate\Auth\Events\Lockout` |
+| `Illuminate\Auth\Events\PasswordReset` |

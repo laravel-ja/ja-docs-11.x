@@ -311,7 +311,7 @@ php artisan make:request StorePostRequest
     /**
      * リクエストに適用するバリデーションルールを取得
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -559,7 +559,7 @@ Laravelの組み込みバリデーションルールエラーメッセージの�
             ]);
 
             if ($validator->fails()) {
-                return redirect('post/create')
+                return redirect('/post/create')
                             ->withErrors($validator)
                             ->withInput();
             }
@@ -611,7 +611,7 @@ Laravelの組み込みバリデーションルールエラーメッセージの�
 
 1つのページに複数のフォームがある場合は、バリデーションエラーを含む`MessageBag`に名前を付けて、特定のフォームのエラーメッセージを取得可能にできます。これを実現するには、`withErrors`の２番目の引数として名前を渡します。
 
-    return redirect('register')->withErrors($validator, 'login');
+    return redirect('/register')->withErrors($validator, 'login');
 
 `$errors`変数を使い、名前を付けた`MessageBag`インスタンスへアクセスできます。
 

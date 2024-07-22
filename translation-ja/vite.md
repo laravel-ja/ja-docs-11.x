@@ -201,7 +201,7 @@ export default defineConfig({
 Viteのエントリーポイントを設定したら、アプリケーションのルートテンプレートの`<head>`へ`@vite()` Bladeディレクティブを追加し、参照できるようになります。
 
 ```blade
-<!doctype html>
+<!DOCTYPE html>
 <head>
     {{-- ... --}}
 
@@ -212,7 +212,7 @@ Viteのエントリーポイントを設定したら、アプリケーション�
 JavaScriptでCSSをインポートする場合は、JavaScriptのエントリーポイントのみを記載するだけです。
 
 ```blade
-<!doctype html>
+<!DOCTYPE html>
 <head>
     {{-- ... --}}
 

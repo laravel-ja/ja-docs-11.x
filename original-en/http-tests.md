@@ -1174,7 +1174,7 @@ Assert that the response has no JSON validation errors for the given keys:
 
     $response->assertJsonMissingValidationErrors($keys);
 
-> [!NOTE]  
+> [!NOTE]
 > The more generic [assertValid](#assert-valid) method may be used to assert that a response does not have validation errors that were returned as JSON **and** that no errors were flashed to session storage.
 
 <a name="assert-json-path"></a>
@@ -1282,7 +1282,7 @@ Assert that the response has the given JSON validation errors for the given keys
 
     $response->assertJsonValidationErrors(array $data, $responseKey = 'errors');
 
-> [!NOTE]  
+> [!NOTE]
 > The more generic [assertInvalid](#assert-invalid) method may be used to assert that a response has validation errors returned as JSON **or** that errors were flashed to session storage.
 
 <a name="assert-json-validation-error-for"></a>
@@ -1312,7 +1312,7 @@ Assert that the response has a moved permanently (301) HTTP status code:
 Assert that the response has the given URI value in the `Location` header:
 
     $response->assertLocation($uri);
-    
+
 <a name="assert-content"></a>
 #### assertContent
 
@@ -1500,7 +1500,7 @@ Or, you may assert that a given field has a particular validation error message:
         'name' => 'The given name was invalid.'
     ]);
 
-> [!NOTE]  
+> [!NOTE]
 > The more generic [assertInvalid](#assert-invalid) method may be used to assert that a response has validation errors returned as JSON **or** that errors were flashed to session storage.
 
 <a name="assert-session-has-errors-in"></a>
@@ -1524,7 +1524,7 @@ Assert that the session has no validation errors for the given keys:
 
     $response->assertSessionDoesntHaveErrors($keys = [], $format = null, $errorBag = 'default');
 
-> [!NOTE]  
+> [!NOTE]
 > The more generic [assertValid](#assert-valid) method may be used to assert that a response does not have validation errors that were returned as JSON **and** that no errors were flashed to session storage.
 
 <a name="assert-session-missing"></a>

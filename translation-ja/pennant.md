@@ -143,7 +143,8 @@ class NewApi
 }
 ```
 
-> [!NOTE] Feature classes are resolved via the [container](/docs/{{version}}/container), so you may inject dependencies into the feature class's constructor when needed.
+> [!NOTE]
+> 機能クラスは、[コンテナ](/docs/{{version}}/container)経由で依存解決されるため、必要に応じて機能クラスのコンストラクタで依存関係を注入できます。
 
 #### 機能の保存名のカスタマイズ
 
@@ -524,7 +525,7 @@ Feature::define('billing-v2', function (Team $team) {
 
 ```php
 if (Feature::for($user->team)->active('billing-v2')) {
-    return redirect()->to('/billing/v2');
+    return redirect('/billing/v2');
 }
 
 // ...
@@ -679,7 +680,8 @@ $color = Feature::value('purchase-button');
 @endfeature
 ```
 
-> [!NOTE] When using rich values, it is important to know that a feature is considered "active" when it has any value other than `false`.
+> [!NOTE]
+> リッチな値を使用する場合、`false`以外の値を持つ機能は、「active」とみなすことを知っておくことが重要です。
 
 [条件付き`when`](#conditional-execution)メソッドを呼び出すと、その機能のリッチな値が最初のクロージャに提供されます。
 
@@ -847,7 +849,8 @@ Feature::activateForEveryone('purchase-button', 'seafoam-green');
 Feature::deactivateForEveryone('new-api');
 ```
 
-> [!NOTE] This will only update the resolved feature values that have been stored by Pennant's storage driver. You will also need to update the feature definition in your application.
+> [!NOTE]
+> これは、Pennantのストレージドライバにより、保存されている解決済み機能値のみを更新します。アプリケーションの機能定義も更新する必要があります。
 
 <a name="purging-features"></a>
 ### 機能の削除

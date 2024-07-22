@@ -32,7 +32,7 @@ For in-depth debugging of individual events, check out [Laravel Telescope](/docs
 <a name="installation"></a>
 ## Installation
 
-> [!WARNING]  
+> [!WARNING]
 > Pulse's first-party storage implementation currently requires a MySQL, MariaDB, or PostgreSQL database. If you are using a different database engine, you will need a separate MySQL, MariaDB, or PostgreSQL database for your Pulse data.
 
 You may install Pulse using the Composer package manager:
@@ -55,7 +55,7 @@ php artisan migrate
 
 Once Pulse's database migrations have been run, you may access the Pulse dashboard via the `/pulse` route.
 
-> [!NOTE]  
+> [!NOTE]
 > If you do not want to store Pulse data in your application's primary database, you may [specify a dedicated database connection](#using-a-different-database).
 
 <a name="configuration"></a>
@@ -260,7 +260,7 @@ As the `pulse:check` command is a long-lived process, it will not see changes to
 php artisan pulse:restart
 ```
 
-> [!NOTE]  
+> [!NOTE]
 > Pulse uses the [cache](/docs/{{version}}/cache) to store restart signals, so you should verify that a cache driver is properly configured for your application before using this feature.
 
 <a name="recorders"></a>
@@ -501,7 +501,7 @@ As the `pulse:work` command is a long-lived process, it will not see changes to 
 php artisan pulse:restart
 ```
 
-> [!NOTE]  
+> [!NOTE]
 > Pulse uses the [cache](/docs/{{version}}/cache) to store restart signals, so you should verify that a cache driver is properly configured for your application before using this feature.
 
 <a name="sampling"></a>

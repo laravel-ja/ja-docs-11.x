@@ -311,7 +311,7 @@ As you might have guessed, the `authorize` method is responsible for determining
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
@@ -559,7 +559,7 @@ If you do not want to use the `validate` method on the request, you may create a
             ]);
 
             if ($validator->fails()) {
-                return redirect('post/create')
+                return redirect('/post/create')
                             ->withErrors($validator)
                             ->withInput();
             }
@@ -611,7 +611,7 @@ You may use the `validateWithBag` method to store the error messages in a [named
 
 If you have multiple forms on a single page, you may wish to name the `MessageBag` containing the validation errors, allowing you to retrieve the error messages for a specific form. To achieve this, pass a name as the second argument to `withErrors`:
 
-    return redirect('register')->withErrors($validator, 'login');
+    return redirect('/register')->withErrors($validator, 'login');
 
 You may then access the named `MessageBag` instance from the `$errors` variable:
 
@@ -1547,7 +1547,7 @@ The field under validation must not be present in the input data.
  <a name="rule-missing-if"></a>
  #### missing_if:_anotherfield_,_value_,...
 
- The field under validation must not be present if the _anotherfield_ field is equal to any _value_.
+The field under validation must not be present if the _anotherfield_ field is equal to any _value_.
 
  <a name="rule-missing-unless"></a>
  #### missing_unless:_anotherfield_,_value_
@@ -1557,12 +1557,12 @@ The field under validation must not be present unless the _anotherfield_ field i
  <a name="rule-missing-with"></a>
  #### missing_with:_foo_,_bar_,...
 
- The field under validation must not be present _only if_ any of the other specified fields are present.
+The field under validation must not be present _only if_ any of the other specified fields are present.
 
  <a name="rule-missing-with-all"></a>
  #### missing_with_all:_foo_,_bar_,...
 
- The field under validation must not be present _only if_ all of the other specified fields are present.
+The field under validation must not be present _only if_ all of the other specified fields are present.
 
 <a name="rule-not-in"></a>
 #### not_in:_foo_,_bar_,...

@@ -471,11 +471,11 @@ Laravelは、今のリクエストから次のリクエストまで入力を保�
 
 多くの場合、セッションへ入力を一時保持してから前のページにリダイレクトする必要があるため、`withInput`メソッドを使用して、リダイレクトへ簡単にチェーンで入力の一時保持を指示できます。
 
-    return redirect('form')->withInput();
+    return redirect('/form')->withInput();
 
     return redirect()->route('user.create')->withInput();
 
-    return redirect('form')->withInput(
+    return redirect('/form')->withInput(
         $request->except('password')
     );
 
