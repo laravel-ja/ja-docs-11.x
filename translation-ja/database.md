@@ -22,7 +22,7 @@
 - MariaDB10.3以上 ([バージョンポリシー](https://mariadb.org/about/#maintenance-policy))
 - MySQL5.7以上 ([バージョンポリシー](https://en.wikipedia.org/wiki/MySQL#Release_history))
 - PostgreSQL10.0以上 ([バージョンポリシー](https://www.postgresql.org/support/versioning/))
-- SQLite3.35.0以上
+- SQLite3.26.0以上
 - SQL Server2017以上 ([バージョンポリシー](https://docs.microsoft.com/en-us/lifecycle/products/?products=sql-server))
 
 </div>
@@ -103,7 +103,7 @@ SELECTステートメントに１つのデータベース接続を使用し、IN
         'password' => env('DB_PASSWORD', ''),
         'unix_socket' => env('DB_SOCKET', ''),
         'charset' => env('DB_CHARSET', 'utf8mb4'),
-        'collation' => env('DB_COLLATION', 'utf8mb4_0900_ai_ci'),
+        'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
         'prefix' => '',
         'prefix_indexes' => true,
         'strict' => true,
@@ -291,6 +291,7 @@ SELECTステートメントに１つのデータベース接続を使用し、IN
                 // $query->sql;
                 // $query->bindings;
                 // $query->time;
+                // $query->toRawSql();
             });
         }
     }

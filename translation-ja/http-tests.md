@@ -426,6 +426,15 @@ $this->assertThrows(
 );
 ```
 
+投げられた例外を検査し、アサートしたい場合は、`assertThrows`メソッドの第２引数へクロージャを指定します。
+
+```php
+$this->assertThrows(
+    fn () => (new ProcessOrder)->execute(),
+    fn (OrderInvalid $e) => $e->orderId() === 123;
+);
+```
+
 <a name="testing-json-apis"></a>
 ## JSON APIのテスト
 

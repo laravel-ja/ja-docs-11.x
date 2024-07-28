@@ -22,7 +22,7 @@ Almost every modern web application interacts with a database. Laravel makes int
 - MariaDB 10.3+ ([Version Policy](https://mariadb.org/about/#maintenance-policy))
 - MySQL 5.7+ ([Version Policy](https://en.wikipedia.org/wiki/MySQL#Release_history))
 - PostgreSQL 10.0+ ([Version Policy](https://www.postgresql.org/support/versioning/))
-- SQLite 3.35.0+
+- SQLite 3.26.0+
 - SQL Server 2017+ ([Version Policy](https://docs.microsoft.com/en-us/lifecycle/products/?products=sql-server))
 
 </div>
@@ -50,7 +50,7 @@ By default, foreign key constraints are enabled for SQLite connections. If you w
 DB_FOREIGN_KEYS=false
 ```
 
-> [!NOTE]
+> [!NOTE]  
 > If you use the [Laravel installer](/docs/{{version}}/installation#creating-a-laravel-project) to create your Laravel application and select SQLite as your database, Laravel will automatically create a `database/database.sqlite` file and run the default [database migrations](/docs/{{version}}/migrations) for you.
 
 <a name="mssql-configuration"></a>
@@ -103,7 +103,7 @@ To see how read / write connections should be configured, let's look at this exa
         'password' => env('DB_PASSWORD', ''),
         'unix_socket' => env('DB_SOCKET', ''),
         'charset' => env('DB_CHARSET', 'utf8mb4'),
-        'collation' => env('DB_COLLATION', 'utf8mb4_0900_ai_ci'),
+        'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
         'prefix' => '',
         'prefix_indexes' => true,
         'strict' => true,
@@ -234,7 +234,7 @@ Sometimes you may want to execute an SQL statement without binding any values. Y
 
     DB::unprepared('update users set votes = 100 where name = "Dries"');
 
-> [!WARNING]
+> [!WARNING]  
 > Since unprepared statements do not bind parameters, they may be vulnerable to SQL injection. You should never allow user controlled values within an unprepared statement.
 
 <a name="implicit-commits-in-transactions"></a>
@@ -291,6 +291,7 @@ If you would like to specify a closure that is invoked for each SQL query execut
                 // $query->sql;
                 // $query->bindings;
                 // $query->time;
+                // $query->toRawSql();
             });
         }
     }
@@ -373,7 +374,7 @@ Lastly, you can commit a transaction via the `commit` method:
 
     DB::commit();
 
-> [!NOTE]
+> [!NOTE]  
 > The `DB` facade's transaction methods control the transactions for both the [query builder](/docs/{{version}}/queries) and [Eloquent ORM](/docs/{{version}}/eloquent).
 
 <a name="connecting-to-the-database-cli"></a>

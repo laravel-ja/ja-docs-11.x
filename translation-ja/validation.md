@@ -1934,7 +1934,7 @@ The arguments [accepted by the `DateTimeZone::listIdentifiers` method](https://w
 
 状況によっては、フィールドがバリデーション対象のデータに存在する場合に**のみ**、フィールドに対してバリデーションチェックを実行したい場合があります。これをすばやく実行するには、`sometimes`ルールをルールリストに追加します。
 
-    $v = Validator::make($data, [
+    $validator = Validator::make($data, [
         'email' => 'sometimes|required|email',
     ]);
 

@@ -1583,7 +1583,7 @@ composer require aws/aws-sdk-php
 
 ```php
 'batching' => [
-    'driver' => env('QUEUE_FAILED_DRIVER', 'dynamodb'),
+    'driver' => env('QUEUE_BATCHING_DRIVER', 'dynamodb'),
     'key' => env('AWS_ACCESS_KEY_ID'),
     'secret' => env('AWS_SECRET_ACCESS_KEY'),
     'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),

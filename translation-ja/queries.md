@@ -513,7 +513,7 @@ select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
                     'name',
                     'email',
                     'phone',
-                ], 'LIKE', 'Example%')
+                ], 'like', 'Example%')
                 ->get();
 
 上記のクエリは以下のSQLになります。
@@ -535,7 +535,7 @@ WHERE active = true AND (
                 ->whereAll([
                     'title',
                     'content',
-                ], 'LIKE', '%Laravel%')
+                ], 'like', '%Laravel%')
                 ->get();
 
 上記のクエリは以下のSQLになります。
@@ -583,35 +583,42 @@ Laravelは、JSONカラム型をサポートしているデータベースでは
 <a name="additional-where-clauses"></a>
 ### その他のWHERE句
 
-**whereBetween／orWhereBetween**
+**whereLike／orWhereLike／whereNotLike／orWhereNotLike**
 
-`whereBetween`メソッドは、カラムの値が２つの値の間にある条件を加えます。
+`whereLike`メソッドにより、クエリへ"LIKE"句を追加してパターンマッチを行えます。これらのメソッドは、データベースに依存しない文字列マッチングクエリの実行方法を提供し、大文字小文字の区別を切り替えることができます。文字列マッチングはデフォルトで、大文字小文字を区別しません。
 
     $users = DB::table('users')
-               ->whereBetween('votes', [1, 100])
+               ->whereLike('name', '%John%')
                ->get();
 
-**whereNotBetween／orWhereNotBetween**
-
-`whereNotBetween`メソッドは、カラムの値が２つの値間にない条件を加えます。
+`caseSensitive`引数を使い、大文字小文字を区別することもできます。
 
     $users = DB::table('users')
-                        ->whereNotBetween('votes', [1, 100])
-                        ->get();
+               ->whereLike('name', '%John%', caseSensitive: true)
+               ->get();
 
-**whereBetweenColumns / whereNotBetweenColumns / orWhereBetweenColumns / orWhereNotBetweenColumns**
+`orWhereLike`メソッドは、LIKE条件に"or"句を追加するために使います。
 
-`whereBetweenColumns`メソッドはあるカラムの値が、同じテーブル行の2カラムの値の間にあることを確認します。
+    $users = DB::table('users')
+               ->where('votes', '>', 100)
+               ->orWhereLike('name', '%John%')
+               ->get();
 
-    $patients = DB::table('patients')
-                           ->whereBetweenColumns('weight', ['minimum_allowed_weight', 'maximum_allowed_weight'])
-                           ->get();
+The `whereNotLike`メソッドは、クエリへ"NOT LIKE"句を追加するために使います。
 
-`whereNotBetweenColumns`メソッドはあるカラムの値が、同じテーブル行の2カラムの値の間にないことを確認します。
+    $users = DB::table('users')
+               ->whereNotLike('name', '%John%')
+               ->get();
 
-    $patients = DB::table('patients')
-                           ->whereNotBetweenColumns('weight', ['minimum_allowed_weight', 'maximum_allowed_weight'])
-                           ->get();
+同様に、`orWhereNotLike`を使えば、NOT LIKE条件付きの"or"句を追加できます。
+
+    $users = DB::table('users')
+               ->where('votes', '>', 100)
+               ->orWhereNotLike('name', '%John%')
+               ->get();
+
+> [!WARNING]
+> 大文字と小文字を区別する、`whereLike`検索オプションは、現在SQL Serverではサポートされていません。
 
 **whereIn／whereNotIn／orWhereIn／orWhereNotIn**
 
@@ -647,6 +654,36 @@ select * from comments where user_id in (
 
 > [!WARNING]
 > クエリに整数バインディングの大きな配列を追加する場合は、`whereIntegerInRaw`または`whereIntegerNotInRaw`メソッドを使用してメモリ使用量を大幅に削減できます。
+
+**whereBetween／orWhereBetween**
+
+`whereBetween`メソッドは、カラム値が２つの値の間にあるかを検証します。
+
+    $users = DB::table('users')
+               ->whereBetween('votes', [1, 100])
+               ->get();
+
+**whereNotBetween／orWhereNotBetween**
+
+`whereNotBetween`メソッドは、カラム値が２つの値の間の外にあるかを検証します。
+
+    $users = DB::table('users')
+                        ->whereNotBetween('votes', [1, 100])
+                        ->get();
+
+**whereBetweenColumns／whereNotBetweenColumns／orWhereBetweenColumns／orWhereNotBetweenColumns**
+
+`whereBetweenColumns`メソッドは、カラム値が同じテーブル行の２カラムの値の間にあるかを検証します。
+
+    $patients = DB::table('patients')
+                           ->whereBetweenColumns('weight', ['minimum_allowed_weight', 'maximum_allowed_weight'])
+                           ->get();
+
+`whereNotBetweenColumns`メソッドは、カラム値が同じテーブル行の２カラムの値の外側にあるかを検証します。
+
+    $patients = DB::table('patients')
+                           ->whereNotBetweenColumns('weight', ['minimum_allowed_weight', 'maximum_allowed_weight'])
+                           ->get();
 
 **whereNull／whereNotNull／orWhereNull／orWhereNotNull**
 

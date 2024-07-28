@@ -697,11 +697,15 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 
 メソッドに３番目の引数を渡し、切り捨てる文字列の末尾へ追加する文字列を変更できます。
 
-    use Illuminate\Support\Str;
-
     $truncated = Str::limit('The quick brown fox jumps over the lazy dog', 20, ' (...)');
 
     // The quick brown fox (...)
+
+文字列を切り詰める際に完全な単語を保持したい場合は、`preserveWords`引数を使用します。この引数が`true`の場合、文字列を完全な単語に最も近い境界で切り捨てます。
+
+    $truncated = Str::limit('The quick brown fox', 12, preserveWords: true);
+
+    // The quick...
 
 <a name="method-str-lower"></a>
 #### `Str::lower()` {.collection-method}
@@ -1655,17 +1659,17 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 
     use Illuminate\Support\Str;
 
-    $url = Str::of('https://laravel.com')->chopEnd('https://');
+    $url = Str::of('https://laravel.com')->chopEnd('.com');
 
-    // 'laravel.com'
+    // 'https://laravel'
 
 配列を渡すこともできます。文字列が配列のいずれかの値で始まる場合、その値を文字列から取り除きます。
 
     use Illuminate\Support\Str;
 
-    $url = Str::of('http://laravel.com')->chopEnd(['https://', 'http://']);
+    $url = Str::of('http://laravel.com')->chopEnd(['.com', '.io']);
 
-    // 'laravel.com'
+    // 'http://laravel'
 
 <a name="method-fluent-str-contains"></a>
 #### `contains` {.collection-method}
@@ -2017,11 +2021,15 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 
 ２番目の引数を渡して、切り捨てた文字列の末尾に追加する文字列を変更することもできます。
 
-    use Illuminate\Support\Str;
-
     $truncated = Str::of('The quick brown fox jumps over the lazy dog')->limit(20, ' (...)');
 
     // The quick brown fox (...)
+
+文字列を切り詰める際に完全な単語を保持したい場合は、`preserveWords`引数を使用します。この引数が`true`の場合、文字列を完全な単語に最も近い境界で切り捨てます。
+
+    $truncated = Str::of('The quick brown fox')->limit(12, preserveWords: true);
+
+    // The quick...
 
 <a name="method-fluent-str-lower"></a>
 #### `lower` {.collection-method}

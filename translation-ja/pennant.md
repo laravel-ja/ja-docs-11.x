@@ -799,6 +799,12 @@ Feature::for($users)->loadMissing([
 ]);
 ```
 
+`loadAll`メソッドを使い、すべての定義済み機能をロードできます。
+
+```php
+Feature::for($user)->loadAll();
+```
+
 <a name="updating-values"></a>
 ## 値の更新
 

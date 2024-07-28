@@ -126,7 +126,7 @@ Laravelのデフォルトのキューシステムとは異なり、Horizo​​n
 
 設定ファイルのデフォルトである`auto`戦略は、キューの現在のワークロードに基づいて、キューごとのワーカープロセスの数を調整します。たとえば、`render`キューが空のときに`notifications`キューに1,000の保留中のジョブがある場合、Horizo​​nはキューが空になるまで`notifications`キューにさらに多くのワーカを割り当てます。
 
-`auto`戦略を使用する場合、`minProcesses`および`maxProcesses`設定オプションを定義して、Horizo​​nがスケールアップおよびスケールダウンするワーカープロセスの最小数と最大数を制御します。
+`auto`戦略を使用する場合、`minProcesses`と`maxProcesses`設定オプションを定義し、Horizonがスケールアップ／スケールダウンするキューの最小プロセス数とワーカープロセスの最大数を制御できます。
 
     'environments' => [
         'production' => [

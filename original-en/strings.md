@@ -697,11 +697,15 @@ The `Str::limit` method truncates the given string to the specified length:
 
 You may pass a third argument to the method to change the string that will be appended to the end of the truncated string:
 
-    use Illuminate\Support\Str;
-
     $truncated = Str::limit('The quick brown fox jumps over the lazy dog', 20, ' (...)');
 
     // The quick brown fox (...)
+
+If you would like to preserve complete words when truncating the string, you may utilize the `preserveWords` argument. When this argument is `true`, the string will be truncated to the nearest complete word boundary:
+
+    $truncated = Str::limit('The quick brown fox', 12, preserveWords: true);
+
+    // The quick...
 
 <a name="method-str-lower"></a>
 #### `Str::lower()` {.collection-method}
@@ -1655,17 +1659,17 @@ The `chopEnd` method removes the last occurrence of the given value only if the 
 
     use Illuminate\Support\Str;
 
-    $url = Str::of('https://laravel.com')->chopEnd('https://');
+    $url = Str::of('https://laravel.com')->chopEnd('.com');
 
-    // 'laravel.com'
+    // 'https://laravel'
 
 You may also pass an array. If the string ends with any of the values in the array then that value will be removed from string:
 
     use Illuminate\Support\Str;
 
-    $url = Str::of('http://laravel.com')->chopEnd(['https://', 'http://']);
+    $url = Str::of('http://laravel.com')->chopEnd(['.com', '.io']);
 
-    // 'laravel.com'
+    // 'http://laravel'
 
 <a name="method-fluent-str-contains"></a>
 #### `contains` {.collection-method}
@@ -2017,11 +2021,15 @@ The `limit` method truncates the given string to the specified length:
 
 You may also pass a second argument to change the string that will be appended to the end of the truncated string:
 
-    use Illuminate\Support\Str;
-
     $truncated = Str::of('The quick brown fox jumps over the lazy dog')->limit(20, ' (...)');
 
     // The quick brown fox (...)
+
+If you would like to preserve complete words when truncating the string, you may utilize the `preserveWords` argument. When this argument is `true`, the string will be truncated to the nearest complete word boundary:
+
+    $truncated = Str::of('The quick brown fox')->limit(12, preserveWords: true);
+
+    // The quick...
 
 <a name="method-fluent-str-lower"></a>
 #### `lower` {.collection-method}

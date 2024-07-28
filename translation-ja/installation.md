@@ -82,7 +82,7 @@ php artisan serve
 
 Artisan開発サーバを起動したら、Webブラウザの[http://localhost:8000](http://localhost:8000)を通して、アプリケーションへアクセスできます。次に、[Laravelエコシステムへの次のステップを開始する](#next-steps)準備が整いました。もちろん、[データベースの設定](#databases-and-migrations)も行えます。
 
-> [!NOTE]  
+> [!NOTE]
 > Laravelアプリケーションを開発する際に、有利なスタートダッシュを切りたければ、[スターターキット](/docs/{{version}}/starter-kits)の１つを使用することを検討してください。Laravelのスターターキットは、新しいLaravelアプリケーションのために、バックエンドとフロントエンド側の認証のスカフォールドを提供します。
 
 <a name="initial-configuration"></a>
@@ -99,7 +99,7 @@ Laravelは初期設定で動き、追加の設定はほぼ必要ありません�
 
 `.env`ファイルはアプリケーションのソース管理下へコミットすべきではありません。なぜなら、アプリケーションを使用する開発者やサーバごとに、異なる環境設定が必要になる可能性があるからです。さらに、侵入者がソース管理リポジトリにアクセスした場合、機密情報が公開されてしまうため、セキュリティ上のリスクとなります。
 
-> [!NOTE]  
+> [!NOTE]
 > `.env`ファイルと環境ベースによる設定の詳細は、完全な[設定のドキュメント](/docs/{{version}}/configuration#environment-configuration)をチェックしてください。
 
 <a name="databases-and-migrations"></a>
@@ -126,7 +126,7 @@ SQLite以外のデータベースを使用する場合は、データベース�
 php artisan migrate
 ```
 
-> [!NOTE]  
+> [!NOTE]
 > macOSやWindowsで開発していて、MySQL、PostgreSQL、Redisをローカルにインストールする必要がある場合は、[Herd Pro](https://herd.laravel.com/#plans)の使用を検討してください。
 
 <a name="directory-configuration"></a>
@@ -141,7 +141,7 @@ Laravelは常に、Webサーバで設定した「Webディレクトリ」のル�
 
 Herdをインストールすれば、Laravelを使う開発を始める準備ができます。Herdは、`php`、`composer`、`laravel`、`expose`、`node`、`npm`、`nvm`用のコマンドラインツールを用意してあります。
 
-> [!NOTE]  
+> [!NOTE]
 > [Herd Pro](https://herd.laravel.com/#plans)は、ローカルのMySQL、Postgres、Redisデータベースを作成・管理する機能や、ローカルのメール閲覧、ログ監視など、Herdをさらに強力な機能で強化します。
 
 <a name="herd-on-macos"></a>
