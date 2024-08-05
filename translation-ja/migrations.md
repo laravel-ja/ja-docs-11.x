@@ -235,7 +235,7 @@ php artisan migrate:fresh
 php artisan migrate:fresh --seed
 ```
 
-デフォルトで`migrate:fresh`コマンドは、デフォルトのデータベース接続からテーブルを削除するだけす。しかし、`--database`オプションを使用すれば、マイグレートするデータベース接続を指定できます。データベース接続名は、アプリケーションの`database`[設定ファイル](/docs/{{version}}/configuration)で定義している接続と対応させる必要があります。
+デフォルトで`migrate:fresh`コマンドは、デフォルトのデータベース接続からテーブルを削除するだけです。しかし、`--database`オプションを使用すれば、マイグレートするデータベース接続を指定できます。データベース接続名は、アプリケーションの`database`[設定ファイル](/docs/{{version}}/configuration)で定義している接続と対応させる必要があります。
 
 ```shell移行
 php artisan migrate:fresh --database=admin
