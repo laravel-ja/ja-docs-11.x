@@ -368,7 +368,6 @@ LaravelやSymfonyの組み込み済み例外など、既存のレンダ可能（
         });
     })
 
-
 もちろん、異なる例外に対して`Lottery`と`Limit`のインスタンスを混ぜて返すこともできます。
 
     use App\Exceptions\ApiMonitoringException;

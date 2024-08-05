@@ -490,7 +490,7 @@ $this->assertTrue($response['created']);
 ```
 
 > [!NOTE]
-> `assertJson`メソッドはレスポンスを配列に変換し、`PHPUnit::assertArraySubset`を利用して、指定する配列がアプリケーションによって返されるJSONレスポンス内に存在することを確認しています。したがって、JSONレスポンスに他のプロパティがある場合でも、指定するフラグメントが存在する限り、このテストは合格します。
+> `assertJson`メソッドはレスポンスを配列に変換し、指定配列がアプリケーションが返すJSONレスポンス内に存在することを確認します。したがって、JSONレスポンスに他のプロパティがある場合でも、指定するフラグメントが存在する限り、このテストは合格します。
 
 <a name="verifying-exact-match"></a>
 #### 厳密なJSON一致のアサート
@@ -922,6 +922,7 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 [assertDontSeeText](#assert-dont-see-text)
 [assertDownload](#assert-download)
 [assertExactJson](#assert-exact-json)
+[assertExactJsonStructure](#assert-exact-json-structure)
 [assertForbidden](#assert-forbidden)
 [assertFound](#assert-found)
 [assertGone](#assert-gone)
@@ -1069,9 +1070,18 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 <a name="assert-exact-json"></a>
 #### assertExactJson
 
-レスポンスに、完全一致する指定JSONデータが含まれていることを宣言します。
+レスポンスが、完全一致する指定JSONデータを含んでいることを宣言します。
 
     $response->assertExactJson(array $data);
+
+<a name="assert-exact-json-structure"></a>
+#### assertExactJsonStructure
+
+レスポンスが、指定JSON構造と完全に一致するものを含んでいることを宣言します。
+
+    $response->assertExactJsonStructure(array $data);
+
+このメソッドは、[assertJsonStructure](#assert-json-structure)をより厳密にしたものです。`assertJsonStructure`とは対照的に、このメソッドは、レスポンスが明示的に期待されていないJSON構造のキーを含む場合、失敗します。
 
 <a name="assert-forbidden"></a>
 #### assertForbidden
@@ -1122,7 +1132,7 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 
     $response->assertJson(array $data, $strict = false);
 
-`assertJson`メソッドはレスポンスを配列に変換し、`PHPUnit::assertArraySubset`を利用して、指定する配列がアプリケーションが返すJSONレスポンス内に存在しているかを確認します。したがって、JSONレスポンスに他のプロパティがある場合でも、指定するフラグメントが存在する限り、このテストは合格します。
+`assertJson`メソッドはレスポンスを配列に変換し、指定する配列がアプリケーションが返すJSONレスポンス内に存在していることを確認します。したがって、JSONレスポンスに他のプロパティがある場合でも、指定するフラグメントが存在する限り、このテストは合格します。
 
 <a name="assert-json-count"></a>
 #### assertJsonCount

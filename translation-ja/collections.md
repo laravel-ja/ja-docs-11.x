@@ -3434,7 +3434,6 @@ WhereNotIn`メソッドは、指定した配列内に含まれる指定項目値
         ]
     */
 
-
 <a name="method-wrap"></a>
 #### `wrap()` {.collection-method}
 

@@ -113,7 +113,7 @@ $name = text(
 ```php
 $name = text(
     label: 'What is your name?',
-    validate: ['name' => 'required|max:255|unique:users,name']
+    validate: ['name' => 'required|max:255|unique:users']
 );
 ```
 
@@ -307,8 +307,8 @@ $confirmed = confirm(
 use function Laravel\Prompts\select;
 
 $role = select(
-    'What role should the user have?',
-    ['Member', 'Contributor', 'Owner'],
+    label: 'What role should the user have?',
+    options: ['Member', 'Contributor', 'Owner']
 );
 ```
 
@@ -331,7 +331,7 @@ $role = select(
     options: [
         'member' => 'Member',
         'contributor' => 'Contributor',
-        'owner' => 'Owner'
+        'owner' => 'Owner',
     ],
     default: 'owner'
 );
@@ -348,7 +348,7 @@ $role = select(
 ```
 
 <a name="select-validation"></a>
-#### バリデーション
+#### 追加のバリデーション
 
 他のプロンプト関数とは異なり、他に何も選択できなくなるため、`select`関数は`required`引数を受けません。しかし、選択肢を提示したいが、選択されないようにする必要がある場合は、`validate`引数にクロージャを渡してください。
 
@@ -358,7 +358,7 @@ $role = select(
     options: [
         'member' => 'Member',
         'contributor' => 'Contributor',
-        'owner' => 'Owner'
+        'owner' => 'Owner',
     ],
     validate: fn (string $value) =>
         $value === 'owner' && User::where('role', 'owner')->exists()
@@ -378,8 +378,8 @@ $role = select(
 use function Laravel\Prompts\multiselect;
 
 $permissions = multiselect(
-    'What permissions should be assigned?',
-    ['Read', 'Create', 'Update', 'Delete']
+    label: 'What permissions should be assigned?',
+    options: ['Read', 'Create', 'Update', 'Delete']
 );
 ```
 
@@ -398,14 +398,14 @@ $permissions = multiselect(
 
 `options`引数に連想配列を渡し、選択値の代わりにキーを返させることもできます。
 
-```
+```php
 $permissions = multiselect(
     label: 'What permissions should be assigned?',
     options: [
         'read' => 'Read',
         'create' => 'Create',
         'update' => 'Update',
-        'delete' => 'Delete'
+        'delete' => 'Delete',
     ],
     default: ['read', 'create']
 );
@@ -423,11 +423,13 @@ $categories = multiselect(
 
 `canSelectAll`引数によって、ユーザーがすべてのオプションを簡単に選択できるようにできます。
 
+```php
 $categories = multiselect(
     label: 'What categories should be assigned?',
     options: Category::pluck('name', 'id'),
     canSelectAll: true
 );
+```
 
 <a name="multiselect-required"></a>
 #### 必須値
@@ -438,7 +440,7 @@ $categories = multiselect(
 $categories = multiselect(
     label: 'What categories should be assigned?',
     options: Category::pluck('name', 'id'),
-    required: true,
+    required: true
 );
 ```
 
@@ -448,23 +450,23 @@ $categories = multiselect(
 $categories = multiselect(
     label: 'What categories should be assigned?',
     options: Category::pluck('name', 'id'),
-    required: 'You must select at least one category',
+    required: 'You must select at least one category'
 );
 ```
 
 <a name="multiselect-validation"></a>
-#### バリデーション
+#### 追加のバリデーション
 
 選択肢を提示するが、その選択肢が選択されないようにする必要がある場合は、`validate`引数にクロージャを渡してください。
 
-```
+```php
 $permissions = multiselect(
     label: 'What permissions should the user have?',
     options: [
         'read' => 'Read',
         'create' => 'Create',
         'update' => 'Update',
-        'delete' => 'Delete'
+        'delete' => 'Delete',
     ],
     validate: fn (array $values) => ! in_array('read', $values)
         ? 'All users require the read permission.'
@@ -489,8 +491,8 @@ $name = suggest('What is your name?', ['Taylor', 'Dayle']);
 
 ```php
 $name = suggest(
-    'What is your name?',
-    fn ($value) => collect(['Taylor', 'Dayle'])
+    label: 'What is your name?',
+    options: fn ($value) => collect(['Taylor', 'Dayle'])
         ->filter(fn ($name) => Str::contains($name, $value, ignoreCase: true))
 )
 ```
@@ -568,9 +570,9 @@ $name = suggest(
 use function Laravel\Prompts\search;
 
 $id = search(
-    'Search for the user that should receive the mail',
-    fn (string $value) => strlen($value) > 0
-        ? User::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
+    label: 'Search for the user that should receive the mail',
+    options: fn (string $value) => strlen($value) > 0
+        ? User::whereLike('name', "%{$value}%")->pluck('name', 'id')->all()
         : []
 );
 ```
@@ -584,7 +586,7 @@ $id = search(
     label: 'Search for the user that should receive the mail',
     placeholder: 'E.g. Taylor Otwell',
     options: fn (string $value) => strlen($value) > 0
-        ? User::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
+        ? User::whereLike('name', "%{$value}%")->pluck('name', 'id')->all()
         : [],
     hint: 'The user will receive an email immediately.'
 );
@@ -596,14 +598,14 @@ $id = search(
 $id = search(
     label: 'Search for the user that should receive the mail',
     options: fn (string $value) => strlen($value) > 0
-        ? User::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
+        ? User::whereLike('name', "%{$value}%")->pluck('name', 'id')->all()
         : [],
     scroll: 10
 );
 ```
 
 <a name="search-validation"></a>
-#### バリデーション
+#### 追加のバリデーション
 
 追加のバリデーションロジックを実行したい場合は、`validate`引数にクロージャを渡します。
 
@@ -611,7 +613,7 @@ $id = search(
 $id = search(
     label: 'Search for the user that should receive the mail',
     options: fn (string $value) => strlen($value) > 0
-        ? User::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
+        ? User::whereLike('name', "%{$value}%")->pluck('name', 'id')->all()
         : [],
     validate: function (int|string $value) {
         $user = User::findOrFail($value);
@@ -636,7 +638,7 @@ use function Laravel\Prompts\multisearch;
 $ids = multisearch(
     'Search for the users that should receive the mail',
     fn (string $value) => strlen($value) > 0
-        ? User::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
+        ? User::whereLike('name', "%{$value}%")->pluck('name', 'id')->all()
         : []
 );
 ```
@@ -650,7 +652,7 @@ $ids = multisearch(
     label: 'Search for the users that should receive the mail',
     placeholder: 'E.g. Taylor Otwell',
     options: fn (string $value) => strlen($value) > 0
-        ? User::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
+        ? User::whereLike('name', "%{$value}%")->pluck('name', 'id')->all()
         : [],
     hint: 'The user will receive an email immediately.'
 );
@@ -662,7 +664,7 @@ $ids = multisearch(
 $ids = multisearch(
     label: 'Search for the users that should receive the mail',
     options: fn (string $value) => strlen($value) > 0
-        ? User::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
+        ? User::whereLike('name', "%{$value}%")->pluck('name', 'id')->all()
         : [],
     scroll: 10
 );
@@ -675,11 +677,11 @@ $ids = multisearch(
 
 ```php
 $ids = multisearch(
-    'Search for the users that should receive the mail',
-    fn (string $value) => strlen($value) > 0
-        ? User::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
+    label: 'Search for the users that should receive the mail',
+    options: fn (string $value) => strlen($value) > 0
+        ? User::whereLike('name', "%{$value}%")->pluck('name', 'id')->all()
         : [],
-    required: true,
+    required: true
 );
 ```
 
@@ -687,16 +689,16 @@ $ids = multisearch(
 
 ```php
 $ids = multisearch(
-    'Search for the users that should receive the mail',
-    fn (string $value) => strlen($value) > 0
-        ? User::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
+    label: 'Search for the users that should receive the mail',
+    options: fn (string $value) => strlen($value) > 0
+        ? User::whereLike('name', "%{$value}%")->pluck('name', 'id')->all()
         : [],
     required: 'You must select at least one user.'
 );
 ```
 
 <a name="multisearch-validation"></a>
-#### バリデーション
+#### 追加のバリデーション
 
 追加のバリデーションロジックを実行したい場合は、`validate`引数にクロージャを渡します。
 
@@ -704,10 +706,10 @@ $ids = multisearch(
 $ids = multisearch(
     label: 'Search for the users that should receive the mail',
     options: fn (string $value) => strlen($value) > 0
-        ? User::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
+        ? User::whereLike('name', "%{$value}%")->pluck('name', 'id')->all()
         : [],
     validate: function (array $values) {
-        $optedOut = User::where('name', 'like', '%a%')->findMany($values);
+        $optedOut = User::whereLike('name', '%a%')->findMany($values);
 
         if ($optedOut->isNotEmpty()) {
             return $optedOut->pluck('name')->join(', ', ', and ').' have opted out.';
@@ -753,16 +755,16 @@ use function Laravel\Prompts\form;
 $responses = form()
     ->text('What is your name?', required: true, name: 'name')
     ->password(
-        'What is your password?',
+        label: 'What is your password?',
         validate: ['password' => 'min:8'],
-        name: 'password',
+        name: 'password'
     )
     ->confirm('Do you accept the terms?')
     ->submit();
 
 User::create([
     'name' => $responses['name'],
-    'password' => $responses['password']
+    'password' => $responses['password'],
 ]);
 ```
 
@@ -804,8 +806,8 @@ info('Package installed successfully.');
 use function Laravel\Prompts\table;
 
 table(
-    ['Name', 'Email'],
-    User::all(['name', 'email'])->toArray()
+    headers: ['Name', 'Email'],
+    rows: User::all(['name', 'email'])->toArray()
 );
 ```
 
@@ -818,8 +820,8 @@ table(
 use function Laravel\Prompts\spin;
 
 $response = spin(
-    fn () => Http::get('http://example.com'),
-    'Fetching response...'
+    message: 'Fetching response...',
+    callback: fn () => Http::get('http://example.com')
 );
 ```
 
@@ -837,13 +839,13 @@ use function Laravel\Prompts\progress;
 $users = progress(
     label: 'Updating users',
     steps: User::all(),
-    callback: fn ($user) => $this->performTask($user),
+    callback: fn ($user) => $this->performTask($user)
 );
 ```
 
 `progress`関数はマップ関数のように動作し、コールバックの各繰り返しの戻り値を含む配列を返します。
 
-このコールバックは、`\Laravel\Prompts\Progress`インスタンスも受け取り可能で、繰り返しごとにラベルとヒントを修正できます。
+このコールバックは、`Laravel\Prompts\Progress`インスタンスも受け取り可能で、繰り返しごとにラベルとヒントを修正できます。
 
 ```php
 $users = progress(
@@ -856,7 +858,7 @@ $users = progress(
 
         return $this->performTask($user);
     },
-    hint: 'This may take some time.',
+    hint: 'This may take some time.'
 );
 ```
 
@@ -928,7 +930,9 @@ TextPrompt::fallbackUsing(function (TextPrompt $prompt) use ($input, $output) {
     $question = (new Question($prompt->label, $prompt->default ?: null))
         ->setValidator(function ($answer) use ($prompt) {
             if ($prompt->required && $answer === null) {
-                throw new \RuntimeException(is_string($prompt->required) ? $prompt->required : 'Required.');
+                throw new \RuntimeException(
+                    is_string($prompt->required) ? $prompt->required : 'Required.'
+                );
             }
 
             if ($prompt->validate) {

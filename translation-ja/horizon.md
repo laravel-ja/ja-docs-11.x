@@ -375,7 +375,6 @@ Queueableオブジェクトの１つにタグを手作業で定義する場合�
         }
     }
 
-
 <a name="notifications"></a>
 ## 通知
 

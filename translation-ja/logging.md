@@ -417,9 +417,8 @@ Monologにはさまざまな[利用可能なハンドラ](https://github.com/Sel
         'formatter' => 'default',
     ],
 
-
- <a name="monolog-processors"></a>
- #### Monologプロセッサ
+<a name="monolog-processors"></a>
+#### Monolog Processors
 
 Monologは、メッセージをログに記録する前に処理することもできます。独自のプロセッサを作成したり、[Monologが提供する既存のプロセッサ](https://github.com/Seldaek/monolog/tree/main/src/Monolog/Processor)を使用したりできます。
 
@@ -442,7 +441,6 @@ Monologは、メッセージをログに記録する前に処理することも�
             ],
          ],
      ],
-
 
 <a name="creating-custom-channels-via-factories"></a>
 ### ファクトリによるカスタムチャンネルの生成

@@ -13,7 +13,7 @@
     - [WHERE句](#where-clauses)
     - [OR WHERE句](#or-where-clauses)
     - [WHERE NOT句](#where-not-clauses)
-    - [Where Any／All句](#where-any-all-clauses)
+    - [Where Any／All／None句](#where-any-all-none-clauses)
     - [JSON WHERE句](#json-where-clauses)
     - [その他のWHERE句](#additional-where-clauses)
     - [論理グループ化](#logical-grouping)
@@ -502,8 +502,8 @@ select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
                     })
                     ->get();
 
-<a name="where-any-all-clauses"></a>
-### Where Any／All句
+<a name="where-any-all-none-clauses"></a>
+### Where Any／All／None句
 
 複数の列に同じクエリ制約を適用する必要が起きる場合があります。例えば、指定リスト内のカラムが指定値と`LIKE`である全レコードを取得したい場合です。この場合は、`whereAny`メソッドを使用します。
 
@@ -546,6 +546,29 @@ FROM posts
 WHERE published = true AND (
     title LIKE '%Laravel%' AND
     content LIKE '%Laravel%'
+)
+```
+
+`whereNone`メソッドは、指定カラムのいずれもが指定制約に一致しないレコードを検索するために使用できます。
+
+    $posts = DB::table('albums')
+                ->where('published', true)
+                ->whereNone([
+                    'title',
+                    'lyrics',
+                    'tags',
+                ], 'like', '%explicit%')
+                ->get();
+
+上記のクエリは以下のSQLを生成します。
+
+```sql
+SELECT *
+FROM albums
+WHERE published = true AND NOT (
+    title LIKE '%explicit%' OR
+    lyrics LIKE '%explicit%' OR
+    tags LIKE '%explicit%'
 )
 ```
 

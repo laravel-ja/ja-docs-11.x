@@ -2140,7 +2140,7 @@ Duskテストを[Heroku CI](https://www.heroku.com/continuous-integration)上で
 language: php
 
 php:
-  - 7.3
+  - 8.2
 
 addons:
   chrome: stable
@@ -2198,13 +2198,13 @@ jobs:
         run: php artisan dusk
       - name: Upload Screenshots
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: screenshots
           path: tests/Browser/screenshots
       - name: Upload Console Logs
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: console
           path: tests/Browser/console

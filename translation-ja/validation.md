@@ -1544,23 +1544,23 @@ Rule::enum(ServerStatus::class)
 
 フィールドが入力データ中に存在しないことをバリデートします。
 
- <a name="rule-missing-if"></a>
- #### missing_if:_他のフィールド_,_値_,...
+<a name="rule-missing-if"></a>
+#### missing_if:_他のフィールド_,_値_,...
 
- *他のフィールド*が*値*のどれかと等しい場合、フィールドが入力データ中に存在しないことをバリデートします。
+*他のフィールド*が*値*のどれかと等しい場合、フィールドが入力データ中に存在しないことをバリデートします。
 
- <a name="rule-missing-unless"></a>
- #### missing_unless:_他のフィールド_,_値_
+<a name="rule-missing-unless"></a>
+#### missing_unless:_他のフィールド_,_値_
 
 *他のフィールド*が*値*の全てに一致しない場合、フィールドが入力データ中に存在しないことをバリデートします。
 
- <a name="rule-missing-with"></a>
- #### missing_with:_foo_,_bar_,...
+<a name="rule-missing-with"></a>
+#### missing_with:_foo_,_bar_,...
 
 指定したフィールドのどれかが存在する*場合のみ*、フィールドが入力データ中に存在しないことをバリデートします。
 
- <a name="rule-missing-with-all"></a>
- #### missing_with_all:_foo_,_bar_,...
+<a name="rule-missing-with-all"></a>
+#### missing_with_all:_foo_,_bar_,...
 
  指定したフィールド全てが存在する*場合のみ*、フィールドが入力データ中に存在しないことをバリデートします。
 
