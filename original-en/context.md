@@ -183,6 +183,29 @@ DB::listen(function ($event) {
 });
 ```
 
+You may determine if a value is in a stack using the `stackContains` and `hiddenStackContains` methods:
+
+```php
+if (Context::stackContains('breadcrumbs', 'first_value')) {
+    //
+}
+
+if (Context::hiddenStackContains('secrets', 'first_value')) {
+    //
+}
+```
+
+The `stackContains` and `hiddenStackContains` methods also accept a closure as their second argument, allowing more control over the value comparison operation:
+
+```php
+use Illuminate\Support\Facades\Context;
+use Illuminate\Support\Str;
+
+return Context::stackContains('breadcrumbs', function ($value) {
+    return Str::startsWith($value, 'query_');
+});
+```
+
 <a name="retrieving-context"></a>
 ## Retrieving Context
 
@@ -318,7 +341,7 @@ public function boot(): void
 }
 ```
 
-> [!NOTE]  
+> [!NOTE]
 > You should not use the `Context` facade within the `dehydrating` callback, as that will change the context of the current process. Ensure you only make changes to the repository passed to the callback.
 
 <a name="hydrated"></a>
@@ -346,5 +369,5 @@ public function boot(): void
 }
 ```
 
-> [!NOTE]  
+> [!NOTE]
 > You should not use the `Context` facade within the `hydrated` callback and instead ensure you only make changes to the repository passed to the callback.

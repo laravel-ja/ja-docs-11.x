@@ -869,7 +869,7 @@ Bladeにより、以下のHTMLとしてレンダされます。
 <a name="using-attributes-slots-within-component-class"></a>
 #### コンポーネントクラス内の属性とスロットへのアクセス
 
-Bladeコンポーネントを使用すると、クラスのrenderメソッド内のコンポーネント名、属性、およびスロットにアクセスすることもできます。ただし、このデータにアクセスするには、コンポーネントの`render`メソッドからクロージャを返す必要があります。クロージャは、唯一の引数として`$data`配列を取ります。この配列はコンポーネントに関する情報を提供するいくつかの要素が含んでいます。
+Bladeコンポーネントを使用すると、クラスのrenderメソッド内のコンポーネント名、属性、およびスロットにアクセスすることもできます。ただし、このデータにアクセスするには、コンポーネントの`render`メソッドからクロージャを返す必要があります。
 
     use Closure;
 
@@ -878,14 +878,23 @@ Bladeコンポーネントを使用すると、クラスのrenderメソッド内
      */
     public function render(): Closure
     {
-        return function (array $data) {
-            // $data['componentName'];
-            // $data['attributes'];
-            // $data['slot'];
-
-            return '<div>Components content</div>';
+        return function () {
+            return '<div {{ $attributes }}>Components content</div>';
         };
     }
+
+コンポーネントの`render`メソッドが返すクロージャは、唯一の引数に`$data`配列を受け取ります。この配列は、コンポーネントに関する情報を提供するいくつかの要素を含みます。
+
+    return function (array $data) {
+        // $data['componentName'];
+        // $data['attributes'];
+        // $data['slot'];
+
+        return '<div {{ $attributes }}>Components content</div>';
+    }
+
+> [!WARNING]
+> `data`配列の要素を`render`メソッドが返すBlade文字列へ直接埋め込んではいけません。そうしてしまうと、悪意のある属性コンテンツを介してリモートでコードが実行される可能性があります。
 
 `componentName`は、HTMLタグで`x-`プレフィックスの後に使用されている名前と同じです。したがって、`<x-alert/>`の`componentName`は`alert`になります。`attributes`要素には、HTMLタグに存在していたすべての属性が含まれます。`slot`要素は、コンポーネントのスロットの内容を含む`Illuminate\Support\HtmlString`インスタンスです。
 

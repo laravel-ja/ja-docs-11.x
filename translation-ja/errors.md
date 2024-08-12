@@ -167,6 +167,22 @@ report($caught); // 無視される
         ]);
     })
 
+別の方法として、単純に例外クラスを`Illuminate\Contracts\Debug\ShouldntReport`インターフェイスで「マーク」することもできます。例外がこのインターフェイスでマークされると、Laravelの例外ハンドラでは報告しません。
+
+```php
+<?php
+
+namespace App\Exceptions;
+
+use Exception;
+use Illuminate\Contracts\Debug\ShouldntReport;
+
+class PodcastProcessingException extends Exception implements ShouldntReport
+{
+    //
+}
+```
+
 Laravelは内部的に、あらかじめいくつかのタイプのエラーを無視しています。例えば、404 HTTPエラーや無効なCSRFトークンによって生成された419 HTTPレスポンスから生じる例外などです。Laravelが指定しているタイプの例外を無視しないように指示したい場合は、アプリケーションの`bootstrap/app.php`ファイルで、`stopIgnoring`例外メソッドを使用してください。
 
     use Symfony\Component\HttpKernel\Exception\HttpException;

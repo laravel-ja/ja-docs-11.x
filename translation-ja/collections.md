@@ -1072,11 +1072,15 @@
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
+    // １つのキーを削除
     $collection->forget('name');
 
-    $collection->all();
-
     // ['framework' => 'laravel']
+
+    // 複数のキーを削除
+    $collection->forget(['name', 'framework']);
+
+    // []
 
 > [!WARNING]
 > 他のコレクションメソッドとは異なり、`forget`は更新された新しいコレクションを返しません。呼び出しもとのコレクションを更新します。

@@ -183,6 +183,29 @@ DB::listen(function ($event) {
 });
 ```
 
+スタックに値があるかは、`stackContains`と`hiddenStackContains`メソッドで調べられる。
+
+```php
+if (Context::stackContains('breadcrumbs', 'first_value')) {
+    //
+}
+
+if (Context::hiddenStackContains('secrets', 'first_value')) {
+    //
+}
+```
+
+`stackContains`と`hiddenStackContains`メソッドは、第２引数へクロージャも受け付ける。
+
+```php
+use Illuminate\Support\Facades\Context;
+use Illuminate\Support\Str;
+
+return Context::stackContains('breadcrumbs', function ($value) {
+    return Str::startsWith($value, 'query_');
+});
+```
+
 <a name="retrieving-context"></a>
 ## コンテキストの取得
 

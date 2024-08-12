@@ -99,6 +99,7 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 [Str::title](#method-title-case)
 [Str::toBase64](#method-str-to-base64)
 [Str::toHtmlString](#method-str-to-html-string)
+[Str::transliterate](#method-str-transliterate)
 [Str::trim](#method-str-trim)
 [Str::ltrim](#method-str-ltrim)
 [Str::rtrim](#method-str-rtrim)
@@ -201,6 +202,7 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 [test](#method-fluent-str-test)
 [title](#method-fluent-str-title)
 [toBase64](#method-fluent-str-to-base64)
+[transliterate](#method-fluent-str-transliterate)
 [trim](#method-fluent-str-trim)
 [ltrim](#method-fluent-str-ltrim)
 [rtrim](#method-fluent-str-rtrim)
@@ -1254,6 +1256,17 @@ $repeat = Str::repeat($string, 5);
     use Illuminate\Support\Str;
 
     $htmlString = Str::of('Nuno Maduro')->toHtmlString();
+
+<a name="method-str-transliterate"></a>
+#### `Str::transliterate()` {.collection-method}
+
+`Str::transliterate`メソッドは、指定文字列を最も近いASCII表現に変換しようと試みます。
+
+    use Illuminate\Support\Str;
+
+    $email = Str::transliterate('ⓣⓔⓢⓣ@ⓛⓐⓡⓐⓥⓔⓛ.ⓒⓞⓜ');
+
+    // 'test@laravel.com'
 
 <a name="method-str-trim"></a>
 #### `Str::trim()` {.collection-method}
@@ -2625,6 +2638,17 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
     $base64 = Str::of('Laravel')->toBase64();
 
     // TGFyYXZlbA==
+
+<a name="method-fluent-str-transliterate"></a>
+#### `transliterate` {.collection-method}
+
+`transliterate`メソッドは、指定文字列を最も近いASCII表現に変換しようと試みます。
+
+    use Illuminate\Support\Str;
+
+    $email = Str::of('ⓣⓔⓢⓣ@ⓛⓐⓡⓐⓥⓔⓛ.ⓒⓞⓜ')->transliterate()
+
+    // 'test@laravel.com'
 
 <a name="method-fluent-str-trim"></a>
 #### `trim` {.collection-method}

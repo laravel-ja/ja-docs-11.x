@@ -2395,7 +2395,7 @@ $job->assertDoesntHaveChain();
 
 時には、キュー投入したジョブが[それ自身をキューに戻す](#manually-releasing-a-job)ことをテストする必要が起きるかもしれません。あるいは、ジョブが自分自身を削除したことをテストする必要があるかもしれません。ジョブをインスタンス化して`withFakeQueueInteractions`メソッドを呼び出すことで、これらのキューとのやりとりをテストできます。
 
-ジョブのキュー操作をFakeしたら、ジョブに対して `handle`メソッドを呼び出してください。ジョブを呼び出した後は、`assertReleased`、`assertDeleted`、`assertFailed`メソッドを使用して、ジョブのキュー操作に対してアサートを行えます。
+ジョブのキュー操作をFakeしたら、ジョブに対して `handle`メソッドを呼び出してください。ジョブを呼び出した後は、`assertReleased`、`assertDeleted`、`assertNotDeleted`、`assertFailed`、`assertNotFailed`メソッドを使用して、ジョブのキュー操作に対してアサートを行えます。
 
 ```php
 use App\Jobs\ProcessPodcast;
@@ -2406,7 +2406,9 @@ $job->handle();
 
 $job->assertReleased(delay: 30);
 $job->assertDeleted();
+$job->assertNotDeleted();
 $job->assertFailed();
+$job->assertNotFailed();
 ```
 
 <a name="job-events"></a>
