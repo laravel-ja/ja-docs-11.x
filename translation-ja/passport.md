@@ -1162,10 +1162,14 @@ API構築時にJavaScriptアプリケーションから、自分のAPIを利用�
 
 Passportはアクセストークンやリフレッシュトークンを発行する際に、イベントを発生させます。これらの[イベントをリッスン](/docs/{{version}}/events)して、データベース内の他のアクセストークンを削除したり取り消したりできます。
 
+<div class="overflow-auto">
+
 | イベント名 |
 | ------------- |
 | `Laravel\Passport\Events\AccessTokenCreated` |
 | `Laravel\Passport\Events\RefreshTokenCreated` |
+
+</div>
 
 <a name="testing"></a>
 ## テスト

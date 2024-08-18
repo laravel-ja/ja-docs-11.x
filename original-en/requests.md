@@ -604,7 +604,7 @@ To solve this, you may enable the `Illuminate\Http\Middleware\TrustProxies` midd
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->trustProxies(at: [
             '192.168.1.1',
-            '192.168.1.2',
+            '10.0.0.0/8',
         ]);
     })
 
@@ -648,4 +648,10 @@ By default, requests coming from subdomains of the application's URL are also au
 
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->trustHosts(at: ['laravel.test'], subdomains: false);
+    })
+
+If you need to access your application's configuration files or database to determine your trusted hosts, you may provide a closure to the `at` argument:
+
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->trustHosts(at: fn () => config('app.trusted_hosts'));
     })

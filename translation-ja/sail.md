@@ -460,9 +460,7 @@ sail share
 `share`コマンドを使用してサイトを共有する場合は、アプリケーションの`bootstrap/app.php`ファイルにある`trustProxies`ミドルウェアメソッドを使用して、アプリケーションが信頼するプロキシを設定する必要があります。そうしないと、`url`や`route`などのURL生成ヘルパが、URL生成時に使用する正しいHTTPホストを判断できなくなります。
 
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->trustProxies(at: [
-            '*',
-        ]);
+        $middleware->trustProxies(at: '*');
     })
 
 共有サイトでサブドメインを選択する場合は、`share`コマンドを実行するときに`subdomain`オプションを指定します。

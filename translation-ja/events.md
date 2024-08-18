@@ -389,17 +389,16 @@ php artisan event:list
 
 キュー投入したリスナがデータベーストランザクション内でディスパッチされると、データベーストランザクションがコミットされる前にキューによって処理される場合があります。これが発生した場合、データベーストランザクション中にモデルまたはデータベースレコードに加えた更新は、データベースにまだ反映されていない可能性があります。さらに、トランザクション内で作成されたモデルまたはデータベースレコードは、データベースに存在しない可能性があります。リスナがこれらのモデルに依存している場合、キューに入れられたリスナをディスパッチするジョブの処理時に予期しないエラーが発生する可能性があります。
 
-キュー接続の`after_commit`設定オプションが`false`に設定されている場合でも、リスナクラスで`ShouldHandleEventsAfterCommit`インターフェイスを実装することにより、開いているすべてのデータベーストランザクションがコミットされた後に、特定のキューに入れられたリスナをディスパッチする必要があることを示すことができます。
+キュー接続の`after_commit`設定オプションが`false`に設定されている場合でも、リスナクラスで`ShouldQueueAfterCommit`インターフェイスを実装することにより、開いているすべてのデータベーストランザクションがコミットされた後に、特定のキューに入れられたリスナをディスパッチする必要があることを示すことができます。
 
     <?php
 
     namespace App\Listeners;
 
-    use Illuminate\Contracts\Events\ShouldHandleEventsAfterCommit;
-    use Illuminate\Contracts\Queue\ShouldQueue;
+    use Illuminate\Contracts\Queue\ShouldQueueAfterCommit;
     use Illuminate\Queue\InteractsWithQueue;
 
-    class SendShipmentNotification implements ShouldQueue, ShouldHandleEventsAfterCommit
+    class SendShipmentNotification implements ShouldQueueAfterCommit
     {
         use InteractsWithQueue;
     }

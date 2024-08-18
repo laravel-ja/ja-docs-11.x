@@ -741,6 +741,8 @@ php artisan config:publish hashing
 
 Laravelは、認証プロセス中に様々な[イベント](/docs/{{version}}/events)をディスパッチします。以下のイベントに対して、[リスナを定義](/docs/{{version}}/events)できます.
 
+<div class="overflow-auto">
+
 | イベント名 |
 | --- |
 | `Illuminate\Auth\Events\Registered` |
@@ -755,3 +757,5 @@ Laravelは、認証プロセス中に様々な[イベント](/docs/{{version}}/e
 | `Illuminate\Auth\Events\OtherDeviceLogout` |
 | `Illuminate\Auth\Events\Lockout` |
 | `Illuminate\Auth\Events\PasswordReset` |
+
+</div>

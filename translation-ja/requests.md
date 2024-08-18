@@ -604,7 +604,7 @@ TLS/SSL証明書を末端とするロードバランサーの背後でアプリ�
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->trustProxies(at: [
             '192.168.1.1',
-            '192.168.1.2',
+            '10.0.0.0/8',
         ]);
     })
 
@@ -648,4 +648,10 @@ Amazon AWSまたは別の「クラウド」ロードバランサープロバイ�
 
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->trustHosts(at: ['laravel.test'], subdomains: false);
+    })
+
+信頼できるホストを決定するため、アプリケーションの設定ファイルやデータベースにアクセスする必要がある場合は、`at`引数へクロージャを指定できます
+
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->trustHosts(at: fn () => config('app.trusted_hosts'));
     })

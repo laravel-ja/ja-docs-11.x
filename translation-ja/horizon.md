@@ -424,6 +424,12 @@ Horizonは、ジョブおよびキューの待ち時間とスループットに�
 php artisan horizon:forget 5
 ```
 
+失敗したジョブをすべて削除したい場合は、`horizon:forget`コマンドに`--all`オプションを指定します：
+
+```shell
+php artisan horizon:forget --all
+```
+
 <a name="clearing-jobs-from-queues"></a>
 ## キューのジョブをクリア
 

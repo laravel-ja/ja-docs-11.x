@@ -1506,7 +1506,7 @@ Bladeでは幸い、コンポーネントのテンプレートディレクトリ
 
 <x-layout>
     @foreach ($tasks as $task)
-        {{ $task }}
+        <div>{{ $task }}</div>
     @endforeach
 </x-layout>
 ```
@@ -1522,7 +1522,7 @@ Bladeでは幸い、コンポーネントのテンプレートディレクトリ
     </x-slot>
 
     @foreach ($tasks as $task)
-        {{ $task }}
+        <div>{{ $task }}</div>
     @endforeach
 </x-layout>
 ```

@@ -341,7 +341,7 @@ public function boot(): void
 }
 ```
 
-> [!NOTE]
+> [!NOTE]  
 > `dehydrating`コールバック内で、`Context`ファサードを使用してはいけません。コールバックへ渡されたリポジトリにのみ、変更を加えるようにしてください。
 
 <a name="hydrated"></a>
@@ -369,5 +369,5 @@ public function boot(): void
 }
 ```
 
-> [!NOTE]
+> [!NOTE]  
 > `Hydrated`コールバック内では`Context`ファサードを使用せず、代わりにコールバックへ渡すリポジトリにのみ変更を加えてください。

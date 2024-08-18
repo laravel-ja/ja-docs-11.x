@@ -115,7 +115,7 @@ Laravelは、`bootstrap/cache`と`storage`ディレクトリに書き込む必�
 php artisan optimize
 ```
 
-`optimize:clear`メソッドは、`optimize`コマンドが生成したキャッシュファイルをすべて削除するために使います。
+`optimize:clear`メソッドは、`optimize`コマンドが生成したキャッシュファイルとデフォルトのキャッシュドライバの全キーをすべて削除するために使います。
 
 ```shell
 php artisan optimize:clear
