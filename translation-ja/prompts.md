@@ -13,6 +13,7 @@
     - [検索](#search)
     - [マルチ検索](#multisearch)
     - [一時停止](#pause)
+- [バリデーション前の入力変換](#transforming-input-before-validation)
 - [フォーム](#forms)
 - [情報メッセージ](#informational-messages)
 - [テーブル](#tables)
@@ -421,16 +422,6 @@ $categories = multiselect(
 );
 ```
 
-`canSelectAll`引数によって、ユーザーがすべてのオプションを簡単に選択できるようにできます。
-
-```php
-$categories = multiselect(
-    label: 'What categories should be assigned?',
-    options: Category::pluck('name', 'id'),
-    canSelectAll: true
-);
-```
-
 <a name="multiselect-required"></a>
 #### 必須値
 
@@ -729,6 +720,23 @@ $ids = multisearch(
 use function Laravel\Prompts\pause;
 
 pause('Press ENTER to continue.');
+```
+
+<a name="transforming-input-before-validation"></a>
+## バリデーション前の入力変換
+
+ときに、バリデーションを行う前にプロンプト入力を変換したい場合があることでしょう。たとえば、入力済み文字列から空白を取り除きたい場合などです。これを実現するために、プロンプト関数の多くは`transform`引数を用意しています。
+
+```php
+$name = text(
+    label: 'What is your name?',
+    transform: fn (string $value) => trim($value),
+    validate: fn (string $value) => match (true) {
+        strlen($value) < 3 => 'The name must be at least 3 characters.',
+        strlen($value) > 255 => 'The name must not exceed 255 characters.',
+        default => null
+    }
+);
 ```
 
 <a name="forms"></a>

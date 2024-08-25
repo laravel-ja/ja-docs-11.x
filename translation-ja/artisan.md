@@ -86,7 +86,7 @@ php artisan vendor:publish --provider="Laravel\Tinker\TinkerServiceProvider"
 <a name="command-allow-list"></a>
 #### コマンド許可リスト
 
-Tinkerは「許可」リストを利用して、シェル内で実行できるArtisanコマンドを決定します。デフォルトでは、`clear-compiled`、`down`、`env`、`inspire`、`migrate`、`optimize`、`up`コマンドを実行できます。より多くのコマンドを許可したい場合は、それらを`tinker.php`設定ファイルの`commands`配列に追加してください。
+Tinkerは「許可」リストを利用して、シェル内で実行できるArtisanコマンドを決定します。デフォルトでは、`clear-compiled`、`down`、`env`、`inspire`、`migrate`、`migrate:install`、`up`、`optimize`コマンドを実行できます。より多くのコマンドを許可したい場合は、それらを`tinker.php`設定ファイルの`commands`配列に追加してください。
 
     'commands' => [
         // App\Console\Commands\ExampleCommand::class,

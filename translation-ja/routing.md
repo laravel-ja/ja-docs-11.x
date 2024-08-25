@@ -552,7 +552,6 @@ Laravelは、タイプヒントの変数名がルートセグメント名と一�
         return $user->email;
     })->withTrashed();
 
-<a name="customizing-the-key"></a>
 <a name="customizing-the-default-key-name"></a>
 #### キーのカスタマイズ
 

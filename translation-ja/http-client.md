@@ -38,6 +38,7 @@ Laravelは、[Guzzle HTTPクライアント](http://docs.guzzlephp.org/en/stable
     $response->json($key = null, $default = null) : mixed;
     $response->object() : object;
     $response->collect($key = null) : Illuminate\Support\Collection;
+    $response->resource() : resource;
     $response->status() : int;
     $response->successful() : bool;
     $response->redirect(): bool;

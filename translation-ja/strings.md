@@ -372,7 +372,6 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
     // 'fooBar'
 
 <a name="method-char-at"></a>
-
 #### `Str::charAt()` {.collection-method}
 
 `Str::charAt`メソッドは、指定インデックスの文字を返します。インデックスが範囲外の場合は`false`を返します。
@@ -424,7 +423,7 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 <a name="method-str-contains"></a>
 #### `Str::contains()` {.collection-method}
 
-`Str::contains`メソッドは、指定文字列に指定値が含まれているかどうかを判別します。このメソッドは大文字と小文字を区別します。
+`Str::contains`メソッドは、指定文字列に指定値が含まれているかどうかを判別します。このメソッドはデフォルトで、大文字と小文字を区別します。
 
     use Illuminate\Support\Str;
 
@@ -440,6 +439,14 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 
     // true
 
+`ignoreCase`引数を`true`へ設定することで、大文字小文字を区別しないようにできます。
+
+    use Illuminate\Support\Str;
+
+    $contains = Str::contains('This is my name', 'MY', ignoreCase: true);
+
+    // true
+
 <a name="method-str-contains-all"></a>
 #### `Str::containsAll()` {.collection-method}
 
@@ -448,6 +455,14 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
     use Illuminate\Support\Str;
 
     $containsAll = Str::containsAll('This is my name', ['my', 'name']);
+
+    // true
+
+`ignoreCase`引数を`true`へ設定することで、大文字小文字を区別しないようにできます。
+
+    use Illuminate\Support\Str;
+
+    $containsAll = Str::containsAll('This is my name', ['MY', 'NAME'], ignoreCase: true);
 
     // true
 
@@ -1686,7 +1701,7 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 <a name="method-fluent-str-contains"></a>
 #### `contains` {.collection-method}
 
-`contains`メソッドは、指定された文字列に指定された値が含まれているかどうかを判別します。このメソッドは大文字と小文字を区別します。
+`contains`メソッドは、指定された文字列に指定された値が含まれているかどうかを判別します。このメソッドはデフォルトで、大文字と小文字を区別します。
 
     use Illuminate\Support\Str;
 
@@ -1702,6 +1717,14 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
 
     // true
 
+`ignoreCase`引数を`true`へ設定することで、大文字小文字を区別しないようにできます。
+
+    use Illuminate\Support\Str;
+
+    $contains = Str::of('This is my name')->contains('MY', ignoreCase: true);
+
+    // true
+
 <a name="method-fluent-str-contains-all"></a>
 #### `containsAll` {.collection-method}
 
@@ -1710,6 +1733,14 @@ Fluent文字列は読み書きしやすい（fluent）、オブジェクト指�
     use Illuminate\Support\Str;
 
     $containsAll = Str::of('This is my name')->containsAll(['my', 'name']);
+
+    // true
+
+You can disable case sensitivity by setting the `ignoreCase` argument to `true`:
+
+    use Illuminate\Support\Str;
+
+    $containsAll = Str::of('This is my name')->containsAll(['MY', 'NAME'], ignoreCase: true);
 
     // true
 

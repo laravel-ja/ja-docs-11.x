@@ -150,6 +150,20 @@ Precognitionでフォームの入力のサブセットをバリデートして�
 >
 ```
 
+これまで見てきたように、入力の`change`イベントをフックし、ユーザーが入力した内容を検証できます。これは「ウィザード」を作成するときによくあり、次のステップに進む前に、ユーザーが入力操作をしたかにかかわらず、目に見えるすべての入力を検証したい場合などです。
+
+Precognitionでこれを行うには、検証したいフィールドの名前を`touch`メソッドへ渡し、「変更済み（touched）」とマークします。それから、`onSuccess`か`onValidationError`コールバックで`validate`メソッドを呼び出てください。
+
+```html
+<button
+    type="button"
+    @click="form.touch(['name', 'email', 'phone']).validate({
+        onSuccess: (response) => nextStep(),
+        onValidationError: (response) => /* ... */,
+    })"
+>Next Step</button>
+```
+
 もちろん、フォーム送信に対するレスポンスに反応してコードを実行することもできます。フォームの`submit`関数は、AxiosのリクエストPromiseを返します。これは、レスポンスペイロードへのアクセス、送信成功時のフォーム入力のリセット、または失敗したリクエストの処理に便利な方法を提供します。
 
 ```js
@@ -314,12 +328,26 @@ Precognitionでフォームの入力のサブセットをバリデートして�
 <input
     id="avatar"
     type="file"
-    onChange={(e) =>
+    onChange={(e) => {
         form.setData('avatar', e.target.value);
 
         form.forgetError('avatar');
-    }
+    }}
 >
+```
+
+これまで見てきたように、入力の`blur`イベントをフックして、ユーザーが入力を操作したときに個々の入力を検証できます。これは「ウィザード」を作成するときによくあり、次のステップに進む前に、ユーザーが入力操作したかにかかわらず、目に見えるすべての入力を検証したい場合などです。
+
+Precognitionでこれを行うには、検証したいフィールドの名前を`touch`メソッドへ渡し、「変更済み（touched）」とマークします。それから、`onSuccess`か`onValidationError`コールバックで`validate`メソッドを呼び出てください。
+
+```jsx
+<button
+    type="button"
+    onClick={() => form.touch(['name', 'email', 'phone']).validate({
+        onSuccess: (response) => nextStep(),
+        onValidationError: (response) => /* ... */,
+    })}
+>Next Step</button>
 ```
 
 もちろん、フォーム送信に対するレスポンスに反応してコードを実行することもできます。フォームの`submit`関数は、AxiosのリクエストPromiseを返します。これは、レスポンスペイロードへのアクセス、送信成功時のフォーム入力のリセット、または失敗したリクエストの処理に便利な方法を提供します。
@@ -500,6 +528,20 @@ form.setValidationTimeout(3000);
 
 > [!WARNING]
 > フォーム入力が変更され、バリデーションレスポンスを受信した時点で、初めて有効または無効として表示されます。
+
+これまで見てきたように、入力の`change`イベントをフックし、ユーザーが入力した内容を検証できます。これは「ウィザード」を作成するときによくあり、次のステップに進む前に、ユーザーが入力操作をしたかにかかわらず、目に見えるすべての入力を検証したい場合などです。
+
+Precognitionでこれを行うには、検証したいフィールドの名前を`touch`メソッドへ渡し、「変更済み（touched）」とマークします。それから、`onSuccess`か`onValidationError`コールバックで`validate`メソッドを呼び出てください。
+
+```html
+<button
+    type="button"
+    @change="form.touch(['name', 'email', 'phone']).validate({
+        onSuccess: (response) => nextStep(),
+        onValidationError: (response) => /* ... */,
+    })"
+>Next Step</button>
+```
 
 フォームの`processing`プロパティを調べれば、フォーム送信リクエストが処理中か判断できます。
 

@@ -185,7 +185,7 @@ Laravelでセッションデータを操作する主な方法は、グローバ�
 
     $value = $request->session()->pull('key', 'default');
 
-<a name="#incrementing-and-decrementing-session-values"></a>
+<a name="incrementing-and-decrementing-session-values"></a>
 #### Incrementing and Decrementing Session Values
 
 セッションデータが増分や減分をしたい整数の場合は、`increment`メソッドと`decrement`メソッドを使えます。

@@ -61,7 +61,6 @@ php artisan make:middleware EnsureTokenIsValid
 > [!NOTE]
 > すべてのミドルウェアは[サービスコンテナ](/docs/{{version}}/container)を介して依存解決されるため、ミドルウェアのコンストラクター内で必要な依存関係をタイプヒントで指定できます。
 
-<a name="before-after-middleware"></a>
 <a name="middleware-and-responses"></a>
 #### ミドルウェアとレスポンス
 

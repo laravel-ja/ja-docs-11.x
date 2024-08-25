@@ -927,6 +927,10 @@ Eloquentの`upsert`メソッドを使用すると、単一で極小の操作で�
 
     Flight::destroy(collect([1, 2, 3]));
 
+[モデルのソフトデリート](#soft-deleting)を利用している場合は、`forceDestroy`メソッドを使ってモデルを完全に削除できます。
+
+    Flight::forceDestroy(1);
+
 > [!WARNING]
 > `destroy`メソッドは各モデルを個別にロードし、`delete`メソッドを呼び出して、`deleting`イベントと`deleted`イベントが各モデルに適切にディスパッチされるようにします。
 

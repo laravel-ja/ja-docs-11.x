@@ -979,7 +979,7 @@ havingBetween`メソッドを使うと、指定した範囲内の結果をフィ
 
 特定のクエリ句を別の条件に基づいてクエリに適用したい場合があります。たとえば、指定された入力値が受信HTTPリクエストに存在する場合にのみ、`where`ステートメントを適用したい場合です。これは、`when`メソッドを使用して実現可能です。
 
-    $role = $request->string('role');
+    $role = $request->input('role');
 
     $users = DB::table('users')
                     ->when($role, function (Builder $query, string $role) {

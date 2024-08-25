@@ -86,6 +86,36 @@ public function test_console_command(): void
 }
 ```
 
+[Laravel Prompts](/docs/{{version}}/prompts)が提供する、`search`や`multisearch`関数を使用している場合、`expectsSearch`アサートを使用してユーザーの入力、検索結果、選択をモックできます。
+
+```php tab=Pest
+test('console command', function () {
+    $this->artisan('example')
+         ->expectsSearch('What is your name?', search: 'Tay', answers: [
+            'Taylor Otwell',
+            'Taylor Swift',
+            'Darian Taylor'
+         ], answer: 'Taylor Otwell')
+         ->assertExitCode(0);
+});
+```
+
+```php tab=PHPUnit
+/**
+ * コンソールコマンドのテスト
+ */
+public function test_console_command(): void
+{
+    $this->artisan('example')
+         ->expectsSearch('What is your name?', search: 'Tay', answers: [
+            'Taylor Otwell',
+            'Taylor Swift',
+            'Darian Taylor'
+         ], answer: 'Taylor Otwell')
+         ->assertExitCode(0);
+}
+```
+
 また、`doesntExpectOutput`メソッドを使い、コンソールコマンドが出力を生成しないこともアサートできます。
 
 ```php tab=Pest

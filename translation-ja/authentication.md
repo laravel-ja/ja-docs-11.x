@@ -182,7 +182,7 @@ Laravel Breezeは、ログイン、ユーザー登録、パスワードリセッ
 <a name="protecting-routes"></a>
 ### ルートの保護
 
-[ルートミドルウェア](/docs/{{version}}/middleware)を使うと、認証済みユーザーだけが指定したルートへアクセスできるようにすることができます。Laravelには`auth`ミドルウェアが同梱されていますが、これは`Illuminate\Auth\Middleware\Authenticate`クラスの [ミドルウェアエイリアス](/docs/{{version}}/middleware#middleware-alias)です。このミドルウェアはあらかじめLaravel内部でエイリアスしているので、必要なのはルート定義へこのミドルウェアを指定するだけです。
+[ルートミドルウェア](/docs/{{version}}/middleware)を使うと、認証済みユーザーだけが指定したルートへアクセスできるようにすることができます。Laravelには`auth`ミドルウェアが同梱されていますが、これは`Illuminate\Auth\Middleware\Authenticate`クラスの [ミドルウェアエイリアス](/docs/{{version}}/middleware#middleware-aliases)です。このミドルウェアはあらかじめLaravel内部でエイリアスしているので、必要なのはルート定義へこのミドルウェアを指定するだけです。
 
     Route::get('/flights', function () {
         // 認証済みユーザーのみがこのルートにアクセス可能
@@ -360,9 +360,9 @@ Laravelのリダイレクタが提供する`intended`メソッドは、認証ミ
 
     Auth::loginUsingId(1);
 
-`loginUsingId`メソッドの第２引数として論理値を渡すことができます。この値は、認証されたセッションに「継続ログイン（remember me）」機能が必要かどうかを示します。これはセッションが無期限に、またはユーザーがアプリケーションから自分でログアウトするまで認証され続けることを意味します。
+`loginUsingId`メソッドの`remember`引数として論理値を渡すことができます。この値は、認証されたセッションに「継続ログイン（remember me）」機能が必要かどうかを示します。これはセッションが無期限に、またはユーザーがアプリケーションから自分でログアウトするまで認証され続けることを意味します。
 
-    Auth::loginUsingId(1, $remember = true);
+    Auth::loginUsingId(1, remember: true);
 
 <a name="authenticate-a-user-once"></a>
 #### ユーザーを１回認証する
@@ -458,7 +458,7 @@ Next, attach the middleware to a route:
 
 Laravelは、現在のデバイスのセッションを無効にすることなく、他のデバイスでアクティブなそのユーザーのセッションを無効にして「ログアウト」するためのメカニズムも提供しています。この機能は通常、ユーザーがパスワードを変更または更新していて、現在のデバイスを認証したまま他のデバイスのセッションを無効にしたい状況で使用します。
 
-これを使用する前に、セッション認証を受け取るルートへ`Illuminate\Session\Middleware\AuthenticateSession`ミドルウェアを確実に指定する必要があります。通常、このミドルウェアをルートグループ定義に置いて、アプリケーションの大半のルートに適用できるようにします。`AuthenticateSession`ミドルウェアはデフォルトで、`auth.session`[ミドルウェアエイリアス](/docs/{{version}}/middleware#middleware-alias)を使ってルートへ指定します。
+これを使用する前に、セッション認証を受け取るルートへ`Illuminate\Session\Middleware\AuthenticateSession`ミドルウェアを確実に指定する必要があります。通常、このミドルウェアをルートグループ定義に置いて、アプリケーションの大半のルートに適用できるようにします。`AuthenticateSession`ミドルウェアはデフォルトで、`auth.session`[ミドルウェアエイリアス](/docs/{{version}}/middleware#middleware-aliases)を使ってルートへ指定します。
 
     Route::middleware(['auth', 'auth.session'])->group(function () {
         Route::get('/', function () {

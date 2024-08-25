@@ -54,7 +54,7 @@ When you register a custom exception reporting callback using the `report` metho
         });
     })
 
-> [!NOTE]
+> [!NOTE]  
 > To customize the exception reporting for a given exception, you may also utilize [reportable exceptions](/docs/{{version}}/errors#renderable-exceptions).
 
 <a name="global-log-context"></a>
@@ -323,7 +323,7 @@ If your exception contains custom reporting logic that is only necessary when ce
         return false;
     }
 
-> [!NOTE]
+> [!NOTE]  
 > You may type-hint any required dependencies of the `report` method and they will automatically be injected into the method by Laravel's [service container](/docs/{{version}}/container).
 
 <a name="throttling-reported-exceptions"></a>

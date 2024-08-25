@@ -143,6 +143,14 @@ class NewApi
 }
 ```
 
+クラスベースの機能インスタンスを手作業で解決したい場合は、`Feature`ファサードの`instance`メソッドを呼び出します。
+
+```php
+use Illuminate\Support\Facades\Feature;
+
+$instance = Feature::instance(NewApi::class);
+```
+
 > [!NOTE]
 > 機能クラスは、[コンテナ](/docs/{{version}}/container)経由で依存解決されるため、必要に応じて機能クラスのコンストラクタで依存関係を注入できます。
 
