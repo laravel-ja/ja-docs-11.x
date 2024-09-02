@@ -431,7 +431,7 @@ Route::singleton('profile', ProfileController::class);
 Route::singleton('photos.thumbnail', ThumbnailController::class);
 ```
 
-この例では、`photos`リソースはすべての[標準リソースルート](#actions-handled-by-resource-controller)を受け取ります。しかし、`thumbnail`リソースは、以下のルートを持つシングルトンリソースとなります。
+この例では、`photos`リソースはすべての[標準リソースルート](#actions-handled-by-resource-controllers)を受け取ります。しかし、`thumbnail`リソースは、以下のルートを持つシングルトンリソースとなります。
 
 <div class="overflow-auto">
 

@@ -536,7 +536,7 @@ Fortifyは、ユーザーがLaravel組み込み済みの`verified`ミドルウ�
 <a name="protecting-routes"></a>
 ### ルートの保護
 
-ルートまたはルートグループに、ユーザーがメールアドレス認証済みであることを要求するように指定するには、ルートにLaravel組み込みの`verified`ミドルウェアを指定します。Laravelは`verified`ミドルウェアをエイリアスとして自動的に登録しており、`Illuminate\Routing\Middleware\ValidateSignature`ミドルウェアのエイリアスとして機能します。
+ルートまたはルートグループに、ユーザーがメールアドレス認証済みであることを要求するように指定するには、ルートにLaravel組み込みの`verified`ミドルウェアを指定します。Laravelは`verified`ミドルウェアをエイリアスとして自動的に登録しており、`Illuminate\Auth\Middleware\EnsureEmailIsVerified`ミドルウェアのエイリアスとして機能します。
 
 ```php
 Route::get('/dashboard', function () {

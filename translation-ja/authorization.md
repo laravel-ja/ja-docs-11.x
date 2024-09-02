@@ -607,7 +607,7 @@ Laravelアプリケーションに含まれている`App\Models\User`モデル�
 <a name="via-middleware"></a>
 ### ミドルウェア経由
 
-Laravelは、リクエストがルートやコントローラに到達する前にアクションを認可するミドルウェアを用意しています。デフォルトでは、`can`[ミドルウェアエイリアス](/docs/{{version}}/middleware#middleware-alias)を使い、`Illuminate\Auth\Middleware\Authorize`ミドルウェアをルートへ指定できます。`can`ミドルウェアを使用して、ユーザーが投稿を更新するのを許可する例を見てみましょう：
+Laravelは、リクエストがルートやコントローラに到達する前にアクションを認可するミドルウェアを用意しています。デフォルトでは、`can`[ミドルウェアエイリアス](/docs/{{version}}/middleware#middleware-aliases)を使い、`Illuminate\Auth\Middleware\Authorize`ミドルウェアをルートへ指定できます。`can`ミドルウェアを使用して、ユーザーが投稿を更新するのを許可する例を見てみましょう：
 
     use App\Models\Post;
 

@@ -388,7 +388,7 @@ Model::preventSilentlyDiscardingAttributes(! $this->app->isProduction());
 <a name="retrieving-models"></a>
 ## モデルの取得
 
-モデルと[それと関連するデータベーステーブル](/docs/{{version}}/migrations#writing-migrations)を作成したら、データベースからデータを取得する準備が整いました。各Eloquentモデルは、モデルに関連付けたデータベーステーブルを流暢にクエリできる強力な[クエリビルダ](/docs/{{version}}/queries)と考えることができます。モデルの`all`メソッドは、モデルに関連付けたデータベーステーブルからすべてのレコードを取得します。
+モデルと[それと関連するデータベーステーブル](/docs/{{version}}/migrations#generating-migrations)を作成したら、データベースからデータを取得する準備が整いました。各Eloquentモデルは、モデルに関連付けたデータベーステーブルを流暢にクエリできる強力な[クエリビルダ](/docs/{{version}}/queries)と考えることができます。モデルの`all`メソッドは、モデルに関連付けたデータベーステーブルからすべてのレコードを取得します。
 
     use App\Models\Flight;
 

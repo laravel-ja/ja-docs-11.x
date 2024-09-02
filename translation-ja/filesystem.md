@@ -219,7 +219,7 @@ AWS_URL=http://localhost:9000/local
 ```
 
 > [!WARNING]
-> MinIOを使用する場合、`temporaryUrl`メソッドによる一時保存用URLの生成はサポートしていません。
+> `endpoint`がクライアントからアクセスできない場合、`temporaryUrl`メソッドを使って一時ストレージのURLを生成しても、MinIOを使用しているときには機能しないでしょう。
 
 <a name="obtaining-disk-instances"></a>
 ## ディスクインスタンスの取得

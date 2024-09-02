@@ -499,6 +499,7 @@ export default defineConfig({
 
 `refresh`オプションが`true`の場合、`npm run dev`実行時に以下のディレクトリへファイルを保存すると、ブラウザでページがフルリフレッシュされます。
 
+- `app/Livewire/**`
 - `app/View/Components/**`
 - `lang/**`
 - `resources/lang/**`

@@ -69,7 +69,6 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Arr::sort](#method-array-sort)
 [Arr::sortDesc](#method-array-sort-desc)
 [Arr::sortRecursive](#method-array-sort-recursive)
-[Arr::sortRecursiveDesc](#method-array-sort-recursive-desc)
 [Arr::take](#method-array-take)
 [Arr::toCssClasses](#method-array-to-css-classes)
 [Arr::toCssStyles](#method-array-to-css-styles)
@@ -1603,7 +1602,7 @@ The `Number::trim` method removes any trailing zero digits after the decimal poi
 <a name="method-abort"></a>
 #### `abort()` {.collection-method}
 
-`abort`関数は、[例外ハンドラ](/docs/{{version}}/errors#the-exception-handler)によりレンダされるであろう、[HTTP例外](/docs/{{version}}/errors#http-exceptions)を投げます。
+`abort`関数は、[例外ハンドラ](/docs/{{version}}/errors#the-exception-handler)によりレンダされるであろう、[HTTP例外](/docs/{{version}}/errors#handling-exceptions)を投げます。
 
     abort(403);
 
@@ -1919,7 +1918,7 @@ dispatch_sync`関数は、指定ジョブを即時処理する[sync](/docs/{{ver
 
     logger('User has logged in.', ['id' => $user->id]);
 
-関数に値を渡さない場合は、[ロガー](/docs/{{version}}/errors#logging)インスタンスが返されます。
+関数に値を渡さない場合は、[ロガー](/docs/{{version}}/logging)インスタンスが返されます。
 
     logger()->error('You are not allowed here.');
 
@@ -2031,7 +2030,7 @@ $secondService->all(); // (キャッシュ済みの結果)
 <a name="method-report"></a>
 #### `report()` {.collection-method}
 
-`report`関数は[例外ハンドラ](/docs/{{version}}/errors#the-exception-handler)を使用して例外をレポートします。
+`report`関数は[例外ハンドラ](/docs/{{version}}/errors#handling-exceptions)を使用して例外をレポートします。
 
     report($e);
 
@@ -2042,7 +2041,7 @@ $secondService->all(); // (キャッシュ済みの結果)
 <a name="method-report-if"></a>
 #### `report_if()` {.collection-method}
 
-`report_if`関数は、指定条件が`true`であれば、あなたの[例外ハンドラ](/docs/{{version}}/errors#the-exception-handler)を使って例外を報告します。
+`report_if`関数は、指定条件が`true`であれば、あなたの[例外ハンドラ](/docs/{{version}}/errors#handling-exceptions)を使って例外を報告します。
 
     report_if($shouldReport, $e);
 
@@ -2051,7 +2050,7 @@ $secondService->all(); // (キャッシュ済みの結果)
 <a name="method-report-unless"></a>
 #### `report_unless()` {.collection-method}
 
-`report_unless`関数は、指定条件が`false`であれば、あなたの[例外ハンドラ](/docs/{{version}}/errors#the-exception-handler)を使って例外を報告します。
+`report_unless`関数は、指定条件が`false`であれば、あなたの[例外ハンドラ](/docs/{{version}}/errors#handling-exceptions)を使って例外を報告します。
 
     report_unless($reportingDisabled, $e);
 
@@ -2069,7 +2068,7 @@ $secondService->all(); // (キャッシュ済みの結果)
 <a name="method-rescue"></a>
 #### `rescue()` {.collection-method}
 
-`rescue`関数は指定されたクロージャを実行し、その実行中に発生した例外をすべてキャッチします。キャッチした例外はすべて[例外ハンドラ](/docs/{{version}}/errors#the-exception-handler)へ送られますが、リクエストの処理は続行されます。
+`rescue`関数は指定されたクロージャを実行し、その実行中に発生した例外をすべてキャッチします。キャッチした例外はすべて[例外ハンドラ](/docs/{{version}}/errors#handling-exceptions)へ送られますが、リクエストの処理は続行されます。
 
     return rescue(function () {
         return $this->method();

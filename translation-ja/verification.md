@@ -108,7 +108,7 @@
 <a name="protecting-routes"></a>
 ### 保護下のルート
 
-[ルートミドルウェア](/docs/{{version}}/middleware)は、認証済みユーザーだけが指定ルートへアクセスできるようにするために使います。Laravelには`verified`[ミドルウェアエイリアス](/docs/{{version}}/middleware#middleware-alias)があり、これは`Illuminate\Auth\Middleware\EnsureEmailIsVerified`ミドルウェアクラスのエイリアスです。このエイリアスは、あらかじめLaravelが自動的に登録しているので、`verified`ミドルウェアをルート定義へ追加するだけです。通常、このミドルウェアは、`auth`ミドルウェアと対になります。
+[ルートミドルウェア](/docs/{{version}}/middleware)は、認証済みユーザーだけが指定ルートへアクセスできるようにするために使います。Laravelには`verified`[ミドルウェアエイリアス](/docs/{{version}}/middleware#middleware-aliases)があり、これは`Illuminate\Auth\Middleware\EnsureEmailIsVerified`ミドルウェアクラスのエイリアスです。このエイリアスは、あらかじめLaravelが自動的に登録しているので、`verified`ミドルウェアをルート定義へ追加するだけです。通常、このミドルウェアは、`auth`ミドルウェアと対になります。
 
     Route::get('/profile', function () {
         // 確認済みのユーザーのみがこのルートにアクセス可能
