@@ -15,7 +15,7 @@
 
 [Redis](https://redis.io)はオープンソースの高度なキー／値保存域です。キーには[文字列](https://redis.io/docs/data-types/strings/)、[ハッシュ](https://redis.io/docs/data-types/hashes/)、[リスト](https://redis.io/docs/data-types/lists/)、[セット](https://redis.io/docs/data-types/sets/)、[ソート済みセット](https://redis.io/docs/data-types/sorted-sets/)を含むことができるため、データ構造サーバと呼ばれることが多いです。
 
-LaravelでRedisを使い始める前に、PECLにより[PhpRedis](https://github.com/phpredis/phpredis)PHP拡張機能をインストールして使用することを推奨します。この拡張機能は、「ユーザーフレンドリー」なPHPパッケージに比べてインストールは複雑ですが、Redisを多用するアプリケーションのパフォーマンスが向上する可能性があります。[Laravel Sail](/docs/{{version}}/sale)を使用している場合、この拡張機能はアプリケーションのDockerコンテナにはじめからインストールしてあります。
+LaravelでRedisを使い始める前に、PECLにより[PhpRedis](https://github.com/phpredis/phpredis)PHP拡張機能をインストールして使用することを推奨します。この拡張機能は、「ユーザーフレンドリー」なPHPパッケージに比べてインストールは複雑ですが、Redisを多用するアプリケーションのパフォーマンスが向上する可能性があります。[Laravel Sail](/docs/{{version}}/sail)を使用している場合、この拡張機能はアプリケーションのDockerコンテナにはじめからインストールしてあります。
 
 PhpRedis拡張機能をインストールできない場合は、Composerを介して`predis/predis`パッケージをインストールしてください。PredisはすべてPHPで記述されたRedisクライアントであり、追加の拡張機能は必要ありません。
 
