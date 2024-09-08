@@ -1259,7 +1259,7 @@ class ExampleTest extends TestCase
 
 もしくは、[HELO](https://usehelo.com)や[Mailtrap](https://mailtrap.io)などのサービスと`smtp`ドライバを使用して、メールメッセージを「ダミー」メールボックスに送信可能です。本当の電子メールクライアントでそれらを表示できます。このアプローチには、Mailtrapのメッセージビューアで最終的な電子メールを実際に調べられるという利点があります。
 
-[Laravel Sail](/docs/{{version}}/sale)を使用している場合は、[Mailpit](https://github.com/axllent/mailpit)を使用してメッセージをプレビューできます。Sailの実行中は、`http://localhost:8025`でMailpitインターフェイスにアクセスできます。
+[Laravel Sail](/docs/{{version}}/sail)を使用している場合は、[Mailpit](https://github.com/axllent/mailpit)を使用してメッセージをプレビューできます。Sailの実行中は、`http://localhost:8025`でMailpitインターフェイスにアクセスできます。
 
 <a name="using-a-global-to-address"></a>
 #### グローバルな`to`アドレスの使用

@@ -27,7 +27,7 @@
 
 [Laravel Valet](https://github.com/laravel/valet)（バレット：従者）は、macOSミニマリスト向けのLaravel開発環境です。Larave lValetは、マシンの起動時に常にバックグラウンドで[Nginx](https://www.nginx.com/)を実行するようにMacを設定します。次に、[DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq)を使用して、Valetは`*.test`ドメイン上のすべてのリクエストをプロキシし、ローカルマシンにインストールしているサイトへ転送します。
 
-言い換えれば、Valetは、約７MBのRAMを使用する非常に高速なLaravel開発環境です。Valetは、[Sail](/docs/{{version}}/sale)や[Homestead](/docs/{{version}}/homestead)の完全な代替ではありませんが、極端に速度を好むとかRAMの量が限られているマシンで作業しているなど、柔軟な開発環境の基本が必要な場合は優れた代替手段になるでしょう。
+言い換えれば、Valetは、約７MBのRAMを使用する非常に高速なLaravel開発環境です。Valetは、[Sail](/docs/{{version}}/sail)や[Homestead](/docs/{{version}}/homestead)の完全な代替ではありませんが、極端に速度を好むとかRAMの量が限られているマシンで作業しているなど、柔軟な開発環境の基本が必要な場合は優れた代替手段になるでしょう。
 
 Valetは以下をサポートしていますが、これらに限定されません。
 
