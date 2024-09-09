@@ -352,11 +352,11 @@ sail dusk
 <a name="selenium-on-apple-silicon"></a>
 #### Apple Silicon上のSelenium
 
-ローカルマシンに Apple Silicon チップが搭載されている場合、`selenium`サービスには`seleniarm/standalone-chromium`イメージを使用する必要があります。
+ローカルマシンに Apple Silicon チップが搭載されている場合、`selenium`サービスには`selenium/standalone-chromium`イメージを使用する必要があります。
 
 ```yaml
 selenium:
-    image: 'seleniarm/standalone-chromium'
+    image: 'selenium/standalone-chromium'
     extra_hosts:
         - 'host.docker.internal:host-gateway'
     volumes:

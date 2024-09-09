@@ -14,6 +14,7 @@
     - [JSONレスポンス](#json-responses)
     - [Fileダウンロード](#file-downloads)
     - [Fileレスポンス](#file-responses)
+    - [Streamedレスポンス](#streamed-responses)
 - [レスポンスマクロ](#response-macros)
 
 <a name="creating-responses"></a>
@@ -287,6 +288,52 @@ JSONPレスポンスを生成したい場合は、`json`メソッドと`withCall
 > [!WARNING]
 > ファイルダウンロードを管理しているSymfony HttpFoundationクラスは、ASCIIのダウンロードファイル名を指定するよう要求しています。
 
+<a name="file-responses"></a>
+### Fileレスポンス
+
+`file`メソッドは、画像やPDFのようなファイルを、ダウンロードを開始する代わりにユーザーのブラウザに直接表示するために使用します。このメソッドは、第一引数にファイルの絶対パスを、第二引数にヘッダの配列を受け取ります。
+
+    return response()->file($pathToFile);
+
+    return response()->file($pathToFile, $headers);
+
+<a name="streamed-responses"></a>
+### Streamedレスポンス
+
+生成済みのデータをクライアントへストリーミングすることで、特に非常に大きなレスポンスでは、メモリ使用量とパフォーマンスを大幅に削減できます。Streamedレスポンスでは、サーバがデータの送信を終える前にクライアントがデータの処理を始めることができます。
+
+    function streamedContent(): Generator {
+        yield 'Hello, ';
+        yield 'World!';
+    }
+
+    Route::get('/stream', function () {
+        return response()->stream(function (): void {
+            foreach (streamedContent() as $chunk) {
+                echo $chunk;
+                ob_flush();
+                flush();
+                sleep(2); // チャンク間の遅延をシミュレート
+            }
+        }, 200, ['X-Accel-Buffering' => 'no']);
+    });
+
+> [!NOTE]
+> Laravelは内部的に、PHPの出力バッファリング機能を利用しています。上の例でわかるように、バッファリングされたコンテンツをクライアントにプッシュするには、`ob_flush`関数と`flush`関数を使用します。
+
+<a name="streamed-json-responses"></a>
+#### Streamed JSONレスポンス
+
+JSONデータを徐々にストリーミングする必要がある場合は、`streamJson`メソッドを利用してください。このメソッドは、JavaScriptで簡単にパースできる形式で、ブラウザに逐次送信する必要がある大きなデータセットの場合に特に有用です。
+
+    use App\Models\User;
+
+    Route::get('/users.json', function () {
+        return response()->streamJson([
+            'users' => User::cursor(),
+        ]);
+    });
+
 <a name="streamed-downloads"></a>
 #### ストリームダウンロード
 
@@ -299,15 +346,6 @@ JSONPレスポンスを生成したい場合は、`json`メソッドと`withCall
                     ->contents()
                     ->readme('laravel', 'laravel')['contents'];
     }, 'laravel-readme.md');
-
-<a name="file-responses"></a>
-### Fileレスポンス
-
-`file`メソッドは、ダウンロードする代わりに、ブラウザへ画像やPDFのようなファイルを表示するために使用します。このメソッドは第1引数にファイルの絶対パス、第2引数にヘッダの配列を指定します。
-
-    return response()->file($pathToFile);
-
-    return response()->file($pathToFile, $headers);
 
 <a name="response-macros"></a>
 ## レスポンスマクロ

@@ -15,7 +15,7 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-Laravelは、一般的なフォームベースの認証に加えて、[Laravel Socialite](https://github.com/laravel/socialite)(ソーシャライト：名士)を使用したOAuthプロバイダで認証するためのシンプルで便利な方法も提供します。Socialiteは現在、Facebook、Twitter、LinkedIn、Google、GitHub、GitLab、Bitbucket、Slackでの認証をサポートしています。
+Laravelは、一般的なフォームベースの認証に加えて、[Laravel Socialite](https://github.com/laravel/socialite)(ソーシャライト：名士)を使用したOAuthプロバイダで認証するためのシンプルで便利な方法も提供します。Socialiteは現在、Facebook、X、LinkedIn、Google、GitHub、GitLab、Bitbucket、Slackでの認証をサポートしています。
 
 > [!NOTE]
 > 他のプラットフォームのアダプタは、コミュニティにより管理されている[Socialiteプロバイダ](https://socialiteproviders.com/)Webサイトから利用できます。
@@ -39,7 +39,7 @@ Socialiteの新しいメジャーバージョンにアップグレードする�
 
 Socialiteを使用する前に、アプリケーションが利用するOAuthプロバイダの認証情報を追加する必要があります。通常、これらの認証情報は、認証するサービスのダッシュボード内で「開発者用アプリケーション」を作成することで取得できます。
 
-こうした認証情報は、アプリケーションの`config/services.php`設定ファイルへ記述します。キーは`facebook`, `twitter`（OAuth1.0）、`twitter-oauth-2`（OAuth 2.0）、`linkedin-openid`、`google`、`github`、`gitlab`、`bitbucket`、`slack`、`slack-openid`で、アプリケーションで必要なプロバイダによります。
+こうした認証情報は、アプリケーションの`config/services.php`設定ファイルへ記述します。キーは`facebook`, `X`、`linkedin-openid`、`google`、`github`、`gitlab`、`bitbucket`、`slack`、`slack-openid`で、アプリケーションで必要なプロバイダによります。
 
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),
@@ -189,7 +189,7 @@ SlackのAPIは[さまざまなタイプのアクセストークン](https://api.
     });
 
 <a name="retrieving-user-details-from-a-token-oauth2"></a>
-#### トークンからのユーザー詳細情報の取得(OAuth2)
+#### トークンからのユーザー詳細情報の取得
 
 ユーザーの有効なアクセストークンを既に持っている場合は、Socialiteの`userFromToken`メソッドを使用してユーザーの詳細を取得できます。
 
@@ -199,15 +199,6 @@ SlackのAPIは[さまざまなタイプのアクセストークン](https://api.
 
 iOSアプリケーションでFacebook限定ログインを使用している場合、Facebookはアクセストークンの代わりにOIDCトークンを返します。アクセストークンと同様に、OIDCトークンも`userFromToken`メソッドへ渡し、ユーザーの詳細情報を取得できます。
 
-<a name="retrieving-user-details-from-a-token-and-secret-oauth1"></a>
-#### トークンとSecretからのユーザー詳細情報の取得(OAuth1)
-
-ユーザーの有効なトークンとシークレットが既にある場合は、Socialiteの`userFromTokenAndSecret`メソッドを使用してユーザーの詳細を取得できます。
-
-    use Laravel\Socialite\Facades\Socialite;
-
-    $user = Socialite::driver('twitter')->userFromTokenAndSecret($token, $secret);
-
 <a name="stateless-authentication"></a>
 #### ステートレス認証
 
@@ -216,6 +207,3 @@ iOSアプリケーションでFacebook限定ログインを使用している場
     use Laravel\Socialite\Facades\Socialite;
 
     return Socialite::driver('google')->stateless()->user();
-
-> [!WARNING]
-> Twitter OAuth.0ドライバでは、ステートレス認証は利用できません。

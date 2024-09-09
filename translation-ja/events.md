@@ -220,10 +220,7 @@ php artisan event:list
         /**
          * イベントリスナの生成
          */
-        public function __construct()
-        {
-            // ...
-        }
+        public function __construct() {}
 
         /**
          * イベントの処理

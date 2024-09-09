@@ -81,7 +81,7 @@ Pintにコードスタイルのエラーがあるファイルを修正させた�
 また、特定のディレクトリにある`pint.json`を利用したい場合は、Pintを起動する際に`--config`オプションを指定してください。
 
 ```shell
-pint --config vendor/my-company/coding-style/pint.json
+./vendor/bin/pint --config vendor/my-company/coding-style/pint.json
 ```
 
 <a name="presets"></a>
@@ -90,7 +90,7 @@ pint --config vendor/my-company/coding-style/pint.json
 プリセットは、コード内のスタイルの問題を修正するために使用するルールセットを定義しています。デフォルトでPintは、`laravel`プリセットを使用します。これは、Laravelの意見に基づいたコーディングスタイルに従って問題を修正するものです。しかし、Pintに`--preset`オプションを指定することで、別のプリセットも指定できます。
 
 ```shell
-pint --preset psr12
+./vendor/bin/pint --preset psr12
 ```
 
 お望みならば、プロジェクトの`pint.json`ファイルにプリセットを設定できます。

@@ -672,10 +672,7 @@ php artisan make:channel OrderChannel
         /**
          * 新しいチャンネルインスタンスの生成
          */
-        public function __construct()
-        {
-            // ...
-        }
+        public function __construct() {}
 
         /**
          * チャンネルへのユーザーのアクセスを認可

@@ -18,6 +18,7 @@
   - [Viteによる静的アセットの処理](#blade-processing-static-assets)
   - [保存時の再描写](#blade-refreshing-on-save)
   - [エイリアス](#blade-aliases)
+- [アセットの事前フェッチ](#asset-prefetching)
 - [ベースURLのカスタマイズ](#custom-base-urls)
 - [環境変数](#environment-variables)
 - [テスト時のVite無効](#disabling-vite-in-tests)
@@ -405,6 +406,8 @@ createInertiaApp({
 });
 ```
 
+Viteのコード分割機能をInertiaで使用する場合は、[アセットの事前フェッチ](#asset-prefetching)を設定することをお勧めします。
+
 > [!NOTE]
 > Laravelの[スターターキット](/docs/{{version}}/starter-kits)には、すでに適切なLaravel、Inertia、Viteの構成が含まれています。Laravel、Inertia、Viteを最速で始めるには、[Laravel Breeze](/docs/{{version}}/starter-kits#breeze-and-inertia) をチェックしてください。
 
@@ -560,6 +563,75 @@ JavaScriptアプリケーションでは、定期的に参照するディレク�
 
 ```blade
 <img src="{{ Vite::image('logo.png') }}" alt="Laravel Logo">
+```
+
+<a name="asset-prefetching"></a>
+## アセットの事前フェッチ
+
+Viteのコード分割機能を使用してSPAを構築する場合、必要なアセットは各ページナビゲーションで取得されます。この動作は、UIレンダリングの遅延につながる可能性があります。フロントエンドフレームワークの選択でこれが問題となる場合、Laravelでは、最初のページロード時にアプリケーションのJavaScriptとCSSアセットを前もってプリフェッチする機能があります。
+
+[サービスプロバイダ](/docs/{{version}}/providers)の`boot`メソッド内で`Vite::prefetch`メソッドを呼び出すことにより、Laravelへアセットを事前にプリフェッチするように指示できます。
+
+```php
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\ServiceProvider;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * 全アプリケーションサービスの登録
+     */
+    public function register(): void
+    {
+        // ...
+    }
+
+    /**
+     * 全アプリケーションサービスの初期起動処理
+     */
+    public function boot(): void
+    {
+        Vite::prefetch(concurrency: 3);
+    }
+}
+```
+
+上記の例では、アセットがプリフェッチされ、各ページロード時に最大で`3`つの同時ダウンロードが行われます。アプリケーションのニーズに合わせて同時実行数を変更したり、アプリケーションがすべてのアセットを一度にダウンロードする場合は同時実行数の制限を設けないようにしたりすることもできます。
+
+```php
+/**
+ * 全アプリケーションサービスの初期起動処理
+ */
+public function boot(): void
+{
+    Vite::prefetch();
+}
+```
+
+プリフェッチはデフォルトで、[ページ*load*イベント](https://developer.mozilla.org/ja/docs/Web/API/Window/load_event)が発生したときに開始します。プリフェッチを開始するタイミングをカスタマイズしたい場合は、Viteがリッスンするイベントを指定できます。
+
+```php
+/**
+ * 全アプリケーションサービスの初期起動処理
+ */
+public function boot(): void
+{
+    Vite::prefetch(event: 'vite:prefetch');
+}
+```
+
+上記に提示したコードでは、`window`オブジェクト上の`vite:prefetch`イベントを手作業でディスパッチしたときにプリフェッチを開始します。例えば、ページがロードされてから3秒後にプリフェッチを開始させることができます：
+
+```html
+<script>
+    addEventListener('load', () => setTimeout(() => {
+        dispatchEvent(new Event('vite:prefetch'))
+    }, 3000))
+</script>
 ```
 
 <a name="custom-base-urls"></a>

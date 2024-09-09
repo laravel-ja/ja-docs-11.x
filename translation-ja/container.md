@@ -199,7 +199,7 @@ $this->app->singletonIf(Transistor::class, function (Application $app) {
      * 新しいクラスインスタンスの生成
      */
     public function __construct(
-        protected EventPusher $pusher
+        protected EventPusher $pusher,
     ) {}
 
 <a name="contextual-binding"></a>
@@ -380,7 +380,7 @@ Laravelコンテナインスタンス自体をコンテナにより解決中の�
      * 新しいクラスインスタンスの生成
      */
     public function __construct(
-        protected Container $container
+        protected Container $container,
     ) {}
 
 <a name="automatic-injection"></a>

@@ -1488,7 +1488,7 @@ staticの`make`メソッドは、新しいコレクションインスタンス�
          * 新しい通貨インスタンスの生成
          */
         function __construct(
-            public string $code
+            public string $code,
         ) {}
     }
 
@@ -1842,7 +1842,7 @@ $percentage = $collection->percentage(fn ($value) => $value === 1, precision: 3)
          * 新しいResourceCollectionインスタンスの生成
          */
         public function __construct(
-          public Collection $collection,
+            public Collection $collection,
         ) {}
     }
 
