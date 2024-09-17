@@ -448,7 +448,7 @@ public function after(): array
         return $comment && $this->user()->can('update', $comment);
     }
 
-全フォームリクエストはLaravelのベースリクエストクラスを拡張していますので、現在認証済みユーザーへアクセスする、`user`メソッドが使えます。また、上記例中の`route`メソッドの呼び出しにも、注目してください。たとえば`{comment}`パラメーターのような、呼び出しているルートで定義してあるURIパラメータにもアクセスできます。
+全フォームリクエストはLaravelのベースリクエストクラスを拡張していますので、現在認証済みユーザーへアクセスする、`user`メソッドが使えます。また、上記例中の`route`メソッドの呼び出しにも、注目してください。たとえば`{comment}`パラメータのような、呼び出しているルートで定義してあるURIパラメータにもアクセスできます。
 
     Route::post('/comment/{comment}');
 
@@ -1970,7 +1970,7 @@ The arguments [accepted by the `DateTimeZone::listIdentifiers` method](https://w
     });
 
 > [!NOTE]
-> クロージャへ渡される`$input`パラメーターは、`Illuminate\Support\Fluent`のインスタンスであり、バリデーション下の入力とファイルへアクセスするために使用できます。
+> クロージャへ渡される`$input`パラメータは、`Illuminate\Support\Fluent`のインスタンスであり、バリデーション下の入力とファイルへアクセスするために使用できます。
 
 <a name="complex-conditional-array-validation"></a>
 #### 複雑な条件の配列バリデーション

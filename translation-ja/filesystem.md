@@ -312,7 +312,7 @@ $disk->put('image.jpg', $content);
 <a name="temporary-urls"></a>
 ### 一時的なURL
 
-`temporaryUrl`メソッドを使用すると、`s3`ドライバを使用して保存されたファイルへの一時URLを作成できます。このメソッドは、パスと、URLの有効期限を指定する`DateTime`インスタンスを受け入れます。
+`temporaryUrl`メソッドを使用すると、`local`と`s3`ドライバを使用して保存されたファイルへの一時URLを作成できます。このメソッドは、パスと、URLの有効期限を指定する`DateTime`インスタンスを受け入れます。
 
     use Illuminate\Support\Facades\Storage;
 
@@ -320,7 +320,24 @@ $disk->put('image.jpg', $content);
         'file.jpg', now()->addMinutes(5)
     );
 
-追加の[S3リクエストパラメーター](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html#RESTObjectGET-requests)を指定する必要がある場合は、リクエストパラメーターの配列を`temporaryUrl`メソッドの引数の３番目として渡すことができます。
+<a name="enabling-local-temporary-urls"></a>
+#### ローカル一時URLの有効化
+
+一時URLのサポートを`local`ドライバへ導入する前に、アプリケーションの開発を開始した場合は、ローカルの一時URLを有効にする必要があります。そのために、`config/filesystems.php`設定ファイル内の`local`ディスクの設定配列に、`serve`オプションを追加してください。
+
+```php
+'local' => [
+    'driver' => 'local',
+    'root' => storage_path('app/private'),
+    'serve' => true, // [tl! add]
+    'throw' => false,
+],
+```
+
+<a name="s3-request-parameters"></a>
+#### S3リクエストパラメータ
+
+追加の[S3リクエストパラメータ](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html#RESTObjectGET-requests)を指定する必要がある場合は、リクエストパラメータの配列を`temporaryUrl`メソッドの引数の３番目として渡すことができます。
 
     $url = Storage::temporaryUrl(
         'file.jpg',
@@ -330,6 +347,9 @@ $disk->put('image.jpg', $content);
             'ResponseContentDisposition' => 'attachment; filename=file2.jpg',
         ]
     );
+
+<a name="customizing-temporary-urls"></a>
+#### 一時URLのカスタマイズ
 
 特定するストレージディスクに対する一時的なURLの生成方法をカスタマイズする必要がある場合、 `buildTemporaryUrlsUsing` メソッドを使用してください。例えば、一時的なURLを通常サポートしていないディスクに保存されているファイルをダウンロードできるコントローラがある場合、これは便利です。通常、このメソッドはサービスプロバイダの`boot`メソッドから呼び出します。
 

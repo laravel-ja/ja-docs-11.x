@@ -12,6 +12,29 @@
 
 時には、互いに依存していない複数の低速タスクを実行する必要があるでしょう。多くの場合、タスクを同時実行することで大幅なパフォーマンス改善が実現できます。Laravelの`Concurrency`ファサードは、クロージャを同時実行するためのシンプルで便利なAPIを提供します。
 
+<a name="concurrency-compatibility"></a>
+#### 並列処理互換性
+
+Laravel10.xのアプリケーションから、Laravel11.xへアップグレードした場合、アプリケーションの`config/app.php`設定ファイルの`providers`配列へ、`ConcurrencyServiceProvider`を追加する必要があるでしょう。
+
+```php
+'providers' => ServiceProvider::defaultProviders()->merge([
+    /*
+     * パッケージサービスプロバイダ
+     */
+    Illuminate\Concurrency\ConcurrencyServiceProvider::class, // [tl! add]
+
+    /*
+     * アプリケーションサービスプロバイダ
+     */
+    App\Providers\AppServiceProvider::class,
+    App\Providers\AuthServiceProvider::class,
+    // App\Providers\BroadcastServiceProvider::class,
+    App\Providers\EventServiceProvider::class,
+    App\Providers\RouteServiceProvider::class,
+])->toArray(),
+```
+
 <a name="how-it-works"></a>
 #### いかに動作するか
 

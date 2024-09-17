@@ -89,7 +89,7 @@ Laravelは、アプリケーションのURLを生成するのに役立つヘル�
 
     // http://example.com/post/1
 
-もちろん、`route`ヘルパを使用して、複数のパラメーターを持つルートのURLを生成することもできます。
+もちろん、`route`ヘルパを使用して、複数のパラメータを持つルートのURLを生成することもできます。
 
     Route::get('/post/{post}/comment/{comment}', function (Post $post, Comment $comment) {
         // ...

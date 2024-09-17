@@ -398,7 +398,7 @@ Laravelのデフォルトの`web`ミドルウェアグループと`api`ミドル
         // ...
     })->middleware('role:editor');
 
-複数のパラメーターはコンマで区切る必要があります。
+複数のパラメータはコンマで区切る必要があります。
 
     Route::put('/post/{id}', function (string $id) {
         // ...

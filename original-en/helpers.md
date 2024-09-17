@@ -2317,7 +2317,7 @@ The `when` function returns the value it is given if a given condition evaluates
 The `when` function is primarily useful for conditionally rendering HTML attributes:
 
 ```blade
-<div {{ when($condition, 'wire:poll="calculate"') }}>
+<div {!! when($condition, 'wire:poll="calculate"') !!}>
     ...
 </div>
 ```
@@ -2399,6 +2399,19 @@ By default, deferred functions will only be executed if the HTTP response, Artis
 
 ```php
 defer(fn () => Metrics::reportOrder($order))->always();
+```
+
+<a name="deferred-function-compatibility"></a>
+#### Deferred Function Compatibility
+
+If you upgraded to Laravel 11.x from a Laravel 10.x application and your application's skeleton still contains an `app/Http/Kernel.php` file, you should add the `InvokeDeferredCallbacks` middleware to the beginning of the kernel's `$middleware` property:
+
+```php
+protected $middleware = [
+    \Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks::class, // [tl! add]
+    \App\Http\Middleware\TrustProxies::class,
+    // ...
+];
 ```
 
 <a name="lottery"></a>

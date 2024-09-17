@@ -1522,7 +1522,7 @@ The `Number::trim` method removes any trailing zero digits after the decimal poi
 
     $url = action([HomeController::class, 'index']);
 
-メソッドがルートパラメーターを受け付ける場合は、第２引数で指定してください。
+メソッドがルートパラメータを受け付ける場合は、第２引数で指定してください。
 
     $url = action([UserController::class, 'profile'], ['id' => 1]);
 
@@ -1546,7 +1546,7 @@ The `Number::trim` method removes any trailing zero digits after the decimal poi
 
     $url = route('route.name');
 
-ルートがパラメーターを受け入れる場合は、それらを関数の２番目の引数として渡すことができます。
+ルートがパラメータを受け入れる場合は、それらを関数の２番目の引数として渡すことができます。
 
     $url = route('route.name', ['id' => 1]);
 
@@ -2317,7 +2317,7 @@ $secondService->all(); // (キャッシュ済みの結果)
 `when`関数は主にHTML属性を条件付きでレンダリングするのに便利です。
 
 ```blade
-<div {{ when($condition, 'wire:poll="calculate"') }}>
+<div {!! when($condition, 'wire:poll="calculate"') !!}>
     ...
 </div>
 ```
@@ -2399,6 +2399,19 @@ Route::post('/orders', function (Request $request) {
 
 ```php
 defer(fn () => Metrics::reportOrder($order))->always();
+```
+
+<a name="deferred-function-compatibility"></a>
+#### 並列処理互換性
+
+Laravel10.xのアプリケーションから、Larave11.xへアップグレードし、アプリケーションのスケルトンに`app/Http/Kernel.php`ファイルが残っている場合、カーネルの`$middleware`プロパティの先頭へ、`InvokeDeferredCallbacks`ミドルウェアを追加する必要があります。
+
+```php
+protected $middleware = [
+    \Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks::class, // [tl! add]
+    \App\Http\Middleware\TrustProxies::class,
+    // ...
+];
 ```
 
 <a name="lottery"></a>

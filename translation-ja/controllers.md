@@ -337,7 +337,7 @@ Laravelの[暗黙的なモデル結合](/docs/{{version}}/routing#implicit-model
 <a name="restful-naming-resource-route-parameters"></a>
 ### リソースルートパラメータの命名
 
-`Route::resource`はデフォルトで、リソース名の「単数形」バージョンに基づいて、リソースルートのルートパラメータを作成します。`parameters`メソッドを使用して、リソースごとにこれを簡単にオーバーライドできます。`parameters`メソッドに渡す配列は、リソース名とパラメーター名の連想配列である必要があります。
+`Route::resource`はデフォルトで、リソース名の「単数形」バージョンに基づいて、リソースルートのルートパラメータを作成します。`parameters`メソッドを使用して、リソースごとにこれを簡単にオーバーライドできます。`parameters`メソッドに渡す配列は、リソース名とパラメータ名の連想配列である必要があります。
 
     use App\Http\Controllers\AdminUserController;
 
@@ -364,7 +364,7 @@ Laravelの[スコープ付き暗黙モデル結合](/docs/{{version}}/routing#im
 
     /photos/{photo}/comments/{comment:slug}
 
-ネストしたルートパラメーターとしてカスタムキー付き暗黙的結合を使用する場合、親からネストしているモデルを取得するために、Laravelはクエリのスコープを自動的に設定し、親のリレーション名を推測する規則を使用します。この場合、`Photo`モデルには、`Comment`モデルを取得するために使用できる`comments`(ルートパラメータ名の複数形)という名前のリレーションがあると想定します。
+ネストしたルートパラメータとしてカスタムキー付き暗黙的結合を使用する場合、親からネストしているモデルを取得するために、Laravelはクエリのスコープを自動的に設定し、親のリレーション名を推測する規則を使用します。この場合、`Photo`モデルには、`Comment`モデルを取得するために使用できる`comments`(ルートパラメータ名の複数形)という名前のリレーションがあると想定します。
 
 <a name="restful-localizing-resource-uris"></a>
 ### リソースURIのローカライズ
@@ -539,7 +539,7 @@ Route::apiSingleton('photos.thumbnail', ProfileController::class)->creatable();
         }
     }
 
-コントローラメソッドへルートパラメーターによる入力値が渡される場合も、依存定義の後に続けてルート引数を指定します。たとえば以下のようにルートが定義されていれば：
+コントローラメソッドへルートパラメータによる入力値が渡される場合も、依存定義の後に続けてルート引数を指定します。たとえば以下のようにルートが定義されていれば：
 
     use App\Http\Controllers\UserController;
 

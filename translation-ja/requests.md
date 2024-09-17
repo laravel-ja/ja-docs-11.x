@@ -73,7 +73,7 @@ Laravelの`Illuminate\Http\Request`クラスは、アプリケーションが処
 
     Route::put('/user/{id}', [UserController::class, 'update']);
 
-以下のようにコントローラメソッドを定義することで、`Illuminate\Http\Request`をタイプヒントし、`id`ルートパラメーターにアクセスできます。
+以下のようにコントローラメソッドを定義することで、`Illuminate\Http\Request`をタイプヒントし、`id`ルートパラメータにアクセスできます。
 
     <?php
 
@@ -353,7 +353,7 @@ JSONリクエストをアプリケーションに送信する場合、リクエ�
 
     $name = $request->name;
 
-動的プロパティを使用する場合、Laravelは最初にリクエストペイロードでパラメータの値を探します。見つからない場合、Laravelは一致したルートのパラメーターの中のフィールドを検索します。
+動的プロパティを使用する場合、Laravelは最初にリクエストペイロードでパラメータの値を探します。見つからない場合、Laravelは一致したルートのパラメータの中のフィールドを検索します。
 
 <a name="retrieving-a-portion-of-the-input-data"></a>
 #### 入力データの一部の取得

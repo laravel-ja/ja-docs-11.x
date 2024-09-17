@@ -171,7 +171,7 @@
 
     return redirect()->route('login');
 
-ルートにパラメーターがある場合は、`route`メソッドの第２引数として渡してください。
+ルートにパラメータがある場合は、`route`メソッドの第２引数として渡してください。
 
     // /profile/{id}のURIを持つルートの場合
 
@@ -180,7 +180,7 @@
 <a name="populating-parameters-via-eloquent-models"></a>
 #### Eloquentモデルによる、パラメータの埋め込み
 
-Eloquentモデルの"ID"をルートパラメーターとしてリダイレクトする場合は、モデルをそのまま渡してください。IDは自動的に取り出されます。
+Eloquentモデルの"ID"をルートパラメータとしてリダイレクトする場合は、モデルをそのまま渡してください。IDは自動的に取り出されます。
 
     // /profile/{id}のURIを持つルートの場合
 
@@ -205,7 +205,7 @@ Eloquentモデルの"ID"をルートパラメーターとしてリダイレク�
 
     return redirect()->action([UserController::class, 'index']);
 
-コントローラルートにパラメーターが必要ならば、`action`メソッドの第２引数として渡してください。
+コントローラルートにパラメータが必要ならば、`action`メソッドの第２引数として渡してください。
 
     return redirect()->action(
         [UserController::class, 'profile'], ['id' => 1]
