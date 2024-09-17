@@ -12,6 +12,7 @@
     - [レート制限](#rate-limiting)
     - [ジョブのオーバーラップの防止](#preventing-job-overlaps)
     - [例外による利用制限](#throttling-exceptions)
+    - [ジョブのスキップ](#skipping-jobs)
 - [ジョブのディスパッチ](#dispatching-jobs)
     - [ディスパッチの遅延](#delayed-dispatching)
     - [同期ディスパッチ](#synchronous-dispatching)
@@ -688,6 +689,39 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
 > [!NOTE]
 > Redisを使用している場合は、Redis用に細かく調整され、基本的な例外スロットリングミドルウェアよりも効率的な、`Illuminate\Queue\Middleware\ThrottlesExceptionsWithRedis`ミドルウェアを使用できます。
 
+<a name="skipping-jobs"></a>
+### ジョブのスキップ
+
+`Skip`ミドルウェアを使うと、ジョブのロジックを変更せずに、ジョブをスキップ/削除するように指定できます。`Skip::when`メソッドは指定条件を`true`と評価した場合にジョブを削除し、`Skip::unless`メソッドは指定条件を`false`と評価した場合にジョブを削除します。
+
+    use Illuminate\Queue\Middleware\Skip;
+
+    /**
+    * ジョブを通過させるミドルウェアの取得
+    */
+    public function middleware(): array
+    {
+        return [
+            Skip::when($someCondition),
+        ];
+    }
+
+また、`when`メソッドと`unless`メソッドへ、`Closure`を渡し、より複雑な条件判定を行うこともできます。
+
+    use Illuminate\Queue\Middleware\Skip;
+
+    /**
+    * ジョブを通過させるミドルウェアの取得
+    */
+    public function middleware(): array
+    {
+        return [
+            Skip::when(function (): bool {
+                return $this->shouldSkip();
+            }),
+        ];
+    }
+
 <a name="dispatching-jobs"></a>
 ## ジョブのディスパッチ
 
@@ -760,6 +794,10 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
             return redirect('/podcasts');
         }
     }
+
+場合により、ジョブにはデフォルトの遅延が設定されていることがあります。この遅延を回避してジョブを即座にディスパッチしたい場合は、`withoutDelay`メソッドを使用します。
+
+    ProcessPodcast::dispatch($podcast)->withoutDelay();
 
 > [!WARNING]
 > Amazon SQSキューサービスの最大遅延時間は１５分です。

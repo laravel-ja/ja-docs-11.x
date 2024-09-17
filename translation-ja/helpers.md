@@ -5,6 +5,7 @@
 - [その他のユーティリティ](#other-utilities)
     - [ベンチマーク](#benchmarking)
     - [日付](#dates)
+    - [遅延関数](#deferred-functions)
     - [抽選](#lottery)
     - [パイプライン](#pipeline)
     - [スリープ](#sleep)
@@ -198,6 +199,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [value](#method-value)
 [view](#method-view)
 [with](#method-with)
+[when](#method-when)
 
 </div>
 
@@ -2303,6 +2305,23 @@ $secondService->all(); // (キャッシュ済みの結果)
 
     // 5
 
+<a name="method-when"></a>
+#### `when()` {.collection-method}
+
+`when`関数は、指定条件を`true`と評価した場合に、指定値を返します。そうでない場合は`null`を返します。関数の第２引数にクロージャを渡した場合は、そのクロージャを実行し、その戻り値を返します。
+
+    $value = when(true, 'Hello World');
+
+    $value = when(true, fn () => 'Hello World');
+
+`when`関数は主にHTML属性を条件付きでレンダリングするのに便利です。
+
+```blade
+<div {{ when($condition, 'wire:poll="calculate"') }}>
+    ...
+</div>
+```
+
 <a name="other-utilities"></a>
 ## その他のユーティリティ
 
@@ -2351,6 +2370,36 @@ $now = Carbon::now();
 ```
 
 Carbonの概要や特徴については、[Carbon公式ドキュメント](https://carbon.nesbot.com/docs/)を参照してください。
+
+<a name="deferred-functions"></a>
+### 遅延関数
+
+> [!WARNING]
+> 遅延関数は、現在コミュニティーからのフィードバックを集めており、ベータです。
+
+Laravelの[ジョブキュー投入](/docs/{{version}}/queues)では、バックグラウンド処理のためにタスクをキューに入れることができますが、時には、長時間実行するキューワーカーの設定やメンテナンスをせずに、単純にタスク実行を先延ばししたいこともあるでしょう。
+
+遅延関数により、HTTPレスポンスをユーザーへ送信した後まで、クロージャの実行を遅延でき、アプリケーションの高速性と応答性を保てます。クロージャの実行を遅延させるには、`defer`関数にクロージャを渡すだけです。
+
+```php
+use App\Services\Metrics;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+Route::post('/orders', function (Request $request) {
+    // 注文を作成する…
+
+    defer(fn () => Metrics::reportOrder($order));
+
+    return $order;
+});
+```
+
+デフォルトでは、遅延した関数は、`defer`が呼び出されたHTTPレスポンス、Artisanコマンド、もしくはキュー投入したジョブが正常に完了した場合にのみ実行します。つまり、リクエストの結果が`4xx`か`5xx`　HTTPレスポンスの場合、遅延した関数を実行しません。遅延した関数を常に実行させたい場合は、遅延関数へ`always`メソッドをチェーンしてください。
+
+```php
+defer(fn () => Metrics::reportOrder($order))->always();
+```
 
 <a name="lottery"></a>
 ### 抽選
@@ -2450,6 +2499,12 @@ Laravelの`Sleep`クラスは、PHPネイティブの`sleep`と`usleep`関数の
     }
 
 `Sleep`クラスは、異なる時間単位を扱う様々なメソッドを提供しています。
+
+    // 停止後に値を返す
+    $result = Sleep::for(1)->second()->then(fn () => 1 + 1);
+
+    // 指定した値が真の間中、停止
+    Sleep::for(1)->second()->while(fn () => shouldKeepSleeping());
 
     // 実行を９０秒停止
     Sleep::for(1.5)->minutes();

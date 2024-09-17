@@ -147,7 +147,7 @@ TYPESENSE_API_KEY=masterKey
 TYPESENSE_HOST=localhost
 ```
 
-必要に応じて、インストールのポート、パス、プロトコルを指定することもできます。
+[Laravel Sail](/docs/{{version}}/sail)を使用している場合は、Dockerコンテナ名に合わせて`TYPESENSE_HOST`環境変数を調整する必要があるかもしれません。また、オプションでインストールのポート、パス、プロトコルを指定することもできます。
 
 ```env
 TYPESENSE_PORT=8108

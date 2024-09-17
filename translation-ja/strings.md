@@ -47,6 +47,7 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 [Str::chopEnd](#method-str-chop-end)
 [Str::contains](#method-str-contains)
 [Str::containsAll](#method-str-contains-all)
+[Str::deduplicate](#method-deduplicate)
 [Str::endsWith](#method-ends-with)
 [Str::excerpt](#method-excerpt)
 [Str::finish](#method-str-finish)
@@ -141,10 +142,11 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 [chopEnd](#method-fluent-str-chop-end)
 [contains](#method-fluent-str-contains)
 [containsAll](#method-fluent-str-contains-all)
+[deduplicate](#method-fluent-str-deduplicate)
 [dirname](#method-fluent-str-dirname)
 [endsWith](#method-fluent-str-ends-with)
-[excerpt](#method-fluent-str-excerpt)
 [exactly](#method-fluent-str-exactly)
+[excerpt](#method-fluent-str-excerpt)
 [explode](#method-fluent-str-explode)
 [finish](#method-fluent-str-finish)
 [headline](#method-fluent-str-headline)
@@ -465,6 +467,25 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
     $containsAll = Str::containsAll('This is my name', ['MY', 'NAME'], ignoreCase: true);
 
     // true
+
+<a name="method-deduplicate"></a>
+#### `Str::deduplicate()` {.collection-method}
+
+`Str::deduplicate`メソッドは、指定文字列内の連続する文字を、その文字の単一のインスタンスに置き換えます。デフォルトでは、このメソッドはスペースを重複除去します：
+
+    use Illuminate\Support\Str;
+
+    $result = Str::deduplicate('The   Laravel   Framework');
+
+    // The Laravel Framework
+
+メソッドの第２引数に別の文字を渡せば、重複を排除する文字を指定できます。
+
+    use Illuminate\Support\Str;
+
+    $result = Str::deduplicate('The---Laravel---Framework', '-');
+
+    // The-Laravel-Framework
 
 <a name="method-ends-with"></a>
 #### `Str::endsWith()` {.collection-method}
@@ -1744,10 +1765,29 @@ You can disable case sensitivity by setting the `ignoreCase` argument to `true`:
 
     // true
 
+<a name="method-fluent-str-deduplicate"></a>
+#### `deduplicate` {.collection-method}
+
+`Str::deduplicate`メソッドは、指定文字列内の連続する文字を、その文字の単一のインスタンスに置き換えます。デフォルトでは、このメソッドはスペースを重複除去します：
+
+    use Illuminate\Support\Str;
+
+    $result = Str::of('The   Laravel   Framework')->deduplicate();
+
+    // The Laravel Framework
+
+メソッドの第２引数に別の文字を渡せば、重複を排除する文字を指定できます。
+
+    use Illuminate\Support\Str;
+
+    $result = Str::of('The---Laravel---Framework')->deduplicate('-');
+
+    // The-Laravel-Framework
+
 <a name="method-fluent-str-dirname"></a>
 #### `dirname` {.collection-method}
 
-`dirname`メソッドは文字列の親ディレクトリ名部分を返します。
+`dirname`メソッドは、指定文字列の親ディレクトリ部分を返します。
 
     use Illuminate\Support\Str;
 
@@ -1755,39 +1795,13 @@ You can disable case sensitivity by setting the `ignoreCase` argument to `true`:
 
     // '/foo/bar'
 
-必要に応じて、文字列から削除するディレクトリレベル数を指定できます。
+必要であれば、文字列からいくつのディレクトリ・レベルを切り捨てるかを指定することもできます。
 
     use Illuminate\Support\Str;
 
     $string = Str::of('/foo/bar/baz')->dirname(2);
 
     // '/foo'
-
-<a name="method-fluent-str-excerpt"></a>
-#### `excerpt` {.collection-method}
-
-`excerpt`メソッドは文字列から、その文字列内のフレーズの最初のインスタンスにマッチする部分を抜粋して抜き出します。
-
-    use Illuminate\Support\Str;
-
-    $excerpt = Str::of('This is my name')->excerpt('my', [
-        'radius' => 3
-    ]);
-
-    // '...is my na...'
-
-`radius`オプションはデフォルトが`100`で、抜き出した文字列の両側に表示する文字数を定義します。
-
-さらに、`omission`オプションを使い、抜き出した文字列の前後に追加する文字列を定義できます。
-
-    use Illuminate\Support\Str;
-
-    $excerpt = Str::of('This is my name')->excerpt('name', [
-        'radius' => 3,
-        'omission' => '(...) '
-    ]);
-
-    // '(...) my name'
 
 <a name="method-fluent-str-ends-with"></a>
 #### `endsWith` {.collection-method}
@@ -1822,6 +1836,32 @@ You can disable case sensitivity by setting the `ignoreCase` argument to `true`:
     $result = Str::of('Laravel')->exactly('Laravel');
 
     // true
+
+<a name="method-fluent-str-excerpt"></a>
+#### `excerpt` {.collection-method}
+
+`excerpt`メソッドは文字列内から、その文字列内のフレーズの最初のインスタンスにマッチする部分を抜粋して抜き出します。
+
+    use Illuminate\Support\Str;
+
+    $excerpt = Str::of('This is my name')->excerpt('my', [
+        'radius' => 3
+    ]);
+
+    // '...is my na...'
+
+`radius`オプションはデフォルトが`100`で、抜き出した文字列の両側に表示する文字数を定義します。
+
+さらに、`omission`オプションを使い、抜き出した文字列の前後に追加する文字列を定義できます。
+
+    use Illuminate\Support\Str;
+
+    $excerpt = Str::of('This is my name')->excerpt('name', [
+        'radius' => 3,
+        'omission' => '(...) '
+    ]);
+
+    // '(...) my name'
 
 <a name="method-fluent-str-explode"></a>
 #### `explode` {.collection-method}

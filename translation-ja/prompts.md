@@ -19,6 +19,7 @@
 - [テーブル](#tables)
 - [スピン](#spin)
 - [プログレスバー](#progress)
+- [Clearing the Terminal](#clear)
 - [ターミナルの考察](#terminal-considerations)
 - [未サポートの環境とフォールバック](#fallbacks)
 
@@ -886,6 +887,17 @@ foreach ($users as $user) {
 }
 
 $progress->finish();
+```
+
+<a name="clear"></a>
+## ターミナルのクリア
+
+`clear`関数はユーザーのターミナルを消去するために使用します。
+
+```
+use function Laravel\Prompts\clear;
+
+clear();
 ```
 
 <a name="terminal-considerations"></a>

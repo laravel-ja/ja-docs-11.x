@@ -67,6 +67,7 @@
 [diff](#method-diff)
 [except](#method-except)
 [find](#method-find)
+[findOrFail](#method-find-or-fail)
 [fresh](#method-fresh)
 [intersect](#method-intersect)
 [load](#method-load)
@@ -124,6 +125,15 @@
     $users = User::all();
 
     $user = $users->find(1);
+
+<a name="method-find-or-fail"></a>
+#### `findOrFail($key)` {.collection-method}
+
+`findOrFail`メソッドは、指定キーと一致する主キーを持つモデルを返すか、もしくは一致するモデルがコレクション内に見つからない場合に`Illuminate\Database\Eloquent\ModelNotFoundException`例外を投げます。
+
+    $users = User::all();
+
+    $user = $users->findOrFail(1);
 
 <a name="method-fresh"></a>
 #### `fresh($with = [])` {.collection-method}

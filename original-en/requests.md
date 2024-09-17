@@ -310,6 +310,13 @@ Instead of retrieving the request's input data as a primitive `string`, you may 
 
     $name = $request->string('name')->trim();
 
+<a name="retrieving-integer-input-values"></a>
+#### Retrieving Integer Input Values
+
+To retrieve input values as integers, you may use the `integer` method. This method will attempt to cast the input value to an integer. If the input is not present or the cast fails, it will return the default value you specify. This is particularly useful for pagination or other numeric inputs:
+
+    $perPage = $request->integer('per_page');
+
 <a name="retrieving-boolean-input-values"></a>
 #### Retrieving Boolean Input Values
 
@@ -402,6 +409,18 @@ A second closure may be passed to the `whenHas` method that will be executed if 
 If you would like to determine if a value is present on the request and is not an empty string, you may use the `filled` method:
 
     if ($request->filled('name')) {
+        // ...
+    }
+
+If you would like to determine if a value is missing from the request or is an empty string, you may use the `isNotFilled` method:
+
+    if ($request->isNotFilled('name')) {
+        // ...
+    }
+
+When given an array, the `isNotFilled` method will determine if all of the specified values are missing or empty:
+
+    if ($request->isNotFilled(['name', 'email'])) {
         // ...
     }
 

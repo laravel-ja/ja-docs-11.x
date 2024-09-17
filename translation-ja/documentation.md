@@ -34,6 +34,7 @@
     - [ブロードキャスト](/docs/{{version}}/broadcasting)
     - [キャッシュ](/docs/{{version}}/cache)
     - [コレクション](/docs/{{version}}/collections)
+    - [並列処理](/docs/{{version}}/concurrency)
     - [コンテキスト](/docs/{{version}}/context)
     - [契約](/docs/{{version}}/contracts)
     - [イベント](/docs/{{version}}/events)

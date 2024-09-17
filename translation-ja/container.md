@@ -7,6 +7,7 @@
     - [結合の基本](#binding-basics)
     - [インターフェイスと実装の結合](#binding-interfaces-to-implementations)
     - [コンテキストによる結合](#contextual-binding)
+    - [コンテキスト属性](#contextual-attributes)
     - [プリミティブの結合](#binding-primitives)
     - [型指定した可変引数の結合](#binding-typed-variadics)
     - [タグ付け](#tagging)
@@ -224,6 +225,111 @@ $this->app->singletonIf(Transistor::class, function (Application $app) {
               ->give(function () {
                   return Storage::disk('s3');
               });
+
+<a name="contextual-attributes"></a>
+### コンテキスト属性
+
+コンテキストによる結合は、ドライバの実装や設定値のインジェクションに使用されることが多いため、Laravelでは、サービスプロバイダでコンテキストによる結合を手作業で定義しなくても、こうしたタイプの値を注入できるように、様々なコンテキストによる結合属性を提供しています。
+
+例えば、`Storage`属性は特定の[ストレージディスク](/docs/{{version}}/filesystem)を注入するために使用できます。
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Container\Attributes\Storage;
+use Illuminate\Contracts\Filesystem\Filesystem;
+
+class PhotoController extends Controller
+{
+    public function __construct(
+        #[Storage('local')] protected Filesystem $filesystem
+    )
+    {
+        // ...
+    }
+}
+```
+
+`Storage`属性の他に、`Auth`、`Cache`、`Config`、`DB`、`Log`、[`Tag`](#tagging)属性をLaravelは用意しています。
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Container\Attributes\Auth;
+use Illuminate\Container\Attributes\Cache;
+use Illuminate\Container\Attributes\Config;
+use Illuminate\Container\Attributes\DB;
+use Illuminate\Container\Attributes\Log;
+use Illuminate\Container\Attributes\Tag;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Cache\Repository;
+use Illuminate\Contracts\Database\Connection;
+use Psr\Log\LoggerInterface;
+
+class PhotoController extends Controller
+{
+    public function __construct(
+        #[Auth('web')] protected Guard $auth,
+        #[Cache('redis')] protected Repository $cache,
+        #[Config('app.timezone')] protected string $timezone,
+        #[DB('mysql')] protected Connection $connection,
+        #[Log('daily')] protected LoggerInterface $log,
+        #[Tag('reports')] protected iterable $reports,
+    )
+    {
+        // ...
+    }
+}
+```
+
+さらに、Laravelは現在の認証済みユーザーを指定ルートやクラスへ注入するために、`CurrentUser`属性を提供しています。
+
+```php
+use App\Models\User;
+use Illuminate\Container\Attributes\CurrentUser;
+
+Route::get('/user', function (#[CurrentUser] User $user) {
+    return $user;
+})->middleware('auth');
+```
+
+<a name="defining-custom-attributes"></a>
+#### カスタム属性の定義
+
+`Illuminate\Contracts\Container\ContextualAttribute`契約を実装すれば、独自のコンテキスト属性が作成できます。コンテナは属性の`resolve`メソッドを呼び出し、属性を利用するクラスへ注入する値を解決します。以下の例では、Laravelの組み込みの`Config`属性を再実装しています。
+
+    <?php
+
+    namespace App\Attributes;
+
+    use Illuminate\Contracts\Container\ContextualAttribute;
+
+    #[Attribute(Attribute::TARGET_PARAMETER)]
+    class Config implements ContextualAttribute
+    {
+        /**
+         * 新属性インスタンスの生成
+         */
+        public function __construct(public string $key, public mixed $default = null)
+        {
+        }
+
+        /**
+         * 設定値の解決
+         *
+         * @param  self  $attribute
+         * @param  \Illuminate\Contracts\Container\Container  $container
+         * @return mixed
+         */
+        public static function resolve(self $attribute, Container $container)
+        {
+            return $container->make('config')->get($attribute->key, $attribute->default);
+        }
+    }
 
 <a name="binding-primitives"></a>
 ### プリミティブの結合

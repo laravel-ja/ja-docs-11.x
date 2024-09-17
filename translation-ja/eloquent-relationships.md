@@ -194,6 +194,53 @@ Eloquentは、`Comment`モデルの適切な外部キーカラムを自動的に
 
     return $this->hasMany(Comment::class, 'foreign_key', 'local_key');
 
+<a name="automatically-hydrating-parent-models-on-children"></a>
+#### 子モデル上の親モデルの自動ハイドレート
+
+EloquentのEagerロードを利用している場合でも、子モデルをループしている間に子モデルから親モデルへアクセスしようとすると、「Ｎ＋１」クエリ問題が発生する可能性があります。
+
+```php
+$posts = Post::with('comments')->get();
+
+foreach ($posts as $post) {
+    foreach ($post->comments as $comment) {
+        echo $comment->post->title;
+    }
+}
+```
+
+上の例では、「Ｎ＋１」クエリの問題が発生しています。なぜなら、すべての`Post`モデルに対してコメントをEagerロードしているにもかかわらず、Eloquentは各子`Comment`モデルに対して、親`Post`を自動的にハイドレートしないからです。
+
+Eloquentへ親モデルを自動的に子モデルにハイドレートさせたい場合は、`hasMany`リレーションを定義するときに`chaperone`メソッドを呼び出します。
+
+    <?php
+
+    namespace App\Models;
+
+    use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Database\Eloquent\Relations\HasMany;
+
+    class Post extends Model
+    {
+        /**
+         * ブログポストのコメントを取得
+         */
+        public function comments(): HasMany
+        {
+            return $this->hasMany(Comment::class)->chaperone();
+        }
+    }
+
+あるいは、実行時に親の自動的なハイドレートをオプトインしたい場合は、リレーションをEagerロードする際に、`chaperone`モデルを呼び出してください。
+
+```php
+use App\Models\Post;
+
+$posts = Post::with([
+    'comments' => fn ($comments) => $comments->chaperone(),
+])->get();
+```
+
 <a name="one-to-many-inverse"></a>
 ### １対多（逆）／所属
 
@@ -1007,6 +1054,46 @@ return $this->throughEnvironments()->hasDeployments();
     $commentable = $comment->commentable;
 
 `Comment`モデルの`commentable`リレーションは、コメントの親であるモデルのタイプに応じて、`Post`または`Video`インスタンスのいずれかを返します。
+
+<a name="polymorphic-automatically-hydrating-parent-models-on-children"></a>
+#### 子モデル上の親モデルの自動ハイドレート
+
+EloquentのEagerロードを利用している場合でも、子モデルをループしている間に子モデルから親モデルへアクセスしようとすると、「Ｎ＋１」クエリ問題が発生する可能性があります。
+
+```php
+$posts = Post::with('comments')->get();
+
+foreach ($posts as $post) {
+    foreach ($post->comments as $comment) {
+        echo $comment->commentable->title;
+    }
+}
+```
+
+上の例では、「Ｎ＋１」クエリの問題が発生しています。なぜなら、すべての`Post`モデルに対してコメントをEagerロードしているにもかかわらず、Eloquentは各子`Comment`モデルに対して、親`Post`を自動的にハイドレートしないからです。
+
+Eloquentへ親モデルを自動的に子モデルにハイドレートさせたい場合は、`hasMany`リレーションを定義するときに`chaperone`メソッドを呼び出します。
+
+    class Post extends Model
+    {
+        /**
+         * ポストの全コメント取得
+         */
+        public function comments(): MorphMany
+        {
+            return $this->morphMany(Comment::class, 'commentable')->chaperone();
+        }
+    }
+
+あるいは、実行時に親の自動的なハイドレートをオプトインしたい場合は、リレーションをEagerロードする際に、`chaperone`モデルを呼び出してください。
+
+```php
+use App\Models\Post;
+
+$posts = Post::with([
+    'comments' => fn ($comments) => $comments->chaperone(),
+])->get();
+```
 
 <a name="one-of-many-polymorphic-relations"></a>
 ### One Of Many（ポリモーフィック）
