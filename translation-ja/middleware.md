@@ -394,15 +394,17 @@ Laravelのデフォルトの`web`ミドルウェアグループと`api`ミドル
 
 ミドルウェアのパラメータはルート定義時に、ミドルウェア名とパラメータを「:」で区切って指定します。
 
+    use App\Http\Middleware\EnsureUserHasRole;
+
     Route::put('/post/{id}', function (string $id) {
         // ...
-    })->middleware('role:editor');
+    })->middleware(EnsureUserHasRole::class.':editor');
 
 複数のパラメータはコンマで区切る必要があります。
 
     Route::put('/post/{id}', function (string $id) {
         // ...
-    })->middleware('role:editor,publisher');
+    })->middleware(EnsureUserHasRole::class.':editor,publisher');
 
 <a name="terminable-middleware"></a>
 ## 終了処理ミドルウェア

@@ -28,6 +28,7 @@ LaravelのソースコードはGitHubで管理され、各Laravelプロジェク
 
 - [Laravelアプリケーション](https://github.com/laravel/laravel)
 - [Laravelアートワーク](https://github.com/laravel/art)
+- [Laravel Breeze](https://github.com/laravel/breeze)
 - [Laravelドキュメント](https://github.com/laravel/docs)
 - [Laravel Dusk](https://github.com/laravel/dusk)
 - [Laravel Cashier Stripe](https://github.com/laravel/cashier)
@@ -80,7 +81,7 @@ LaravelのGitHubイシュートラッカーは、Laravelのヘルプやサポー
 <a name="which-branch"></a>
 ## どのブランチ？
 
-**すべての**バグフィックスは、バグフィックスをサポートする最新バージョン (現在は `10.x`) へ送るべきです。次期リリースにのみ存在する機能を修正する場合を除き、バグ修正を**決して**、`master`ブランチに送ってはいけません。
+**すべての**バグフィックスは、バグフィックスをサポートする最新バージョン (現在は `11.x`) へ送るべきです。次期リリースにのみ存在する機能を修正する場合を除き、バグ修正を**決して**、`master`ブランチに送ってはいけません。
 
 現在のリリースと**完全な下位互換性**がある**マイナー**な機能は、最新の安定版ブランチ（現在は`11.x`）へ送ってください。
 

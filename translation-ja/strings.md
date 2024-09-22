@@ -228,6 +228,7 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 [whenTest](#method-fluent-str-when-test)
 [wordCount](#method-fluent-str-word-count)
 [words](#method-fluent-str-words)
+[wrap](#method-fluent-str-wrap)
 
 </div>
 
@@ -3051,3 +3052,18 @@ Str::of('Hello, world!')->wordCount(); // 2
     $string = Str::of('Perfectly balanced, as all things should be.')->words(3, ' >>>');
 
     // Perfectly balanced, as >>>
+
+<a name="method-fluent-str-wrap"></a>
+#### `wrap` {.collection-method}
+
+`wrap`メソッドは、指定文字列を追加の文字列または文字列のペアでラップします。
+
+    use Illuminate\Support\Str;
+
+    Str::of('Laravel')->wrap('"');
+
+    // "Laravel"
+
+    Str::is('is')->wrap(before: 'This ', after: ' Laravel!');
+
+    // This is Laravel!

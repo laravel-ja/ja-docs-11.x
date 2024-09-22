@@ -689,7 +689,7 @@ MailgunやPostmarkなどのサードパーティのメールプロバイダは�
         );
     }
 
-アプリケーションでMailgunドライバを使用している場合、[タグ](https://documentation.mailgun.com/en/latest/user_manual.html#tagging-1)と[メタデータ](https://documentation.mailgun.com/en/latest/user_manual.html#attaching-data-to-messages)の詳細は、Mailgunのドキュメントを参照してください。同様に、Postmarkのドキュメントも、[タグ](https://postmarkapp.com/blog/tags-support-for-smtp)と[メタデータ](https://postmarkapp.com/support/article/1125-custom-metadata-faq)のサポートについて、詳しい情報を得るために参照できます。
+アプリケーションでMailgunドライバを使用している場合、[タグ](https://documentation.mailgun.com/docs/mailgun/user-manual/tracking-messages/#tagging)と[メタデータ](https://documentation.mailgun.com/docs/mailgun/user-manual/tracking-messages/#attaching-data-to-messages)の詳細は、Mailgunのドキュメントを参照してください。同様に、Postmarkのドキュメントも、[タグ](https://postmarkapp.com/blog/tags-support-for-smtp)と[メタデータ](https://postmarkapp.com/support/article/1125-custom-metadata-faq)のサポートについて、詳しい情報を得るために参照できます。
 
 アプリケーションがAmazon SESを使用してメールを送信している場合、`metadata`メソッドを使用して、メッセージへ[SES 「タグ」](https://docs.aws.amazon.com/ses/latest/APIReference/API_MessageTag.html)を添付する必要があります。
 

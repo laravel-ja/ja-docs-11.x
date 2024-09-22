@@ -2401,6 +2401,17 @@ Route::post('/orders', function (Request $request) {
 defer(fn () => Metrics::reportOrder($order))->always();
 ```
 
+<a name="cancelling-deferred-functions"></a>
+#### 遅延関数のキャンセル
+
+遅延関数を実行する前にキャンセルする必要がある場合は、その関数名で`forget`メソッドを使用し、キャンセルできます。遅延関数に名前を付けるには、`defer`関数に第２引数を与えます：
+
+```php
+defer(fn () => Metrics::report(), 'reportMetrics');
+
+defer()->forget('reportMetrics');
+```
+
 <a name="deferred-function-compatibility"></a>
 #### 並列処理互換性
 

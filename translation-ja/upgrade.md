@@ -126,9 +126,15 @@ Laravel11では、新しいデフォルトのアプリケーション構造が�
 <a name="password-rehashing"></a>
 #### パスワードの再ハッシュ
 
-Laravel11は、パスワードが最後にハッシュ化されてからハッシュ化アルゴリズムの「ストレッチング（work factor）」が更新された場合、認証時にユーザーのパスワードを自動的に再ハッシュ化します。
+**影響の可能性： 低い**
 
-通常、これによってアプリケーションが中断されることはありませんが、アプリケーションの`config/hashing.php`構成ファイルに`rehash_on_login`オプションを追加と、この動作を無効にできます。
+Laravel11は、パスワードを最後にハッシュ化した後、ハッシュ化アルゴリズムの"work factor"が更新された場合、認証時にユーザーのパスワードを自動的に再ハッシュ化します。
+
+通常、これはアプリケーションに支障をきたしません。しかし、`User`モデルの「password」フィールドに、`password`以外の名前がある場合は、モデルの`authPasswordName`プロパティでフィールド名を指定する必要があります。
+
+    protected $authPasswordName = 'custom_password_field';
+
+あるいは、アプリケーションの`config/hashing.php`設定ファイルで、`rehash_on_login`オプションを追加して、パスワードの再ハッシュを無効にすることもできます。
 
     'rehash_on_login' => false,
 

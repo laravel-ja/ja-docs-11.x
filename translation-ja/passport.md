@@ -518,7 +518,7 @@ php artisan passport:purge --expired
 
 アプリケーションの`routes/console.php`ファイルで[ジョブのスケジュール](/docs/{{version}}/scheduling)を設定して、このスケジュールに従い自動的にトークンを削除することもできます。
 
-    use Laravel\Support\Facades\Schedule;
+    use Illuminate\Support\Facades\Schedule;
 
     Schedule::command('passport:purge')->hourly();
 

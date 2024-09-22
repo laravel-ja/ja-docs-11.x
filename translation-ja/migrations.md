@@ -1188,12 +1188,13 @@ Laravelは、データベースレベルで参照整合性を強制するため�
 
 | メソッド                        | 解説                                   |
 | ----------------------------- | ------------------------------------------------- |
-| `$table->cascadeOnUpdate();`  | 更新をカスケードします                 |
-| `$table->restrictOnUpdate();` | 更新を制限します                       |
-| `$table->noActionOnUpdate();` | 更新では何もしません                   |
-| `$table->cascadeOnDelete();`  | 削除をカスケードします                 |
-| `$table->restrictOnDelete();` | 削除を制限します。                     |
-| `$table->nullOnDelete();`     | 削除時に外部キーへNULLをセットします。 |
+| `$table->cascadeOnUpdate();`  | 更新をカスケード                 |
+| `$table->restrictOnUpdate();` | 更新を制限                       |
+| `$table->noActionOnUpdate();` | 更新では何もしない                   |
+| `$table->cascadeOnDelete();`  | 削除をカスケード                 |
+| `$table->restrictOnDelete();` | 削除を制限                     |
+| `$table->nullOnDelete();`     | 削除時に外部キーへNULLをセット |
+| `$table->noActionOnDelete();` | 子レコード存在時に削除防止          |
 
 </div>
 
