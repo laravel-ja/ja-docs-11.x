@@ -6,7 +6,7 @@
     - [公開ディスク](#the-public-disk)
     - [ドライバの動作要件](#driver-prerequisites)
     - [スコープ付きと読み取り専用ファイルシステム](#scoped-and-read-only-filesystems)
-    - [Amazon S3コンパチファイルシステム](#amazon-s3-compatible-filesystems)
+    - [Amazon S3互換ファイルシステム](#amazon-s3-compatible-filesystems)
 - [ディスクインスタンスの取得](#obtaining-disk-instances)
     - [オンデマンドディスク](#on-demand-disks)
 - [ファイルの取得](#retrieving-files)
@@ -201,7 +201,7 @@ composer require league/flysystem-read-only "^3.0"
 ```
 
 <a name="amazon-s3-compatible-filesystems"></a>
-### Amazon S3コンパチファイルシステム
+### Amazon S3互換ファイルシステム
 
 アプリケーションの`filesystems`設定ファイルはデフォルトで、`s3`ディスクのディスク設定を含んでいます。このディスクはAmazon S3の操作に加え、[MinIO](https://github.com/minio/minio)や[DigitalOcean Spaces](https://www.digitalocean.com/products/spaces/)など、S3と互換性のあるファイルストレージサービスの操作にも使用できます。
 
