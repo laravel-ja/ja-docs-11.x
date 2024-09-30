@@ -2405,7 +2405,7 @@ defer(fn () => Metrics::reportOrder($order))->always();
 <a name="cancelling-deferred-functions"></a>
 #### 遅延関数のキャンセル
 
-If you need to cancel a deferred function before it is executed, you can use the `forget` method to cancel the function by its name. To name a deferred function, provide a second argument to the `Illuminate\Support\defer` function:
+遅延関数を実行する前にキャンセルする必要がある場合は、その関数名で`forget`メソッドを使用し、キャンセルできます。遅延関数に名前を付けるには、`Illuminate\Support\defer`関数に第２引数を与えます：
 
 ```php
 defer(fn () => Metrics::report(), 'reportMetrics');
