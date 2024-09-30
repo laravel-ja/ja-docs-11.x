@@ -2379,12 +2379,13 @@ Carbonの概要や特徴については、[Carbon公式ドキュメント](https
 
 Laravelの[ジョブキュー投入](/docs/{{version}}/queues)では、バックグラウンド処理のためにタスクをキューに入れることができますが、時には、長時間実行するキューワーカーの設定やメンテナンスをせずに、単純にタスク実行を先延ばししたいこともあるでしょう。
 
-遅延関数により、HTTPレスポンスをユーザーへ送信した後まで、クロージャの実行を遅延でき、アプリケーションの高速性と応答性を保てます。クロージャの実行を遅延させるには、`defer`関数にクロージャを渡すだけです。
+遅延関数により、HTTPレスポンスをユーザーへ送信した後まで、クロージャの実行を遅延でき、アプリケーションの高速性と応答性を保てます。クロージャの実行を遅延させるには、`Illuminate\Support\defer`関数にクロージャを渡すだけです。
 
 ```php
 use App\Services\Metrics;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use function Illuminate\Support\defer;
 
 Route::post('/orders', function (Request $request) {
     // 注文を作成する…
@@ -2395,7 +2396,7 @@ Route::post('/orders', function (Request $request) {
 });
 ```
 
-デフォルトでは、遅延した関数は、`defer`が呼び出されたHTTPレスポンス、Artisanコマンド、もしくはキュー投入したジョブが正常に完了した場合にのみ実行します。つまり、リクエストの結果が`4xx`か`5xx`　HTTPレスポンスの場合、遅延した関数を実行しません。遅延した関数を常に実行させたい場合は、遅延関数へ`always`メソッドをチェーンしてください。
+デフォルトでは、遅延した関数は、`Illuminate\Support\defer`が呼び出されたHTTPレスポンス、Artisanコマンド、もしくはキュー投入したジョブが正常に完了した場合にのみ実行します。つまり、リクエストの結果が`4xx`か`5xx`　HTTPレスポンスの場合、遅延した関数を実行しません。遅延した関数を常に実行させたい場合は、遅延関数へ`always`メソッドをチェーンしてください。
 
 ```php
 defer(fn () => Metrics::reportOrder($order))->always();
@@ -2404,7 +2405,7 @@ defer(fn () => Metrics::reportOrder($order))->always();
 <a name="cancelling-deferred-functions"></a>
 #### 遅延関数のキャンセル
 
-遅延関数を実行する前にキャンセルする必要がある場合は、その関数名で`forget`メソッドを使用し、キャンセルできます。遅延関数に名前を付けるには、`defer`関数に第２引数を与えます：
+If you need to cancel a deferred function before it is executed, you can use the `forget` method to cancel the function by its name. To name a deferred function, provide a second argument to the `Illuminate\Support\defer` function:
 
 ```php
 defer(fn () => Metrics::report(), 'reportMetrics');

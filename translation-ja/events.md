@@ -631,7 +631,7 @@ php artisan event:list
 <a name="registering-event-subscribers"></a>
 ### イベントサブスクライバの登録
 
-サブスクライバを書き終えたら、イベントディスパッチャで登録します。サブスクライバを登録するには、`Event`ファサードの`subscribe`メソッドを使用します。通常、これはアプリケーションの`AppServiceProvider`の`boot`メソッド内で行います。
+サブスクライバを書き終えたら、Laravelの[イベント検出規約](#event-discovery)に従っていれば、Laravelは自動的にサブスクライバ内へハンドラメソッドを登録します。そうでない場合は、`Event`ファサードの`subscribe`メソッドを使用して、手作業でサブスクライバを登録します。通常、これはアプリケーションの`AppServiceProvider`の`boot`メソッド内で行います。
 
     <?php
 

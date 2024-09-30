@@ -95,13 +95,12 @@ php artisan make:factory PostFactory
 
 `HasFactory`トレイトの`factory`メソッドは規約に基づいて、その トレイトが割り当てられているモデルに適したファクトリを決定します。具体的には、`Database\Factories`名前空間の中でモデル名と一致するクラス名を持ち、サフィックスが`Factory`であるファクトリを探します。この規約を特定のアプリケーションやファクトリで適用しない場合は、モデルの`newFactory`メソッドを上書きし、モデルと対応するファクトリのインスタンスを直接返してください。
 
-    use Illuminate\Database\Eloquent\Factories\Factory;
     use Database\Factories\Administration\FlightFactory;
 
     /**
      * モデルの新ファクトリ・インスタンスの生成
      */
-    protected static function newFactory(): Factory
+    protected static function newFactory()
     {
         return FlightFactory::new();
     }

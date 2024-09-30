@@ -90,6 +90,8 @@ Redisの設定の詳細については、[Laravelドキュメントページ](/d
 
 このテーブルには、アプリケーションの`cache`設定ファイル内の`stores.dynamodb.attributes.key`設定項目の値に対応する名前の、文字列パーティションキーもあります。デフォルトでは、パーティションキーは`key`という名前にする必要があります。
 
+通常、DynamoDBは期限切れのアイテムをテーブルから積極的に削除しません。そのため、テーブルで[TTL (Time to Live)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html)を有効にする必要があります。テーブルのTTLを設定する場合、TTL属性名を`expires_at`に設定します。
+
 次に、LaravelアプリケーションがDynamoDBと通信できるように、AWS SDKをインストールします。
 
 ```shell
