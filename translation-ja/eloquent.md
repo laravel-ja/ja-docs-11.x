@@ -482,6 +482,19 @@ Flight::where('departed', true)
     }, $column = 'id');
 ```
 
+`chunkById`メソッドと`lazyById`メソッドは、実行するクエリに独自の"Where"条件を追加するため、通常はクロージャの中へ独自の条件を[論理的にグループ化](/docs/{{version}}/queries#logical-grouping)する必要があります。
+
+```php
+Flight::where(function ($query) {
+    $query->where('delayed', true)->orWhere('cancelled', true);
+})->chunkById(200, function (Collection $flights) {
+    $flights->each->update([
+        'departed' => false,
+        'cancelled' => true
+    ]);
+}, column: 'id');
+```
+
 <a name="chunking-using-lazy-collections"></a>
 ### レイジーコレクションを使用する分割
 

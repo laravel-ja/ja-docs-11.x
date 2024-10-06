@@ -569,7 +569,21 @@ $id = search(
 );
 ```
 
-クロージャは、ユーザーがこれまでに入力したテキストを受け取り、 選択肢の配列を返さなければなりません。連想配列を返す場合は選択された選択肢のキーが返され、 そうでない場合はその値が代わりに返されます。
+クロージャは、ユーザーがこれまでに入力したテキストを受け取り、選択肢の配列を返さなければなりません。連想配列を返す場合は選択された選択肢のキーが返され、そうでない場合はその値が代わりに返されます。
+
+配列にフィルタをかけて値を返す場合は、配列が連想配列にならないように、`array_values`関数または`values` Collectionメソッドを使用する必要があります。
+
+```php
+$names = collect(['Taylor', 'Abigail']);
+
+$selected = search(
+    label: 'Search for the user that should receive the mail',
+    options: fn (string $value) => $names
+        ->filter(fn ($name) => Str::contains($name, $value, ignoreCase: true))
+        ->values()
+        ->all(),
+);
+```
 
 プレースホルダテキストと情報のヒントも含められます。
 
@@ -636,6 +650,20 @@ $ids = multisearch(
 ```
 
 クロージャは、ユーザーがそれまでにタイプしたテキストを受け取り、オプションの配列を返さなければなりません。クロージャから連想配列を返す場合は、選択済みオプションのキーを返します。それ以外の場合は、代わりに値を返します。
+
+配列にフィルタをかけて値を返す場合は、配列が連想配列にならないように、`array_values`関数または`values` Collectionメソッドを使用する必要があります。
+
+```php
+$names = collect(['Taylor', 'Abigail']);
+
+$selected = multisearch(
+    label: 'Search for the users that should receive the mail',
+    options: fn (string $value) => $names
+        ->filter(fn ($name) => Str::contains($name, $value, ignoreCase: true))
+        ->values()
+        ->all(),
+);
+```
 
 プレースホルダテキストと情報のヒントも含められます。
 

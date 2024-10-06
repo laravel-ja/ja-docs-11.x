@@ -161,6 +161,20 @@ Laravelクエリビルダは、PDOパラメータバインディングを使用�
             }
         });
 
+`chunkById`メソッドと`lazyById`メソッドは、実行するクエリに独自の"where"条件を追加するため、通常はクロージャ内へ独自条件を[論理的にグループ化](#logical-grouping)する必要があります。
+
+```php
+DB::table('users')->where(function ($query) {
+    $query->where('credits', 1)->orWhere('credits', 2);
+})->chunkById(100, function (Collection $users) {
+    foreach ($users as $user) {
+        DB::table('users')
+          ->where('id', $user->id)
+          ->update(['credits' => 3]);
+    }
+});
+```
+
 > [!WARNING]
 > チャンクコールバックの中でレコードを更新または削除する場合、主キーまたは外部キーの変更がチャンククエリに影響を与える可能性があります。これにより、レコードがチャンク化された結果に含まれない可能性が発生します。
 

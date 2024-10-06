@@ -2,8 +2,8 @@
 
 - [イントロダクション](#introduction)
 - [リレーションの定義](#defining-relationships)
-    - [１対１](#one-to-one)
-    - [１対多](#one-to-many)
+    - [１対１／１所有](#one-to-one)
+    - [１対他／他所有](#one-to-many)
     - [１対多（逆）／所属](#one-to-many-inverse)
     - [Has One Of Many](#has-one-of-many)
     - [Has One Through](#has-one-through)
@@ -68,7 +68,7 @@ Eloquentリレーションは、Eloquentモデルクラスのメソッドとし�
 ただし、リレーションの使用について深く掘り下げる前に、Eloquentがサポートしている各タイプのリレーションを定義する方法を学びましょう。
 
 <a name="one-to-one"></a>
-### １対１
+### １対１／１所有
 
 １対１の関係はもっとも基本的なタイプのデータベースリレーションです。たとえば、`User`モデルが1つの`Phone`モデルに関連付けられている場合があります。この関係を定義するために、`User`モデルに`phone`メソッドを配置します。`phone`メソッドは`hasOne`メソッドを呼び出し、その結果を返す必要があります。`hasOne`メソッドは、モデルの`Illuminate\Database\Eloquent\Model`基本クラスを介してモデルで使用可能です。
 
@@ -148,7 +148,7 @@ Eloquentは、リレーションメソッドの名前を調べ、メソッド名
     }
 
 <a name="one-to-many"></a>
-### １対多
+### １対他／他所有
 
 １対多の関係は、単一のモデルが1つ以上の子モデルの親である関係を定義するために使用されます。たとえば、ブログ投稿はいくつもコメントを持つ場合があります。他のすべてのEloquent関係と同様に、１対多の関係はEloquentモデルでメソッドを定義することにより定義します。
 

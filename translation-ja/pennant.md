@@ -364,7 +364,7 @@ $user->features()->unless('new-api',
 <a name="blade-directive"></a>
 ### Bladeディレクティブ
 
-Blade内でも機能をシームレスにチェックするため、Pennantは`@feature`ディレクティブを提供します。
+Blade内でも機能をシームレスにチェックするため、Pennantは`@feature`と`@featureany`ディレクティブを提供します。
 
 ```blade
 @feature('site-redesign')
@@ -372,6 +372,10 @@ Blade内でも機能をシームレスにチェックするため、Pennantは`@
 @else
     <!-- 'site-redesign'は非アクティブ -->
 @endfeature
+
+@featureany(['site-redesign', 'beta'])
+    <!-- 'site-redesign' or `beta` is active -->
+@endfeatureany
 ```
 
 <a name="middleware"></a>

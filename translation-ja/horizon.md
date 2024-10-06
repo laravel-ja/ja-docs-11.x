@@ -230,6 +230,12 @@ php artisan horizon:continue-supervisor supervisor-1
 php artisan horizon:status
 ```
 
+特定のHorizon [スーパーバイザ](#supervisors)の現在のステータスは、`horizon:supervisor-status` Artisanコマンドを使い、確認できます。
+
+```shell
+php artisan horizon:supervisor-status supervisor-1
+```
+
 `horizo​​n:terminate` Artisanコマンドを使用して、Horizo​​nプロセスを正常に終了できます。現在処理されているジョブがすべて完了してから、Horizo​​nは実行を停止します。
 
 ```shell
