@@ -482,10 +482,12 @@ Switchステートメントは、`@switch`、`@case`、`@break`、`@default`、`
 使いやすくするため、指定したHTMLのチェックボックス入力が"checked"であることを表す、`@checked`ディレクティブも使用できます。このディレクティブは、指定条件が`true`と評価された場合、`checked`をechoします。
 
 ```blade
-<input type="checkbox"
-        name="active"
-        value="active"
-        @checked(old('active', $user->active)) />
+<input
+    type="checkbox"
+    name="active"
+    value="active"
+    @checked(old('active', $user->active))
+/>
 ```
 
 同様に、`@selected`ディレクティブは、特定のセレクトオプションが"selected"であることを表すために使用します。
@@ -509,19 +511,23 @@ Switchステートメントは、`@switch`、`@case`、`@break`、`@default`、`
 さらに、`@readonly` ディレクティブは、指定した要素が"readonly"であるべきかを示すために使用します。
 
 ```blade
-<input type="email"
-        name="email"
-        value="email@laravel.com"
-        @readonly($user->isNotAdmin()) />
+<input
+    type="email"
+    name="email"
+    value="email@laravel.com"
+    @readonly($user->isNotAdmin())
+/>
 ```
 
 加えて、`@required`ディレクティブは、指定要素が"required"であることを表すために使用します。
 
 ```blade
-<input type="text"
-        name="title"
-        value="title"
-        @required($user->isAdmin()) />
+<input
+    type="text"
+    name="title"
+    value="title"
+    @required($user->isAdmin())
+/>
 ```
 
 <a name="including-subviews"></a>
@@ -1641,9 +1647,11 @@ HTMLフォームは`put`、`patch`、または`delete`リクエストを作る�
 
 <label for="title">Post Title</label>
 
-<input id="title"
+<input
+    id="title"
     type="text"
-    class="@error('title') is-invalid @enderror">
+    class="@error('title') is-invalid @enderror"
+/>
 
 @error('title')
     <div class="alert alert-danger">{{ $message }}</div>
@@ -1657,9 +1665,11 @@ HTMLフォームは`put`、`patch`、または`delete`リクエストを作る�
 
 <label for="email">Email address</label>
 
-<input id="email"
+<input
+    id="email"
     type="email"
-    class="@error('email') is-invalid @else is-valid @enderror">
+    class="@error('email') is-invalid @else is-valid @enderror"
+/>
 ```
 
 ページが複数のフォームを含んでいる場合にエラーメッセージを取得するため、[特定のエラーバッグの名前](/docs/{{version}}/validation#named-error-bags)を第２引数へ渡せます。
@@ -1669,9 +1679,11 @@ HTMLフォームは`put`、`patch`、または`delete`リクエストを作る�
 
 <label for="email">Email address</label>
 
-<input id="email"
+<input
+    id="email"
     type="email"
-    class="@error('email', 'login') is-invalid @enderror">
+    class="@error('email', 'login') is-invalid @enderror"
+/>
 
 @error('email', 'login')
     <div class="alert alert-danger">{{ $message }}</div>

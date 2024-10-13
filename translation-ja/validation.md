@@ -220,10 +220,12 @@ Laravelの組み込み検証ルールには、それぞれエラーメッセー�
 
 <label for="title">Post Title</label>
 
-<input id="title"
+<input
+    id="title"
     type="text"
     name="title"
-    class="@error('title') is-invalid @enderror">
+    class="@error('title') is-invalid @enderror"
+/>
 
 @error('title')
     <div class="alert alert-danger">{{ $message }}</div>
@@ -1097,6 +1099,8 @@ The credit card number field is required when payment type is credit card.
 #### confirmed
 
 フィールドが、`{field}_confirmation`フィールドと一致する必要があります。たとえば、バリデーション中のフィールドが「password」の場合、「password_confirmation」フィールドが入力に存在し一致している必要があります。
+
+カスタム確認フィールド名を渡すこともできます。例えば、`confirmed:repeat_username`は、`repeat_username`フィールドが検証中のフィールドと一致することを期待します。
 
 <a name="rule-contains"></a>
 #### contains:_foo_,_bar_,...

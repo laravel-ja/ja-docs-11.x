@@ -2,7 +2,9 @@
 
 - [Laravelとの出会い](#meet-laravel)
     - [なぜLaravelなのか？](#why-laravel)
-- [Laravelプロジェクトの作成](#creating-a-laravel-project)
+- [Laravelアプリの生成](#creating-a-laravel-project)
+    - [PHPとLaravelインストーラのインストール](#installing-php)
+    - [アプリケーションの生成](#creating-an-application)
 - [初期設定](#initial-configuration)
     - [環境ベースの設定](#environment-based-configuration)
     - [データベースとマイグレーション](#databases-and-migrations)
@@ -54,25 +56,42 @@ Laravelは素晴らしくスケーラブルです。PHPのスケーリングに�
 LaravelはPHPエコシステムで最高のパッケージを組み合わせ、もっとも堅牢で開発者に優しいフレームワークとして使用できるように提供しています。さらに、世界中の何千人もの才能ある開発者が[フレームワークに貢献](https://github.com/laravel/framework)しています。多分あなたもLaravelの貢献者になるかもしれませんね。
 
 <a name="creating-a-laravel-project"></a>
-## Laravelプロジェクトの作成
+## Laravelアプリの生成
 
-最初のLaravelプロジェクトを作成する前に、ローカルマシンにPHPと[Composer](https://getcomposer.org)を確実にインストールしてください。macOSやWindowsで開発している場合、PHP、Composer、Node、NPMは[Laravel Herd](#local-installation-using-herd)を使って数分でインストールできます。
+<a name="installing-php"></a>
+### PHPとLaravelインストーラのインストール
 
-PHPとComposerをインストールしたら、Composerの`create-project`コマンドで新しいLaravelプロジェクトを作成してください。
+最初のLaravelアプリケーションを作成する前に、ローカルマシンに[PHP](https://php.net)、[Composer](https://getcomposer.org)、[Laravelインストーラ](https://github.com/laravel/installer)がインストール済みであることを確認してください。さらに、アプリケーションのフロントエンドリソースをコンパイルできるように、[NodeとNPM](https://nodejs.org)もインストールしてください。
 
-```nothing
-composer create-project laravel/laravel example-app
+ローカルマシンにPHPとComposerをインストールしていない場合は、以下のコマンドでPHP、Composer、LaravelインストーラをmacOS、Windows、Linuxへインストールできます。
+
+```shell tab=macOS
+/bin/bash -c "$(curl -fsSL https://php.new/install/mac)"
 ```
 
-もしくは、Composerを使い、[Laravelインストーラ](https://github.com/laravel/installer)をグローバルにインストールして、新しいLaravelプロジェクトを作成することもできます。Laravelのインストーラでは、新しいアプリケーションを作成するとき、お好みのテストフレームワーク、データベース、スターターキットを選択できます。
+```shell tab=Windows PowerShell
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://php.new/install/windows'))
+```
+
+```shell tab=Linux
+/bin/bash -c "$(curl -fsSL https://php.new/install/linux)"
+```
+
+上記のコマンドを実行した後、ターミナルセッションを再起動してください。PHP、Composer、Laravelインストーラをインストールした後に、`php.new`によりアップデートするには、ターミナルでコマンドを再実行してください。
+
+> [!NOTE]
+> 全機能を備えたグラフィカルなPHPのインストールと管理については、[Laravel Herd](#local-installation-using-herd)をチェックしてください。
+
+<a name="creating-an-application"></a>
+### アプリケーションの生成
+
+PHP、Composer、Laravelインストーラをインストールしたら、新しいLaravelアプリケーションを作成する準備ができました。Laravelインストーラは、希望するテストフレームワーク、データベース、スターターキットを選択するように促します。
 
 ```nothing
-composer global require laravel/installer
-
 laravel new example-app
 ```
 
-プロジェクトを作成したら、Laravel Artisanの`serve`コマンドを使い、Laravelのローカル開発サーバを起動してください。
+アプリケーションを作成したら、`serve`コマンドを使い、Laravelのローカル開発サーバを起動します。
 
 ```nothing
 cd example-app
@@ -107,7 +126,7 @@ Laravelは初期設定で動き、追加の設定はほぼ必要ありません�
 
 Laravelアプリケーションを作成したら、おそらくデータベースにデータを保存したいと思うでしょう。アプリケーションの`.env`設定ファイルはデフォルトで、LaravelがSQLiteデータベースとやり取りする指定をしています。
 
-プロジェクトの作成時に、Laravelはあなたのために`database/database.sqlite`ファイルを作成し、アプリケーションのデータベーステーブルを作成するために必要なマイグレーションを実行しました。
+アプリケーション作成時に、Laravelはあなたのために`database/database.sqlite`ファイルを作成し、アプリケーションのデータベーステーブルを作成するために必要なマイグレーションを実行しました。
 
 MySQLやPostgreSQLなど別のデータベースドライバを使用したい場合は、`.env`設定ファイルを更新して、適切なデータベースを使用できるようにしてください。例えば、MySQLを使いたい場合は、`.env`設定ファイルの`DB_*`変数を以下のように更新します。
 
@@ -151,7 +170,7 @@ macOSで開発する場合は、[Herd website](https://herd.laravel.com)からHe
 
 macOS向けHerdは、[dnsmasq](https://en.wikipedia.org/wiki/Dnsmasq)を使用し、「parked」ディレクトリをサポートします。パークしたディレクトリにあるLaravelアプリケーションは、自動的にHerdが提供します。デフォルトでHerdは、`~/Herd`にパークするディレクトリを作成し、そのディレクトリ名を使用して`.test`ドメイン上のこのディレクトリ内の任意のLaravelアプリケーションへアクセスできます。
 
-Herdのインストール後、最も速く新しいLaravelプロジェクトを作成する方法は、Herdにバンドル済みのLaravel CLIを使用します。
+Herdのインストール後、最も速く新しいLaravelアプリケーションを作成する方法は、Herdにバンドル済みのLaravel CLIを使用します。
 
 ```nothing
 cd ~/Herd
@@ -173,7 +192,7 @@ Herdのシステムトレイアイコンを左クリックで、Herd UIへアク
 
 インストール中、Herdはホームディレクトリの`%USERPROFILE%\Herd`に、「parked」ディレクトリを作成します。パークしたディレクトリにあるLaravelアプリケーションは、自動的にHerdが提供しますので、ディレクトリ名`.test`ドメインで、Laravelアプリケーションへアクセスできます。
 
-Herdインストール後、最も速く新しいLaravelプロジェクトを作成する方法は、Herdにバンドル済みのLaravel CLIを使用することです。開始するには、Powershellを開き、以下のコマンドを実行します：
+Herdインストール後、最も速く新しいLaravelアプリケーションを作成する方法は、Herdにバンドル済みのLaravel CLIを使用することです。開始するには、Powershellを開き、以下のコマンドを実行します：
 
 ```nothing
 cd ~\Herd
@@ -187,7 +206,7 @@ Herdの詳細は、[Windows向けHerdドキュメント](https://herd.laravel.co
 <a name="docker-installation-using-sail"></a>
 ## Sailで使用するDockerのインストール
 
-皆さんの好みのオペレーティングシステムが何であれ、できるだけ簡単にLaravelを始められるようにしたいと考えています。そのため、ローカルマシンでLaravelプロジェクトを開発・実行するための様々なオプションが用意されています。これらのオプションは後ほど検討していただけますが、Laravelでは[Sail](/docs/{{version}}/sail)という、[Docker](https://www.docker.com)を使用してLaravelプロジェクトを実行する組み込みソリューションを提供しています。
+皆さんの好みのオペレーティングシステムが何であれ、できるだけ簡単にLaravelを始められるようにしたいと考えています。そのため、ローカルマシンでLaravelアプリケーションを開発・実行するための様々なオプションが用意されています。これらのオプションは後ほど検討していただけますが、Laravelでは[Sail](/docs/{{version}}/sail)という、[Docker](https://www.docker.com)を使用してLaravelアプリケーションを実行する組み込みソリューションを提供しています。
 
 Dockerは、ローカルマシンにインストールしているソフトウェアや構成に干渉しない、小型で軽量の「コンテナ」でアプリケーションとサービスを実行するためのツールです。これはつまり、パーソナルマシン上のWebサーバやデータベースなどの複雑な開発ツールの構成や準備について心配する必要はないことを意味します。開発を開始するには、[Docker Desktop](https://www.docker.com/products/docker-desktop)をインストールするだけです。
 
@@ -199,7 +218,7 @@ Laravel Sailは、LaravelのデフォルトのDocker構成と、操作するた�
 <a name="sail-on-macos"></a>
 ### macOSでのSail
 
-Macで開発していて、[Docker Desktop](https://www.docker.com/products/docker-desktop)がすでにインストールされているならば、簡単なターミナルコマンドを使用して新しいLaravelプロジェクトを作成できます。たとえば、「example-app」という名前のディレクトリに新しいLaravelアプリケーションを作成するには、ターミナルで以下のコマンドを実行します。
+Macで開発していて、[Docker Desktop](https://www.docker.com/products/docker-desktop)がすでにインストールされているならば、簡単なターミナルコマンドを使用して新しいLaravelアプリケーションを作成できます。たとえば、「example-app」という名前のディレクトリに新しいLaravelアプリケーションを作成するには、ターミナルで以下のコマンドを実行します。
 
 ```shell
 curl -s "https://laravel.build/example-app" | bash
@@ -209,7 +228,7 @@ curl -s "https://laravel.build/example-app" | bash
 
 Sailのインストールは、Sailのアプリケーションコンテナをローカルマシン上に構築するため、数分かかる場合があります。
 
-プロジェクトを作成したら、アプリケーションディレクトリに移動してLaravel Sailを起動してください。Laravel Sailは、LaravelのデフォルトのDocker構成を操作するためのシンプルなコマンドラインインターフェイスを提供しています。
+アプリケーションを作成したら、アプリケーションディレクトリに移動してLaravel Sailを起動してください。Laravel Sailは、LaravelのデフォルトのDocker構成を操作するためのシンプルなコマンドラインインターフェイスを提供しています。
 
 ```shell
 cd example-app
@@ -236,7 +255,7 @@ Windowsマシンに新しいLaravelアプリケーションを作成する前に
 > [!NOTE]
 > WSL2をインストールして有効にした後、Dockerデスクトップが[WSL2バックエンドを使用するように構成されている](https://docs.docker.com/docker-for-windows/wsl/)ことを確認する必要があります。
 
-これで、最初のLaravelプロジェクトを作成する準備が整いました。[Windowsターミナル](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?rtc=1&activetab=pivot:overviewtab)を起動し、WSL2 Linuxオペレーティングシステムの新しいターミナルセッションを開始します。次に、簡単なターミナルコマンドを使用して新しいLaravelプロジェクトを作成してみましょう。たとえば、"example-app"という名前のディレクトリに新しいLaravelアプリケーションを作成するには、ターミナルで以下のコマンドを実行します。
+これで、最初のLaravelアプリケーションを作成する準備が整いました。[Windowsターミナル](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?rtc=1&activetab=pivot:overviewtab)を起動し、WSL2 Linuxオペレーティングシステムの新しいターミナルセッションを開始します。次に、簡単なターミナルコマンドを使用して新しいLaravelアプリケーションを作成してみましょう。たとえば、"example-app"という名前のディレクトリに新しいLaravelアプリケーションを作成するには、ターミナルで以下のコマンドを実行します。
 
 ```shell
 curl -s https://laravel.build/example-app | bash
@@ -246,7 +265,7 @@ curl -s https://laravel.build/example-app | bash
 
 Sailのインストールは、Sailのアプリケーションコンテナをローカルマシン上に構築するため、数分かかる場合があります。
 
-プロジェクトを作成したら、アプリケーションディレクトリに移動してLaravel Sailを起動してください。Laravel Sailは、LaravelのデフォルトのDocker構成を操作するためのシンプルなコマンドラインインターフェイスを提供しています。
+アプリケーションを作成したら、アプリケーションディレクトリに移動してLaravel Sailを起動してください。Laravel Sailは、LaravelのデフォルトのDocker構成を操作するためのシンプルなコマンドラインインターフェイスを提供しています。
 
 ```shell
 cd example-app
@@ -269,12 +288,12 @@ cd example-app
 
 もちろん、WSL2インストール内で作成されたLaravelアプリケーションファイルを変更する必要があります。これを実現するには、Microsoftの[Visual Studio Code](https://code.visualstudio.com)エディターと[リモート開発](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)用のファーストパーティ拡張機能を使用することをお勧めします。
 
-これらのツールをインストールしたら、Windowsターミナルを使用してアプリケーションのルートディレクトリから `code .`コマンドを実行することで、任意のLaravelプロジェクトを開けます。
+これらのツールをインストールしたら、Windowsターミナルを使用してアプリケーションのルートディレクトリから `code .`コマンドを実行することで、任意のLaravelアプリケーションを開けます。
 
 <a name="sail-on-linux"></a>
 ### LinuxでのSail
 
-Linuxで開発しており、[Docker Compose](https://docs.docker.com/compose/install/)を既にインストールしている場合は、簡単なターミナルコマンドで新しいLaravelプロジェクトを作成できます。
+Linuxで開発しており、[Docker Compose](https://docs.docker.com/compose/install/)を既にインストールしている場合は、簡単なターミナルコマンドで新しいLaravelアプリケーションを作成できます。
 
 まず、Docker Desktop for Linuxを使用している場合は、以下のコマンドを実行してください。Docker Desktop for Linuxを使用していない場合は、このステップを飛ばしてください。
 
@@ -292,7 +311,7 @@ curl -s https://laravel.build/example-app | bash
 
 Sailのインストールは、Sailのアプリケーションコンテナをローカルマシン上に構築するため、数分かかる場合があります。
 
-プロジェクトを作成したら、アプリケーションディレクトリに移動してLaravel Sailを起動してください。Laravel Sailは、LaravelのデフォルトのDocker構成を操作するためのシンプルなコマンドラインインターフェイスを提供しています。
+アプリケーションを作成したら、アプリケーションディレクトリに移動してLaravel Sailを起動してください。Laravel Sailは、LaravelのデフォルトのDocker構成を操作するためのシンプルなコマンドラインインターフェイスを提供しています。
 
 ```shell
 cd example-app
@@ -338,7 +357,7 @@ Laravelアプリケーションを開発するときに、どのようなコー�
 <a name="next-steps"></a>
 ## 次のステップ
 
-Laravelプロジェクトを設定し終えて、次に何を学ぶべきか迷っているかもしれません。まず、以下のドキュメントを読み、Laravelの仕組みを理解することを強く推奨いたします。
+Laravelアプリケーションを設定し終えて、次に何を学ぶべきか迷っているかもしれません。まず、以下のドキュメントを読み、Laravelの仕組みを理解することを強く推奨いたします。
 
 <div class="content-list" markdown="1">
 

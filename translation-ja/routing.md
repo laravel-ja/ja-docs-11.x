@@ -829,6 +829,15 @@ protected function boot(): void
         ];
     });
 
+`by`値で区別される複数のレートリミットセグメントを割り当てる場合は、それぞれの`by`値を確実に一意にしてください。これを実現する最も簡単な方法は、`by`メソッドに指定する値の前に接頭辞を付けることです。
+
+    RateLimiter::for('uploads', function (Request $request) {
+        return [
+            Limit::perMinute(10)->by('minute:'.$request->user()->id),
+            Limit::perDay(1000)->by('day:'.$request->user()->id),
+        ];
+    });
+
 <a name="attaching-rate-limiters-to-routes"></a>
 ### ルートへのレート制限指定
 

@@ -103,6 +103,8 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Number::trim](#method-number-trim)
 [Number::useLocale](#method-number-use-locale)
 [Number::withLocale](#method-number-with-locale)
+[Number::useCurrency](#method-number-use-currency)
+[Number::withCurrency](#method-number-with-currency)
 
 </div>
 
@@ -1423,6 +1425,32 @@ The `Number::trim` method removes any trailing zero digits after the decimal poi
 
     $number = Number::withLocale('de', function () {
         return Number::format(1500);
+    });
+
+<a name="method-number-use-currency"></a>
+#### `Number::useCurrency()` {.collection-method}
+
+`Number::useCurrency`メソッドは、デフォルトの数値通貨をグローバルに設定し、それ以降の`Number`クラスのメソッドを呼び出す際に、通貨をどのようにフォーマットするかに影響します。
+
+    use Illuminate\Support\Number;
+
+    /**
+     * 全アプリケーションサービスの初期起動処理
+     */
+    public function boot(): void
+    {
+        Number::useCurrency('GBP');
+    }
+
+<a name="method-number-with-currency"></a>
+#### `Number::withCurrency()` {.collection-method}
+
+`Number::withCurrency`メソッドは渡したクロージャを指定通貨で実行し、コールバックが実行された後に元の通貨に戻します。
+
+    use Illuminate\Support\Number;
+
+    $number = Number::withCurrency('GBP', function () {
+        // ...
     });
 
 <a name="paths"></a>

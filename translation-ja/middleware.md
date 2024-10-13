@@ -129,6 +129,7 @@ Laravelのグローバルミドルウェアスタックを手作業で管理し�
 
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->use([
+            \Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks::class,
             // \Illuminate\Http\Middleware\TrustHosts::class,
             \Illuminate\Http\Middleware\TrustProxies::class,
             \Illuminate\Http\Middleware\HandleCors::class,

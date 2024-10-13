@@ -47,6 +47,7 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 [Str::chopEnd](#method-str-chop-end)
 [Str::contains](#method-str-contains)
 [Str::containsAll](#method-str-contains-all)
+[Str::doesntContain](#method-str-doesnt-contain)
 [Str::deduplicate](#method-deduplicate)
 [Str::endsWith](#method-ends-with)
 [Str::excerpt](#method-excerpt)
@@ -466,6 +467,33 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
     use Illuminate\Support\Str;
 
     $containsAll = Str::containsAll('This is my name', ['MY', 'NAME'], ignoreCase: true);
+
+    // true
+
+<a name="method-str-doesnt-contain"></a>
+#### `Str::doesntContain()` {.collection-method}
+
+`Str::doesntContain`メソッドは、指定文字列に指定値が含まれていないことを判別します。このメソッドはデフォルトで、大文字と小文字を区別します。
+
+    use Illuminate\Support\Str;
+
+    $doesntContain = Str::doesntContain('This is name', 'my');
+
+    // true
+
+値の配列を渡して、指定文字列に配列内の値が一つも含まれていないことを判断することもできます。
+
+    use Illuminate\Support\Str;
+
+    $doesntContain = Str::doesntContain('This is name', ['my', 'foo']);
+
+    // true
+
+`ignoreCase`引数を`true`へ設定することで、大文字小文字を区別しないようにできます。
+
+    use Illuminate\Support\Str;
+
+    $doesntContain = Str::doesntContain('This is name', 'MY', ignoreCase: true);
 
     // true
 

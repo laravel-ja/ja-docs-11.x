@@ -1502,6 +1502,12 @@ Eloquentリレーションクエリへ制約を追加する必要がない場合
         }
     )->get();
 
+"Morph To"リレーションの親の子を問い合わせたいことも時々あるでしょう。この場合は`whereMorphedTo`と`whereNotMorphedTo`メソッドを使い、指定モデルの適切なモーフタイプマッピングを自動的に決定できます。これらのメソッドは、`morphTo`リレーションの名前を第１引数として、関連する親モデルを第２引数として取ります。
+
+    $comments = Comment::whereMorphedTo('commentable', $post)
+                          ->orWhereMorphedTo('commentable', $video)
+                          ->get();
+
 <a name="querying-all-morph-to-related-models"></a>
 #### 関連するすべてのモデルのクエリ
 
