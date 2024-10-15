@@ -1086,7 +1086,7 @@ The credit card number field is required when payment type is credit card.
 フィールドは、指定された日付より前または同じ値であることをバリデートします。日付を有効な`DateTime`インスタンスへ変換するために、PHPの`strtotime`関数へ渡します。さらに、[`after`](#rule-after)ルールと同様に、バリデーション中の別のフィールドの名前を`date`の値として指定できます。
 
 <a name="rule-between"></a>
-#### between:_min_,_max_
+#### between:_最小値_,_最大値_
 
 フィールドが指定した*最小値*以上で、*最大値*以下のサイズであることをバリデートします。[`size`](#rule-size)ルールと同様の判定方法で、文字列、数値、配列、ファイルが評価されます。
 
@@ -1130,7 +1130,7 @@ The credit card number field is required when payment type is credit card.
 バリデーションされる値が、指定する*フォーマット*定義のどれか一つと一致するかバリデートします。バリデーション時には`date`か`date_format`の*どちらか*を使用しなくてはならず、両方はできません。このバリデーションはPHPの[DateTime](https://www.php.net/manual/ja/class.datetime.php)クラスがサポートするフォーマットをすべてサポートしています。
 
 <a name="rule-decimal"></a>
-#### decimal:_min_,_max_
+#### decimal:_最小値_,_最大値_
 
 フィールドが数値であり、指定された小数点以下の桁数を含んでいることをバリデートします。
 
