@@ -1587,7 +1587,7 @@ Rule::enum(ServerStatus::class)
 
 フィールドが指定した正規表現と一致しないことをバリデートします。
 
-Internally, this rule uses the PHP `preg_match` function. The pattern specified should obey the same formatting required by `preg_match` and thus also include valid delimiters. For example: `'email' => 'not_regex:/^.+$/i'`.
+このルールは、内部的にはPHPの`preg_match`を使用します。指定するパターンは`preg_match`と同じフォーマットにすべきです。有効なデリミタも同等です。例: `'email' => 'not_regex:/^.+$/i'`
 
 > [!WARNING]
 > `regex`／`not_regex`パターンを使用するとき、特に正規表現に`|`文字が含まれている場合は、`|`区切り文字を使用する代わりに配列を使用してバリデーションルールを指定する必要があります。
@@ -1701,7 +1701,7 @@ Internally, this rule uses the PHP `preg_match` function. The pattern specified 
 
 フィールドが指定された正規表現にマッチすることをバリデートします。
 
-Internally, this rule uses the PHP `preg_match` function. The pattern specified should obey the same formatting required by `preg_match` and thus also include valid delimiters. For example: `'email' => 'regex:/^.+@.+$/i'`.
+このルールは、内部的にはPHPの`preg_match`を使用します。指定するパターンは`preg_match`と同じフォーマットにすべきです。有効なデリミタも同等です。例: `'email' => 'regex:/^.+@.+$/i'`.
 
 > [!WARNING]
 > `regex`／`not_regex`パターンを使用するとき、特に正規表現に`|`文字が含まれている場合は、`|`区切り文字を使用する代わりに、配列でルールを指定する必要があります。
