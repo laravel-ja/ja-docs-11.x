@@ -48,7 +48,7 @@ php artisan octane:install
 ## サーバ要件
 
 > [!WARNING]
-> Laravel Octane requires [PHP 8.1+](https://php.net/releases/).
+> Laravel Octaneには、[PHP8.1以降](https://php.net/releases/)が必要です。
 
 <a name="frankenphp"></a>
 ### FrankenPHP
@@ -134,6 +134,8 @@ services:
     volumes:
       - .:/app
 ```
+
+`--log-level`オプションを`php artisan octane:start`コマンドへ明示的に渡した場合、OctaneはFrankenPHPのネイティブなロガーを使用し、別の設定をしない限り、構造化されたJSONログを生成します。
 
 FrankenPHPをDockerで実行するための詳細は、[FrankenPHP公式ドキュメント](https://frankenphp.dev/docs/docker/)を参照してください。
 

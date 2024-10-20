@@ -252,7 +252,7 @@ class PhotoController extends Controller
 }
 ```
 
-`Storage`属性の他に、`Auth`、`Cache`、`Config`、`DB`、`Log`、[`Tag`](#tagging)属性をLaravelは用意しています。
+`Storage`属性の他に、`Auth`、`Cache`、`Config`、`DB`、`Log`、`RouteParameter`、[`Tag`](#tagging)属性をLaravelは用意しています。
 
 ```php
 <?php

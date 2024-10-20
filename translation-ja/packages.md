@@ -13,6 +13,7 @@
     - [ビューコンポーネント](#view-components)
     - ["About" Artisanコマンド](#about-artisan-command)
 - [コマンド](#commands)
+    - [Optimizeコマンド](#optimize-commands)
 - [リソース公開アセット](#public-assets)
 - [ファイルグループのリソース公開](#publishing-file-groups)
 
@@ -336,6 +337,24 @@ Laravelの組み込み`about` Artisanコマンドは、アプリケーション�
                 InstallCommand::class,
                 NetworkCommand::class,
             ]);
+        }
+    }
+
+<a name="optimize-commands"></a>
+### Optimizeコマンド
+
+Laravelの[`optimize`コマンド](/docs/{{version}}/deployment#optimization)は、アプリケーションの設定、イベント、ルート、ビューをキャッシュします。`optimizes`メソッドを使用すると、`optimize`コマンドと`optimize:clear`コマンドの実行時に呼び出す、パッケージ独自のArtisanコマンドを登録できます。
+
+    /**
+     * 全パッケージサービスの初期起動処理
+     */
+    public function boot(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->optimizes(
+                optimize: 'package:optimize',
+                clear: 'package:clear-optimizations',
+            );
         }
     }
 

@@ -79,6 +79,12 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 
 上記のコマンドを実行した後、ターミナルセッションを再起動してください。PHP、Composer、Laravelインストーラをインストールした後に、`php.new`によりアップデートするには、ターミナルでコマンドを再実行してください。
 
+すでにPHPとComposerがインストール済みの場合は、Composer経由でLaravelインストーラをインストールしてください。
+
+```shell
+composer global require laravel/installer
+```
+
 > [!NOTE]
 > 全機能を備えたグラフィカルなPHPのインストールと管理については、[Laravel Herd](#local-installation-using-herd)をチェックしてください。
 
@@ -91,15 +97,15 @@ PHP、Composer、Laravelインストーラをインストールしたら、新�
 laravel new example-app
 ```
 
-アプリケーションを作成したら、`serve`コマンドを使い、Laravelのローカル開発サーバを起動します。
+アプリケーションを作成したら、`dev` Composerスクリプトを使って、Laravelのローカル開発サーバ、キューワーカ、Vite開発サーバを起動できます。
 
 ```nothing
 cd example-app
 
-php artisan serve
+composer run dev
 ```
 
-Artisan開発サーバを起動したら、Webブラウザの[http://localhost:8000](http://localhost:8000)を通して、アプリケーションへアクセスできます。次に、[Laravelエコシステムへの次のステップを開始する](#next-steps)準備が整いました。もちろん、[データベースの設定](#databases-and-migrations)も行えます。
+開発サーバを起動すると、アプリケーションはウェブブラウザで[http://localhost:8000](http://localhost:8000)からアクセスできるようになります。これで、[Laravelエコシステムへの次のステップを開始する](#next-steps)準備が整いました。もちろん、[データベースを設定する](#databases-and-migrations)ことも必要でしょう。
 
 > [!NOTE]
 > Laravelアプリケーションを開発する際に、有利なスタートダッシュを切りたければ、[スターターキット](/docs/{{version}}/starter-kits)の１つを使用することを検討してください。Laravelのスターターキットは、新しいLaravelアプリケーションのために、バックエンドとフロントエンド側の認証のスカフォールドを提供します。

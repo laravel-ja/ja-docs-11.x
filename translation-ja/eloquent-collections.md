@@ -242,7 +242,23 @@
 <a name="custom-collections"></a>
 ## カスタムコレクション
 
-特定のモデルを操作するときにカスタムの`Collection`オブジェクトを使用したい場合は、モデルで`newCollection`メソッドを定義します。
+指定したモデルを操作する際に、カスタム`Collection`オブジェクトを使用したい場合は、モデルへ`CollectedBy`属性を追加してください。
+
+    <?php
+
+    namespace App\Models;
+
+    use App\Support\UserCollection;
+    use Illuminate\Database\Eloquent\Attributes\CollectedBy;
+    use Illuminate\Database\Eloquent\Model;
+
+    #[CollectedBy(UserCollection::class)]
+    class User extends Model
+    {
+        // ...
+    }
+
+あるいは、モデルへ`newCollection`メソッドを定義することもできます。
 
     <?php
 
@@ -266,4 +282,6 @@
         }
     }
 
-`newCollection`メソッドを一度定義したら、Eloquentが通常`Illuminate\Database\Eloquent\Collection`インスタンスを返すときは、いつでもカスタムコレクションのインスタンスを受け取ります。アプリケーションのすべてのモデルにカスタムコレクションを使用する場合は、アプリケーションのすべてのモデルによって拡張される基本モデルクラスで`newCollection`メソッドを定義する必要があります。
+ 一度、`newCollection`メソッドを定義するか、モデルへ`CollectedBy`属性を追加すると、Eloquentは通常、`Illuminate\Database\Eloquent\Collection`インスタンスを返します。
+
+アプリケーションのすべてのモデルでカスタムコレクションを使用したい場合は、アプリケーションのすべてのモデルで拡張する基底モデルクラスで、`newCollection`メソッドを定義する必要があります。

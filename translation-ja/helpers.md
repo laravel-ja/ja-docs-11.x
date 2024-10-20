@@ -93,6 +93,8 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Number::abbreviate](#method-number-abbreviate)
 [Number::clamp](#method-number-clamp)
 [Number::currency](#method-number-currency)
+[Number::defaultCurrency](#method-default-currency)
+[Number::defaultLocale](#method-default-locale)
 [Number::fileSize](#method-number-file-size)
 [Number::forHumans](#method-number-for-humans)
 [Number::format](#method-number-format)
@@ -1230,6 +1232,28 @@ $classes = Arr::toCssStyles($array);
     $currency = Number::currency(1000, in: 'EUR', locale: 'de');
 
     // 1.000,00 €
+
+<a name="method-default-currency"></a>
+#### `Number::defaultCurrency()` {.collection-method}
+
+`Number::defaultCurrency`メソッドは、`Number`クラスが使用するデフォルトの通貨を返します。
+
+    use Illuminate\Support\Number;
+
+    $currency = Number::defaultCurrency();
+
+    // USD
+
+<a name="method-default-locale"></a>
+#### `Number::defaultLocale()` {.collection-method}
+
+`Number::defaultLocale`メソッドは、`Number`クラスが使用しているデフォルトのロケールを返します。
+
+    use Illuminate\Support\Number;
+
+    $locale = Number::defaultLocale();
+
+    // en
 
 <a name="method-number-file-size"></a>
 #### `Number::fileSize()` {.collection-method}
