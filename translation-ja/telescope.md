@@ -108,7 +108,7 @@ Telescopeのアセットをリソース公開すると、そのプライマリ�
 <a name="data-pruning"></a>
 ### データの整理
 
-データの整理を行わないと、`telescope_entries`テーブルにレコードがあっという間に溜まります。これを軽減するに、`telescope:prune` Artisanコマンドを[スケジュール](/docs/{{version}}/scheduleing)して毎日実行する必要があります。
+データの整理を行わないと、`telescope_entries`テーブルにレコードがあっという間に溜まります。これを軽減するに、`telescope:prune` Artisanコマンドを[スケジュール](/docs/{{version}}/scheduling)して毎日実行する必要があります。
 
     use Illuminate\Support\Facades\Schedule;
 
