@@ -18,6 +18,7 @@
     - [Comments](#comments)
 - [Components](#components)
     - [Rendering Components](#rendering-components)
+    - [Index Components](#index-components)
     - [Passing Data to Components](#passing-data-to-components)
     - [Component Attributes](#component-attributes)
     - [Reserved Keywords](#reserved-keywords)
@@ -756,6 +757,26 @@ If you would like to conditionally render your component, you may define a `shou
         return Str::length($this->message) > 0;
     }
 
+<a name="index-components"></a>
+### Index Components
+
+Sometimes components are part of a component group and you may wish to group the related components within a single directory. For example, imagine a "card" component with the following class structure:
+
+```none
+App\Views\Components\Card\Card
+App\Views\Components\Card\Header
+App\Views\Components\Card\Body
+```
+
+Since the root `Card` component is nested within a `Card` directory, you might expect that you would need to render the component via `<x-card.card>`. However, when a component's file name matches the name of the component's directory, Laravel automatically assumes that component is the "root" component and allows you to render the component without repeating the directory name:
+
+```blade
+<x-card>
+    <x-card.header>...</x-card.header>
+    <x-card.body>...</x-card.body>
+</x-card>
+```
+
 <a name="passing-data-to-components"></a>
 ### Passing Data to Components
 
@@ -1374,10 +1395,10 @@ This directory structure allows you to render the accordion component and its it
 
 However, in order to render the accordion component via `x-accordion`, we were forced to place the "index" accordion component template in the `resources/views/components` directory instead of nesting it within the `accordion` directory with the other accordion related templates.
 
-Thankfully, Blade allows you to place an `index.blade.php` file within a component's template directory. When an `index.blade.php` template exists for the component, it will be rendered as the "root" node of the component. So, we can continue to use the same Blade syntax given in the example above; however, we will adjust our directory structure like so:
+Thankfully, Blade allows you to place a file matching the component's directory name within the component's directory itself. When this template exists, it can be rendered as the "root" element of the component even though it is nested within a directory. So, we can continue to use the same Blade syntax given in the example above; however, we will adjust our directory structure like so:
 
 ```none
-/resources/views/components/accordion/index.blade.php
+/resources/views/components/accordion/accordion.blade.php
 /resources/views/components/accordion/item.blade.php
 ```
 

@@ -479,7 +479,7 @@ Flight::chunk(200, function (Collection $flights) {
 Flight::where('departed', true)
     ->chunkById(200, function (Collection $flights) {
         $flights->each->update(['departed' => false]);
-    }, $column = 'id');
+    }, column: 'id');
 ```
 
 `chunkById`メソッドと`lazyById`メソッドは、実行するクエリに独自の"Where"条件を追加するため、通常はクロージャの中へ独自の条件を[論理的にグループ化](/docs/{{version}}/queries#logical-grouping)する必要があります。
@@ -512,7 +512,7 @@ foreach (Flight::lazy() as $flight) {
 
 ```php
 Flight::where('departed', true)
-    ->lazyById(200, $column = 'id')
+    ->lazyById(200, column: 'id')
     ->each->update(['departed' => false]);
 ```
 

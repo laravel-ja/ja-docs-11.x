@@ -177,7 +177,7 @@ sail php script.php
 
 Composerコマンドは`composer`コマンドで実行できます。Laravel Sailのアプリケーションコンテナには、Composerのインストールが入っています。
 
-```nothing
+```shell
 sail composer require laravel/sanctum
 ```
 

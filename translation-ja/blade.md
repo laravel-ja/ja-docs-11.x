@@ -18,6 +18,7 @@
     - [コメント](#comments)
 - [コンポーネント](#components)
     - [コンポーネントのレンダ](#rendering-components)
+    - [インデックスコンポーネント](#index-components)
     - [コンポーネントへのデータ渡し](#passing-data-to-components)
     - [コンポーネント属性](#component-attributes)
     - [予約語](#reserved-keywords)
@@ -756,6 +757,26 @@ Bladeは、コンポーネント名のパスカルケースを使い、コンポ
         return Str::length($this->message) > 0;
     }
 
+<a name="index-components"></a>
+### インデックスコンポーネント
+
+コンポーネントがコンポーネントグループの一部であり、関連するコンポーネントを1つのディレクトリにまとめたい場合があるでしょう。例えば、以下のようなクラス構造を持つ、「カード（card）」コンポーネントがあるとします。
+
+```none
+App\Views\Components\Card\Card
+App\Views\Components\Card\Header
+App\Views\Components\Card\Body
+```
+
+ルートの`Card`コンポーネントは、`Card`ディレクトリの中でネストしているため、`<x-card.card>`を使ってコンポーネントをレンダする必要があると思うかもしれません。しかし、コンポーネントのファイル名がコンポーネントのディレクトリ名と一致する場合、Laravelは自動的にそのコンポーネントを「ルート」コンポーネントとみなすので、ディレクトリ名を繰り返すことなくそのコンポーネントをレンダできます。
+
+```blade
+<x-card>
+    <x-card.header>...</x-card.header>
+    <x-card.body>...</x-card.body>
+</x-card>
+```
+
 <a name="passing-data-to-components"></a>
 ### コンポーネントへのデータ渡し
 
@@ -1374,10 +1395,10 @@ Bladeは、コンポーネント名のパスカルケースを使い、コンポ
 
 しかし、`x-accordion`でアコーディオンコンポーネントをレンダするには、他のアコーディオン関連のテンプレートと一緒に`accordion`ディレクトリ内に入れ子にするのではなく、"index"アコーディオン・コンポーネントテンプレートを`resources/views/components`ディレクトリ内に配置する必要がありました。
 
-Bladeでは幸い、コンポーネントのテンプレートディレクトリ内に `index.blade.php` ファイルを配置することができます。index.blade.php`のテンプレートがコンポーネントに存在する場合、そのテンプレートはコンポーネントの「ルート」ノードとしてレンダされます。そこで、上記の例で示したのと同じBladeの構文を引き続き使用することができますが、ディレクトリ構造を次のように調整します。
+嬉しいことに、Bladeではコンポーネントのディレクトリ名と一致するファイルをコンポーネントのディレクトリ自体に配置できます。このテンプレートが存在すると、ディレクトリ内でネストしていても、コンポーネントの「ルート」要素としてレンダできます。従って、上記の例で示したのと同じBlade構文を引き続き使用することができますが、ディレクトリ構造は次のように調整します。
 
 ```none
-/resources/views/components/accordion/index.blade.php
+/resources/views/components/accordion/accordion.blade.php
 /resources/views/components/accordion/item.blade.php
 ```
 

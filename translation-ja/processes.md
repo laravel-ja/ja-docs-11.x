@@ -291,6 +291,16 @@ $process = Process::start('bash import.sh', function (string $type, string $outp
 $result = $process->wait();
 ```
 
+ プロセスが終了するまで待つ代わりに、`waitUntil`メソッドを使用すると、プロセスの出力に基づき待ちをやめられます。Laravelは、`waitUntil`メソッドで指定するクロージャが`true`を返すと、プロセスの終了を待つのをやめます。
+
+```php
+$process = Process::start('bash import.sh');
+
+$process->waitUntil(function (string $type, string $output) {
+    return $output === 'Ready...';
+});
+```
+
 <a name="concurrent-processes"></a>
 ## 同時実行プロセス
 

@@ -141,7 +141,7 @@ composer require typesense/typesense-php
 
 次に、アプリケーションの.envファイルで、`SCOUT_DRIVER`環境変数と、TypesenseホストとAPIキーの認証情報を設定します。
 
-```env
+```ini
 SCOUT_DRIVER=typesense
 TYPESENSE_API_KEY=masterKey
 TYPESENSE_HOST=localhost
@@ -149,7 +149,7 @@ TYPESENSE_HOST=localhost
 
 [Laravel Sail](/docs/{{version}}/sail)を使用している場合は、Dockerコンテナ名に合わせて`TYPESENSE_HOST`環境変数を調整する必要があるかもしれません。また、オプションでインストールのポート、パス、プロトコルを指定することもできます。
 
-```env
+```ini
 TYPESENSE_PORT=8108
 TYPESENSE_PATH=
 TYPESENSE_PROTOCOL=http
