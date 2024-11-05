@@ -61,7 +61,7 @@ LaravelはPHPエコシステムで最高のパッケージを組み合わせ、�
 <a name="installing-php"></a>
 ### PHPとLaravelインストーラのインストール
 
-最初のLaravelアプリケーションを作成する前に、ローカルマシンに[PHP](https://php.net)、[Composer](https://getcomposer.org)、[Laravelインストーラ](https://github.com/laravel/installer)がインストール済みであることを確認してください。さらに、アプリケーションのフロントエンドリソースをコンパイルできるように、[NodeとNPM](https://nodejs.org)もインストールしてください。
+最初のLaravelアプリケーションを作成する前に、ローカルマシンに[PHP](https://php.net)、[Composer](https://getcomposer.org)、[Laravelインストーラ](https://github.com/laravel/installer)がインストール済みであることを確認してください。さらに、アプリケーションのフロントエンドリソースをコンパイルできるように、[NodeとNPM](https://nodejs.org)か[Bun](https://bun.sh/)もインストールしてください。
 
 ローカルマシンにPHPとComposerをインストールしていない場合は、以下のコマンドでPHP、Composer、LaravelインストーラをmacOS、Windows、Linuxへインストールできます。
 
@@ -101,7 +101,7 @@ laravel new example-app
 
 ```nothing
 cd example-app
-
+npm install && npm run build
 composer run dev
 ```
 

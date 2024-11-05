@@ -1072,7 +1072,7 @@ foreach ($posts as $post) {
 
 上の例では、「Ｎ＋１」クエリの問題が発生しています。なぜなら、すべての`Post`モデルに対してコメントをEagerロードしているにもかかわらず、Eloquentは各子`Comment`モデルに対して、親`Post`を自動的にハイドレートしないからです。
 
-Eloquentへ親モデルを自動的に子モデルにハイドレートさせたい場合は、`hasMany`リレーションを定義するときに`chaperone`メソッドを呼び出します。
+Eloquentへ親モデルを自動的に子モデルにハイドレートさせたい場合は、`morphMany`リレーションを定義するときに`chaperone`メソッドを呼び出します。
 
     class Post extends Model
     {

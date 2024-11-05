@@ -182,6 +182,20 @@ if ($e instanceof AuthenticationException) {
 }
 ```
 
+<a name="email-verification-notification-on-registration"></a>
+#### 登録時のメール確認通知
+
+**影響の可能性： かなり低い**
+
+`SendEmailVerificationNotification`リスナをアプリケーションの`EventServiceProvider`に登録していない場合、自動的に`Registered`イベントへ登録するようにしました。もし、アプリケーションの`EventServiceProvider`でこのリスナを登録せず、Laravelに自動登録させたくない場合は、アプリケーションの`EventServiceProvider`の中に、空の`configureEmailVerification`メソッドを定義してください。
+
+```php
+protected function configureEmailVerification()
+{
+    // ...
+}
+```
+
 <a name="cache"></a>
 ### キャッシュ
 

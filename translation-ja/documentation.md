@@ -64,6 +64,7 @@
     - [マイグレーション](/docs/{{version}}/migrations)
     - [シーディング](/docs/{{version}}/seeding)
     - [Redis](/docs/{{version}}/redis)
+    - [MongoDB](/docs/{{version}}/mongodb)
 - ## Eloquent ORM
     - [Eloquentの準備](/docs/{{version}}/eloquent)
     - [リレーション](/docs/{{version}}/eloquent-relationships)

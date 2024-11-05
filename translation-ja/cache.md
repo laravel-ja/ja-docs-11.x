@@ -111,6 +111,13 @@ composer require aws/aws-sdk-php
 ],
 ```
 
+<a name="mongodb"></a>
+#### MongoDB
+
+MongoDBを使っている場合は、`mongodb/laravel-mongodb`公式パッケージで、`mongodb`キャッシュドライバを提供しており、`mongodb`データベース接続で使用する設定ができます。MongoDBは、期限切れのキャッシュアイテムを自動的にクリアするために使用する、TTLインデックスをサポートしています。
+
+MongoDBの設定の詳細は、MongoDB [キャッシュとロックのドキュメント](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/current/cache/)を参照してください。
+
 <a name="cache-usage"></a>
 ## キャッシュ使用法
 

@@ -245,7 +245,7 @@ Laravel[アプリケーションスターターキット](/docs/{{version}}/star
 ## セッションブロッキング
 
 > [!WARNING]
-> セッションブロッキングを利用するには、アプリケーションで[アトミックロック](/docs/{{version}}/cache#atomic-locks)をサポートするキャッシュドライバを使用している必要があります。現在、これらのキャッシュドライバには、`memcached`、`dynamodb`、`redis`、`database`、`file`、`array`ドライバをサポートしています。また、`cookie`セッションドライバを使用することはできません。
+> セッションブロッキングを利用するには、アプリケーションで[アトミックロック](/docs/{{version}}/cache#atomic-locks)をサポートするキャッシュドライバを使用している必要があります。現在、これらのキャッシュドライバには、`memcached`、`dynamodb`、`redis`、`mongodb`（`mongodb/laravel-mongodb`公式パッケージに含まれています）、`database`、`file`、`array`ドライバをサポートしています。また、`cookie`セッションドライバを使用することはできません。
 
 デフォルトでは、Laravelは同じセッションを使用するリクエストを同時に実行することを許可します。したがって、たとえば、JavaScript HTTPライブラリを使用してアプリケーションへ２つのHTTPリクエストを作成すると、両方が同時に実行されます。多くのアプリケーションでは、これは問題ではありません。ただし、セッションデータの損失が、両方がセッションへデータを書き込む２つの異なるアプリケーションエンドポイントに同時にリクエストを行うアプリケーションの小さなサブセットで発生する可能性があります。
 
@@ -291,10 +291,9 @@ Laravel[アプリケーションスターターキット](/docs/{{version}}/star
         public function gc($lifetime) {}
     }
 
-> [!NOTE]
-> Laravelには、拡張機能を格納するためのディレクトリはありません。好きな場所に自由に配置できます。この例では、`MongoSessionHandler`を格納するために`Extensions`ディレクトリを作成しました。
+Since Laravel does not include a default directory to house your extensions. You are free to place them anywhere you like. In this example, we have created an `Extensions` directory to house the `MongoSessionHandler`.
 
-これらのメソッドの目的は簡単には理解しずらいため、各メソッドの機能について簡単に説明します。
+Since the purpose of these methods is not readily understandable, here is an overview of the purpose of each method:
 
 <div class="content-list" markdown="1">
 

@@ -78,7 +78,7 @@ php artisan octane:install
 services:
   laravel.test:
     environment:
-      SUPERVISOR_PHP_COMMAND: "/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan octane:start --server=frankenphp --host=0.0.0.0 --admin-port=2019 --port=80" # [tl! add]
+      SUPERVISOR_PHP_COMMAND: "/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan octane:start --server=frankenphp --host=0.0.0.0 --admin-port=2019 --port='${APP_PORT:-80}'" # [tl! add]
       XDG_CONFIG_HOME:  /var/www/html/config # [tl! add]
       XDG_DATA_HOME:  /var/www/html/data # [tl! add]
 ```
@@ -170,7 +170,7 @@ FrankenPHPをDockerで実行するための詳細は、[FrankenPHP公式ドキ�
 services:
   laravel.test:
     environment:
-      SUPERVISOR_PHP_COMMAND: "/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan octane:start --server=roadrunner --host=0.0.0.0 --rpc-port=6001 --port=80" # [tl! add]
+      SUPERVISOR_PHP_COMMAND: "/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan octane:start --server=roadrunner --host=0.0.0.0 --rpc-port=6001 --port='${APP_PORT:-80}'" # [tl! add]
 ```
 
 最後に、`rr`バイナリが実行可能であることを確認し、Sailイメージを構築してください:
@@ -215,7 +215,7 @@ Laravel OctaneとOpen Swooleを併用することで、同時並行タスク、t
 services:
   laravel.test:
     environment:
-      SUPERVISOR_PHP_COMMAND: "/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan octane:start --server=swoole --host=0.0.0.0 --port=80" # [tl! add]
+      SUPERVISOR_PHP_COMMAND: "/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan octane:start --server=swoole --host=0.0.0.0 --port='${APP_PORT:-80}'" # [tl! add]
 ```
 
 最後に、Sailイメージを構築します。

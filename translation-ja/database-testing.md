@@ -196,6 +196,13 @@ Laravelでは、[Pest](https://pestphp.com)や[PHPUnit](https://phpunit.de)の�
 
     $this->assertDatabaseCount('users', 5);
 
+<a name="assert-database-empty"></a>
+#### assertDatabaseEmpty
+
+データベース内のテーブルにレコードがないことをアサートします。
+
+    $this->assertDatabaseEmpty('users');
+
 <a name="assert-database-has"></a>
 #### assertDatabaseHas
 

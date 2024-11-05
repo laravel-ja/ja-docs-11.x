@@ -17,6 +17,7 @@
     - [自動注入](#automatic-injection)
 - [メソッドの起動と依存注入](#method-invocation-and-injection)
 - [コンテナイベント](#container-events)
+    - [再インデックス](#rebinding)
 - [PSR-11](#psr-11)
 
 <a name="introduction"></a>
@@ -167,6 +168,12 @@ $this->app->singletonIf(Transistor::class, function (Application $app) {
     use Illuminate\Contracts\Foundation\Application;
 
     $this->app->scoped(Transistor::class, function (Application $app) {
+        return new Transistor($app->make(PodcastParser::class));
+    });
+
+指定タイプの結合がまだ登録されていない場合のみ、スコープ付きコンテナ結合を登録するには、`scopedIf`メソッドを使用します。
+
+    $this->app->scopedIf(Transistor::class, function (Application $app) {
         return new Transistor($app->make(PodcastParser::class));
     });
 
@@ -577,6 +584,28 @@ Laravelコンテナインスタンス自体をコンテナにより解決中の�
     });
 
 ご覧のとおり、解決しているオブジェクトがコールバックに渡され、利用側に渡される前にオブジェクトへ追加のプロパティを設定できます。
+
+<a name="rebinding"></a>
+### 再インデックス
+
+`rebinding`メソッドを使用すると、サービスがコンテナに再結合されたとき、つまり最初の結合の後に再度登録されたりオーバーライドされたりしたときをリッスンできます。これは、特定の結合が更新されるたびに依存関係を更新したり、動作を変更したりする必要がある場合に便利です。
+
+    use App\Contracts\PodcastPublisher;
+    use App\Services\SpotifyPublisher;
+    use App\Services\TransistorPublisher;
+    use Illuminate\Contracts\Foundation\Application;
+
+    $this->app->bind(PodcastPublisher::class, SpotifyPublisher::class);
+
+    $this->app->rebinding(
+        PodcastPublisher::class,
+        function (Application $app, PodcastPublisher $newInstance) {
+            //
+        },
+    );
+
+    // この新しい結合は、再インデックスクロージャを起動する
+    $this->app->bind(PodcastPublisher::class, TransistorPublisher::class);
 
 <a name="psr-11"></a>
 ## PSR-11

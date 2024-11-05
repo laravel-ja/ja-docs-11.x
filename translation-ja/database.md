@@ -27,6 +27,8 @@
 
 </div>
 
+さらに、MongoDBによって公式にメンテナンスされている`mongodb/laravel-mongodb`パッケージにより、MongoDBをサポートしています。詳しくは[Laravel MongoDB](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/)ドキュメントをチェックしてください。
+
 <a name="configuration"></a>
 ### 設定
 

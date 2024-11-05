@@ -458,6 +458,7 @@ php artisan migrate:fresh --database=admin
 [uuidMorphs](#column-method-uuidMorphs)
 [ulid](#column-method-ulid)
 [uuid](#column-method-uuid)
+[vector](#column-method-vector)
 [year](#column-method-year)
 
 </div>
@@ -917,6 +918,13 @@ MySQLまたはMariaDBを使用する場合、`TINYBLOB`カラムを作成する�
 `uuid`メソッドは`UUID`カラムを作成します。
 
     $table->uuid('id');
+
+<a name="column-method-vector"></a>
+#### `vector()` {.collection-method}
+
+`vector`メソッドは`VECTOR`カラムを作成します。
+
+    $table->vector('embedding', dimensions: 100);
 
 <a name="column-method-year"></a>
 #### `year()` {.collection-method}

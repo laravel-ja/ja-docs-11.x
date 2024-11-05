@@ -53,7 +53,9 @@ Laravelの認証機能は、基本的に「ガード」と「プロバイダ」�
 <a name="introduction-database-considerations"></a>
 ### データベースの検討
 
-デフォルトでLaravelは`app/Models`ディレクトリに、`App\Models\User` [Eloquentモデル](/docs/{{version}}/eloquent)を用意します。このモデルは、デフォルトのEloquent認証ドライバで使用します。アプリケーションがEloquentを使用していない場合は、Laravelクエリビルダを使用する`database`認証プロバイダを使用できます。
+Laravelはデフォルトで、`app/Models`ディレクトリに`App\Models\User` [Eloquentモデル](/docs/{{version}}/eloquent)を用意しています。このモデルはデフォルトのEloquent認証ドライバと一緒に使います。
+
+アプリケーションでEloquentを使用しない場合でも、Laravelのクエリビルダを使用する`database`認証プロバイダを使用できます。アプリケーションでMongoDBを使用する場合は、MongoDBの公式[Laravelユーザー認証ドキュメント](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/current/user-authentication/)を確認してください。
 
 `App\Models\User`モデルのデータベーススキーマを構築するときは、パスワード列の長さを確実に６０文字以上にしてください。もちろん、新しいLaravelアプリケーションに含まれている`users`テーブルのマイグレーションでは、あらかじめこの長さを超えるカラムが作成されます。
 

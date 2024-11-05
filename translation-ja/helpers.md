@@ -2478,6 +2478,53 @@ protected $middleware = [
 ];
 ```
 
+<a name="disabling-deferred-functions-in-tests"></a>
+#### テスト時の遅延関数無効化
+
+テストを書くときに、遅延関数を無効にできると便利です。テストの中で`withoutDefer`を呼び出せば、すべての遅延関数をすぐに呼び出すようにLaravelへ指示できます。
+
+```php tab=Pest
+test('without defer', function () {
+    $this->withoutDefer();
+
+    // ...
+});
+```
+
+```php tab=PHPUnit
+use Tests\TestCase;
+
+class ExampleTest extends TestCase
+{
+    public function test_without_defer(): void
+    {
+        $this->withoutDefer();
+
+        // ...
+    }
+}
+```
+
+テストケース内のすべてのテストで遅延関数を無効にしたい場合は、ベースとなる`TestCase`クラスの`setUp`メソッドで、`withoutDefer`メソッドを呼び出します。
+
+```php
+<?php
+
+namespace Tests;
+
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+
+abstract class TestCase extends BaseTestCase
+{
+    protected function setUp(): void// [tl! add:start]
+    {
+        parent::setUp();
+
+        $this->withoutDefer();
+    }// [tl! add:end]
+}
+```
+
 <a name="lottery"></a>
 ### 抽選
 
