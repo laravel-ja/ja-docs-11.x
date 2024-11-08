@@ -2339,7 +2339,7 @@ $secondService->all(); // (キャッシュ済みの結果)
 <a name="method-with"></a>
 #### `with()` {.collection-method}
 
-`with`関数は、指定値を返します。関数の２番目の引数としてクロージャを渡たすと、クロージャが実行され、その戻り値を返します。
+`with`関数は、指定値を返します。関数の２番目の引数としてクロージャを渡すと、クロージャが実行され、その戻り値を返します。
 
     $callback = function (mixed $value) {
         return is_numeric($value) ? $value * 2 : 0;

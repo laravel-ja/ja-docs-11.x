@@ -207,7 +207,7 @@ Laravelの例外ハンドラはデフォルトで、例外をHTTPレスポンス
         });
     })
 
-`render`メソッドを使用して、`NotFoundHttpException`のようなLaravelやSymfonyの組み込み例外のレンダ動作をオーバーライドすることもできます。`render`メソッドに渡たしたクロージャが値を返さない場合、Laravelデフォルトの例外レンダを利用します。
+`render`メソッドを使用して、`NotFoundHttpException`のようなLaravelやSymfonyの組み込み例外のレンダ動作をオーバーライドすることもできます。`render`メソッドに渡したクロージャが値を返さない場合、Laravelデフォルトの例外レンダを利用します。
 
     use Illuminate\Http\Request;
     use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

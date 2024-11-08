@@ -68,7 +68,7 @@ php artisan make:view greeting
 
     return View::make('greeting', ['name' => 'James']);
 
-ご覧のとおり、`view`ヘルパに渡たす最初の引数は、`resources/views`ディレクトリ内のビューファイルの名前に対応しています。２番目の引数は、ビューで使用するデータの配列です。この場合、[Blade構文](/docs/{{version}}/blade)を使用してビューに表示する、`name`変数を渡しています。
+ご覧のとおり、`view`ヘルパに渡す最初の引数は、`resources/views`ディレクトリ内のビューファイルの名前に対応しています。２番目の引数は、ビューで使用するデータの配列です。この場合、[Blade構文](/docs/{{version}}/blade)を使用してビューに表示する、`name`変数を渡しています。
 
 <a name="nested-view-directories"></a>
 ### ネストしたビューディレクトリ

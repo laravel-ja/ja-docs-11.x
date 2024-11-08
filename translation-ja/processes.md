@@ -573,7 +573,7 @@ Process::assertRan(fn ($process, $result) =>
 );
 ```
 
-`assertRan`クロージャに渡たす、`$process`は`Illuminate\Process\PendingProcess`インスタンスであり、`$result`は`Illuminate\Contracts\Process\ProcessResult`インスタンスです。
+`assertRan`クロージャに渡す、`$process`は`Illuminate\Process\PendingProcess`インスタンスであり、`$result`は`Illuminate\Contracts\Process\ProcessResult`インスタンスです。
 
 <a name="assert-process-didnt-run"></a>
 #### assertDidntRun
