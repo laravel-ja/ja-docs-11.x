@@ -843,7 +843,7 @@ Eloquentでは、`isDirty`、`isClean`、`wasChanged`メソッドを提供して
         /**
          * 複数代入可能な属性
          *
-         * @var array
+         * @var array<int, string>
          */
         protected $fillable = ['name'];
     }
@@ -864,7 +864,7 @@ JSONカラムへ代入するときは、各カラムの複数代入可能キー�
     /**
      * 複数代入可能な属性
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = [
         'options->enabled',
@@ -878,7 +878,7 @@ JSONカラムへ代入するときは、各カラムの複数代入可能キー�
     /**
      * 複数代入不可能な属性
      *
-     * @var array
+     * @var array<string>|bool
      */
     protected $guarded = [];
 
