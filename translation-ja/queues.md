@@ -65,7 +65,7 @@ Laravelキューは異なったキューバックエンド間に統一したキ�
 Laravelのキュー設定オプションは、アプリケーションの`config/queue.php`設定ファイルへ保存します。このファイルには、データベース、[Amazon SQS](https://aws.amazon.com/sqs/), [Redis](https://redis.io), [Beanstalkd](https://beanstalkd.github.io/)ドライバを含む、フレームワークが用意しているキュードライバの各接続設定が含まれています。また、キューに投入されたジョブを破棄する `null` キュードライバも含まれています。
 
 > [!NOTE]
-> Laravelは、Redisを利用したキュー用の美しいダッシュボードと設定システムであるHorizo​​nも提供しています。詳細は、完全な[Horizo​​nドキュメント](/docs/{{version}}/horizo​​n)を確認してください。
+> Laravelは、Redisを利用したキュー用の美しいダッシュボードと設定システムであるHorizo​​nも提供しています。詳細は、完全な[Horizo​​nドキュメント](/docs/{{version}}/horizon)を確認してください。
 
 <a name="connections-vs-queues"></a>
 ### 接続 対 キュー
