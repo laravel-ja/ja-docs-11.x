@@ -371,7 +371,7 @@ Laravelは、Redisの`publish`および`subscribe`コマンドへの便利なイ
 <a name="wildcard-subscriptions"></a>
 #### ワイルドカードサブスクリプション
 
-`psubscribe`メソッドを使用すると、ワイルドカードチャンネルをサブスクライブできます。これは、すべてのチャンネルのすべてのメッセージをキャッチするのに役立ちます。チャンネル名は、引数に渡たすクロージャの２番目の引数へ渡されます。
+`psubscribe`メソッドを使用すると、ワイルドカードチャンネルをサブスクライブできます。これは、すべてのチャンネルのすべてのメッセージをキャッチするのに役立ちます。チャンネル名は、引数に渡すクロージャの２番目の引数へ渡されます。
 
     Redis::psubscribe(['*'], function (string $message, string $channel) {
         echo $message;
