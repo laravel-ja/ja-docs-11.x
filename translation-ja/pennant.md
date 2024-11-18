@@ -28,6 +28,7 @@
 - [カスタム機能ドライバの追加](#adding-custom-pennant-drivers)
     - [ドライバの実装](#implementing-the-driver)
     - [ドライバの登録](#registering-the-driver)
+    - [外部機能の定義](#defining-features-externally)
 - [イベント](#events)
 
 <a name="introduction"></a>
@@ -1074,6 +1075,32 @@ class AppServiceProvider extends ServiceProvider
         // ...
 
     ],
+
+<a name="defining-features-externally"></a>
+### 外部機能の定義
+
+もし、あなたのドライバがサードパーティの機能フラグプラットフォームのラッパーでしたら、おそらくPennantの`Feature::define`メソッドを使わずに、そのプラットフォーム上で機能をを定義することでしょう。その場合、カスタムドライバで`Laravel\Pennant\Contracts\DefinesFeaturesExternally`も実装する必要があります。
+
+```php
+<?php
+
+namespace App\Extensions;
+
+use Laravel\Pennant\Contracts\Driver;
+use Laravel\Pennant\Contracts\DefinesFeaturesExternally;
+
+class FeatureFlagServiceDriver implements Driver, DefinesFeaturesExternally
+{
+    /**
+     * 指定スコープに対する機能定義を取得
+     */
+    public function definedFeaturesForScope(mixed $scope): array {}
+
+    /* ... */
+}
+```
+
+`definedFeaturesForScope`メソッドは、指定スコープに対して定義する機能名のリストを返してください。
 
 <a name="events"></a>
 ## イベント

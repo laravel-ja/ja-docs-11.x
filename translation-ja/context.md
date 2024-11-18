@@ -229,6 +229,18 @@ $data = Context::only(['first_key', 'second_key']);
 $value = Context::pull('key');
 ```
 
+コンテキストデータが、[スタック](#stacks)に格納されている場合、`pop`メソッドを使ってスタックから項目をポップできます.
+
+```php
+Context::push('breadcrumbs', 'first_value', 'second_value');
+
+Context::pop('breadcrumbs')
+// second_value
+
+Context::get('breadcrumbs');
+// ['first_value']
+```
+
 コンテキストが格納しているすべての情報を取得したい場合は、`all` メソッドを呼び出します。
 
 ```php
@@ -305,6 +317,7 @@ Context::addHiddenIf(/* ... */);
 Context::pushHidden(/* ... */);
 Context::getHidden(/* ... */);
 Context::pullHidden(/* ... */);
+Context::popHidden(/* ... */);
 Context::onlyHidden(/* ... */);
 Context::allHidden(/* ... */);
 Context::hasHidden(/* ... */);
@@ -341,7 +354,7 @@ public function boot(): void
 }
 ```
 
-> [!NOTE]  
+> [!NOTE]
 > `dehydrating`コールバック内で、`Context`ファサードを使用してはいけません。コールバックへ渡されたリポジトリにのみ、変更を加えるようにしてください。
 
 <a name="hydrated"></a>
@@ -369,5 +382,5 @@ public function boot(): void
 }
 ```
 
-> [!NOTE]  
+> [!NOTE]
 > `Hydrated`コールバック内では`Context`ファサードを使用せず、代わりにコールバックへ渡すリポジトリにのみ変更を加えてください。

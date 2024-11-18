@@ -737,9 +737,6 @@ Route::get('/categories/{category}', function (Category $category) {
         // ...
     });
 
-> [!WARNING]
-> フォールバックルートは、常にアプリケーションのルート登録で最後に指定してください。
-
 <a name="rate-limiting"></a>
 ## レート制限
 

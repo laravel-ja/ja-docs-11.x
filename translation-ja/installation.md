@@ -70,6 +70,7 @@ LaravelはPHPエコシステムで最高のパッケージを組み合わせ、�
 ```
 
 ```shell tab=Windows PowerShell
+# 管理者として実行する
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://php.new/install/windows'))
 ```
 

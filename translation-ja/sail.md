@@ -13,6 +13,7 @@
     - [Node/NPMコマンドの実行](#executing-node-npm-commands)
 - [データベース操作](#interacting-with-sail-databases)
     - [MySQL](#mysql)
+    - [MongoDB](#mongodb)
     - [Redis](#redis)
     - [Meilisearch](#meilisearch)
     - [Typesense](#typesense)
@@ -238,6 +239,23 @@ sail yarn
 コンテナを起動したら、アプリケーションの`.env`ファイル内の`DB_HOST`環境変数を`mysql`に設定することで、アプリケーション内のMySQLインスタンスに接続できます。
 
 ローカルマシンからアプリケーションのMySQLデータベースに接続するには、[TablePlus](https://tableplus.com)のようなグラフィカルなデータベース管理アプリケーションを使用する方が多いでしょう。デフォルトでは、MySQLデータベースへは`localhost`の3306ポートでアクセスでき、アクセス資格情報は`DB_USERNAME`と`DB_PASSWORD`環境変数の値に対応します。あるいは、`DB_PASSWORD`環境変数値をパスワードとして、`root`ユーザーとして接続することもできます。
+
+<a name="mongodb"></a>
+### MongoDB
+
+Sailのインストール時に、[MongoDB](https://www.mongodb.com/)サービスのインストールを選択した場合、アプリケーションの`docker-compose.yml`ファイルに[MongoDB Atlas Local](https://www.mongodb.com/docs/atlas/cli/current/atlas-cli-local-cloud/)コンテナのエントリが含まれます。このコンテナはMongoDBドキュメントデータベースと[検索インデックス](https://www.mongodb.com/docs/atlas/atlas-search/)など、Atlas機能を提供します。このコンテナは[Dockerボリューム](https://docs.docker.com/storage/volumes/)を使うため、コンテナを停止したり再起動したりしても、データベースに保存したデータは保持されます。
+
+コンテナを起動したら、アプリケーションの`.env`ファイルで、`MONGODB_URI`環境変数を`mongodb://mongodb:27017`に設定することで、アプリケーションからMongoDBインスタンスへ接続できるようになります。デフォルトで認証は無効になっていますが、`MONGODB_USERNAME`と`MONGODB_PASSWORD`環境変数を設定すれば、`mongodb`コンテナを起動する前に認証を有効にできます。次に、接続文字列に認証情報を追加してください。
+
+```ini
+MONGODB_USERNAME=user
+MONGODB_PASSWORD=laravel
+MONGODB_URI=mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongodb:27017
+```
+
+MongoDBをアプリケーションとシームレスに統合するには、[MongoDBが保守している公式パッケージ](https://www.mongodb.com/docs/drivers/php/laravel-mongodb/)をインストールします。
+
+ローカルマシンからアプリケーションのMongoDBデータベースに接続するには、[Compass](https://www.mongodb.com/products/tools/compass)のようなグラフィカルインターフェイスが使用できます。デフォルトでは、MongoDBデータベースへは、`localhost`の`27017`ポートでアクセスできます。
 
 <a name="redis"></a>
 ### Redis
