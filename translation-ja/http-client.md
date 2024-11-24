@@ -530,6 +530,15 @@ Laravelの多くのサービスでは、テストを簡単かつ表現豊かに�
         '*' => Http::response('Hello World', 200, ['Headers']),
     ]);
 
+<a name="faking-connection-exceptions"></a>
+#### 接続例外のfake
+
+HTTPクライアントがリクエストしようとしたときに、`Illuminate\Http\Client\ConnectionException`が発生したときの、アプリケーション動作をテストする必要があるかもしれません。`failedConnection`メソッドを使用して、HTTPクライアントへ接続例外を投げるよう指示できます。
+
+    Http::fake([
+        'github.com/*' => Http::failedConnection(),
+    ]);
+
 <a name="faking-response-sequences"></a>
 #### fakeレスポンスの順番
 

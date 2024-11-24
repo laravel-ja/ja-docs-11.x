@@ -701,6 +701,9 @@ test('albums can be uploaded', function () {
     Storage::disk('photos')->assertMissing('missing.jpg');
     Storage::disk('photos')->assertMissing(['missing.jpg', 'non-existing.jpg']);
 
+    // 指定ディレクトリ内のファイル数が、期待値と一致することをアサート
+    Storage::disk('photos')->assertCount('/wallpapers', 2);
+
     // 指定ディレクトリが空であることをアサート
     Storage::disk('photos')->assertDirectoryEmpty('/wallpapers');
 });
@@ -733,6 +736,9 @@ class ExampleTest extends TestCase
         // ファイルを保存しないことをアサート
         Storage::disk('photos')->assertMissing('missing.jpg');
         Storage::disk('photos')->assertMissing(['missing.jpg', 'non-existing.jpg']);
+
+        // 指定ディレクトリ内のファイル数が、期待値と一致することをアサート
+        Storage::disk('photos')->assertCount('/wallpapers', 2);
 
         // 指定ディレクトリが空であることをアサート
         Storage::disk('photos')->assertDirectoryEmpty('/wallpapers');

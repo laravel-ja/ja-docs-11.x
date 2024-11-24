@@ -1354,7 +1354,7 @@ Rule::enum(ServerStatus::class)
         'email' => [
             'required',
             Rule::exists('staff')->where(function (Builder $query) {
-                return $query->where('account_id', 1);
+                $query->where('account_id', 1);
             }),
         ],
     ]);

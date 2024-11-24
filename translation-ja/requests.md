@@ -340,11 +340,17 @@ JSONリクエストをアプリケーションに送信する場合、リクエ�
 <a name="retrieving-enum-input-values"></a>
 #### Enum入力値の取得
 
-[PHPのenum](https://www.php.net/manual/ja/language.types.enumerations.php)に対応する入力値も、リクエストから取得することがあります。リクエストに指定した名前の入力値が含まれていない場合、あるいは入力値にマッチするenumバッキング値をそのenumが持たない場合、`null`を返します。`enum`メソッドは、入力値の名前とenumクラスを第１引数、第２引数に取ります。
+[PHPのEnum](https://www.php.net/manual/ja/language.types.enumerations.php)に対応する入力値も、リクエストから取得することがあります。リクエストに指定した名前の入力値が含まれていない場合、あるいは入力値にマッチするenumバッキング値をそのenumが持たない場合、`null`を返します。`enum`メソッドは、入力値の名前とenumクラスを第１引数、第２引数に取ります。
 
     use App\Enums\Status;
 
     $status = $request->enum('status', Status::class);
+
+入力値がPHPのEnumに対応する値の配列である場合は、`enums`メソッドを使用して、値の配列をEnumのインスタンスとして取得できます。
+
+    use App\Enums\Product;
+
+    $products = $request->enums('products', Product::class);
 
 <a name="retrieving-input-via-dynamic-properties"></a>
 #### 動的プロパティを介した入力の取得

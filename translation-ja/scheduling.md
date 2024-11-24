@@ -11,6 +11,7 @@
     - [単一サーバ上でのタスク実行](#running-tasks-on-one-server)
     - [バックグランドタスク](#background-tasks)
     - [メンテナンスモード](#maintenance-mode)
+    - [スケジュールグループ](#schedule-groups)
 - [スケジュールの実行](#running-the-scheduler)
     - [秒単位のタスクスケジュール](#sub-minute-scheduled-tasks)
     - [スケジュールをローカルで実行](#running-the-scheduler-locally)
@@ -363,6 +364,25 @@ Schedule::call(fn () => User::resetApiRequestCount())
 アプリケーションが[メンテナンスモード](/docs/{{version}}/configuration#maintenance-mode)の場合、アプリケーションのスケジュールされたタスクは実行されません。これは、タスクがそのサーバで実行している未完了のメンテナンスに干渉することを望まないためです。ただし、メンテナンスモードでもタスクを強制的に実行したい場合は、タスクを定義するときに`evenInMaintenanceMode`メソッドを呼び出すことができます。
 
     Schedule::command('emails:send')->evenInMaintenanceMode();
+
+<a name="schedule-groups"></a>
+### スケジュールグループ
+
+似た設定を持つ複数のスケジュールタスクを定義する場合、Laravelのタスクグループ化機能を使用すると、各タスクで同じ設定を繰り返さずに済みます。タスクのグループ化により、コードがシンプルになり、関連するタスク間の一貫性が確保されます。
+
+スケジュール済みタスクのグループを作成するには、必要なタスク設定メソッドを起動し、続いて `group` メソッドを起動します。`group`メソッドには、指定した設定を共有するタスクを定義するクロージャを渡します。
+
+```php
+use Illuminate\Support\Facades\Schedule;
+
+Schedule::daily()
+    ->onOneServer()
+    ->timezone('America/New_York')
+    ->group(function () {
+        Schedule::command('emails:send --force');
+        Schedule::command('emails:prune');
+    });
+```
 
 <a name="running-the-scheduler"></a>
 ## スケジューラの実行

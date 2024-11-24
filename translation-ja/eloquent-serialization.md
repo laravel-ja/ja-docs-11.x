@@ -84,9 +84,9 @@ EloquentモデルをJSONに変換すると、ロードずみのリレーショ�
     class User extends Model
     {
         /**
-         * 配列に対して非表示にする必要がある属性
+         * シリアル下のさいに、隠す属性
          *
-         * @var array
+         * @var array<string>
          */
         protected $hidden = ['password'];
     }

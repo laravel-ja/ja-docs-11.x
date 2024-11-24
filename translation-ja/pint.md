@@ -115,10 +115,10 @@ Pintが現在サポートしているプリセットは、`laravel`、`per`、`p
     "preset": "laravel",
     "rules": {
         "simplified_null_return": true,
-        "braces": false,
-        "new_with_braces": {
-            "anonymous_class": false,
-            "named_class": false
+        "array_indentation": false,
+        "new_with_parentheses": {
+            "anonymous_class": true,
+            "named_class": true
         }
     }
 }
