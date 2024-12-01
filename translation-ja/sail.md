@@ -194,11 +194,11 @@ docker run --rm \
     -u "$(id -u):$(id -g)" \
     -v "$(pwd):/var/www/html" \
     -w /var/www/html \
-    laravelsail/php82-composer:latest \
+    laravelsail/php84-composer:latest \
     composer install --ignore-platform-reqs
 ```
 
-`laravelsail/phpXX-composer`イメージを使用する場合、アプリケーションで使用する予定のPHPと同じバージョン（`80`、`81`, または `82`）を使用する必要があります。
+`laravelsail/phpXX-composer`イメージを使用する場合、アプリケーションで使用する予定のPHPと同じバージョン（`80`、`81`、`82`、`83`、`84`）を使用する必要があります。
 
 <a name="executing-artisan-commands"></a>
 ### Artisanコマンドの実行
@@ -416,7 +416,7 @@ sail tinker
 <a name="sail-php-versions"></a>
 ## PHPバージョン
 
-Sailは現在、PHP8.4、PHP8.3、PHP8.2、PHP8.1、PHP8.0を利用したアプリケーションの実行をサポートしています。SailのデフォルトPHPバージョンは8.3です。アプリケーションの実行に使用するPHPバージョンを変更するには、アプリケーションの`docker-compose.yml`ファイル内の`laravel.test`コンテナの`build`定義を更新してください。
+Sailは現在、PHP8.4、PHP8.3、PHP8.2、PHP8.1、PHP8.0を利用したアプリケーションの実行をサポートしています。SailのデフォルトPHPバージョンは8.4です。アプリケーションの実行に使用するPHPバージョンを変更するには、アプリケーションの`docker-compose.yml`ファイル内の`laravel.test`コンテナの`build`定義を更新してください。
 
 ```yaml
 # PHP 8.4
