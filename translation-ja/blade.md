@@ -1648,7 +1648,7 @@ Bladeは、コンポーネント名のパスカルケースを使い、コンポ
 <a name="method-field"></a>
 ### Methodフィールド
 
-HTMLフォームは`put`、`patch`、または`delete`リクエストを作ることができないので、これらのHTTP動詞を偽装するために`_Method`隠しフィールドを追加する必要があります。`@method`Bladeディレクティブは、皆さんのためこのフィールドを作成します。
+HTMLフォームは`put`、`patch`、または`delete`リクエストを作ることができないので、これらのHTTP動詞を偽装するために`_method`隠しフィールドを追加する必要があります。`@method`Bladeディレクティブは、皆さんのためこのフィールドを作成します。
 
 ```blade
 <form action="/foo/bar" method="POST">
