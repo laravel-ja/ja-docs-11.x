@@ -233,7 +233,7 @@ Passportが定義するルートをカスタマイズしたい場合もあるで
         'namespace' => '\Laravel\Passport\Http\Controllers',
     ], function () {
         // Passportのルート…
-    });CheckClientCredentials
+    });
 
 <a name="issuing-access-tokens"></a>
 ## アクセストークンの発行
@@ -280,7 +280,7 @@ JSON APIは`web`と`auth`ミドルウェアにより保護されています。�
 axios.get('/oauth/clients')
     .then(response => {
         console.log(response.data);
-    });CheckClientCredentials
+    });
 ```
 
 <a name="post-oauthclients"></a>
@@ -302,7 +302,7 @@ axios.post('/oauth/clients', data)
     })
     .catch (response => {
         // レスポンスのエラーをリストする処理…
-    });CheckClientCredentials
+    });
 ```
 
 <a name="put-oauthclientsclient-id"></a>
@@ -322,7 +322,7 @@ axios.put('/oauth/clients/' + clientId, data)
     })
     .catch (response => {
         // レスポンスのエラーをリストする処理…
-    });CheckClientCredentials
+    });
 ```
 
 <a name="delete-oauthclientsclient-id"></a>
@@ -334,7 +334,7 @@ axios.put('/oauth/clients/' + clientId, data)
 axios.delete('/oauth/clients/' + clientId)
     .then(response => {
         // ...
-    });CheckClientCredentials
+    });
 ```
 
 <a name="requesting-tokens"></a>
@@ -361,11 +361,11 @@ axios.delete('/oauth/clients/' + clientId)
         ]);
 
         return redirect('http://passport-app.test/oauth/authorize?'.$query);
-    });CheckClientCredentials
+    });
 
 `prompt`パラメータは、Passportアプリケーションの認証動作を指定するために使用します。
 
-`prompt`の値が`none`の場合、ユーザーがPassportアプリケーションで認証されていないとき、Passportは認証エラーを常時スローします。値が`consent`の場合、すべてのスコープが事前に利用者側アプリケーションへ許可されていても、Passportは常に承認承認スクリーンを表示します。値が`login`である場合、Passportアプリケーションは、ユーザーが既にセッションを持っていても、アプリケーションへ再ログインするように常に促します。
+`prompt`の値が`none`の場合、ユーザーがPassportアプリケーションで認証されていないとき、Passportは認証エラーを常時スローします。値が`consent`の場合、すべてのスコープが事前に利用者側アプリケーションへ許可されていても、Passportは常に承認スクリーンを表示します。値が`login`である場合、Passportアプリケーションは、ユーザーが既にセッションを持っていても、アプリケーションへ再ログインするように常に促します。
 
 `prompt`値を指定しない場合、要求されたスコープに対する消費者側アプリケーションへのアクセスをそのユーザーへ以前に許可していない場合のみ、認可のためのプロンプトを表示します。
 
@@ -428,7 +428,7 @@ php artisan vendor:publish --tag=passport-views
         ]);
 
         return $response->json();
-    });CheckClientCredentials
+    });
 
 この`/oauth/token`ルートは、`access_token`、`refresh_token`、`expires_in`属性を含むJSONレスポンスを返します。`expires_in`属性は、アクセストークンが無効になるまでの秒数を含んでいます。
 
@@ -449,7 +449,7 @@ Passportには、承認済みアクセストークンを管理するためのJSO
 axios.get('/oauth/tokens')
     .then(response => {
         console.log(response.data);
-    });CheckClientCredentials
+    });
 ```
 
 <a name="delete-oauthtokenstoken-id"></a>
@@ -583,7 +583,7 @@ php artisan passport:client --public
         ]);
 
         return redirect('http://passport-app.test/oauth/authorize?'.$query);
-    });CheckClientCredentials
+    });
 
 <a name="code-grant-pkce-converting-authorization-codes-to-access-tokens"></a>
 #### 許可コードからアクセストークンへの変換
@@ -614,7 +614,7 @@ stateパラメータが一致したら、要求側はアクセストークンを
         ]);
 
         return $response->json();
-    });CheckClientCredentials
+    });
 
 <a name="password-grant-tokens"></a>
 ## パスワードグラントのトークン
@@ -771,7 +771,7 @@ php artisan passport:client --password
         ]);
 
         return redirect('http://passport-app.test/oauth/authorize?'.$query);
-    });CheckClientCredentials
+    });
 
 > [!NOTE]
 > `/oauth/authorize`ルートは、すでにPassportが定義づけていることを覚えておいてください。このルートを自分で定義する必要はありません。
@@ -880,7 +880,7 @@ JSON APIは`web`と`auth`ミドルウェアにより保護されています。�
 axios.get('/oauth/scopes')
     .then(response => {
         console.log(response.data);
-    });CheckClientCredentials
+    });
 ```
 
 <a name="get-oauthpersonal-access-tokens"></a>
@@ -892,7 +892,7 @@ axios.get('/oauth/scopes')
 axios.get('/oauth/personal-access-tokens')
     .then(response => {
         console.log(response.data);
-    });CheckClientCredentials
+    });
 ```
 
 <a name="post-oauthpersonal-access-tokens"></a>
@@ -912,7 +912,7 @@ axios.post('/oauth/personal-access-tokens', data)
     })
     .catch (response => {
         // レスポンスのエラーをリストする処理…
-    });CheckClientCredentials
+    });
 ```
 
 <a name="delete-oauthpersonal-access-tokenstoken-id"></a>
@@ -1035,7 +1035,7 @@ APIのスコープは、アプリケーションの`App\Providers\AppServiceProv
         ]);
 
         return redirect('http://passport-app.test/oauth/authorize?'.$query);
-    });CheckClientCredentials
+    });
 
 <a name="when-issuing-personal-access-tokens"></a>
 #### パーソナルアクセストークン発行時
@@ -1088,7 +1088,7 @@ Passportは２つのミドルウェアを用意しており、受信リクエス
         if ($request->user()->tokenCan('place-orders')) {
             // ...
         }
-    });CheckClientCredentials
+    });
 
 <a name="additional-scope-methods"></a>
 #### その他のスコープメソッド
