@@ -487,6 +487,40 @@ php artisan event:list
         return now()->addMinutes(5);
     }
 
+<a name="specifying-queued-listener-backoff"></a>
+#### キュー投入済みリスナの再試行待ち秒数指定
+
+例外が発生したリスナを再試行する前に、Laravelが何秒待つかを設定したい場合は、リスナクラスへ`backoff`プロパティを定義してください。
+
+    /**
+     * キュー投入済みリスナを再試行する前に何秒待つか
+     *
+     * @var int
+     */
+    public $backoff = 3;
+
+リスナの再試行待ち時間を決定するため、より複雑なロジックが必要な場合は、リスナクラスに`backoff`メソッドを定義してください。
+
+    /**
+     * キュー投入済みリスナを再試行するまで待つ秒数の計算
+     */
+    public function backoff(): int
+    {
+        return 3;
+    }
+
+`backoff`メソッドからバックオフ値の配列を返すことで、簡単に「指数関数的」な待ち秒数が設定できます。この例では、リトライの遅延は最初のリトライで１秒、２回目のリトライで５秒、３回目のリトライで１０秒、それ以降もリトライが残っている場合は毎回１０秒となります：
+
+    /**
+     * キュー投入済みリスナを再試行するまで待つ秒数の計算
+     *
+     * @return array<int, int>
+     */
+    public function backoff(): array
+    {
+        return [1, 5, 10];
+    }
+
 <a name="dispatching-events"></a>
 ## イベント発行
 

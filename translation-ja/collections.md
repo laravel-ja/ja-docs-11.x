@@ -2304,7 +2304,7 @@ $users->select(['name', 'role']);
 <a name="method-skipuntil"></a>
 #### `skipUntil()` {.collection-method}
 
-`skipUntil`メソッドは、指定したコールバックが`true`を返すまでコレクションからアイテムをスキップし、コレクション内の残りのアイテムを新しいコレクションインスタンスとして返します。
+`skipUntil`メソッドは、指定コールバックが`false`を返す間、コレクション内のアイテムをスキップします。コールバックが`true`を返すと、コレクションに残っている全てのアイテムを新しいコレクションとして返します。
 
     $collection = collect([1, 2, 3, 4]);
 
@@ -2332,7 +2332,7 @@ $users->select(['name', 'role']);
 <a name="method-skipwhile"></a>
 #### `skipWhile()` {.collection-method}
 
-`skipWhile`メソッドは、指定したコールバックが`true`を返す間、コレクションからアイテムをスキップし、コレクション内の残りのアイテムを新しいコレクションとして返します。
+`skipWhile`メソッドは、指定コールバックが`true`を返す間、コレクション内のアイテムをスキップします。コールバックが`false`を返すと、コレクションに残っている全てのアイテムを新しいコレクションとして返します。
 
     $collection = collect([1, 2, 3, 4]);
 
