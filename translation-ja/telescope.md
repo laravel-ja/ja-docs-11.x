@@ -123,7 +123,7 @@ Telescopeのアセットをリソース公開すると、そのプライマリ�
 <a name="dashboard-authorization"></a>
 ### ダッシュボードの認可
 
-Telescopeダッシュボードは、`/telescope`ルートでアクセスできます。デフォルトでは、このダッシュボードにアクセスできるのは`local`環境のみです。`app/Providers/TelescopeServiceProvider.php`ファイル内に、[認可ゲート](/docs/{{version}}/authentication#gates)の定義があります。この認証ゲートは、**非ローカル**環境でのTelescopeへのアクセスを制御します。Telescopeの設置へのアクセスを制限するために、必要に応じてこのゲートを自由に変更できます。
+Telescopeダッシュボードは、`/telescope`ルートでアクセスできます。デフォルトでは、このダッシュボードにアクセスできるのは`local`環境のみです。`app/Providers/TelescopeServiceProvider.php`ファイル内に、[認可ゲート](/docs/{{version}}/authorization#gates)の定義があります。この認証ゲートは、**非ローカル**環境でのTelescopeへのアクセスを制御します。Telescopeの設置へのアクセスを制限するために、必要に応じてこのゲートを自由に変更できます。
 
     use App\Models\User;
 
