@@ -715,7 +715,7 @@ CLIの外部でArtisanコマンドを実行したい場合があります。た�
 <a name="queueing-artisan-commands"></a>
 #### Artisanコマンドのキュー投入
 
-`Artisan`ファサードで`queue`メソッドを使用すると、Artisanコマンドをキューに投入し、[キューワーカー](/docs/{{version}}/queues)によりバックグラウンド処理することもできます。この方法を使用する前に、確実にキューを設定し、キューリスナを実行してください。
+`Artisan`ファサードで`queue`メソッドを使用すると、Artisanコマンドをキューに投入し、[キューワーカ](/docs/{{version}}/queues)によりバックグラウンド処理することもできます。この方法を使用する前に、確実にキューを設定し、キューリスナを実行してください。
 
     use Illuminate\Support\Facades\Artisan;
 
