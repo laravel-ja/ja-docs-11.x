@@ -569,7 +569,7 @@ use Laravel\Octane\Facades\Octane;
 ]);
 ```
 
-Octaneが処理する同時タスクは、Swooleの「タスクワーカー」を利用しており、受信リクエストとは全く別のプロセスで実行されます。同時タスクを処理するために利用できるワーカーの数は、`octane:start`コマンドの`--task-workers`ディレクティブで決めます。
+Octaneが処理する同時タスクは、Swooleの「タスクワーカ」を利用しており、受信リクエストとは全く別のプロセスで実行されます。同時タスクを処理するために利用できるワーカの数は、`octane:start`コマンドの`--task-workers`ディレクティブで決めます。
 
 ```shell
 php artisan octane:start --workers=4 --task-workers=6
@@ -636,7 +636,7 @@ Cache::store('octane')->interval('random', function () {
 > [!WARNING]
 > この機能は[Swoole](#swoole)が必要です。
 
-Swooleを使用する場合は、任意に独自の[Swooleテーブル](https://www.swoole.co.uk/docs/modules/swoole-table)を定義し、操作できます。Swooleテーブルは、非常に高いパフォーマンスのスループットを提供し、これらのテーブルのデータは、サーバ上のすべてのワーカーからアクセスできます。ただし、サーバを再起動するとテーブル内のデータは失われます。
+Swooleを使用する場合は、任意に独自の[Swooleテーブル](https://www.swoole.co.uk/docs/modules/swoole-table)を定義し、操作できます。Swooleテーブルは、非常に高いパフォーマンスのスループットを提供し、これらのテーブルのデータは、サーバ上のすべてのワーカからアクセスできます。ただし、サーバを再起動するとテーブル内のデータは失われます。
 
 テーブルは、アプリケーションの`octane`設定ファイルの`tables`設定配列で定義します。テーブルの例として、最大１０００行のテーブルが設定済みです。文字列カラムの最大サイズを設定するには、以下のようにカラムタイプの後にカラムサイズを指定します。
 
