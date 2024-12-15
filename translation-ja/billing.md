@@ -1314,7 +1314,7 @@ Stripeの顧客は, サブスクリプションを同時に複数利用可能で
 
 [使用量ベースの料金](https://stripe.com/docs/billing/subscriptions/metered-billing)を使用すると、課金サイクル中の製品の利用状況に基づき顧客へ請求できます。たとえば、顧客が１か月に送信するテキストメッセージまたは電子メールの数に基づいて顧客に請求するケースが考えられます。
 
-使用量ベースの料金を使用開始するには、最初にStripeダッシュボードの従量制価格（metered price）で新しい製品を作成する必要があります。次に、`meteredPrice`を使用して、従量制の価格IDを顧客のサブスクリプションに追加します。
+使用量ベースの料金を使い始めるには、まずStripeダッシュボードで[利用量ベースモデル](https://docs.stripe.com/billing/subscriptions/usage-based/implementation-guide)と[メーター](https://docs.stripe.com/billing/subscriptions/usage-based/recording-usage#configure-meter)を使用して新しい商品を作成する必要があります。メーターを作成したら、関連するイベント名とメーターIDを保存します。次に、`meteredPrice`メソッドを使用して、顧客のサブスクリプションへメーター価格IDを追加します。
 
     use Illuminate\Http\Request;
 
@@ -1340,54 +1340,33 @@ Stripeの顧客は, サブスクリプションを同時に複数利用可能で
 <a name="reporting-usage"></a>
 #### 利用状況のレポート
 
-顧客がアプリケーションを使用しているとき、正確な請求ができるように、利用状況をStripeへ報告します。従量制サブスクリプションの使用量を増やすには、`reportUsage`メソッドを使用します。
+顧客がアプリケーションを使用しているとき、正確な請求ができるように、利用状況をStripeへ報告します。メーター付けしたイベントの使用状況を報告するには、`Billable`モデルの`reportMeterEvent`メソッドを使用します。
 
     $user = User::find(1);
 
-    $user->subscription('default')->reportUsage();
+    $user->reportMeterEvent('emails-sent');
 
 デフォルトでは、「使用量」１が請求期間に追加されます。または、指定の「使用量」を渡して、請求期間中の顧客の使用量に追加することもできます。
 
     $user = User::find(1);
 
-    $user->subscription('default')->reportUsage(15);
+    $user->reportMeterEvent('emails-sent', quantity: 15);
 
-アプリケーションが単一のサブスクリプションで複数の価格を提供している場合は、`reportUsageFor`メソッドを使用して、利用状況を報告する従量制価格を指定する必要があります。
-
-    $user = User::find(1);
-
-    $user->subscription('default')->reportUsageFor('price_metered', 15);
-
-以前に報告した利用状況を更新する必要も起こるでしょう。これにはタイムスタンプまたは`DateTimeInterface`インスタンスを２番目のパラメータとして`reportUsage`に渡します。その際、Stripeはその時点で報告された利用状況を更新します。指定する日時は現在の請求期間内であるため、以前の使用記録を引き続き更新できます。
+メーターに対する、顧客のイベント要約を取得するには、`Billable`インスタンスの`meterEventSummaries`メソッドを使用します。
 
     $user = User::find(1);
 
-    $user->subscription('default')->reportUsage(5, $timestamp);
+    $meterUsage = $user->meterEventSummaries($meterId);
 
-<a name="retrieving-usage-records"></a>
-#### 使用記録の取得
+    $meterUsage->first()->aggregated_value // 10
 
-顧客の過去の利用状況を取得するには、サブスクリプションインスタンスの`usageRecords`メソッドを使用します。
+Stripeの[メーターイベント要約のオブジェクトドキュメント](https://docs.stripe.com/api/billing/meter-event_summary/object)も参照してください。
 
-    $user = User::find(1);
-
-    $usageRecords = $user->subscription('default')->usageRecords();
-
-アプリケーションが１つのサブスクリプションで複数の価格を提供している場合は、`usageRecordsFor`メソッドを使用して、使用記録を取得する従量制価格を指定します。
+[全てのメーターをリストする](https://docs.stripe.com/api/billing/meter/list)には、`Billable`インスタンスの`meters`メソッドを使用します。
 
     $user = User::find(1);
 
-    $usageRecords = $user->subscription('default')->usageRecordsFor('price_metered');
-
-`usageRecords`メソッドと`usageRecordsFor`メソッドは、使用レコードの連想配列を含むCollectionインスタンスを返します。この配列を繰り返し処理して、顧客の合計使用量を表示できます。
-
-    @foreach ($usageRecords as $usageRecord)
-        - Period Starting: {{ $usageRecord['period']['start'] }}
-        - Period Ending: {{ $usageRecord['period']['end'] }}
-        - Total Usage: {{ $usageRecord['total_usage'] }}
-    @endforeach
-
-返されるすべての利用状況データの完全なリファレンスと、Stripeのカーソルベースのペジネーションの使用方法の詳細は、[Stripe公式のAPIドキュメント](https://stripe.com/docs/api/usage_records/subscription_item_summary_list)を参照してください。
+    $user->meters();
 
 <a name="subscription-taxes"></a>
 ### サブスクリプションの税率

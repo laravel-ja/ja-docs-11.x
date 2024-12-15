@@ -519,19 +519,24 @@ Laravelスケジューラはスケジュールしたタスクが生成する出�
              ->pingBefore($url)
              ->thenPing($url);
 
-`pingBeforeIf`および`thenPingIf`メソッドは、特定の条件が`true`である場合にのみ、特定のURLにpingを実行するために使用します。
+`pingOnSuccess`と`pingOnFailure`メソッドを使用すると、タスクが成功または失敗した場合にのみ、指定したURLへpingを送信できます。失敗とは、スケジュールしたArtisanまたはシステムコマンドがゼロ以外の終了コードで終了したことを表します。
+
+    Schedule::command('emails:send')
+             ->daily()
+             ->pingOnSuccess($successUrl)
+             ->pingOnFailure($failureUrl);
+
+`pingBeforeIf`、`thenPingIf`、`pingOnSuccessIf`、`pingOnFailureIf`メソッドを使用すると、指定した条件が`true`である場合にのみ、指定したURLへpingを送信できます。
 
     Schedule::command('emails:send')
              ->daily()
              ->pingBeforeIf($condition, $url)
              ->thenPingIf($condition, $url);
 
-`pingOnSuccess`メソッドと`pingOnFailure`メソッドは、タスクが成功または失敗した場合にのみ、特定のURLにpingを実行するために使用します。失敗は、スケジュールされたArtisanまたはシステムコマンドがゼロ以外の終了コードで終了したことを示します。
-
     Schedule::command('emails:send')
              ->daily()
-             ->pingOnSuccess($successUrl)
-             ->pingOnFailure($failureUrl);
+             ->pingOnSuccessIf($condition, $successUrl)
+             ->pingOnFailureIf($condition, $failureUrl);
 
 <a name="events"></a>
 ## イベント

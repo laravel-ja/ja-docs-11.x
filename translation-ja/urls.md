@@ -238,20 +238,9 @@ URLのデフォルト値を設定すると、Laravelの暗黙のモデル結合�
 
 ```php
 ->withMiddleware(function (Middleware $middleware) {
-    $middleware->priority([
-        \Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class,
-        \Illuminate\Cookie\Middleware\EncryptCookies::class,
-        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-        \Illuminate\Session\Middleware\StartSession::class,
-        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
-        \Illuminate\Contracts\Auth\Middleware\AuthenticatesRequests::class,
-        \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        \Illuminate\Routing\Middleware\ThrottleRequestsWithRedis::class,
-        \Illuminate\Session\Middleware\AuthenticateSession::class,
-        \App\Http\Middleware\SetDefaultLocaleForUrls::class, // [tl! add]
-        \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        \Illuminate\Auth\Middleware\Authorize::class,
-    ]);
+    $middleware->prependToPriorityList(
+        before: \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        prepend: \App\Http\Middleware\SetDefaultLocaleForUrls::class,
+    );
 })
 ```

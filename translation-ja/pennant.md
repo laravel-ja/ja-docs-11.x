@@ -815,7 +815,7 @@ Feature::for($users)->loadMissing([
 `loadAll`メソッドを使い、すべての定義済み機能をロードできます。
 
 ```php
-Feature::for($user)->loadAll();
+Feature::for($users)->loadAll();
 ```
 
 <a name="updating-values"></a>

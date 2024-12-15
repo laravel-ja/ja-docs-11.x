@@ -496,10 +496,23 @@ sail share --subdomain=my-sail-site
 <a name="debugging-with-xdebug"></a>
 ## Xdebugによるデバッグ
 
-LaravelSailのDockerの設定には、PHP用の人気で強力なデバッガである[Xdebug](https://xdebug.org/)をサポートしています。XDebugを有効にするには、[Xdebugを設定](https://xdebug.org/docs/step_debug#mode)するために、アプリケーションの`.env`ファイルに変数を追加する必要があります。XDebugを有効にするには、Sailを開始する前に適切なモードを設定する必要があります。
+LaravelSailのDockerの設定には、PHP用の人気で強力なデバッガである[Xdebug](https://xdebug.org/)をサポートしています。Xdebugを有効にするには、確実に[Sailの設定をリソース公開](#sail-customization)してください。次に、アプリケーションの`.env`ファイルへ以下の変数を追加し、Xdebugを設定します。
 
 ```ini
 SAIL_XDEBUG_MODE=develop,debug,coverage
+```
+
+次に、リソース公開済みの`php.ini`ファイルに、以下の設定が含まれていることを確認し、Xdebugが指定したモードで有効になるようにしてください。
+
+```ini
+[xdebug]
+xdebug.mode=${XDEBUG_MODE}
+```
+
+`php.ini`ファイルを変更した後は、Dockerイメージを再構築して、`php.ini`ファイルの変更を反映するのを忘れないでください。
+
+```shell
+sail build --no-cache
 ```
 
 #### LinuxホストIP設定

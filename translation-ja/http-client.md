@@ -337,6 +337,16 @@ Guzzleのデフォルト動作とは異なり、LaravelのHTTPクライアント
         // ...
     })->json();
 
+`RequestException`のメッセージはログに記録したり、報告したりするとき、デフォルトで120文字に切り詰めます。この動作をカスタマイズ、もしくは無効にするには、`bootstrap/app.php`ファイルでアプリケーションの例外処理動作を設定するときに、`truncateRequestExceptionsAt`メソッドと`dontTruncateRequestExceptions`メソッドを利用してください。
+
+    ->withExceptions(function (Exceptions $exceptions) {
+        // リクエストの例外メッセージを240文字に切り詰める
+        $exceptions->truncateRequestExceptionsAt(240);
+
+        // リクエストの例外メッセージの切り詰めを無効にする
+        $exceptions->dontTruncateRequestExceptions();
+    })
+
 <a name="guzzle-middleware"></a>
 ### Guzzleミドルウェア
 
