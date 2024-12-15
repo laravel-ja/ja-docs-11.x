@@ -100,7 +100,7 @@ class ExampleTest extends TestCase
 php artisan test
 ```
 
-`pest`コマンドや`phpunit` マンドに渡すことができる引数は、Artisanの`test`コマンドにも渡せます。
+`pest`コマンドや`phpunit`コマンドに渡すことができる引数は、Artisanの`test`コマンドにも渡せます。
 
 ```shell
 php artisan test --testsuite=Feature --stop-on-failure
