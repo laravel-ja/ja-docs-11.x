@@ -190,6 +190,8 @@ use Laravel\Reverb\Pulse\Recorders\ReverbMessages;
 </x-pulse>
 ```
 
+接続状況は、定期的に新しいアップデートをポーリングすることで記録されます。この情報がPulseダッシュボード上で正しく表示されるようにするには、Reverbサーバ上で`pulse:check`デーモンを実行する必要があります。Reverbを[水平方向スケーリング](#scaling)構成で実行している場合、このデーモンは、１サーバのみで実行してください。
+
 <a name="production"></a>
 ## 実機でのReverb実行
 

@@ -820,7 +820,7 @@ select * from users where name = 'John' and (votes > 100 or title = 'Admin')
 > グローバルスコープを適用する場合の予期しない動作を回避するために、常に`orWhere`呼び出しをグループ化する必要があります。
 
 <a name="advanced-where-clauses"></a>
-### 上級WHERE節
+## 上級WHERE節
 
 <a name="where-exists-clauses"></a>
 ### WHERE EXISTS句

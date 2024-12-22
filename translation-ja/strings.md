@@ -100,7 +100,6 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 [Str::take](#method-take)
 [Str::title](#method-title-case)
 [Str::toBase64](#method-str-to-base64)
-[Str::toHtmlString](#method-str-to-html-string)
 [Str::transliterate](#method-str-transliterate)
 [Str::trim](#method-str-trim)
 [Str::ltrim](#method-str-ltrim)
@@ -205,6 +204,7 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
 [test](#method-fluent-str-test)
 [title](#method-fluent-str-title)
 [toBase64](#method-fluent-str-to-base64)
+[toHtmlString](#method-fluent-str-to-html-string)
 [transliterate](#method-fluent-str-transliterate)
 [trim](#method-fluent-str-trim)
 [ltrim](#method-fluent-str-ltrim)
@@ -633,6 +633,14 @@ Laravelには、文字列値を操作する様々な関数があります。こ�
     $matches = Str::is('baz*', 'foobar');
 
     // false
+
+`ignoreCase`引数を`true`に設定することで、大文字小文字を区別しないようにできます。
+
+    use Illuminate\Support\Str;
+
+    $matches = Str::is('*.jpg', 'photo.JPG', ignoreCase: true);
+
+    // true
 
 <a name="method-str-is-ascii"></a>
 #### `Str::isAscii()` {.collection-method}
@@ -1312,15 +1320,6 @@ $repeat = Str::repeat($string, 5);
     $base64 = Str::toBase64('Laravel');
 
     // TGFyYXZlbA==
-
-<a name="method-str-to-html-string"></a>
-#### `Str::toHtmlString()` {.collection-method}
-
-`Str::toHtmlString`メソッドは、文字列インスタンスを`Illuminate\Support\HtmlString`インスタンスに変換し、Blade テンプレートで表示できるようにします。
-
-    use Illuminate\Support\Str;
-
-    $htmlString = Str::of('Nuno Maduro')->toHtmlString();
 
 <a name="method-str-transliterate"></a>
 #### `Str::transliterate()` {.collection-method}
@@ -2729,7 +2728,7 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
     // A Nice Title Uses The Correct Case
 
 <a name="method-fluent-str-to-base64"></a>
-#### `toBase64()` {.collection-method}
+#### `toBase64` {.collection-method}
 
 `toBase64`メソッドは、指定文字列をBase64に変換します。
 
@@ -2738,6 +2737,15 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
     $base64 = Str::of('Laravel')->toBase64();
 
     // TGFyYXZlbA==
+
+<a name="method-fluent-str-to-html-string"></a>
+#### `toHtmlString` {.collection-method}
+
+`toHtmlString`メソッドは、指定文字列を`Illuminate\Support\HtmlString`インスタンスへ変換します。これは、Bladeテンプレート中でレンダするときにエスケープされません。
+
+    use Illuminate\Support\Str;
+
+    $htmlString = Str::of('Nuno Maduro')->toHtmlString();
 
 <a name="method-fluent-str-transliterate"></a>
 #### `transliterate` {.collection-method}
