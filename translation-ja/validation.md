@@ -415,7 +415,7 @@ public function after(): array
 <a name="customizing-the-redirect-location"></a>
 #### リダイレクト先のカスタマイズ
 
-前述のとおり、フォームリクエストのバリデーションに失敗した場合、ユーザーを元の場所に戻すためにリダイレクトレスポンスが生成されます。しかし、この動作は自由にカスタマイズ可能です。それには、フォームのリクエストで、`$redirect`プロパティを定義します。
+フォームリクエストのバリデーションに失敗した場合、リダイレクトレスポンスを生成し、ユーザーを以前のページへ送り返します。しかし、この動作は自由にカスタマイズ可能です。そのためには、フォームリクエストで`$redirect`プロパティを定義します。
 
     /**
      * バリデーション失敗時に、ユーザーをリダイレクトするURI
@@ -1907,7 +1907,7 @@ The arguments [accepted by the `DateTimeZone::listIdentifiers` method](https://w
 <a name="rule-uuid"></a>
 #### uuid
 
-フィールドが有効な、RFC 4122（バージョン1、3、4、5）universally unique identifier (UUID)であることをバリデートします。
+フィールドが有効な、RFC 9562（バージョン1、3、4、5、6、7、８）universally unique identifier (UUID)であることをバリデートします。
 
 <a name="conditionally-adding-rules"></a>
 ## 条件付きでルールを追加する

@@ -415,7 +415,7 @@ By adding a `stopOnFirstFailure` property to your request class, you may inform 
 <a name="customizing-the-redirect-location"></a>
 #### Customizing the Redirect Location
 
-As previously discussed, a redirect response will be generated to send the user back to their previous location when form request validation fails. However, you are free to customize this behavior. To do so, define a `$redirect` property on your form request:
+When form request validation fails, a redirect response will be generated to send the user back to their previous location. However, you are free to customize this behavior. To do so, define a `$redirect` property on your form request:
 
     /**
      * The URI that users should be redirected to if validation fails.
@@ -1907,7 +1907,7 @@ The field under validation must be a valid [Universally Unique Lexicographically
 <a name="rule-uuid"></a>
 #### uuid
 
-The field under validation must be a valid RFC 4122 (version 1, 3, 4, or 5) universally unique identifier (UUID).
+The field under validation must be a valid RFC 9562 (version 1, 3, 4, 5, 6, 7, or 8) universally unique identifier (UUID).
 
 <a name="conditionally-adding-rules"></a>
 ## Conditionally Adding Rules

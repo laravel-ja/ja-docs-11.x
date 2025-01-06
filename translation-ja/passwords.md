@@ -73,7 +73,7 @@ Laravelのパスワードリセット機能を使用する前に、アプリケ�
             $request->only('email')
         );
 
-        return $status === Password::RESET_LINK_SENT
+        return $status === Password::ResetLinkSent
                     ? back()->with(['status' => __($status)])
                     : back()->withErrors(['email' => __($status)]);
     })->middleware('guest')->name('password.email');
@@ -136,7 +136,7 @@ Laravelのパスワードリセット機能を使用する前に、アプリケ�
             }
         );
 
-        return $status === Password::PASSWORD_RESET
+        return $status === Password::PasswordReset
                     ? redirect()->route('login')->with('status', __($status))
                     : back()->withErrors(['email' => [__($status)]]);
     })->middleware('guest')->name('password.update');

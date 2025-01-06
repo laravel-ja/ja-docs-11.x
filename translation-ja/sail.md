@@ -15,6 +15,7 @@
     - [MySQL](#mysql)
     - [MongoDB](#mongodb)
     - [Redis](#redis)
+    - [Valkey](#valkey)
     - [Meilisearch](#meilisearch)
     - [Typesense](#typesense)
 - [ファイルストレージ](#file-storage)
@@ -260,9 +261,16 @@ MongoDBをアプリケーションとシームレスに統合するには、[Mon
 <a name="redis"></a>
 ### Redis
 
-アプリケーションの`docker-compose.yml`ファイルには、[Redis](https://redis.io)コンテナのエントリも含まれています。このコンテナは[Dockerボリューム](https://docs.docker.com/storage/volumes/)を使用しているため、コンテナを停止して再起動しても、Redisデータに保存されているデータは保持されます。コンテナを起動したら、アプリケーションの`.env`ファイル内の`REDIS_HOST`環境変数を`redis`に設定することで、アプリケーション内のRedisインスタンスに接続できます。
+アプリケーションの`docker-compose.yml`ファイルには、[Redis](https://redis.io)コンテナのエントリも含まれています。このコンテナは[Dockerボリューム](https://docs.docker.com/storage/volumes/)を使用しているため、コンテナを停止し再起動しても、Redisインスタンスに保存しているデータは保持されたままです。コンテナを起動したら、アプリケーションの`.env`ファイル内の`REDIS_HOST`環境変数を`redis`に設定することで、アプリケーション内のRedisインスタンスに接続できます。
 
 ローカルマシンからアプリケーションのRedisデータベースに接続するには、[TablePlus](https://tableplus.com)などのグラフィカルデータベース管理アプリケーションを使用できます。デフォルトでは、Redisデータベースは`localhost`のポート6379でアクセスできます。
+
+<a name="valkey"></a>
+### Valkey
+
+Sailのインストール時にValkeyサービスのインストールを選択した場合、アプリケーションの`docker-compose.yml`ファイルは、[Valkey](https://valkey.io/)のエントリを持ちます。このコンテナは[Docker volume](https://docs.docker.com/storage/volumes/)を使用するため、Valkeyインスタンスに保存したデータは、コンテナを停止したり再起動したりしても保持されたままです。アプリケーションの`.env`ファイルの`REDIS_HOST`環境変数を`valkey`へ設定することにより、アプリケーションからこのコンテナへ接続できます。
+
+ローカルマシンからアプリケーションのValkeyデータベースへ接続するには、[TablePlus](https://tableplus.com)のようなグラフィカルなデータベース管理アプリケーションを使用します。Valkeyデータベースには、デフォルトで`localhost`の6379ポートからアクセスできます。
 
 <a name="meilisearch"></a>
 ### Meilisearch

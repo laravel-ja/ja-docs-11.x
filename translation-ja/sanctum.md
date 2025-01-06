@@ -306,7 +306,7 @@ axios.get('/sanctum/csrf-cookie').then(response => {
 });
 ```
 
-このリクエスト中に、Laravelは現在のCSRFトークンを含む`XSRF-TOKEN`クッキーをセットします。このトークンは、後続のリクエストへ`X-XSRF-TOKEN`ヘッダで渡す必要があります。これは、AxiosやAngular HttpClientなどの一部のHTTPクライアントライブラリでは自動的に行います。JavaScript　HTTPライブラリで値が設定されていない場合は、このルートで設定された`XSRF-TOKEN`クッキーの値と一致するように`X-XSRF-TOKEN`ヘッダを手作業で設定する必要があります。
+このリクエスト中に、Laravelは現在のCSRFトークンを含む`XSRF-TOKEN`クッキーを設定します。このトークンはURLデコードされ、後続のリクエストで`X-XSRF-TOKEN`ヘッダへ渡す必要があります。これは、AxiosやAngular HttpClientなどのHTTPクライアントライブラリでは自動的に行います。JavaScript HTTPライブラリが値を設定しない場合は、このルートで設定した`XSRF-TOKEN`クッキーのURLデコード値に一致するように、`X-XSRF-TOKEN`ヘッダを手作業で設定する必要があります。
 
 <a name="logging-in"></a>
 #### ログイン
