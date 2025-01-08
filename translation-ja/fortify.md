@@ -120,7 +120,7 @@ Fortifyのビューを無効にし、アプリケーションでパスワード�
 
 使い始めるには、「ログイン」ビューを返す方法をFortifyに指示する必要があります。Fortifyはヘッドレス認証ライブラリであることを忘れないでください。あらかじめ完成しているLaravelの認証機能のフロントエンド実装が必要な場合は、[アプリケーションスターターキット](/docs/{{version}}/starter-kits)を使用する必要があります。
 
-認証ビューのレンダリングロジックはすべて、`Laravel\Fortify\Fortify`クラスで利用できる適切なメソッドを使用してカスタマイズできます。通常、このメソッドはアプリケーションの`App\Providers\FortifyServiceProvider`クラスの`boot`メソッドから呼び出す必要があります。Fortifyはこのビューを返す、`/ login`ルートの定義を処理します。
+認証ビューのレンダリングロジックはすべて、`Laravel\Fortify\Fortify`クラスで利用できる適切なメソッドを使用してカスタマイズできます。通常、このメソッドはアプリケーションの`App\Providers\FortifyServiceProvider`クラスの`boot`メソッドから呼び出す必要があります。Fortifyはこのビューを返す、`/login`ルートの定義を処理します。
 
     use Laravel\Fortify\Fortify;
 
