@@ -57,7 +57,7 @@ REVERB_APP_SECRET=my-app-secret
 ```php
 'apps' => [
     [
-        'id' => 'my-app-id',
+        'app_id' => 'my-app-id',
         'allowed_origins' => ['laravel.com'],
         // ...
     ]

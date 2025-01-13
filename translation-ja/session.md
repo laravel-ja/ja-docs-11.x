@@ -253,11 +253,11 @@ Laravel[アプリケーションスターターキット](/docs/{{version}}/star
 
     Route::post('/profile', function () {
         // ...
-    })->block($lockSeconds = 10, $waitSeconds = 10)
+    })->block($lockSeconds = 10, $waitSeconds = 10);
 
     Route::post('/order', function () {
         // ...
-    })->block($lockSeconds = 10, $waitSeconds = 10)
+    })->block($lockSeconds = 10, $waitSeconds = 10);
 
 `block`メソッドは２つのオプションの引数を取ります。`block`メソッドの最初の引数は、セッションロックを解放するまでに保持する必要がある最大秒数です。もちろん、この時間より前にリクエストの実行が終了すれば、ロックはより早く解放されます。
 
@@ -267,7 +267,7 @@ Laravel[アプリケーションスターターキット](/docs/{{version}}/star
 
     Route::post('/profile', function () {
         // ...
-    })->block()
+    })->block();
 
 <a name="adding-custom-session-drivers"></a>
 ## カスタムセッションドライバの追加

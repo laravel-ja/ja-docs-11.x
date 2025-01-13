@@ -1227,6 +1227,7 @@ Duskはアプリケーションに対する数多くのアサートを提供し�
 [assertValue](#assert-value)
 [assertValueIsNot](#assert-value-is-not)
 [assertAttribute](#assert-attribute)
+[assertAttributeMissing](#assert-attribute-missing)
 [assertAttributeContains](#assert-attribute-contains)
 [assertAttributeDoesntContain](#assert-attribute-doesnt-contain)
 [assertAriaAttribute](#assert-aria-attribute)
@@ -1629,6 +1630,14 @@ URLの現在のハッシュフラグメントが指定するフラグメント�
 指定セレクタに一致する要素が、指定属性に指定値を持っていることを宣言します。
 
     $browser->assertAttribute($selector, $attribute, $value);
+
+<a name="assert-attribute-missing"></a>
+#### assertAttributeMissing
+
+指定セレクタとマッチする要素に、指定属性がないことを宣言します。
+
+    $browser->assertAttributeMissing($selector, $attribute);
+
 
 <a name="assert-attribute-contains"></a>
 #### assertAttributeContains
