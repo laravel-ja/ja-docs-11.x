@@ -53,7 +53,7 @@
 <a name="introduction"></a>
 ## イントロダクション
 
-[Laravel Dusk](https://github.com/laravel/dusk)は、表現力豊かで使いやすいブラウザ自動化およびテストAPIを提供します。デフォルトではDuskを使用するために、ローカルコンピュータへJDKやSeleniumをインストールする必要はありません。代わりに、Duskはスタンドアロンの[ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)を使用します。ただし、他のSelenium互換ドライバも自由に利用できます。
+[Laravel Dusk](https://github.com/laravel/dusk)は、表現力豊かで使いやすいブラウザ自動化およびテストAPIを提供します。デフォルトではDuskを使用するために、ローカルコンピュータへJDKやSeleniumをインストールする必要はありません。代わりに、Duskはスタンドアロンの[ChromeDriver](https://sites.google.com/chromium.org/driver)を使用します。ただし、他のSelenium互換ドライバも自由に利用できます。
 
 <a name="installation"></a>
 ## インストール
@@ -103,7 +103,7 @@ php artisan dusk:chrome-driver --detect
 <a name="using-other-browsers"></a>
 ### 他ブラウザの使用
 
-デフォルトのDuskは、Google Chromeとスタンドアローンの[ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/home)をブラウザテスト実行に使用します。しかし、自身のSeleniumサーバを起動し、希望するブラウザに対しテストを実行することもできます。
+デフォルトのDuskは、Google Chromeとスタンドアローンの[ChromeDriver](https://sites.google.com/chromium.org/driver)をブラウザテスト実行に使用します。しかし、自身のSeleniumサーバを起動し、希望するブラウザに対しテストを実行することもできます。
 
 開始するには、アプリケーションのベースDuskテストケースである、`tests/DuskTestCase.php`ファイルを開きます。このファイルの中の、`startChromeDriver`メソッド呼び出しを削除してください。これにより、ChromeDriverの自動起動を停止します。
 
