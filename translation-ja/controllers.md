@@ -152,6 +152,9 @@ php artisan make:controller ProvisionServer --invokable
         ];
     }
 
+> [!WARNING]
+> `Illuminate\Routing\Controllers\HasMiddleware'を実装するコントローラは、`Illuminate\Routing\Controller`を継承してはいけません。
+
 <a name="resource-controllers"></a>
 ## リソースコントローラ
 

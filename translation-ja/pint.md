@@ -55,6 +55,12 @@ Pintは更新した全ファイルの完全なリストを表示します。Pint
 ./vendor/bin/pint --test
 ```
 
+Gitで指定したブランチと比較して、異なるファイルのみをPintで修正したい場合は、`--diff=[branch]`オプションを使用します。これはCI環境（GitHub actionsなど）で効果的に使用でき、新規または変更されたファイルのみを調べることで時間を節約できます。
+
+```shell
+./vendor/bin/pint --diff=main
+```
+
 もし、Gitへコミットされていない変更のあるファイルだけをPintに修正させたい場合は、`--dirty` オプションを使用します。
 
 ```shell

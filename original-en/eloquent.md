@@ -923,10 +923,6 @@ To delete a model, you may call the `delete` method on the model instance:
 
     $flight->delete();
 
-You may call the `truncate` method to delete all of the model's associated database records. The `truncate` operation will also reset any auto-incrementing IDs on the model's associated table:
-
-    Flight::truncate();
-
 <a name="deleting-an-existing-model-by-its-primary-key"></a>
 #### Deleting an Existing Model by its Primary Key
 
@@ -953,6 +949,10 @@ If you are utilizing [soft deleting models](#soft-deleting), you may permanently
 Of course, you may build an Eloquent query to delete all models matching your query's criteria. In this example, we will delete all flights that are marked as inactive. Like mass updates, mass deletes will not dispatch model events for the models that are deleted:
 
     $deleted = Flight::where('active', 0)->delete();
+
+To delete all models in a table, you should execute a query without adding any conditions:
+
+    $deleted = Flight::query()->delete();
 
 > [!WARNING]  
 > When executing a mass delete statement via Eloquent, the `deleting` and `deleted` model events will not be dispatched for the deleted models. This is because the models are never actually retrieved when executing the delete statement.

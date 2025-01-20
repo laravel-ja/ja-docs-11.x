@@ -1165,15 +1165,6 @@ The query builder's `delete` method may be used to delete records from the table
 
     $deleted = DB::table('users')->where('votes', '>', 100)->delete();
 
-If you wish to truncate an entire table, which will remove all records from the table and reset the auto-incrementing ID to zero, you may use the `truncate` method:
-
-    DB::table('users')->truncate();
-
-<a name="table-truncation-and-postgresql"></a>
-#### Table Truncation and PostgreSQL
-
-When truncating a PostgreSQL database, the `CASCADE` behavior will be applied. This means that all foreign key related records in other tables will be deleted as well.
-
 <a name="pessimistic-locking"></a>
 ## Pessimistic Locking
 
@@ -1190,6 +1181,34 @@ Alternatively, you may use the `lockForUpdate` method. A "for update" lock preve
             ->where('votes', '>', 100)
             ->lockForUpdate()
             ->get();
+
+While not obligatory, it is recommended to wrap pessimistic locks within a [transaction](/docs/{{version}}/database#database-transactions). This ensures that the data retrieved remains unaltered in the database until the entire operation completes. In case of a failure, the transaction will roll back any changes and release the locks automatically:
+
+    DB::transaction(function () {
+        $sender = DB::table('users')
+            ->lockForUpdate()
+            ->find(1);
+
+        $receiver = DB::table('users')
+            ->lockForUpdate();
+            ->find(2);
+
+        if ($sender->balance < 100) {
+            throw new RuntimeException('Balance too low.');
+        }
+        
+        DB::table('users')
+            ->where('id', $sender->id)
+            ->update([
+                'balance' => $sender->balance - 100
+            ]);
+
+        DB::table('users')
+            ->where('id', $receiver->id)
+            ->update([
+                'balance' => $receiver->balance + 100
+            ]);
+    });
 
 <a name="debugging"></a>
 ## Debugging

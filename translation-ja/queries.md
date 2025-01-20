@@ -1165,15 +1165,6 @@ JSONカラムを更新する場合は、JSONオブジェクトの適切なキー
 
     $deleted = DB::table('users')->where('votes', '>', 100)->delete();
 
-テーブル全体を切り捨てて、テーブルからすべてのレコードを削除し、自動増分IDをゼロにリセットする場合は、`truncate`メソッドを使用します。
-
-    DB::table('users')->truncate();
-
-<a name="table-truncation-and-postgresql"></a>
-#### テーブルのトランケーションとPostgreSQL
-
-PostgreSQLデータベースを切り捨てる場合、`CASCADE`動作が適用されます。これは、他のテーブルのすべての外部キー関連レコードも削除されることを意味します。
-
 <a name="pessimistic-locking"></a>
 ## 悲観的ロック
 
@@ -1190,6 +1181,34 @@ PostgreSQLデータベースを切り捨てる場合、`CASCADE`動作が適用�
             ->where('votes', '>', 100)
             ->lockForUpdate()
             ->get();
+
+義務ではありませんが、悲観的ロックは[トランザクション](/docs/{{version}}/database#database-transactions)の中へラップすることを推奨します。これにより、操作全体が完了するまで、取得したデータがデータベース内で変更されないことが保証されます。失敗した場合、トランザクションは変更をロールバックし、ロックを自動的に解放します。
+
+    DB::transaction(function () {
+        $sender = DB::table('users')
+            ->lockForUpdate()
+            ->find(1);
+
+        $receiver = DB::table('users')
+            ->lockForUpdate();
+            ->find(2);
+
+        if ($sender->balance < 100) {
+            throw new RuntimeException('Balance too low.');
+        }
+
+        DB::table('users')
+            ->where('id', $sender->id)
+            ->update([
+                'balance' => $sender->balance - 100
+            ]);
+
+        DB::table('users')
+            ->where('id', $receiver->id)
+            ->update([
+                'balance' => $receiver->balance + 100
+            ]);
+    });
 
 <a name="debugging"></a>
 ## デバッグ

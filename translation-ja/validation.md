@@ -1226,16 +1226,30 @@ distinctはデフォルトで緩い比較を使用します。厳密な比較を
 
 <div class="content-list" markdown="1">
 
-- `rfc`: `RFCValidation`
-- `strict`: `NoRFCWarningsValidation`
-- `dns`: `DNSCheckValidation`
-- `spoof`: `SpoofCheckValidation`
-- `filter`: `FilterEmailValidation`
-- `filter_unicode`: `FilterEmailValidation::unicode()`
+- `rfc`: `RFCValidation` - RFC 5322に従い、メールアドレスをバリデーションする。
+- `strict`: `NoRFCWarningsValidation` - RFC 5322に従い、メールアドレスをバリデーションするが、末尾のピリオドや連続するピリオドは拒絶する。
+- `dns`: `DNSCheckValidation` - メールアドレスのドメインに、有効なMXレコードがあることを確認する。
+- `spoof`: `SpoofCheckValidation` - メールアドレスにホモグラフや偽のUnicode文字が含まれていないことを確認する。
+- `filter`: `FilterEmailValidation` - PHPの`filter_var`関数に従い、メールアドレスが有効であることを確認する。
+- `filter_unicode`: `FilterEmailValidation::unicode()` - メールアドレスがPHPのfilter_var関数に従い、メールアドレスが有効であることを確認し、一部のUnicode文字を許可します。
 
 </div>
 
-PHPの`filter_var`関数を使用する`filter`バリデータは、Laravelに付属しており、Laravelバージョン5.8より前のLaravelのデフォルトの電子メールバリデーション動作でした。
+使い勝手が良いように、メールバリデーションルールは、fluentルールビルダを使って作成できます。
+
+```php
+use Illuminate\Validation\Rule;
+
+$request->validate([
+    'email' => [
+        'required',
+        Rule::email()
+            ->rfcCompliant(strict: false)
+            ->validateMxRecord()
+            ->preventSpoofing()
+    ],
+]);
+```
 
 > [!WARNING]
 > `dns`および`spoof`バリデータには、PHPの`intl`拡張が必要です。
