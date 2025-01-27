@@ -46,7 +46,7 @@ Laravelは、データに適用する便利で数多くのバリデーション�
 <a name="validation-quickstart"></a>
 ## クイックスタート
 
-Laravelの強力なバリデーション機能について学ぶため、フォームをバリデーションし、エラーメッセージをユーザーに表示する完全な例を見てみましょう。この高レベルの概要を読むことで、Laravelを使用して受信リクエストデータをバリデーションする一般的な方法を理解できます。
+Laravelの強力なバリデーション機能について学ぶために、フォームをバリデーションし、エラーメッセージをユーザーに表示する完全な例を見てみましょう。この高レベルの概要を読むことで、Laravelを使用して受信リクエストデータをバリデーションする一般的な方法を理解できます。
 
 <a name="quick-defining-the-routes"></a>
 ### ルート定義
@@ -99,7 +99,7 @@ Laravelの強力なバリデーション機能について学ぶため、フォ�
 <a name="quick-writing-the-validation-logic"></a>
 ### バリデーションロジック
 
-これで、新しいブログ投稿をバリデーションするロジックを`store`メソッドに入力する準備が整いました。これを行うには、`Illuminate\Http\Request`オブジェクトが提供する`validate`メソッドを使用します。バリデーションルールにパスすると、コードは正常に実行され続けます。しかし、バリデーションに失敗すると`Illuminate\Validation\ValidationException`例外を投げ、適切なエラーレスポンスを自動的にユーザーへ返送します。
+これで、新しいブログ投稿をバリデーションするロジックを`store`メソッドに入力する準備が整いました。これを行うには、`Illuminate\Http\Request`オブジェクトが提供する`validate`メソッドを使用します。バリデーションルールにパスすると、コードを正常に実行し続けます。しかし、バリデーションに失敗すると`Illuminate\Validation\ValidationException`例外を投げ、適切なエラーレスポンスを自動的にユーザーへ返送します。
 
 伝統的なHTTPリクエスト処理中にバリデーションが失敗した場合、直前のURLへのリダイレクトレスポンスを生成します。受信リクエストがXHRリクエストの場合、[バリデーションエラーメッセージを含むJSONレスポンス](#validation-error-response-format)を返します。
 
@@ -120,7 +120,7 @@ Laravelの強力なバリデーション機能について学ぶため、フォ�
         return redirect('/posts');
     }
 
-ご覧のとおり、バリデーションルールは`validate`メソッドへ渡します。心配いりません。利用可能なすべてのバリデーションルールは[文書化](#available-validation-rules)されています。この場合でもバリデーションが失敗したとき、適切な応答を自動的に生成します。バリデーションにパスすると、コントローラは正常に実行を継続します。
+ご覧のとおり、バリデーションルールを`validate`メソッドへ渡します。心配いりません。利用可能なすべてのバリデーションルールは[文書化](#available-validation-rules)されています。この場合でもバリデーションが失敗したとき、適切な応答を自動的に生成します。バリデーションにパスすると、コントローラは正常に実行を継続します。
 
 もしくは、バリデーションルールを`|`で区切る文字列の代わりに、ルールの配列で指定することもできます。
 
@@ -139,14 +139,14 @@ Laravelの強力なバリデーション機能について学ぶため、フォ�
 <a name="stopping-on-first-validation-failure"></a>
 #### 最初のバリデーション失敗時に停止
 
-最初のバリデーションに失敗したら、残りのバリデーションルールの判定を停止したい場合も、ときどき起きるでしょう。これには、`bail`ルールを使ってください。
+最初のバリデーションに失敗したら、残りのバリデーションルールの判定を停止したい場合も、ときどきあるでしょう。これには、`bail`ルールを使ってください。
 
     $request->validate([
         'title' => 'bail|required|unique:posts|max:255',
         'body' => 'required',
     ]);
 
-この例の場合、`title`属性の`unique`ルールに失敗すると、`max`ルールをチェックしません。ルールは指定した順番にバリデートします。
+この例の場合、`title`属性の`unique`ルールに失敗すると、`max`ルールをチェックしません。ルールは指定順にバリデートします。
 
 <a name="a-note-on-nested-attributes"></a>
 #### ネストした属性の注意点
@@ -171,7 +171,7 @@ Laravelの強力なバリデーション機能について学ぶため、フォ�
 
 では、受信リクエストフィールドが指定したバリデーションルールにパスしない場合はどうなるでしょうか。前述のように、Laravelはユーザーを直前の場所へ自動的にリダイレクトします。さらに、すべてのバリデーションエラーと[リクエスト入力](/docs/{{version}}/requests#retrieveing-old-input)は自動的に[セッションに一時保持](/docs/{{version}}/session#flash-data)保存されます。
 
-`$errors`変数は、`web`ミドルウェアグループが提供する`Illuminate\View\Middleware\ShareErrorsFromSession`ミドルウェアにより、アプリケーションのすべてのビューで共有されます。このミドルウェアが適用されると、ビューで`$errors`変数は常に定義され、`$errors`変数が常に使用可能になり、安全・便利に使用できると想定できます。`$errors`変数は`Illuminate\Support\MessageBag`のインスタンスです。このオブジェクトの操作の詳細は、[ドキュメントを確認してください](#working-with-error-messages)。
+`$errors`変数は、`web`ミドルウェアグループが提供する`Illuminate\View\Middleware\ShareErrorsFromSession`ミドルウェアにより、アプリケーションのすべてのビューで共有されます。このミドルウェアが適用されると、ビューで`$errors`変数は常に定義され、`$errors`変数が常に使用可能になっており、安全・便利に皆さんは使用できると想定できます。`$errors`変数は`Illuminate\Support\MessageBag`のインスタンスです。このオブジェクトの操作の詳細は、[ドキュメントを確認してください](#working-with-error-messages)。
 
 この例では、バリデーションに失敗すると、エラーメッセージをビューで表示できるように、コントローラの`create`メソッドへリダイレクトされることになります。
 
@@ -200,7 +200,7 @@ Laravelの組み込み検証ルールには、それぞれエラーメッセー�
 
 `lang/en/validation.php`ファイル内に、各バリデーションルールの翻訳エントリーがあります。これらのメッセージは、アプリケーションのニーズに応じて自由に変更・修正してください。
 
-さらに、このファイルを他の言語ディレクトリにコピーして、アプリケーションように言語用メッセージを翻訳することもできます。Laravelの多言語化の詳細については、完全な[多言語化のドキュメント](/docs/{{version}}/localization)をチェックしてみてください。
+さらに、このファイルを他の言語ディレクトリにコピーして、アプリケーション用に言語用メッセージを翻訳することもできます。Laravelの多言語化の詳細については、完全な[多言語化のドキュメント](/docs/{{version}}/localization)をチェックしてください。
 
 > [!WARNING]
 > Laravelアプリケーションのスケルトンは、デフォルトで`lang`ディレクトリを用意していません。Laravelの言語ファイルをカスタマイズしたい場合は、`lang:publish` Artisanコマンドでリソース公開してください。
@@ -863,91 +863,165 @@ The credit card number field is required when payment type is credit card.
     }
 </style>
 
+#### 論理型
+
 <div class="collection-method-list" markdown="1">
 
 [受け入れ](#rule-accepted)
 [条件一致時受け入れ](#rule-accepted-if)
+[論理](#rule-boolean)
+[拒否](#rule-declined)
+[条件付き拒否](#rule-declined-if)
+
+</div>
+
+#### 文字列
+
+<div class="collection-method-list" markdown="1">
+
 [アクティブなURL](#rule-active-url)
-[（日付）より後](#rule-after)
-[（日付）以降](#rule-after-or-equal)
 [アルファベット](#rule-alpha)
 [アルファベット記号](#rule-alpha-dash)
 [アルファベット数字](#rule-alpha-num)
-[配列](#rule-array)
 [Ascii](#rule-ascii)
-[継続終了](#rule-bail)
-[（日付）より前](#rule-before)
-[（日付）以前](#rule-before-or-equal)
-[範囲](#rule-between)
-[論理](#rule-boolean)
 [確認](#rule-confirmed)
-[包含](#rule-contains)
 [現在のパスワード](#rule-current-password)
-[日付](#rule-date)
-[同一日付](#rule-date-equals)
-[日付形式](#rule-date-format)
-[小数点以下](#rule-decimal)
-[拒否](#rule-declined)
-[条件一致時拒否](#rule-declined-if)
 [相違](#rule-different)
-[桁指定数値](#rule-digits)
-[桁範囲指定数値](#rule-digits-between)
-[寸法(画像ファイル)](#rule-dimensions)
-[別々](#rule-distinct)
 [文字列非開始](#rule-doesnt-start-with)
 [文字列非終了](#rule-doesnt-end-with)
 [メールアドレス](#rule-email)
 [文字列終了](#rule-ends-with)
 [列挙型](#rule-enum)
-[除外](#rule-exclude)
-[条件一致時フィールド除外](#rule-exclude-if)
-[条件不一致時フィールド除外](#rule-exclude-unless)
-[存在時フィールド除外](#rule-exclude-with)
-[不在時フィールド除外](#rule-exclude-without)
-[存在（データベース）](#rule-exists)
-[拡張子](#rule-extensions)
-[ファイル](#rule-file)
-[充満](#rule-filled)
-[より大きい](#rule-gt)
-[以上](#rule-gte)
-[Hex Color](#rule-hex-color)
-[画像（ファイル)](#rule-image)
+[１６進色](#rule-hex-color)
 [内包](#rule-in)
-[配列内](#rule-in-array)
-[整数](#rule-integer)
 [IPアドレス](#rule-ip)
 [JSON](#rule-json)
-[より小さい](#rule-lt)
-[以下](#rule-lte)
-[リスト](#rule-list)
 [小文字](#rule-lowercase)
 [MACアドレス](#rule-mac)
 [最大値](#rule-max)
+[最小値](#rule-min)
+[非内包](#rule-not-in)
+[正規表現](#rule-regex)
+[正規表現否定](#rule-not-regex)
+[同一](#rule-same)
+[サイズ](#rule-size)
+[文字列先頭](#rule-starts-with)
+[文字列](#rule-string)
+[大文字](#rule-uppercase)
+[URL](#rule-url)
+[ULID](#rule-ulid)
+[UUID](#rule-uuid)
+
+</div>
+
+#### 数値
+
+<div class="collection-method-list" markdown="1">
+
+[範囲](#rule-between)
+[小数点以下](#rule-decimal)
+[差異](#rule-different)
+[整数桁数](#rule-digits)
+[整数範囲](#rule-digits-between)
+[より大きい](#rule-gt)
+[以上](#rule-gte)
+[整数](#rule-integer)
+[より小さい](#rule-lt)
+[以下](#rule-lte)
+[最大値](#rule-max)
 [最大桁数](#rule-max-digits)
-[MIMEタイプ](#rule-mimetypes)
-[MIMEタイプ(ファイル拡張子)](#rule-mimes)
 [最小値](#rule-min)
 [最小桁数](#rule-min-digits)
+[倍数](#rule-multiple-of)
+[数値](#rule-numeric)
+[同一](#rule-same)
+[サイズ](#rule-size)
+
+</div>
+
+#### 配列
+
+<div class="collection-method-list" markdown="1">
+
+[配列](#rule-array)
+[範囲](#rule-between)
+[内包](#rule-contains)
+[一意](#rule-distinct)
+[他のフィールド値](#rule-in-array)
+[リスト](#rule-list)
+[最大値](#rule-max)
+[最小値](#rule-min)
+[サイズ](#rule-size)
+
+</div>
+
+#### 日付
+
+<div class="collection-method-list" markdown="1">
+
+[より後](#rule-after)
+[以後](#rule-after-or-equal)
+[より前](#rule-before)
+[以前](#rule-before-or-equal)
+[日付](#rule-date)
+[同日](#rule-date-equals)
+[日付形式](#rule-date-format)
+[差異](#rule-different)
+[タイムゾーン](#rule-timezone)
+
+</div>
+
+#### ファイル
+
+<div class="collection-method-list" markdown="1">
+
+[範囲](#rule-between)
+[寸法](#rule-dimensions)
+[拡張子](#rule-extensions)
+[ファイル](#rule-file)
+[イメージ](#rule-image)
+[最大](#rule-max)
+[MIMEタイプ](#rule-mimetypes)
+[拡張子によるMIMEタイプ](#rule-mimes)
+[サイズ](#rule-size)
+
+</div>
+
+#### データベース
+
+<div class="collection-method-list" markdown="1">
+
+[存在](#rule-exists)
+[非存在](#rule-unique)
+
+</div>
+
+#### ユーティリティ
+
+<div class="collection-method-list" markdown="1">
+
+[終了](#rule-bail)
+[除外](#rule-exclude)
+[条件一致時除外](#rule-exclude-if)
+[条件不一致時除外](#rule-exclude-unless)
+[存在時除外](#rule-exclude-with)
+[非存在時除外](#rule-exclude-without)
+[非空](#rule-filled)
 [非入力](#rule-missing)
 [条件一致時非入力](#rule-missing-if)
 [条件不一致時非入力](#rule-missing-unless)
 [存在時非入力](#rule-missing-with)
 [全不在時非入力](#rule-missing-with-all)
-[倍数値](#rule-multiple-of)
-[非内包](#rule-not-in)
-[正規表現不一致](#rule-not-regex)
 [NULL許可](#rule-nullable)
-[数値](#rule-numeric)
 [存在](#rule-present)
 [条件一致時存在](#rule-present-if)
-[条件非一致時存在](#rule-present-unless)
+[条件不一致時存在](#rule-present-unless)
 [存在時存在](#rule-present-with)
 [全存在時存在](#rule-present-with-all)
 [禁止](#rule-prohibited)
 [条件一致時禁止](#rule-prohibited-if)
 [条件不一致時禁止](#rule-prohibited-unless)
 [他フィールド禁止](#rule-prohibits)
-[正規表現](#rule-regex)
 [必須](#rule-required)
 [指定フィールド値一致時必須](#rule-required-if)
 [受け入れ時必須](#rule-required-if-accepted)
@@ -958,17 +1032,7 @@ The credit card number field is required when payment type is credit card.
 [指定フィールド非存在時必須](#rule-required-without)
 [全指定フィールド非存在時必須](#rule-required-without-all)
 [配列かつキー包含必須](#rule-required-array-keys)
-[同一](#rule-same)
-[サイズ](#rule-size)
 [存在時バリデート実行](#validating-when-present)
-[文字列開始](#rule-starts-with)
-[文字列](#rule-string)
-[タイムゾーン](#rule-timezone)
-[一意（データベース）](#rule-unique)
-[大文字](#rule-uppercase)
-[URL](#rule-url)
-[ULID](#rule-ulid)
-[UUID](#rule-uuid)
 
 </div>
 
@@ -1143,12 +1207,12 @@ The credit card number field is required when payment type is credit card.
 <a name="rule-declined"></a>
 #### declined
 
-The field under validation must be `"no"`, `"off"`, `0`, `"0"`, `false`, or `"false"`.
+フィールドが`"no"`、`"off"`、`0`、`"0"`、`false`、`"false"`であることをバリデートします。
 
 <a name="rule-declined-if"></a>
 #### declined_if:他のフィールド,値,...
 
-The field under validation must be `"no"`, `"off"`, `0`, `"0"`, `false`, or `"false"` if another field under validation is equal to a specified value.
+他のフィールドが指定値と等しい場合、フィールドが`"no"`、`"off"`、`0`、`"0"`、`false`、`"false"`であることをバリデートします。
 
 <a name="rule-different"></a>
 #### different:_フィールド_
@@ -1341,7 +1405,7 @@ Rule::enum(ServerStatus::class)
 
     'state' => 'exists:states'
 
-`column`オプションが指定されていない場合、フィールド名が使用されます。したがって、この場合、ルールは、`states`データベーステーブルに、リクエストの`state`属性値と一致する`state`カラム値を持つレコードが含まれていることをバリデーションします。
+`column`オプションが指定されていない場合、フィールド名を使用します。したがって、この場合、ルールは、`states`データベーステーブルに、リクエストの`state`属性値と一致する`state`カラム値を持つレコードが含まれていることをバリデーションします。
 
 <a name="specifying-a-custom-column-name"></a>
 #### カスタムカラム名の指定

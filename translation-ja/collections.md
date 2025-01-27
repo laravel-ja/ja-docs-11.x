@@ -102,6 +102,7 @@
 [chunk](#method-chunk)
 [chunkWhile](#method-chunkwhile)
 [collapse](#method-collapse)
+[collapseWithKeys](#method-collapsewithkeys)
 [collect](#method-collect)
 [combine](#method-combine)
 [concat](#method-concat)
@@ -141,7 +142,9 @@
 [hasAny](#method-hasany)
 [implode](#method-implode)
 [intersect](#method-intersect)
+[intersectUsing](#method-intersectusing)
 [intersectAssoc](#method-intersectAssoc)
+[intersectAssocUsing](#method-intersectassocusing)
 [intersectByKeys](#method-intersectbykeys)
 [isEmpty](#method-isempty)
 [isNotEmpty](#method-isnotempty)
@@ -400,6 +403,28 @@
     $collapsed->all();
 
     // [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+<a name="method-collapsewithkeys"></a>
+#### `collapseWithKeys()` {.collection-method}
+
+`collapseWithKeys`メソッドは、配列またはコレクションのコレクションを元のキーを保持したまま、１つのコレクションへ一元化します。
+
+    $collection = collect([
+      ['first'  => collect([1, 2, 3])],
+      ['second' => [4, 5, 6]],
+      ['third'  => collect([7, 8, 9])]
+    ]);
+
+
+    $collapsed = $collection->collapseWithKeys();
+
+    $collapsed->all();
+
+    // [
+    //     'first'  => [1, 2, 3],
+    //     'second' => [4, 5, 6],
+    //     'third'  => [7, 8, 9],
+    // ]
 
 <a name="method-collect"></a>
 #### `collect()` {.collection-method}
@@ -1288,6 +1313,21 @@
 > [!NOTE]
 > [Eloquentコレクション](/docs/{{version}}/eloquent-collections#method-contains)の使用時は、このメソッドの振る舞いは変わります。
 
+<a name="method-intersectusing"></a>
+#### `intersectUsing()` {.collection-method}
+
+`intersectUsing`メソッドは、値を比較するカスタムコールバックを使用して、元のコレクションから、指定した`array`やコレクションに存在しない値を削除します。結果のコレクションは元のコレクションのキーを保持します。
+
+    $collection = collect(['Desk', 'Sofa', 'Chair']);
+
+    $intersect = $collection->intersectUsing(['desk', 'chair', 'bookcase'], function ($a, $b) {
+        return strcasecmp($a, $b);
+    });
+
+    $intersect->all();
+
+    // [0 => 'Desk', 2 => 'Chair']
+
 <a name="method-intersectAssoc"></a>
 #### `intersectAssoc()` {.collection-method}
 
@@ -1308,6 +1348,29 @@
     $intersect->all();
 
     // ['size' => 'M']
+
+<a name="method-intersectassocusing"></a>
+#### `intersectAssocUsing()` {.collection-method}
+
+`intersectAssocUsing`メソッドは、キーと値の両方について等しいかを判断するカスタム比較コールバックを使用して、元のコレクションと他のコレクションや`array`を比較し、両方に存在するキーと値のペアを返します。
+
+    $collection = collect([
+        'color' => 'red',
+        'Size' => 'M',
+        'material' => 'cotton',
+    ]);
+
+    $intersect = $collection->intersectAssocUsing([
+        'color' => 'blue',
+        'size' => 'M',
+        'material' => 'polyester',
+    ], function ($a, $b) {
+        return strcasecmp($a, $b);
+    });
+
+    $intersect->all();
+
+    // ['Size' => 'M']
 
 <a name="method-intersectbykeys"></a>
 #### `intersectByKeys()` {.collection-method}

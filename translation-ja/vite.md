@@ -28,6 +28,7 @@
   - [サブリソース完全性(SRI)](#subresource-integrity-sri)
   - [任意の属性](#arbitrary-attributes)
 - [高度なカスタマイズ](#advanced-customization)
+  - [開発サーバでのCross-Origin Resource Sharing（CORS）](#cors)
   - [開発サーバURLの修正](#correcting-dev-server-urls)
 
 <a name="introduction"></a>
@@ -925,6 +926,72 @@ export default defineConfig({
     build: {
       manifest: 'assets.json', // マニフェストファイル名のカスタマイズ
     },
+});
+```
+
+<a name="cors"></a>
+### 開発サーバでのCross-Origin Resource Sharing（CORS）
+
+Vite開発サーバからアセットを取得する際に、ブラウザでCross-Origin Resource Sharing（CORS）の問題が発生する場合、カスタムオリジンに開発サーバへのアクセスを許可する必要があります。ViteとLaravelプラグインを組み合わせると、追加設定なしで以下のオリジンを使用できます。
+
+- `::1`
+- `127.0.0.1`
+- `localhost`
+- `*.test`
+- `*.localhost`
+- プロジェクトの`.env`中の`APP_URL`
+
+プロジェクトでカスタムオリジンを許可する最も簡単な方法は、アプリケーションの`APP_URL`環境変数が、ブラウザで訪れるオリジンと一致しているのを確認することです。例えば、`https://my-app.laravel`にアクセスする場合は、`.env`を更新して一致させる必要があります。
+
+```env
+APP_URL=https://my-app.laravel
+```
+
+複数のオリジンをサポートするなど、オリジンをより細かく制御する必要がある場合は、[Viteの包括的かつ柔軟な組み込みCORSサーバ設定](https://vite.dev/config/server-options.html#server-cors)を利用する必要があります。例えば、プロジェクトの`vite.config.js`ファイルの`server.cors.origin`設定オプションで複数のオリジンを指定できます。
+
+```js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: 'resources/js/app.js',
+            refresh: true,
+        }),
+    ],
+    server: {  // [tl! add]
+        cors: {  // [tl! add]
+            origin: [  // [tl! add]
+                'https://backend.laravel',  // [tl! add]
+                'http://admin.laravel:8566',  // [tl! add]
+            ],  // [tl! add]
+        },  // [tl! add]
+    },  // [tl! add]
+});
+```
+
+また、正規表現パターンを含めることもできます。これは`*.laravel`のように、指定したトップレベルドメインのすべてのオリジンを許可したい場合に便利です。
+
+```js
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
+
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: 'resources/js/app.js',
+            refresh: true,
+        }),
+    ],
+    server: {  // [tl! add]
+        cors: {  // [tl! add]
+            origin: [ // [tl! add]
+                // Supports: SCHEME://DOMAIN.laravel[:PORT] [tl! add]
+                /^https?:\/\/.*\.laravel(:\d+)?$/, //[tl! add]
+            ], // [tl! add]
+        }, // [tl! add]
+    }, // [tl! add]
 });
 ```
 
