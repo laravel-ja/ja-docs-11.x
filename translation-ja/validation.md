@@ -871,7 +871,7 @@ The credit card number field is required when payment type is credit card.
 [条件一致時受け入れ](#rule-accepted-if)
 [論理](#rule-boolean)
 [拒否](#rule-declined)
-[条件付き拒否](#rule-declined-if)
+[条件一致時拒否](#rule-declined-if)
 
 </div>
 
@@ -905,7 +905,7 @@ The credit card number field is required when payment type is credit card.
 [正規表現否定](#rule-not-regex)
 [同一](#rule-same)
 [サイズ](#rule-size)
-[文字列先頭](#rule-starts-with)
+[文字列開始](#rule-starts-with)
 [文字列](#rule-string)
 [大文字](#rule-uppercase)
 [URL](#rule-url)
