@@ -43,7 +43,7 @@ Laravelのファイルシステム設定ファイルは`config/filesystems.php`�
 <a name="the-local-driver"></a>
 ### ローカルドライバ
 
-`local`ドライバを使用する場合、すべてのファイル操作は、`filesystems`設定ファイルで定義した`root`ディレクトリからの相対位置です。デフォルトでは、この値は`storage/app`ディレクトリに設定されています。したがって、次のメソッドは`storage/app/example.txt`に書き込みます。
+`local`ドライバを使用する場合、すべてのファイル操作は、`filesystems`設定ファイルで定義した`root`ディレクトリからの相対位置です。デフォルトでは、この値は`storage/app/private`ディレクトリに設定されています。したがって、以下のメソッドは`storage/app/private/example.txt`へ書き込みます。
 
     use Illuminate\Support\Facades\Storage;
 
@@ -54,7 +54,7 @@ Laravelのファイルシステム設定ファイルは`config/filesystems.php`�
 
 アプリケーションの`filesystems`設定ファイルに含まれている`public`ディスクは、パブリックに公開してアクセスできるようにするファイルを対象としています。デフォルトでは、`public`ディスクは`local`ドライバを使用し、そのファイルを`storage/app/public`に保存します。
 
-これらのファイルにWebからアクセスできるようにするには、`storage/app/public`ソースディレクトリから`public/storage`ターゲットディレクトリへのシンボリックリンクを作成する必要があります。このフォルダ規約を利用すると、[Envoyer](https://envoyer.io)のようなダウンタイムゼロのデプロイメントシステムを使用する場合に、パブリックにアクセス可能なファイルを1つのディレクトリに保持し、デプロイメント間で簡単に共有できます。
+`public`ディスクが`local`ドライバを使用しており、これらのファイルにウェブからアクセスできるようにしたい場合は、ソースディレクトリ`storage/app/public`からターゲットディレクトリ`public/storage`へ、シンボリックリンクを作成する必要があります。
 
 シンボリックリンクを作成するには、`storage:link` Artisanコマンドを使用できます。
 

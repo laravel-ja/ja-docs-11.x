@@ -638,12 +638,16 @@ PostgreSQLを使用する場合、`INET`カラムが作成されます。
 
     $table->json('options');
 
+SQLite使用時は、`TEXT`カラムを作成します。
+
 <a name="column-method-jsonb"></a>
 #### `jsonb()` {.collection-method}
 
 `jsonb`メソッドは`JSONB`カラムを作成します。
 
     $table->jsonb('options');
+
+SQLite使用時は、`TEXT`カラムを作成します。
 
 <a name="column-method-longText"></a>
 #### `longText()` {.collection-method}
