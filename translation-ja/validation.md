@@ -1062,10 +1062,35 @@ The credit card number field is required when payment type is credit card.
 
     'finish_date' => 'required|date|after:start_date'
 
+便利なように、日付に基づくルールは、書きやすい`date`ルールビルダを使って構築できます。
+
+    use Illuminate\Validation\Rule;
+
+    'start_date' => [
+        'required',
+        Rule::date()->after(today()->addDays(7)),
+    ],
+
+`afterToday`と`todayOrAfter`メソッドは、日付が今日より後である、または今日以降であることをわかりやすく表現できます。
+
+    'start_date' => [
+        'required',
+        Rule::date()->afterToday(),
+    ],
+
 <a name="rule-after-or-equal"></a>
 #### after\_or\_equal:_日付_
 
 フィールドが指定した日付以降であることをバリデートします。詳細は[after](#rule-after)ルールを参照してください。
+
+便利なように、日付に基づくルールは、書きやすい`date`ルールビルダを使って構築できます。
+
+    use Illuminate\Validation\Rule;
+
+    'start_date' => [
+        'required',
+        Rule::date()->afterOrEqual(today()->addDays(7)),
+    ],
 
 <a name="rule-alpha"></a>
 #### alpha
@@ -1144,10 +1169,35 @@ The credit card number field is required when payment type is credit card.
 
 フィールドは、指定された日付より前の値であることをバリデートします。日付を有効な`DateTime`インスタンスへ変換するために、PHPの`strtotime`関数へ渡します。さらに、[`after`](#rule-after)ルールと同様に、バリデーション中の別のフィールドの名前を`date`の値として指定できます。
 
+便利なように、日付に基づくルールは、書きやすい`date`ルールビルダを使って構築できます。
+
+    use Illuminate\Validation\Rule;
+
+    'start_date' => [
+        'required',
+        Rule::date()->before(today()->subDays(7)),
+    ],
+
+`beforeToday`と`todayOrBefore`メソッドは、日付が今日より前である、または今日以降であることをわかりやすく表現できます。
+
+    'start_date' => [
+        'required',
+        Rule::date()->beforeToday(),
+    ],
+
 <a name="rule-before-or-equal"></a>
 #### before\_or\_equal:_日付_
 
 フィールドは、指定された日付より前または同じ値であることをバリデートします。日付を有効な`DateTime`インスタンスへ変換するために、PHPの`strtotime`関数へ渡します。さらに、[`after`](#rule-after)ルールと同様に、バリデーション中の別のフィールドの名前を`date`の値として指定できます。
+
+便利なように、日付に基づくルールは、書きやすい`date`ルールビルダを使って構築できます。
+
+    use Illuminate\Validation\Rule;
+
+    'start_date' => [
+        'required',
+        Rule::date()->beforeOrEqual(today()->subDays(7)),
+    ],
 
 <a name="rule-between"></a>
 #### between:_最小値_,_最大値_
@@ -1192,6 +1242,15 @@ The credit card number field is required when payment type is credit card.
 #### date_format:_フォーマット_,…
 
 バリデーションされる値が、指定する*フォーマット*定義のどれか一つと一致するかバリデートします。バリデーション時には`date`か`date_format`の*どちらか*を使用しなくてはならず、両方はできません。このバリデーションはPHPの[DateTime](https://www.php.net/manual/ja/class.datetime.php)クラスがサポートするフォーマットをすべてサポートしています。
+
+便利なように、日付に基づくルールは、書きやすい`date`ルールビルダを使って構築できます。
+
+    use Illuminate\Validation\Rule;
+
+    'start_date' => [
+        'required',
+        Rule::date()->format('Y-m-d'),
+    ],
 
 <a name="rule-decimal"></a>
 #### decimal:_最小値_,_最大値_
@@ -1242,7 +1301,7 @@ The credit card number field is required when payment type is credit card.
 
     'avatar' => 'dimensions:ratio=3/2'
 
-このルールは多くの引数を要求するので、`Rule::dimensions`メソッドを使い、記述的にこのルールを構築してください。
+このルールは多くの引数が必要なため、`Rule::dimensions`メソッドを使用して、ルールをわかりやすく構築するほうが便利なケースが多いでしょう。
 
     use Illuminate\Support\Facades\Validator;
     use Illuminate\Validation\Rule;
@@ -1250,7 +1309,10 @@ The credit card number field is required when payment type is credit card.
     Validator::make($data, [
         'avatar' => [
             'required',
-            Rule::dimensions()->maxWidth(1000)->maxHeight(500)->ratio(3 / 2),
+            Rule::dimensions()
+                ->maxWidth(1000)
+                ->maxHeight(500)
+                ->ratio(3 / 2),
         ],
     ]);
 
@@ -2196,42 +2258,60 @@ Laravelでは、アップロードされたファイルを検証するため、`
         ],
     ]);
 
-アプリケーションがユーザーからアップロードされた画像を受け取る場合、`File`ルールの`image`コンストラクタメソッドを使用して、アップロードされるファイルが画像であることを指定することができます。さらに、`dimensions`ルールを使用して、画像の大きさを制限することもできます。
+<a name="validating-files-file-types"></a>
+#### ファイルタイプのバリデーション
 
-    use Illuminate\Support\Facades\Validator;
-    use Illuminate\Validation\Rule;
-    use Illuminate\Validation\Rules\File;
+`types`メソッドを呼び出すときは拡張子を指定するだけですが、このメソッドは実際にファイルの内容を読み込んでMIMEタイプを推測することで、ファイルのMIMEタイプをバリデーションします。MIMEタイプとそれに対応する拡張子の完全なリストは以下のリンク先にあります。
 
-    Validator::validate($input, [
-        'photo' => [
-            'required',
-            File::image()
-                ->min(1024)
-                ->max(12 * 1024)
-                ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
-        ],
-    ]);
-
-> [!NOTE]
-> 画像サイズのバリデーションに関するより詳しい情報は、[dimensionsルールのドキュメント](#rule-dimensions)に記載しています。
+[https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
 
 <a name="validating-files-file-sizes"></a>
-#### ファイルサイズ
+#### ファイルサイズのバリデーション
 
 使いやすいように、最小ファイルサイズと最大ファイルサイズは、ファイルサイズの単位を示すサフィックス付きの文字列として指定できます。`kb`、`mb`、`gb`、`tb`のサフィックスをサポートしています。
 
 ```php
-File::image()
+File::types(['mp3', 'wav'])
     ->min('1kb')
-    ->max('10mb')
+    ->max('10mb');
 ```
 
-<a name="validating-files-file-types"></a>
-#### ファイルタイプ
+<a name="validating-files-image-files"></a>
+#### 画像ファイルのバリデーション
 
-`types`メソッドを呼び出すときには拡張子を指定するだけですが、このメソッドは実際にファイルの内容を読み込んで、MIMEタイプを推測し、バリデーションします。MIME タイプとそれに対応する拡張子の完全なリストは、次の場所にあります。
+アップロード済みのファイルが画像であることをバリデーションするには、`File`ルールの`image`コンストラクタメソッドを使用します。`File::image()`ルールは、バリデーション対象のファイルが画像（jpg、jpeg、png、bmp、gif、svg、またはwebp）であることを確認します。
 
-[https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types](https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types)
+```php
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
+
+Validator::validate($input, [
+    'photo' => [
+        'required',
+        File::image(),
+    ],
+]);
+```
+
+<a name="validating-files-image-dimensions"></a>
+#### 画像サイズのバリデーション
+
+画像サイズをバリデーションすることもできます。例えば、アップロード済み画像が、幅1000ピクセル以上、高さ500ピクセル以上であることを検証するには、`dimensions`ルールを使用します。
+
+```php
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
+
+File::image()->dimensions(
+    Rule::dimensions()
+        ->maxWidth(1000)
+        ->maxHeight(500)
+)
+```
+
+> [!NOTE]
+> 画像サイズのバリデーションに関する詳細は、[サイズルールのドキュメント](#rule-dimensions)を参照してください。
 
 <a name="validating-passwords"></a>
 ## パスワードのバリデーション

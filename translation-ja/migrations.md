@@ -396,70 +396,144 @@ php artisan migrate:fresh --database=admin
     }
 </style>
 
+<a name="booleans-method-list"></a>
+#### 論理型
+
+<div class="collection-method-list" markdown="1">
+
+[boolean](#column-method-boolean)
+
+</div>
+
+<a name="strings-and-texts-method-list"></a>
+#### 文字列とテキスト型
+
+<div class="collection-method-list" markdown="1">
+
+[char](#column-method-char)
+[longText](#column-method-longText)
+[mediumText](#column-method-mediumText)
+[string](#column-method-string)
+[text](#column-method-text)
+[tinyText](#column-method-tinyText)
+[longText](#column-method-longText)
+
+</div>
+
+<a name="numbers--method-list"></a>
+#### 数値型
+
 <div class="collection-method-list" markdown="1">
 
 [bigIncrements](#column-method-bigIncrements)
 [bigInteger](#column-method-bigInteger)
-[binary](#column-method-binary)
-[boolean](#column-method-boolean)
-[char](#column-method-char)
-[dateTimeTz](#column-method-dateTimeTz)
-[dateTime](#column-method-dateTime)
-[date](#column-method-date)
 [decimal](#column-method-decimal)
 [double](#column-method-double)
-[enum](#column-method-enum)
 [float](#column-method-float)
-[foreignId](#column-method-foreignId)
-[foreignIdFor](#column-method-foreignIdFor)
-[foreignUlid](#column-method-foreignUlid)
-[foreignUuid](#column-method-foreignUuid)
-[geography](#column-method-geography)
-[geometry](#column-method-geometry)
 [id](#column-method-id)
 [increments](#column-method-increments)
 [integer](#column-method-integer)
-[ipAddress](#column-method-ipAddress)
-[json](#column-method-json)
-[jsonb](#column-method-jsonb)
-[longText](#column-method-longText)
-[macAddress](#column-method-macAddress)
 [mediumIncrements](#column-method-mediumIncrements)
 [mediumInteger](#column-method-mediumInteger)
-[mediumText](#column-method-mediumText)
-[morphs](#column-method-morphs)
-[nullableMorphs](#column-method-nullableMorphs)
-[nullableTimestamps](#column-method-nullableTimestamps)
-[nullableUlidMorphs](#column-method-nullableUlidMorphs)
-[nullableUuidMorphs](#column-method-nullableUuidMorphs)
-[rememberToken](#column-method-rememberToken)
-[set](#column-method-set)
 [smallIncrements](#column-method-smallIncrements)
 [smallInteger](#column-method-smallInteger)
-[softDeletesTz](#column-method-softDeletesTz)
-[softDeletes](#column-method-softDeletes)
-[string](#column-method-string)
-[text](#column-method-text)
-[timeTz](#column-method-timeTz)
-[time](#column-method-time)
-[timestampTz](#column-method-timestampTz)
-[timestamp](#column-method-timestamp)
-[timestampsTz](#column-method-timestampsTz)
-[timestamps](#column-method-timestamps)
 [tinyIncrements](#column-method-tinyIncrements)
 [tinyInteger](#column-method-tinyInteger)
-[tinyText](#column-method-tinyText)
 [unsignedBigInteger](#column-method-unsignedBigInteger)
 [unsignedInteger](#column-method-unsignedInteger)
 [unsignedMediumInteger](#column-method-unsignedMediumInteger)
 [unsignedSmallInteger](#column-method-unsignedSmallInteger)
 [unsignedTinyInteger](#column-method-unsignedTinyInteger)
-[ulidMorphs](#column-method-ulidMorphs)
-[uuidMorphs](#column-method-uuidMorphs)
-[ulid](#column-method-ulid)
-[uuid](#column-method-uuid)
-[vector](#column-method-vector)
+
+</div>
+
+<a name="dates-and-times-method-list"></a>
+#### 日付時刻型
+
+<div class="collection-method-list" markdown="1">
+
+[dateTime](#column-method-dateTime)
+[dateTimeTz](#column-method-dateTimeTz)
+[date](#column-method-date)
+[time](#column-method-time)
+[timeTz](#column-method-timeTz)
+[timestamp](#column-method-timestamp)
+[timestamps](#column-method-timestamps)
+[nullableTimestamps](#column-method-nullableTimestamps)
+[timestampsTz](#column-method-timestampsTz)
+[softDeletes](#column-method-softDeletes)
+[softDeletesTz](#column-method-softDeletesTz)
 [year](#column-method-year)
+
+</div>
+
+<a name="binaries-method-list"></a>
+#### バイナリ型
+
+<div class="collection-method-list" markdown="1">
+
+[binary](#column-method-binary)
+
+</div>
+
+<a name="object-and-jsons-method-list"></a>
+#### オブジェクトとJSON型
+
+<div class="collection-method-list" markdown="1">
+
+[json](#column-method-json)
+[jsonb](#column-method-jsonb)
+
+</div>
+
+<a name="uuids-and-ulids-method-list"></a>
+#### UUIDとULID型
+
+<div class="collection-method-list" markdown="1">
+
+[ulid](#column-method-ulid)
+[ulidMorphs](#column-method-ulidMorphs)
+[uuid](#column-method-uuid)
+[uuidMorphs](#column-method-uuidMorphs)
+[nullableUlidMorphs](#column-method-nullableUlidMorphs)
+[nullableUuidMorphs](#column-method-nullableUuidMorphs)
+
+</div>
+
+<a name="spatials-method-list"></a>
+#### 空間型
+
+<div class="collection-method-list" markdown="1">
+
+[geography](#column-method-geography)
+[geometry](#column-method-geometry)
+
+</div>
+
+#### リレーション型
+
+<div class="collection-method-list" markdown="1">
+
+[foreignId](#column-method-foreignId)
+[foreignIdFor](#column-method-foreignIdFor)
+[foreignUlid](#column-method-foreignUlid)
+[foreignUuid](#column-method-foreignUuid)
+[morphs](#column-method-morphs)
+[nullableMorphs](#column-method-nullableMorphs)
+
+</div>
+
+<a name="spacifics-method-list"></a>
+#### 特殊型
+
+<div class="collection-method-list" markdown="1">
+
+[enum](#column-method-enum)
+[set](#column-method-set)
+[macAddress](#column-method-macAddress)
+[ipAddress](#column-method-ipAddress)
+[rememberToken](#column-method-rememberToken)
+[vector](#column-method-vector)
 
 </div>
 
