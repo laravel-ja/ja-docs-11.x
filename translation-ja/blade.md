@@ -1608,7 +1608,7 @@ Bladeは、コンポーネント名のパスカルケースを使い、コンポ
 @section('title', 'Page Title')
 
 @section('sidebar')
-    @@parent
+    @parent
 
     <p>これはマスターサイドバーに追加される</p>
 @endsection
