@@ -416,7 +416,6 @@ php artisan migrate:fresh --database=admin
 [string](#column-method-string)
 [text](#column-method-text)
 [tinyText](#column-method-tinyText)
-[longText](#column-method-longText)
 
 </div>
 

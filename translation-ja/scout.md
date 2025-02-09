@@ -281,6 +281,49 @@ Meilisearchなどの検索エンジンでは、正しい型のデータに対し
         ];
     }
 
+<a name="configuring-indexes-for-algolia"></a>
+#### インデックス構成の設定（Algolia）
+
+Algoliaのインデックスへ設定を追加したい場合もあるでしょう。これらの設定はAlgoliaのUIから管理できますが、アプリケーションの`config/scout.php`設定ファイルで直接インデックス設定の望ましい状態を管理する方が効率的な場合もあります。
+
+このアプローチにより、アプリケーションの自動デプロイパイプラインを通じて、これらの設定をデプロイできるようになります。手作業による設定を回避し、複数の環境間での一貫性を確保できます。フィルタリング可能な属性、ランキング、ファセット、もしくは[サポート済みのその他の設定](https://www.algolia.com/doc/rest-api/search/#tag/Indices/operation/setSettings)を設定可能です。
+
+これを始めるには、アプリケーションの`config/scout.php`設定ファイルへ各インデックスの設定を追加します。
+
+```php
+use App\Models\User;
+use App\Models\Flight;
+
+'algolia' => [
+    'id' => env('ALGOLIA_APP_ID', ''),
+    'secret' => env('ALGOLIA_SECRET', ''),
+    'index-settings' => [
+        User::class => [
+            'searchableAttributes' => ['id', 'name', 'email'],
+            'attributesForFaceting'=> ['filterOnly(email)'],
+            // その他の設定項目…
+        ],
+        Flight::class => [
+            'searchableAttributes'=> ['id', 'destination'],
+        ],
+    ],
+],
+```
+
+指定するインデックスの元となるモデルが、ソフトデリート可能で、`index-settings`配列に含まれている場合、Scoutはそのインデックスのソフトデリート済みモデルに対するファセットを自動的にサポートします。ソフトデリート可能なモデルインデックスに対し定義するファセット属性が他にない場合は、そのモデルに対して`index-settings`配列に空のエントリを追加するだけです。
+
+```php
+'index-settings' => [
+    Flight::class => []
+],
+```
+
+アプリケーションのインデックス設定を行った後は、`scout:sync-index-settings` Artisanコマンドを起動する必要があります。このコマンドは現在設定しているインデックス設定をAlgoliaへ通知します。このコマンドをデプロイプロセスの一部とすると便利でしょう。
+
+```shell
+php artisan scout:sync-index-settings
+```
+
 <a name="configuring-filterable-data-for-meilisearch"></a>
 #### Filterableデータとインデックス（Meilisearch）の設定
 

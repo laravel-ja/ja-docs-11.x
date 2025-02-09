@@ -59,7 +59,11 @@ Mailgunドライバを使用する場合は、Composerで、SymfonyのMailgun Ma
 composer require symfony/mailgun-mailer symfony/http-client
 ```
 
-次に、アプリケーションの`config/mail.php`設定ファイルの`default`オプションを`mailgun`へ設定し、次の設定配列を`mailers`設定配列へ追加します：
+次に、アプリケーションの`config/mail.php`設定ファイルへ、２つの変更を加える必要があります。まず、デフォルトのメーラーを`mailgun`に設定します。
+
+    'default' => env('MAIL_MAILER', 'mailgun'),
+
+それから、以下の設定配列を`mailers`配列へ追加します。
 
     'mailgun' => [
         'transport' => 'mailgun',
