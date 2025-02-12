@@ -152,12 +152,13 @@ Precognitionでフォームの入力のサブセットをバリデートして�
 
 これまで見てきたように、入力の`change`イベントをフックし、ユーザーが入力した内容を検証できます。これは「ウィザード」を作成するときによくあり、次のステップに進む前に、ユーザーが入力操作をしたかにかかわらず、目に見えるすべての入力を検証したい場合などです。
 
-Precognitionでこれを行うには、検証したいフィールドの名前を`touch`メソッドへ渡し、「変更済み（touched）」とマークします。それから、`onSuccess`か`onValidationError`コールバックで`validate`メソッドを呼び出てください。
+Precognitionでこれを行うには、`only`設定キーへ検証したいフィールド名を渡し、`validate`メソッドを呼び出します。バリデーション結果は、`onSuccess`か`onValidationError`コールバックで処理してください。
 
 ```html
 <button
     type="button"
-    @click="form.touch(['name', 'email', 'phone']).validate({
+    @click="form.validate({
+        only: ['name', 'email', 'phone'],
         onSuccess: (response) => nextStep(),
         onValidationError: (response) => /* ... */,
     })"
@@ -338,12 +339,13 @@ Precognitionでフォームの入力のサブセットをバリデートして�
 
 これまで見てきたように、入力の`blur`イベントをフックして、ユーザーが入力を操作したときに個々の入力を検証できます。これは「ウィザード」を作成するときによくあり、次のステップに進む前に、ユーザーが入力操作したかにかかわらず、目に見えるすべての入力を検証したい場合などです。
 
-Precognitionでこれを行うには、検証したいフィールドの名前を`touch`メソッドへ渡し、「変更済み（touched）」とマークします。それから、`onSuccess`か`onValidationError`コールバックで`validate`メソッドを呼び出てください。
+Precognitionでこれを行うには、`only`設定キーへ検証したいフィールド名を渡し、`validate`メソッドを呼び出します。バリデーション結果は、`onSuccess`か`onValidationError`コールバックで処理してください。
 
 ```jsx
 <button
     type="button"
-    onClick={() => form.touch(['name', 'email', 'phone']).validate({
+    onClick={() => form.validate({
+        only: ['name', 'email', 'phone'],
         onSuccess: (response) => nextStep(),
         onValidationError: (response) => /* ... */,
     })}
@@ -531,12 +533,13 @@ form.setValidationTimeout(3000);
 
 これまで見てきたように、入力の`change`イベントをフックし、ユーザーが入力した内容を検証できます。これは「ウィザード」を作成するときによくあり、次のステップに進む前に、ユーザーが入力操作をしたかにかかわらず、目に見えるすべての入力を検証したい場合などです。
 
-Precognitionでこれを行うには、検証したいフィールドの名前を`touch`メソッドへ渡し、「変更済み（touched）」とマークします。それから、`onSuccess`か`onValidationError`コールバックで`validate`メソッドを呼び出てください。
+Precognitionでこれを行うには、`only`設定キーへ検証したいフィールド名を渡し、`validate`メソッドを呼び出します。バリデーション結果は、`onSuccess`か`onValidationError`コールバックで処理してください。
 
 ```html
 <button
     type="button"
-    @change="form.touch(['name', 'email', 'phone']).validate({
+    @click="form.validate({
+        only: ['name', 'email', 'phone'],
         onSuccess: (response) => nextStep(),
         onValidationError: (response) => /* ... */,
     })"

@@ -743,7 +743,7 @@ select * from comments where user_id in (
                     ->whereNotNull('updated_at')
                     ->get();
 
-**whereDate / whereMonth / whereDay / whereYear / whereTime**
+**whereDate／whereMonth／whereDay／whereYear／whereTime**
 
 `whereDate`メソッドを使用して、カラム値を日付と比較できます。
 
@@ -773,6 +773,52 @@ select * from comments where user_id in (
 
     $users = DB::table('users')
                     ->whereTime('created_at', '=', '11:20:45')
+                    ->get();
+
+**wherePast／whereFuture／whereToday／whereBeforeToday／whereAfterToday**
+
+`wherePast`と`whereFuture`メソッドは、カラムの値が過去か未来かを判定するために使用します。
+
+    $invoices = DB::table('invoices')
+                    ->wherePast('due_at')
+                    ->get();
+
+    $invoices = DB::table('invoices')
+                    ->whereFuture('due_at')
+                    ->get();
+
+`whereNowOrPast`と`whereNowOrFuture`メソッドは、現在の日時を含め、カラムの値が過去か未来かを判定するため使用します。
+
+    $invoices = DB::table('invoices')
+                    ->whereNowOrPast('due_at')
+                    ->get();
+
+    $invoices = DB::table('invoices')
+                    ->whereNowOrFuture('due_at')
+                    ->get();
+
+`whereToday`、`whereBeforeToday`、`whereAfterToday`メソッドは、それぞれカラムの値が今日であるか、昨日以前か、明日以降かを判定するために使用します。
+
+    $invoices = DB::table('invoices')
+                    ->whereToday('due_at')
+                    ->get();
+
+    $invoices = DB::table('invoices')
+                    ->whereBeforeToday('due_at')
+                    ->get();
+
+    $invoices = DB::table('invoices')
+                    ->whereAfterToday('due_at')
+                    ->get();
+
+同様に、`whereTodayOrBefore`と`whereTodayOrAfter`メソッドはカラムの値が今日以前か今日以降かを判断するために使用します。
+
+    $invoices = DB::table('invoices')
+                    ->whereTodayOrBefore('due_at')
+                    ->get();
+
+    $invoices = DB::table('invoices')
+                    ->whereTodayOrAfter('due_at')
                     ->get();
 
 **whereColumn／orWhereColumn**

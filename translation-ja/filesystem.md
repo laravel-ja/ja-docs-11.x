@@ -203,7 +203,7 @@ composer require league/flysystem-read-only "^3.0"
 <a name="amazon-s3-compatible-filesystems"></a>
 ### Amazon S3互換ファイルシステム
 
-アプリケーションの`filesystems`設定ファイルには、デフォルトで`s3`のディスク設定がしてあります。このディスクを使用して[Amazon S3](https://aws.amazon.com/s3/)を操作するだけでなく、[MinIO](https://github.com/minio/minio)、[DigitalOcean Spaces](https://www.digitalocean.com/products/spaces/)、[Akamai/Linode Object Storage](https://www.linode.com/products/object-storage/)、[Vultr Object Storage](https://www.vultr.com/products/object-storage/)、[Hetzner Cloud Storage](https://www.hetzner.com/storage/object-storage/)など、S3互換のファイルストレージサービスを操作することもできます。
+アプリケーションの`filesystems`設定ファイルには、デフォルトで`s3`のディスク設定がしてあります。このディスクを使用して[Amazon S3](https://aws.amazon.com/s3/)を操作するだけでなく、[MinIO](https://github.com/minio/minio)、[DigitalOcean Spaces](https://www.digitalocean.com/products/spaces/)、[Vultr Object Storage](https://www.vultr.com/products/object-storage/)、[Cloudflare R2](https://www.cloudflare.com/developer-platform/products/r2/)、[Hetzner Cloud Storage](https://www.hetzner.com/storage/object-storage/)など、S3互換のファイルストレージサービスを操作することもできます。
 
 通常、ディスクの認証情報を使用予定のサービス認証情報へ合わせて更新した後に、`endpoint`設定オプションの値を更新するだけで済みます。このオプションの値は通常、`AWS_ENDPOINT`環境変数で定義されています。
 
