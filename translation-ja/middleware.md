@@ -236,7 +236,7 @@ Laravelには定義済みの`web`ミドルウェアグループと`api`ミドル
 
 <div class="overflow-auto">
 
-| The `api`ミドルウェアグループ |
+| `api`ミドルウェアグループ |
 | --- |
 | `Illuminate\Routing\Middleware\SubstituteBindings` |
 
