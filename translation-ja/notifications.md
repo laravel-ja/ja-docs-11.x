@@ -681,8 +681,8 @@ Mailgunドライバを使用しているアプリケーションの場合は、[
     public function toMail(object $notifiable): Mailable
     {
         $address = $notifiable instanceof AnonymousNotifiable
-                ? $notifiable->routeNotificationFor('mail')
-                : $notifiable->email;
+            ? $notifiable->routeNotificationFor('mail')
+            : $notifiable->email;
 
         return (new InvoicePaidMailable($this->invoice))
                     ->to($address);

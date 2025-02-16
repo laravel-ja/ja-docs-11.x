@@ -168,8 +168,8 @@ Laravelは、アクションを認可する2つの主要な方法を提供しま
 
     Gate::define('edit-settings', function (User $user) {
         return $user->isAdmin
-                    ? Response::allow()
-                    : Response::deny('You must be an administrator.');
+            ? Response::allow()
+            : Response::deny('You must be an administrator.');
     });
 
 ゲートから認可レスポンスを返した場合でも、`Gate::allows`メソッドは単純なブール値を返します。ただし、`Gate::inspect`メソッドを使用して、ゲートから返される完全な認可レスポンスを取得できます。
@@ -199,8 +199,8 @@ Laravelは、アクションを認可する2つの主要な方法を提供しま
 
     Gate::define('edit-settings', function (User $user) {
         return $user->isAdmin
-                    ? Response::allow()
-                    : Response::denyWithStatus(404);
+            ? Response::allow()
+            : Response::denyWithStatus(404);
     });
 
 `404`レスポンスによるリソースの隠蔽はウェブアプリケーションでは常套手段なため、使いやすいように`denyAsNotFound`メソッドを提供しています。
@@ -211,8 +211,8 @@ Laravelは、アクションを認可する2つの主要な方法を提供しま
 
     Gate::define('edit-settings', function (User $user) {
         return $user->isAdmin
-                    ? Response::allow()
-                    : Response::denyAsNotFound();
+            ? Response::allow()
+            : Response::denyAsNotFound();
     });
 
 <a name="intercepting-gate-checks"></a>
@@ -362,8 +362,8 @@ Artisanコンソールを介してポリシーを生成するときに`--model`�
     public function update(User $user, Post $post): Response
     {
         return $user->id === $post->user_id
-                    ? Response::allow()
-                    : Response::deny('You do not own this post.');
+            ? Response::allow()
+            : Response::deny('You do not own this post.');
     }
 
 ポリシーから認可レスポンスを返す場合でも、`Gate::allows`メソッドは単純な論理値を返します。ただし、`Gate::inspect`メソッドを使用して、ゲートが返す完全な認可レスポンスを取得できます。
@@ -399,8 +399,8 @@ Artisanコンソールを介してポリシーを生成するときに`--model`�
     public function update(User $user, Post $post): Response
     {
         return $user->id === $post->user_id
-                    ? Response::allow()
-                    : Response::denyWithStatus(404);
+            ? Response::allow()
+            : Response::denyWithStatus(404);
     }
 
 `404`レスポンスによるリソースの隠蔽はウェブアプリケーションでは常套手段なため、使いやすいように`denyAsNotFound`メソッドを提供しています。
@@ -415,8 +415,8 @@ Artisanコンソールを介してポリシーを生成するときに`--model`�
     public function update(User $user, Post $post): Response
     {
         return $user->id === $post->user_id
-                    ? Response::allow()
-                    : Response::denyAsNotFound();
+            ? Response::allow()
+            : Response::denyAsNotFound();
     }
 
 <a name="methods-without-models"></a>

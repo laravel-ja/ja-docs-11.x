@@ -199,8 +199,8 @@ class PodcastController
     public function index(Request $request): Response
     {
         return Feature::active('new-api')
-                ? $this->resolveNewApiResponse($request)
-                : $this->resolveLegacyApiResponse($request);
+            ? $this->resolveNewApiResponse($request)
+            : $this->resolveLegacyApiResponse($request);
     }
 
     // ...
@@ -211,8 +211,8 @@ class PodcastController
 
 ```php
 return Feature::for($user)->active('new-api')
-        ? $this->resolveNewApiResponse($request)
-        : $this->resolveLegacyApiResponse($request);
+    ? $this->resolveNewApiResponse($request)
+    : $this->resolveLegacyApiResponse($request);
 ```
 
 Pennantはさらに、機能がアクティブかを判断するのに役立つ、便利なメソッドをいくつか用意しています。
@@ -260,8 +260,8 @@ class PodcastController
     public function index(Request $request): Response
     {
         return Feature::active(NewApi::class)
-                ? $this->resolveNewApiResponse($request)
-                : $this->resolveLegacyApiResponse($request);
+            ? $this->resolveNewApiResponse($request)
+            : $this->resolveLegacyApiResponse($request);
     }
 
     // ...
@@ -509,8 +509,8 @@ class NewApi
 
 ```php
 return Feature::for($user)->active('new-api')
-        ? $this->resolveNewApiResponse($request)
-        : $this->resolveLegacyApiResponse($request);
+    ? $this->resolveNewApiResponse($request)
+    : $this->resolveLegacyApiResponse($request);
 ```
 
 もちろん、機能のスコープは、「ユーザー」に限定されません。新しい課金システムを構築しており、個々のユーザーではなく、チーム全体にロールアウトしていると想像してみてください。たぶん、古いチームには、新しいチームよりもゆっくりとロールアウトしたいと思うでしょう。この機能解決のクロージャは、次のようなものになります。

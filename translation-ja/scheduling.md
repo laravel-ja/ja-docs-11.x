@@ -277,7 +277,7 @@ php artisan schedule:list
 
 すべてのスケジュールタスクに同じタイムゾーンを繰り返し割り当てている場合は、アプリケーションの`app`設定ファイルで`schedule_timezone`オプションを定義すれば、すべてのスケジュールに割り当てるタイムゾーンを指定できます。
 
-    'timezone' => env('APP_TIMEZONE', 'UTC'),
+    'timezone' => 'UTC',
 
     'schedule_timezone' => 'America/Chicago',
 

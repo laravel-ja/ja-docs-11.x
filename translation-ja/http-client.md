@@ -565,9 +565,9 @@ HTTPクライアントがリクエストしようとしたときに、`Illuminat
     Http::fake([
         // GitHubエンドポイントの一連のレスポンスをスタブ
         'github.com/*' => Http::sequence()
-                                ->push('Hello World', 200)
-                                ->push(['foo' => 'bar'], 200)
-                                ->pushStatus(404),
+            ->push('Hello World', 200)
+            ->push(['foo' => 'bar'], 200)
+            ->pushStatus(404),
     ]);
 
 レスポンスシーケンス内のすべてのレスポンスが消費されると、以降のリクエストに対し、レスポンスシーケンスは例外を投げます。シーケンスが空になったときに返すデフォルトのレスポンスを指定する場合は、`whenEmpty`メソッドを使用します。
@@ -575,16 +575,16 @@ HTTPクライアントがリクエストしようとしたときに、`Illuminat
     Http::fake([
         // GitHubエンドポイントの一連のレスポンスをスタブ
         'github.com/*' => Http::sequence()
-                                ->push('Hello World', 200)
-                                ->push(['foo' => 'bar'], 200)
-                                ->whenEmpty(Http::response()),
+            ->push('Hello World', 200)
+            ->push(['foo' => 'bar'], 200)
+            ->whenEmpty(Http::response()),
     ]);
 
 一連のレスポンスをfakeしたいが、fakeする必要がある特定のURLパターンを指定する必要がない場合は、`Http::fakeSequence`メソッドを使用します。
 
     Http::fakeSequence()
-            ->push('Hello World', 200)
-            ->whenEmpty(Http::response());
+        ->push('Hello World', 200)
+        ->whenEmpty(Http::response());
 
 <a name="fake-callback"></a>
 #### Fakeコールバック

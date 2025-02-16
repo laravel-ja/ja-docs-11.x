@@ -267,12 +267,12 @@ Eloquentモデルが[ソフトデリート](/docs/{{version}}/eloquent#soft-dele
     use Illuminate\Database\Eloquent\Factories\Sequence;
 
     $users = User::factory()
-                    ->count(10)
-                    ->state(new Sequence(
-                        ['admin' => 'Y'],
-                        ['admin' => 'N'],
-                    ))
-                    ->create();
+        ->count(10)
+        ->state(new Sequence(
+            ['admin' => 'Y'],
+            ['admin' => 'N'],
+        ))
+        ->create();
 
 この例では、`admin`値が`Y`のユーザーが５人作成され、`admin`値が`N`のユーザーが５人作成されます。
 
@@ -281,28 +281,28 @@ Eloquentモデルが[ソフトデリート](/docs/{{version}}/eloquent#soft-dele
     use Illuminate\Database\Eloquent\Factories\Sequence;
 
     $users = User::factory()
-                    ->count(10)
-                    ->state(new Sequence(
-                        fn (Sequence $sequence) => ['role' => UserRoles::all()->random()],
-                    ))
-                    ->create();
+        ->count(10)
+        ->state(new Sequence(
+            fn (Sequence $sequence) => ['role' => UserRoles::all()->random()],
+        ))
+        ->create();
 
 シーケンスクロージャ内では，クロージャへ注入されるシーケンスインスタンスの`$index`または`$count`プロパティにアクセスできます。`$index`プロパティには、これまでに行われたシーケンスの反復回数が格納され、`$count`プロパティには、シーケンスが起動された合計回数が格納されます。
 
     $users = User::factory()
-                    ->count(10)
-                    ->sequence(fn (Sequence $sequence) => ['name' => 'Name '.$sequence->index])
-                    ->create();
+        ->count(10)
+        ->sequence(fn (Sequence $sequence) => ['name' => 'Name '.$sequence->index])
+        ->create();
 
 使いやすいように、シーケンスは、`sequence`メソッドを使用して適用することもできます。このメソッドは、内部的に`state`メソッドを呼び出すだけです。`sequence`メソッドには、クロージャまたはシーケンスの属性を表す配列を指定します。
 
     $users = User::factory()
-                    ->count(2)
-                    ->sequence(
-                        ['name' => 'First User'],
-                        ['name' => 'Second User'],
-                    )
-                    ->create();
+        ->count(2)
+        ->sequence(
+            ['name' => 'First User'],
+            ['name' => 'Second User'],
+        )
+        ->create();
 
 <a name="factory-relationships"></a>
 ## リレーションのファクトリ
@@ -316,26 +316,26 @@ Eloquentモデルが[ソフトデリート](/docs/{{version}}/eloquent#soft-dele
     use App\Models\User;
 
     $user = User::factory()
-                ->has(Post::factory()->count(3))
-                ->create();
+        ->has(Post::factory()->count(3))
+        ->create();
 
 規約により、`Post`モデルを`has`メソッドに渡す場合、Laravelは`User`モデルにリレーションを定義する`posts`メソッドが存在していると想定します。必要に応じ、操作するリレーション名を明示的に指定できます。
 
     $user = User::factory()
-                ->has(Post::factory()->count(3), 'posts')
-                ->create();
+        ->has(Post::factory()->count(3), 'posts')
+        ->create();
 
 もちろん、関連モデルで状態を操作することもできます。さらに、状態変更で親モデルへのアクセスが必要な場合は、クロージャベースの状態変換が渡せます。
 
     $user = User::factory()
-                ->has(
-                    Post::factory()
-                            ->count(3)
-                            ->state(function (array $attributes, User $user) {
-                                return ['user_type' => $user->type];
-                            })
-                )
-                ->create();
+        ->has(
+            Post::factory()
+                ->count(3)
+                ->state(function (array $attributes, User $user) {
+                    return ['user_type' => $user->type];
+                })
+            )
+        ->create();
 
 <a name="has-many-relationships-using-magic-methods"></a>
 #### マジックメソッドの使用
@@ -343,24 +343,24 @@ Eloquentモデルが[ソフトデリート](/docs/{{version}}/eloquent#soft-dele
 使いやすいように、Laravelのマジックファクトリリレーションメソッドを使用してリレーションを構築できます。たとえば、以下の例では、規約を使用して、`User`モデルの`posts`リレーションメソッドを介して作成する必要がある関連モデルを決定します。
 
     $user = User::factory()
-                ->hasPosts(3)
-                ->create();
+        ->hasPosts(3)
+        ->create();
 
 マジックメソッドを使用してファクトリリレーションを作成する場合、属性の配列を渡して、関連モデルをオーバーライドできます。
 
     $user = User::factory()
-                ->hasPosts(3, [
-                    'published' => false,
-                ])
-                ->create();
+        ->hasPosts(3, [
+            'published' => false,
+        ])
+        ->create();
 
 状態の変更で親モデルへのアクセスが必要な場合は、クロージャベースの状態変換を提供できます。
 
     $user = User::factory()
-                ->hasPosts(3, function (array $attributes, User $user) {
-                    return ['user_type' => $user->type];
-                })
-                ->create();
+        ->hasPosts(3, function (array $attributes, User $user) {
+            return ['user_type' => $user->type];
+        })
+        ->create();
 
 <a name="belongs-to-relationships"></a>
 ### Belongs Toリレーション
@@ -371,20 +371,20 @@ Eloquentモデルが[ソフトデリート](/docs/{{version}}/eloquent#soft-dele
     use App\Models\User;
 
     $posts = Post::factory()
-                ->count(3)
-                ->for(User::factory()->state([
-                    'name' => 'Jessica Archer',
-                ]))
-                ->create();
+        ->count(3)
+        ->for(User::factory()->state([
+            'name' => 'Jessica Archer',
+        ]))
+        ->create();
 
 作成するモデルに関連付ける必要のある親モデルインスタンスがすでにある場合は、モデルインスタンスを`for`メソッドに渡すことができます。
 
     $user = User::factory()->create();
 
     $posts = Post::factory()
-                ->count(3)
-                ->for($user)
-                ->create();
+        ->count(3)
+        ->for($user)
+        ->create();
 
 <a name="belongs-to-relationships-using-magic-methods"></a>
 #### マジックメソッドの使用
@@ -392,11 +392,11 @@ Eloquentモデルが[ソフトデリート](/docs/{{version}}/eloquent#soft-dele
 便利なように、Laravelのマジックファクトリリレーションシップメソッドを使用して、"belongs to"リレーションシップを定義できます。たとえば、以下の例では、３つの投稿が`Post`モデルの`user`リレーションに属する必要があることを規約を使用して決定しています。
 
     $posts = Post::factory()
-                ->count(3)
-                ->forUser([
-                    'name' => 'Jessica Archer',
-                ])
-                ->create();
+        ->count(3)
+        ->forUser([
+            'name' => 'Jessica Archer',
+        ])
+        ->create();
 
 <a name="many-to-many-relationships"></a>
 ### Many To Manyリレーション
@@ -407,8 +407,8 @@ Eloquentモデルが[ソフトデリート](/docs/{{version}}/eloquent#soft-dele
     use App\Models\User;
 
     $user = User::factory()
-                ->has(Role::factory()->count(3))
-                ->create();
+        ->has(Role::factory()->count(3))
+        ->create();
 
 <a name="pivot-table-attributes"></a>
 #### ピボットテーブルの属性
@@ -419,33 +419,33 @@ Eloquentモデルが[ソフトデリート](/docs/{{version}}/eloquent#soft-dele
     use App\Models\User;
 
     $user = User::factory()
-                ->hasAttached(
-                    Role::factory()->count(3),
-                    ['active' => true]
-                )
-                ->create();
+        ->hasAttached(
+            Role::factory()->count(3),
+            ['active' => true]
+        )
+        ->create();
 
 状態変更で関連モデルへのアクセスが必要な場合は、クロージャベースの状態変換を指定できます。
 
     $user = User::factory()
-                ->hasAttached(
-                    Role::factory()
-                        ->count(3)
-                        ->state(function (array $attributes, User $user) {
-                            return ['name' => $user->name.' Role'];
-                        }),
-                    ['active' => true]
-                )
-                ->create();
+        ->hasAttached(
+            Role::factory()
+                ->count(3)
+                ->state(function (array $attributes, User $user) {
+                    return ['name' => $user->name.' Role'];
+                }),
+            ['active' => true]
+        )
+        ->create();
 
 作成しているモデルへアタッチしたいモデルインスタンスがすでにある場合は、モデルインスタンスを`hasAttached`メソッドへ渡せます。この例では、同じ３つの役割が３人のユーザーすべてに関連付けられます。
 
     $roles = Role::factory()->count(3)->create();
 
     $user = User::factory()
-                ->count(3)
-                ->hasAttached($roles, ['active' => true])
-                ->create();
+        ->count(3)
+        ->hasAttached($roles, ['active' => true])
+        ->create();
 
 <a name="many-to-many-relationships-using-magic-methods"></a>
 #### マジックメソッドの使用
@@ -453,10 +453,10 @@ Eloquentモデルが[ソフトデリート](/docs/{{version}}/eloquent#soft-dele
 利便性のため、Laravelのマジックファクトリリレーションメソッドを使用して、多対多のリレーションを定義できます。たとえば、次の例では、関連するモデルを`User`モデルの`roles`リレーションメソッドを介して作成する必要があることを規約を使用して決定します。
 
     $user = User::factory()
-                ->hasRoles(1, [
-                    'name' => 'Editor'
-                ])
-                ->create();
+        ->hasRoles(1, [
+            'name' => 'Editor'
+        ])
+        ->create();
 
 <a name="polymorphic-relationships"></a>
 ### ポリモーフィックリレーション
@@ -485,17 +485,17 @@ Eloquentモデルが[ソフトデリート](/docs/{{version}}/eloquent#soft-dele
     use App\Models\Video;
 
     $videos = Video::factory()
-                ->hasAttached(
-                    Tag::factory()->count(3),
-                    ['public' => true]
-                )
-                ->create();
+        ->hasAttached(
+            Tag::factory()->count(3),
+            ['public' => true]
+        )
+        ->create();
 
 もちろん、`has`マジックメソッドを使用して、ポリモーフィックな「多対多」リレーションを作成することもできます。
 
     $videos = Video::factory()
-                ->hasTags(3, ['public' => true])
-                ->create();
+        ->hasTags(3, ['public' => true])
+        ->create();
 
 <a name="defining-relationships-within-factories"></a>
 ### ファクトリ内でのリレーション定義

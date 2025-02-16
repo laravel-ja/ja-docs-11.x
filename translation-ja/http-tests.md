@@ -225,8 +225,8 @@ test('an action that requires authentication', function () {
     $user = User::factory()->create();
 
     $response = $this->actingAs($user)
-                     ->withSession(['banned' => false])
-                     ->get('/');
+        ->withSession(['banned' => false])
+        ->get('/');
 
     //
 });
@@ -247,8 +247,8 @@ class ExampleTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
-                         ->withSession(['banned' => false])
-                         ->get('/');
+            ->withSession(['banned' => false])
+            ->get('/');
 
         //
     }
@@ -450,7 +450,7 @@ test('making an api request', function () {
         ->assertStatus(201)
         ->assertJson([
             'created' => true,
-         ]);
+        ]);
 });
 ```
 
@@ -595,11 +595,11 @@ test('fluent json', function () {
     $response
         ->assertJson(fn (AssertableJson $json) =>
             $json->where('id', 1)
-                 ->where('name', 'Victoria Faith')
-                 ->where('email', fn (string $email) => str($email)->is('victoria@gmail.com'))
-                 ->whereNot('status', 'pending')
-                 ->missing('password')
-                 ->etc()
+                ->where('name', 'Victoria Faith')
+                ->where('email', fn (string $email) => str($email)->is('victoria@gmail.com'))
+                ->whereNot('status', 'pending')
+                ->missing('password')
+                ->etc()
         );
 });
 ```
@@ -617,11 +617,11 @@ public function test_fluent_json(): void
     $response
         ->assertJson(fn (AssertableJson $json) =>
             $json->where('id', 1)
-                 ->where('name', 'Victoria Faith')
-                 ->where('email', fn (string $email) => str($email)->is('victoria@gmail.com'))
-                 ->whereNot('status', 'pending')
-                 ->missing('password')
-                 ->etc()
+                ->where('name', 'Victoria Faith')
+                ->where('email', fn (string $email) => str($email)->is('victoria@gmail.com'))
+                ->whereNot('status', 'pending')
+                ->missing('password')
+                ->etc()
         );
 }
 ```
@@ -641,21 +641,21 @@ public function test_fluent_json(): void
 
     $response->assertJson(fn (AssertableJson $json) =>
         $json->has('data')
-             ->missing('message')
+            ->missing('message')
     );
 
 さらに、`hasAll`と`missingAll`メソッドは、複数の属性の有無を同時にアサートできます。
 
     $response->assertJson(fn (AssertableJson $json) =>
         $json->hasAll(['status', 'data'])
-             ->missingAll(['message', 'code'])
+            ->missingAll(['message', 'code'])
     );
 
 `hasAny`メソッドを使用して、指定する属性リスト中に少なくとも１つ存在しているか判断できます。
 
     $response->assertJson(fn (AssertableJson $json) =>
         $json->has('status')
-             ->hasAny('data', 'message', 'code')
+            ->hasAny('data', 'message', 'code')
     );
 
 <a name="asserting-against-json-collections"></a>
@@ -672,13 +672,13 @@ public function test_fluent_json(): void
     $response
         ->assertJson(fn (AssertableJson $json) =>
             $json->has(3)
-                 ->first(fn (AssertableJson $json) =>
+                ->first(fn (AssertableJson $json) =>
                     $json->where('id', 1)
-                         ->where('name', 'Victoria Faith')
-                         ->where('email', fn (string $email) => str($email)->is('victoria@gmail.com'))
-                         ->missing('password')
-                         ->etc()
-                 )
+                        ->where('name', 'Victoria Faith')
+                        ->where('email', fn (string $email) => str($email)->is('victoria@gmail.com'))
+                        ->missing('password')
+                        ->etc()
+                )
         );
 
 <a name="scoping-json-collection-assertions"></a>
@@ -698,14 +698,14 @@ public function test_fluent_json(): void
     $response
         ->assertJson(fn (AssertableJson $json) =>
             $json->has('meta')
-                 ->has('users', 3)
-                 ->has('users.0', fn (AssertableJson $json) =>
+                ->has('users', 3)
+                ->has('users.0', fn (AssertableJson $json) =>
                     $json->where('id', 1)
-                         ->where('name', 'Victoria Faith')
-                         ->where('email', fn (string $email) => str($email)->is('victoria@gmail.com'))
-                         ->missing('password')
-                         ->etc()
-                 )
+                        ->where('name', 'Victoria Faith')
+                        ->where('email', fn (string $email) => str($email)->is('victoria@gmail.com'))
+                        ->missing('password')
+                        ->etc()
+                )
         );
 
 ただし、`has`コレクションに`has`コレクションにアサートする２つの別々の呼び出しをするのではなく、クロージャを３番目の引数に渡す呼び出し一つにまとめられます。これで、クロージャが自動的に呼び出され、コレクション内の最初の項目にスコープされます。
@@ -713,13 +713,13 @@ public function test_fluent_json(): void
     $response
         ->assertJson(fn (AssertableJson $json) =>
             $json->has('meta')
-                 ->has('users', 3, fn (AssertableJson $json) =>
+                ->has('users', 3, fn (AssertableJson $json) =>
                     $json->where('id', 1)
-                         ->where('name', 'Victoria Faith')
-                         ->where('email', fn (string $email) => str($email)->is('victoria@gmail.com'))
-                         ->missing('password')
-                         ->etc()
-                 )
+                        ->where('name', 'Victoria Faith')
+                        ->where('email', fn (string $email) => str($email)->is('victoria@gmail.com'))
+                        ->missing('password')
+                        ->etc()
+                )
         );
 
 <a name="asserting-json-types"></a>

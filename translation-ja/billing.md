@@ -842,8 +842,8 @@ Billableなモデルのアカウントにデフォルトの支払い方法が関
 サブスクリプションの作成時にの価格に[数量](https://stripe.com/docs/billing/subscriptions/quantities)を指定する場合は、サブスクリプションを作成する前にビルダで`quantity`メソッドを呼び出してください。
 
     $user->newSubscription('default', 'price_monthly')
-         ->quantity(5)
-         ->create($paymentMethod);
+        ->quantity(5)
+        ->create($paymentMethod);
 
 <a name="additional-details"></a>
 #### 詳細の追加
@@ -862,14 +862,14 @@ Stripeがサポートしている[顧客](https://stripe.com/docs/api/customers/
 サブスクリプションの作成時にクーポンを適用する場合は、`withCoupon`メソッドを使用できます。
 
     $user->newSubscription('default', 'price_monthly')
-         ->withCoupon('code')
-         ->create($paymentMethod);
+        ->withCoupon('code')
+        ->create($paymentMethod);
 
 また、[Stripeプロモーションコード](https://stripe.com/docs/billing/subscriptions/discounts/codes)を適用したい場合には、`withPromotionCode`メソッドを使用してください。
 
     $user->newSubscription('default', 'price_monthly')
-         ->withPromotionCode('promo_code_id')
-         ->create($paymentMethod);
+        ->withPromotionCode('promo_code_id')
+        ->create($paymentMethod);
 
 指定するプロモーションコードIDは、プロモーションコードに割り当てたStripe APIのIDであり、顧客向けのプロモーションコードにすべきでありません。もし、指定する顧客向けプロモーションコードに基づいた、プロモーションコードIDを見つける必要がある場合は、`findPromotionCode`メソッドを使用してください。
 
@@ -1104,8 +1104,8 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
 価格を交換して、顧客が現在行っている無料トライアル期間をキャンセルしたい場合は、`skipTrial`メソッドを呼び出してください。
 
     $user->subscription('default')
-            ->skipTrial()
-            ->swap('price_yearly');
+        ->skipTrial()
+        ->swap('price_yearly');
 
 価格を交換して、次の請求サイクルを待たずにすぐに顧客に請求する場合は、`swapAndInvoice`メソッドを使用します。
 
@@ -1237,8 +1237,8 @@ Stripeダッシュボード自体からも、サブスクリプションを作�
     $user = User::find(1);
 
     $user->subscription('default')
-            ->findItemOrFail('price_basic')
-            ->swap('price_pro');
+        ->findItemOrFail('price_basic')
+        ->swap('price_pro');
 
 <a name="proration"></a>
 #### 比例按分
@@ -1329,9 +1329,9 @@ Stripeの顧客は, サブスクリプションを同時に複数利用可能で
 [Stripeの支払い](#checkout)から従量制サブスクリプションを開始することもできます。
 
     $checkout = Auth::user()
-            ->newSubscription('default', [])
-            ->meteredPrice('price_metered')
-            ->checkout();
+        ->newSubscription('default', [])
+        ->meteredPrice('price_metered')
+        ->checkout();
 
     return view('your-checkout-view', [
         'checkout' => $checkout,
@@ -1441,8 +1441,8 @@ Cashierは、顧客が非課税であるかどうかを判断するために、`
         $anchor = Carbon::parse('first day of next month');
 
         $request->user()->newSubscription('default', 'price_monthly')
-                    ->anchorBillingCycleOn($anchor->startOfDay())
-                    ->create($request->paymentMethodId);
+            ->anchorBillingCycleOn($anchor->startOfDay())
+            ->create($request->paymentMethodId);
 
         // ...
     });
@@ -1507,8 +1507,8 @@ Cashierは、顧客が非課税であるかどうかを判断するために、`
 
     Route::post('/user/subscribe', function (Request $request) {
         $request->user()->newSubscription('default', 'price_monthly')
-                    ->trialDays(10)
-                    ->create($request->paymentMethodId);
+            ->trialDays(10)
+            ->create($request->paymentMethodId);
 
         // ...
     });
@@ -1523,8 +1523,8 @@ Cashierは、顧客が非課税であるかどうかを判断するために、`
     use Carbon\Carbon;
 
     $user->newSubscription('default', 'price_monthly')
-                ->trialUntil(Carbon::now()->addDays(10))
-                ->create($paymentMethod);
+        ->trialUntil(Carbon::now()->addDays(10))
+        ->create($paymentMethod);
 
 ユーザーインスタンスの`onTrial`メソッドまたはサブスクリプションインスタンスの`onTrial`メソッドのいずれかを使用して、ユーザーが無料トライアル期間内にあるかどうか判定できます。以下の２例は同じ働きです。
 
@@ -2131,7 +2131,7 @@ Checkoutは、顧客の課税IDの収集もサポートしています。チェ�
 
     try {
         $subscription = $user->newSubscription('default', 'price_monthly')
-                                ->create($paymentMethod);
+            ->create($paymentMethod);
     } catch (IncompletePayment $exception) {
         return redirect()->route(
             'cashier.payment',

@@ -628,7 +628,7 @@ Laravelは、タイプヒントの変数名がルートセグメント名と一�
 <a name="implicit-enum-binding"></a>
 ### 暗黙のEnumバインディング
 
-PHP8.1から、[Enum](https://www.php.net/manual/ja/language.enumerations.backed.php)のサポートが導入されました。この機能を補完するために、Laravelではルート定義に[値に依存したEnums](https://www.php.net/manual/ja/language.enumerations.backed.php)をタイプヒントすることができ、Laravelはそのルートセグメントが有効なEnum値に対応する場合のみルートを呼び出します。そうでない場合は、404 HTTPレスポンスが自動的に返されます。例えば、次のようなEnumがあるとします。
+PHP8.1から、[Enum](https://www.php.net/manual/ja/language.enumerations.backed.php)のサポートが導入されました。この機能を補完するために、Laravelではルート定義に[値に依存した文字列Enums](https://www.php.net/manual/ja/language.enumerations.backed.php)をタイプヒントすることができ、Laravelはそのルートセグメントが有効なEnum値に対応する場合のみルートを呼び出します。そうでない場合は、404 HTTPレスポンスが自動的に返されます。例えば、次のようなEnumがあるとします。
 
 ```php
 <?php
@@ -791,8 +791,8 @@ protected function boot(): void
 
     RateLimiter::for('uploads', function (Request $request) {
         return $request->user()->vipCustomer()
-                    ? Limit::none()
-                    : Limit::perMinute(100);
+            ? Limit::none()
+            : Limit::perMinute(100);
     });
 
 <a name="segmenting-rate-limits"></a>
@@ -802,16 +802,16 @@ protected function boot(): void
 
     RateLimiter::for('uploads', function (Request $request) {
         return $request->user()->vipCustomer()
-                    ? Limit::none()
-                    : Limit::perMinute(100)->by($request->ip());
+            ? Limit::none()
+            : Limit::perMinute(100)->by($request->ip());
     });
 
 別の例を使ってこの機能を説明すると、認証されたユーザーIDごとに１分間に１００回、ゲスト用のIPアドレスごとに１分間に１０回、ルートへのアクセス制限ができます。
 
     RateLimiter::for('uploads', function (Request $request) {
         return $request->user()
-                    ? Limit::perMinute(100)->by($request->user()->id)
-                    : Limit::perMinute(10)->by($request->ip());
+            ? Limit::perMinute(100)->by($request->user()->id)
+            : Limit::perMinute(10)->by($request->ip());
     });
 
 <a name="multiple-rate-limits"></a>

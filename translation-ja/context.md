@@ -250,12 +250,16 @@ $data = Context::all();
 <a name="determining-item-existence"></a>
 ### アイテムの存在判定
 
-指定するキーに対応する値をコンテキストに格納しているかを調べるには、`has`メソッドを使用します。
+指定するキーに対応する値をコンテキストに格納しているかを調べるには、`has`と`missing`メソッドを使用します。
 
 ```php
 use Illuminate\Support\Facades\Context;
 
 if (Context::has('key')) {
+    // ...
+}
+
+if (Context::missing('key')) {
     // ...
 }
 ```

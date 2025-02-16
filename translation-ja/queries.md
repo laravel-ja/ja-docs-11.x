@@ -219,8 +219,8 @@ DB::table('users')->where('active', false)
 もちろん、これらのメソッドを他の句と組み合わせて、集計値の計算方法を調整できます。
 
     $price = DB::table('orders')
-                    ->where('finalized', 1)
-                    ->avg('price');
+        ->where('finalized', 1)
+        ->avg('price');
 
 <a name="determining-if-records-exist"></a>
 #### レコード存在の判定
@@ -246,8 +246,8 @@ DB::table('users')->where('active', false)
     use Illuminate\Support\Facades\DB;
 
     $users = DB::table('users')
-                ->select('name', 'email as user_email')
-                ->get();
+        ->select('name', 'email as user_email')
+        ->get();
 
 `distinct`メソッドを使用すると、クエリにダブりのない結果を返すように強制できます。
 
@@ -265,10 +265,10 @@ DB::table('users')->where('active', false)
 クエリへ任意の文字列を挿入する必要のある場合があります。素の文字列式を作成するには、`DB`ファサードが提供する`raw`メソッドを使用します。
 
     $users = DB::table('users')
-                 ->select(DB::raw('count(*) as user_count, status'))
-                 ->where('status', '<>', 1)
-                 ->groupBy('status')
-                 ->get();
+        ->select(DB::raw('count(*) as user_count, status'))
+        ->where('status', '<>', 1)
+        ->groupBy('status')
+        ->get();
 
 > [!WARNING]
 > 素のSQL文はそのまま文字列としてクエリへ挿入されるため、SQLインジェクションの脆弱性を含めぬように細心の注意を払う必要があります。
@@ -284,8 +284,8 @@ DB::table('users')->where('active', false)
 `addSelect(DB::raw(/*...*/))`の代わりに`selectRaw`メソッドを使用できます。このメソッドは、２番目の引数にバインディングのオプションの配列を取ります。
 
     $orders = DB::table('orders')
-                    ->selectRaw('price * ? as price_with_tax', [1.0825])
-                    ->get();
+        ->selectRaw('price * ? as price_with_tax', [1.0825])
+        ->get();
 
 <a name="whereraw-orwhereraw"></a>
 #### `whereRaw／orWhereRaw`
@@ -293,8 +293,8 @@ DB::table('users')->where('active', false)
 `whereRaw`メソッドと`orWhereRaw`メソッドを使用して、素の"where"句をクエリに挿入できます。これらのメソッドは、２番目の引数にバインディングのオプションの配列を取ります。
 
     $orders = DB::table('orders')
-                    ->whereRaw('price > IF(state = "TX", ?, 100)', [200])
-                    ->get();
+        ->whereRaw('price > IF(state = "TX", ?, 100)', [200])
+        ->get();
 
 <a name="havingraw-orhavingraw"></a>
 #### `havingRaw／orHavingRaw`
@@ -302,10 +302,10 @@ DB::table('users')->where('active', false)
 `havingRaw`メソッドと`orHavingRaw`メソッドを使用して、"having"句の値として素の文字列を指定できます。これらのメソッドは、２番目の引数にバインディングのオプションの配列を取ります。
 
     $orders = DB::table('orders')
-                    ->select('department', DB::raw('SUM(price) as total_sales'))
-                    ->groupBy('department')
-                    ->havingRaw('SUM(price) > ?', [2500])
-                    ->get();
+        ->select('department', DB::raw('SUM(price) as total_sales'))
+        ->groupBy('department')
+        ->havingRaw('SUM(price) > ?', [2500])
+        ->get();
 
 <a name="orderbyraw"></a>
 #### `orderByRaw`
@@ -313,8 +313,8 @@ DB::table('users')->where('active', false)
 `orderByRaw`メソッドを使用して、"order by"句の値として素の文字列を指定できます。
 
     $orders = DB::table('orders')
-                    ->orderByRaw('updated_at - created_at DESC')
-                    ->get();
+        ->orderByRaw('updated_at - created_at DESC')
+        ->get();
 
 <a name="groupbyraw"></a>
 ### `groupByRaw`
@@ -322,9 +322,9 @@ DB::table('users')->where('active', false)
 `groupByRaw`メソッドを使用して、`groupby`句の値として素の文字列を指定できます。
 
     $orders = DB::table('orders')
-                    ->select('city', 'state')
-                    ->groupByRaw('city, state')
-                    ->get();
+        ->select('city', 'state')
+        ->groupByRaw('city, state')
+        ->get();
 
 <a name="joins"></a>
 ## JOIN
@@ -337,10 +337,10 @@ DB::table('users')->where('active', false)
     use Illuminate\Support\Facades\DB;
 
     $users = DB::table('users')
-                ->join('contacts', 'users.id', '=', 'contacts.user_id')
-                ->join('orders', 'users.id', '=', 'orders.user_id')
-                ->select('users.*', 'contacts.phone', 'orders.price')
-                ->get();
+        ->join('contacts', 'users.id', '=', 'contacts.user_id')
+        ->join('orders', 'users.id', '=', 'orders.user_id')
+        ->select('users.*', 'contacts.phone', 'orders.price')
+        ->get();
 
 <a name="left-join-right-join-clause"></a>
 #### LEFT JOIN／RIGHT JOIN句
@@ -348,12 +348,12 @@ DB::table('users')->where('active', false)
 "inner join"の代わりに"left join"や"right join"を実行する場合は、`leftJoin`か`rightJoin`メソッドを使用します。これらのメソッドは`join`メソッドと同じ引数を取ります。
 
     $users = DB::table('users')
-                ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
-                ->get();
+        ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
+        ->get();
 
     $users = DB::table('users')
-                ->rightJoin('posts', 'users.id', '=', 'posts.user_id')
-                ->get();
+        ->rightJoin('posts', 'users.id', '=', 'posts.user_id')
+        ->get();
 
 <a name="cross-join-clause"></a>
 #### CROSS JOIN句
@@ -361,8 +361,8 @@ DB::table('users')->where('active', false)
 `crossJoin`メソッドを使用して、"cross join"を実行できます。クロス結合は、最初のテーブルと結合するテーブルとの間のデカルト積を生成します。
 
     $sizes = DB::table('sizes')
-                ->crossJoin('colors')
-                ->get();
+        ->crossJoin('colors')
+        ->get();
 
 <a name="advanced-join-clauses"></a>
 #### 上級JOIN句
@@ -370,19 +370,19 @@ DB::table('users')->where('active', false)
 より高度なJOIN句を指定することもできます。そのためには、`join`メソッドの２番目の引数にクロージャを渡します。クロージャは`Illuminate\Database\Query\JoinClause`インスタンスを受け取ります。これにより、"join"句に制約を指定できます。
 
     DB::table('users')
-            ->join('contacts', function (JoinClause $join) {
-                $join->on('users.id', '=', 'contacts.user_id')->orOn(/* ... */);
-            })
-            ->get();
+        ->join('contacts', function (JoinClause $join) {
+            $join->on('users.id', '=', 'contacts.user_id')->orOn(/* ... */);
+        })
+        ->get();
 
 テーブル結合で"where"句を使用する場合は、`JoinClause`インスタンスが提供する`where`と`orWhere`メソッドを使用します。２つのカラムを比較する代わりに、これらのメソッドはカラムを値と比較します。
 
     DB::table('users')
-            ->join('contacts', function (JoinClause $join) {
-                $join->on('users.id', '=', 'contacts.user_id')
-                     ->where('contacts.user_id', '>', 5);
-            })
-            ->get();
+        ->join('contacts', function (JoinClause $join) {
+            $join->on('users.id', '=', 'contacts.user_id')
+                 ->where('contacts.user_id', '>', 5);
+        })
+        ->get();
 
 <a name="subquery-joins"></a>
 #### サブクエリのJOIN
@@ -390,14 +390,14 @@ DB::table('users')->where('active', false)
 `joinSub`、`leftJoinSub`、`rightJoinSub`メソッドを使用して、クエリをサブクエリに結合できます。各メソッドは、サブクエリ、そのテーブルエイリアス、および関連するカラムを定義するクロージャの３引数を取ります。この例では、各ユーザーレコードにユーザーの最後に公開されたブログ投稿の`created_at`タイムスタンプも含まれているユーザーのコレクションを取得しています。
 
     $latestPosts = DB::table('posts')
-                       ->select('user_id', DB::raw('MAX(created_at) as last_post_created_at'))
-                       ->where('is_published', true)
-                       ->groupBy('user_id');
+        ->select('user_id', DB::raw('MAX(created_at) as last_post_created_at'))
+        ->where('is_published', true)
+        ->groupBy('user_id');
 
     $users = DB::table('users')
-            ->joinSub($latestPosts, 'latest_posts', function (JoinClause $join) {
-                $join->on('users.id', '=', 'latest_posts.user_id');
-            })->get();
+        ->joinSub($latestPosts, 'latest_posts', function (JoinClause $join) {
+            $join->on('users.id', '=', 'latest_posts.user_id');
+        })->get();
 
 <a name="lateral-joins"></a>
 #### ラテラルJoin
@@ -410,14 +410,14 @@ DB::table('users')->where('active', false)
 この例では、ユーザーのコレクションと同時に、各ユーザーの最新ブログ記事を３つ取得しています。各ユーザーは結果セットへ最大３つの行を生成できます: 最新ブログ投稿それぞれに対して１つずつです。結合条件は、サブクエリ内の`whereColumn`節で指定し、現在のユーザー行を参照しています。
 
     $latestPosts = DB::table('posts')
-                       ->select('id as post_id', 'title as post_title', 'created_at as post_created_at')
-                       ->whereColumn('user_id', 'users.id')
-                       ->orderBy('created_at', 'desc')
-                       ->limit(3);
+        ->select('id as post_id', 'title as post_title', 'created_at as post_created_at')
+        ->whereColumn('user_id', 'users.id')
+        ->orderBy('created_at', 'desc')
+        ->limit(3);
 
     $users = DB::table('users')
-                ->joinLateral($latestPosts, 'latest_posts')
-                ->get();
+        ->joinLateral($latestPosts, 'latest_posts')
+        ->get();
 
 <a name="unions"></a>
 ## UNION
@@ -427,12 +427,12 @@ DB::table('users')->where('active', false)
     use Illuminate\Support\Facades\DB;
 
     $first = DB::table('users')
-                ->whereNull('first_name');
+        ->whereNull('first_name');
 
     $users = DB::table('users')
-                ->whereNull('last_name')
-                ->union($first)
-                ->get();
+        ->whereNull('last_name')
+        ->union($first)
+        ->get();
 
 `union`メソッドに加えて、クエリビルダでは`unionAll`メソッドも提供しています。`unionAll`メソッドを使用して結合されたクエリでは、重複する結果は削除されません。`unionAll`メソッドは、`union`メソッドと同じメソッド引数です。
 
@@ -447,9 +447,9 @@ DB::table('users')->where('active', false)
 たとえば、以下のクエリは`votes`列の値が`100`に等しく、`age`列の値が`35`より大きいユーザーを取得します。
 
     $users = DB::table('users')
-                    ->where('votes', '=', 100)
-                    ->where('age', '>', 35)
-                    ->get();
+        ->where('votes', '=', 100)
+        ->where('age', '>', 35)
+        ->get();
 
 使いやすいように、カラムが特定の値に対して`=`であることを確認する場合は、その値を２番目の引数として`where`メソッドに渡すことができます。Laravelは、`=`演算子を使用したと扱います。
 
@@ -458,16 +458,16 @@ DB::table('users')->where('active', false)
 前述のように、データベースシステムがサポートしている任意の演算子を使用できます。
 
     $users = DB::table('users')
-                    ->where('votes', '>=', 100)
-                    ->get();
+        ->where('votes', '>=', 100)
+        ->get();
 
     $users = DB::table('users')
-                    ->where('votes', '<>', 100)
-                    ->get();
+        ->where('votes', '<>', 100)
+        ->get();
 
     $users = DB::table('users')
-                    ->where('name', 'like', 'T%')
-                    ->get();
+        ->where('name', 'like', 'T%')
+        ->get();
 
 条件の配列を`where`関数に渡すこともできます。配列の各要素は、通常`where`メソッドに渡す３つの引数を含む配列である必要があります。
 
@@ -488,19 +488,19 @@ DB::table('users')->where('active', false)
 クエリビルダの`where`メソッドへの呼び出しをチェーン化する場合、"where"句は`and`演算子を使用して結合されます。ただし、`orWhere`メソッドを使用して、`or`演算子を使用して句をクエリに結合することもできます。`orWhere`メソッドは`where`メソッドと同じ引数を受け入れます。
 
     $users = DB::table('users')
-                        ->where('votes', '>', 100)
-                        ->orWhere('name', 'John')
-                        ->get();
+        ->where('votes', '>', 100)
+        ->orWhere('name', 'John')
+        ->get();
 
 括弧内に"or"条件をグループ化する必要がある場合は、`orWhere`メソッドの最初の引数としてクロージャを渡してください。
 
     $users = DB::table('users')
-                ->where('votes', '>', 100)
-                ->orWhere(function (Builder $query) {
-                    $query->where('name', 'Abigail')
-                          ->where('votes', '>', 50);
-                })
-                ->get();
+        ->where('votes', '>', 100)
+        ->orWhere(function (Builder $query) {
+            $query->where('name', 'Abigail')
+                ->where('votes', '>', 50);
+            })
+        ->get();
 
 上記の例では、以下のSQLを生成します。
 
@@ -517,11 +517,11 @@ select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
 `whereNot`と`orWhereNot`メソッドを使用すると、指定したクエリ制約のグループを否定できます。例えば、以下のクエリは、クリアランス品や、価格が１０以下の商品を除外します。
 
     $products = DB::table('products')
-                    ->whereNot(function (Builder $query) {
-                        $query->where('clearance', true)
-                              ->orWhere('price', '<', 10);
-                    })
-                    ->get();
+        ->whereNot(function (Builder $query) {
+            $query->where('clearance', true)
+                ->orWhere('price', '<', 10);
+            })
+        ->get();
 
 <a name="where-any-all-none-clauses"></a>
 ### Where Any／All／None句
@@ -529,13 +529,13 @@ select * from users where votes > 100 or (name = 'Abigail' and votes > 50)
 複数の列に同じクエリ制約を適用する必要が起きる場合があります。例えば、指定リスト内のカラムが指定値と`LIKE`である全レコードを取得したい場合です。この場合は、`whereAny`メソッドを使用します。
 
     $users = DB::table('users')
-                ->where('active', true)
-                ->whereAny([
-                    'name',
-                    'email',
-                    'phone',
-                ], 'like', 'Example%')
-                ->get();
+        ->where('active', true)
+        ->whereAny([
+            'name',
+            'email',
+            'phone',
+        ], 'like', 'Example%')
+        ->get();
 
 上記のクエリは以下のSQLになります。
 
@@ -552,12 +552,12 @@ WHERE active = true AND (
 同様に`whereAll`メソッドは、指定列のすべてが、指定した制約と一致するレコードを検索するために使用します。
 
     $posts = DB::table('posts')
-                ->where('published', true)
-                ->whereAll([
-                    'title',
-                    'content',
-                ], 'like', '%Laravel%')
-                ->get();
+        ->where('published', true)
+        ->whereAll([
+            'title',
+            'content',
+        ], 'like', '%Laravel%')
+        ->get();
 
 上記のクエリは以下のSQLになります。
 
@@ -573,13 +573,13 @@ WHERE published = true AND (
 `whereNone`メソッドは、指定カラムのいずれもが指定制約に一致しないレコードを検索するために使用できます。
 
     $posts = DB::table('albums')
-                ->where('published', true)
-                ->whereNone([
-                    'title',
-                    'lyrics',
-                    'tags',
-                ], 'like', '%explicit%')
-                ->get();
+        ->where('published', true)
+        ->whereNone([
+            'title',
+            'lyrics',
+            'tags',
+        ], 'like', '%explicit%')
+        ->get();
 
 上記のクエリは以下のSQLを生成します。
 
@@ -599,30 +599,30 @@ WHERE published = true AND NOT (
 Laravelは、JSONカラム型をサポートしているデータベースでは、JSONカラム型のクエリもサポートしています。現在のところ、MariaDB10.3以上、MySQL8.0以上、PostgreSQL12.0以上、SQLServer2017以上、SQLite3.39.0以上をサポートしています。JSONカラムクエリするには、`->`演算子を使用します。
 
     $users = DB::table('users')
-                    ->where('preferences->dining->meal', 'salad')
-                    ->get();
+        ->where('preferences->dining->meal', 'salad')
+        ->get();
 
 `whereJsonContains`を使用してJSON配列をクエリできます。
 
     $users = DB::table('users')
-                    ->whereJsonContains('options->languages', 'en')
-                    ->get();
+        ->whereJsonContains('options->languages', 'en')
+        ->get();
 
 アプリケーションがMariaDB、MySQL、PostgreSQLデータベースを使用している場合は、値の配列を`whereJsonContains`メソッドで渡してください。
 
     $users = DB::table('users')
-                    ->whereJsonContains('options->languages', ['en', 'de'])
-                    ->get();
+        ->whereJsonContains('options->languages', ['en', 'de'])
+        ->get();
 
 `whereJsonLength`メソッドを使用して、JSON配列をその長さでクエリできます。
 
     $users = DB::table('users')
-                    ->whereJsonLength('options->languages', 0)
-                    ->get();
+        ->whereJsonLength('options->languages', 0)
+        ->get();
 
     $users = DB::table('users')
-                    ->whereJsonLength('options->languages', '>', 1)
-                    ->get();
+        ->whereJsonLength('options->languages', '>', 1)
+        ->get();
 
 <a name="additional-where-clauses"></a>
 ### その他のWHERE句
@@ -632,34 +632,34 @@ Laravelは、JSONカラム型をサポートしているデータベースでは
 `whereLike`メソッドにより、クエリへ"LIKE"句を追加してパターンマッチを行えます。これらのメソッドは、データベースに依存しない文字列マッチングクエリの実行方法を提供し、大文字小文字の区別を切り替えることができます。文字列マッチングはデフォルトで、大文字小文字を区別しません。
 
     $users = DB::table('users')
-               ->whereLike('name', '%John%')
-               ->get();
+        ->whereLike('name', '%John%')
+        ->get();
 
 `caseSensitive`引数を使い、大文字小文字を区別することもできます。
 
     $users = DB::table('users')
-               ->whereLike('name', '%John%', caseSensitive: true)
-               ->get();
+        ->whereLike('name', '%John%', caseSensitive: true)
+        ->get();
 
 `orWhereLike`メソッドは、LIKE条件に"or"句を追加するために使います。
 
     $users = DB::table('users')
-               ->where('votes', '>', 100)
-               ->orWhereLike('name', '%John%')
-               ->get();
+        ->where('votes', '>', 100)
+        ->orWhereLike('name', '%John%')
+        ->get();
 
 The `whereNotLike`メソッドは、クエリへ"NOT LIKE"句を追加するために使います。
 
     $users = DB::table('users')
-               ->whereNotLike('name', '%John%')
-               ->get();
+        ->whereNotLike('name', '%John%')
+        ->get();
 
 同様に、`orWhereNotLike`を使えば、NOT LIKE条件付きの"or"句を追加できます。
 
     $users = DB::table('users')
-               ->where('votes', '>', 100)
-               ->orWhereNotLike('name', '%John%')
-               ->get();
+        ->where('votes', '>', 100)
+        ->orWhereNotLike('name', '%John%')
+        ->get();
 
 > [!WARNING]
 > 大文字と小文字を区別する、`whereLike`検索オプションは、現在SQL Serverではサポートされていません。
@@ -669,22 +669,22 @@ The `whereNotLike`メソッドは、クエリへ"NOT LIKE"句を追加するた�
 `whereIn`メソッドは、特定のカラム値が指定した配列内に含まれる条件を加えます。
 
     $users = DB::table('users')
-                        ->whereIn('id', [1, 2, 3])
-                        ->get();
+        ->whereIn('id', [1, 2, 3])
+        ->get();
 
 `whereNotIn`メソッドは、特定のカラム値が指定した配列に含まれない条件を加えます。
 
     $users = DB::table('users')
-                        ->whereNotIn('id', [1, 2, 3])
-                        ->get();
+        ->whereNotIn('id', [1, 2, 3])
+        ->get();
 
 `whereIn`メソッドの第２引数へ、クエリオブジェクトを指定することもできます。
 
     $activeUsers = DB::table('users')->select('id')->where('is_active', 1);
 
     $users = DB::table('comments')
-                        ->whereIn('user_id', $activeUsers)
-                        ->get();
+        ->whereIn('user_id', $activeUsers)
+        ->get();
 
 上記の例では、以下のSQLを生成します。
 
@@ -704,144 +704,144 @@ select * from comments where user_id in (
 `whereBetween`メソッドは、カラム値が２つの値の間にあるかを検証します。
 
     $users = DB::table('users')
-               ->whereBetween('votes', [1, 100])
-               ->get();
+        ->whereBetween('votes', [1, 100])
+        ->get();
 
 **whereNotBetween／orWhereNotBetween**
 
 `whereNotBetween`メソッドは、カラム値が２つの値の間の外にあるかを検証します。
 
     $users = DB::table('users')
-                        ->whereNotBetween('votes', [1, 100])
-                        ->get();
+        ->whereNotBetween('votes', [1, 100])
+        ->get();
 
 **whereBetweenColumns／whereNotBetweenColumns／orWhereBetweenColumns／orWhereNotBetweenColumns**
 
 `whereBetweenColumns`メソッドは、カラム値が同じテーブル行の２カラムの値の間にあるかを検証します。
 
     $patients = DB::table('patients')
-                           ->whereBetweenColumns('weight', ['minimum_allowed_weight', 'maximum_allowed_weight'])
-                           ->get();
+        ->whereBetweenColumns('weight', ['minimum_allowed_weight', 'maximum_allowed_weight'])
+        ->get();
 
 `whereNotBetweenColumns`メソッドは、カラム値が同じテーブル行の２カラムの値の外側にあるかを検証します。
 
     $patients = DB::table('patients')
-                           ->whereNotBetweenColumns('weight', ['minimum_allowed_weight', 'maximum_allowed_weight'])
-                           ->get();
+        ->whereNotBetweenColumns('weight', ['minimum_allowed_weight', 'maximum_allowed_weight'])
+        ->get();
 
 **whereNull／whereNotNull／orWhereNull／orWhereNotNull**
 
 `whereNull`メソッドは、指定したカラムの値が`NULL`である条件を加えます。
 
     $users = DB::table('users')
-                    ->whereNull('updated_at')
-                    ->get();
+        ->whereNull('updated_at')
+        ->get();
 
 `whereNotNull`メソッドは、カラムの値が`NULL`ではないことを確認します。
 
     $users = DB::table('users')
-                    ->whereNotNull('updated_at')
-                    ->get();
+        ->whereNotNull('updated_at')
+        ->get();
 
 **whereDate／whereMonth／whereDay／whereYear／whereTime**
 
 `whereDate`メソッドを使用して、カラム値を日付と比較できます。
 
     $users = DB::table('users')
-                    ->whereDate('created_at', '2016-12-31')
-                    ->get();
+        ->whereDate('created_at', '2016-12-31')
+        ->get();
 
 `whereMonth`メソッドを使用して、カラム値を特定の月と比較できます。
 
     $users = DB::table('users')
-                    ->whereMonth('created_at', '12')
-                    ->get();
+        ->whereMonth('created_at', '12')
+        ->get();
 
 `whereDay`メソッドを使用して、カラム値を月の特定の日と比較できます。
 
     $users = DB::table('users')
-                    ->whereDay('created_at', '31')
-                    ->get();
+        ->whereDay('created_at', '31')
+        ->get();
 
 `whereYear`メソッドを使用して、カラム値を特定の年と比較できます。
 
     $users = DB::table('users')
-                    ->whereYear('created_at', '2016')
-                    ->get();
+        ->whereYear('created_at', '2016')
+        ->get();
 
 `whereTime`メソッドを使用して、カラム値を特定の時間と比較できます。
 
     $users = DB::table('users')
-                    ->whereTime('created_at', '=', '11:20:45')
-                    ->get();
+        ->whereTime('created_at', '=', '11:20:45')
+        ->get();
 
 **wherePast／whereFuture／whereToday／whereBeforeToday／whereAfterToday**
 
 `wherePast`と`whereFuture`メソッドは、カラムの値が過去か未来かを判定するために使用します。
 
     $invoices = DB::table('invoices')
-                    ->wherePast('due_at')
-                    ->get();
+        ->wherePast('due_at')
+        ->get();
 
     $invoices = DB::table('invoices')
-                    ->whereFuture('due_at')
-                    ->get();
+        ->whereFuture('due_at')
+        ->get();
 
 `whereNowOrPast`と`whereNowOrFuture`メソッドは、現在の日時を含め、カラムの値が過去か未来かを判定するため使用します。
 
     $invoices = DB::table('invoices')
-                    ->whereNowOrPast('due_at')
-                    ->get();
+        ->whereNowOrPast('due_at')
+        ->get();
 
     $invoices = DB::table('invoices')
-                    ->whereNowOrFuture('due_at')
-                    ->get();
+        ->whereNowOrFuture('due_at')
+        ->get();
 
 `whereToday`、`whereBeforeToday`、`whereAfterToday`メソッドは、それぞれカラムの値が今日であるか、昨日以前か、明日以降かを判定するために使用します。
 
     $invoices = DB::table('invoices')
-                    ->whereToday('due_at')
-                    ->get();
+        ->whereToday('due_at')
+        ->get();
 
     $invoices = DB::table('invoices')
-                    ->whereBeforeToday('due_at')
-                    ->get();
+        ->whereBeforeToday('due_at')
+        ->get();
 
     $invoices = DB::table('invoices')
-                    ->whereAfterToday('due_at')
-                    ->get();
+        ->whereAfterToday('due_at')
+        ->get();
 
 同様に、`whereTodayOrBefore`と`whereTodayOrAfter`メソッドはカラムの値が今日以前か今日以降かを判断するために使用します。
 
     $invoices = DB::table('invoices')
-                    ->whereTodayOrBefore('due_at')
-                    ->get();
+        ->whereTodayOrBefore('due_at')
+        ->get();
 
     $invoices = DB::table('invoices')
-                    ->whereTodayOrAfter('due_at')
-                    ->get();
+        ->whereTodayOrAfter('due_at')
+        ->get();
 
 **whereColumn／orWhereColumn**
 
 `whereColumn`メソッドは、２つのカラムが等しい条件を加えます。
 
     $users = DB::table('users')
-                    ->whereColumn('first_name', 'last_name')
-                    ->get();
+        ->whereColumn('first_name', 'last_name')
+        ->get();
 
 比較演算子を `whereColumn`メソッドに渡すこともできます。
 
     $users = DB::table('users')
-                    ->whereColumn('updated_at', '>', 'created_at')
-                    ->get();
+        ->whereColumn('updated_at', '>', 'created_at')
+        ->get();
 
 カラム比較の配列を`whereColumn`メソッドに渡すこともできます。これらの条件は、`and`演算子を使用して結合されます。
 
     $users = DB::table('users')
-                    ->whereColumn([
-                        ['first_name', '=', 'last_name'],
-                        ['updated_at', '>', 'created_at'],
-                    ])->get();
+        ->whereColumn([
+            ['first_name', '=', 'last_name'],
+            ['updated_at', '>', 'created_at'],
+        ])->get();
 
 <a name="logical-grouping"></a>
 ### 論理グループ化
@@ -849,12 +849,12 @@ select * from comments where user_id in (
 クエリを論理的にグループ化するため、括弧内のいくつかの"where"句をグループ化したい場合があります。実際、予期外のクエリ動作を回避するため、`orWhere`メソッドへの呼び出しを通常は常に括弧内へグループ化する必要があります。これには、`where`メソッドにクロージャを渡します。
 
     $users = DB::table('users')
-               ->where('name', '=', 'John')
-               ->where(function (Builder $query) {
-                   $query->where('votes', '>', 100)
-                         ->orWhere('title', '=', 'Admin');
-               })
-               ->get();
+        ->where('name', '=', 'John')
+        ->where(function (Builder $query) {
+            $query->where('votes', '>', 100)
+                ->orWhere('title', '=', 'Admin');
+        })
+        ->get();
 
 ご覧のとおり、クロージャを`where`メソッドへ渡すことで、クエリビルダへ制約のグループ化を開始するように指示しています。クロージャは、括弧グループ内に含める必要のある制約を構築するために使用するクエリビルダインスタンスを受け取ります。上記の例では、次のSQLが生成されます。
 
@@ -874,22 +874,22 @@ select * from users where name = 'John' and (votes > 100 or title = 'Admin')
 `whereExists`メソッドを使用すると、"where exists"SQL句を記述できます。`whereExists`メソッドは、クエリビルダインスタンスを受け取るクロージャを引数に取り、"exists"句内へ配置するクエリを定義します。
 
     $users = DB::table('users')
-               ->whereExists(function (Builder $query) {
-                   $query->select(DB::raw(1))
-                         ->from('orders')
-                         ->whereColumn('orders.user_id', 'users.id');
-               })
-               ->get();
+        ->whereExists(function (Builder $query) {
+            $query->select(DB::raw(1))
+                ->from('orders')
+                ->whereColumn('orders.user_id', 'users.id');
+        })
+        ->get();
 
 もしくは、クロージャの代わりにクエリオブジェクトを`whereExists`メソッドへ渡すこともできます。
 
     $orders = DB::table('orders')
-                    ->select(DB::raw(1))
-                    ->whereColumn('orders.user_id', 'users.id');
+        ->select(DB::raw(1))
+        ->whereColumn('orders.user_id', 'users.id');
 
     $users = DB::table('users')
-                        ->whereExists($orders)
-                        ->get();
+        ->whereExists($orders)
+        ->get();
 
 上記の例では、どちらも以下のようなSQLを出力します。
 
@@ -936,8 +936,8 @@ where exists (
 `whereFullText`と`orWhereFullText`メソッドを使用すると、[フルテキストインデックス](/docs/{{version}}/migrations#available-index-types)を持つカラムヘのクエリに、フルテキストの"where"句を追加できます。これらのメソッドは、Laravelによって、利用するデータベースシステムに適したSQLへ変換されます。例えば、MariaDBやMySQLを利用するアプリケーションでは、`MATCH AGAINST`句を生成します。
 
     $users = DB::table('users')
-               ->whereFullText('bio', 'web developer')
-               ->get();
+        ->whereFullText('bio', 'web developer')
+        ->get();
 
 <a name="ordering-grouping-limit-and-offset"></a>
 ## 順序、グループ化、件数制限、オフセット
@@ -951,15 +951,15 @@ where exists (
 `orderBy`メソッドを使用すると、クエリの結果を特定のカラムで並べ替えできます。`orderBy`メソッドの最初の引数は、並べ替えるカラムです。２番目の引数は、並べ替えの方向を決定し、`asc`または`desc`のいずれかです。
 
     $users = DB::table('users')
-                    ->orderBy('name', 'desc')
-                    ->get();
+        ->orderBy('name', 'desc')
+        ->get();
 
 複数の列で並べ替えるには、必要な回数の`orderBy`を呼び出すだけです。
 
     $users = DB::table('users')
-                    ->orderBy('name', 'desc')
-                    ->orderBy('email', 'asc')
-                    ->get();
+        ->orderBy('name', 'desc')
+        ->orderBy('email', 'asc')
+        ->get();
 
 <a name="latest-oldest"></a>
 #### `latest`と`oldest`メソッド
@@ -967,8 +967,8 @@ where exists (
 `latest`および`oldest`メソッドを使用すると、結果を日付順に簡単に並べ替えできます。デフォルトでは、結果をテーブルの`created_at`カラムによって順序付けします。もしくは、並べ替えるカラム名を渡すこともできます。
 
     $user = DB::table('users')
-                    ->latest()
-                    ->first();
+        ->latest()
+        ->first();
 
 <a name="random-ordering"></a>
 #### ランダム順
@@ -976,8 +976,8 @@ where exists (
 `inRandomOrder`メソッドを使用して、クエリ結果をランダムに並べ替えできます。たとえば、このメソッドを使用して、ランダムにユーザーをフェッチできます。
 
     $randomUser = DB::table('users')
-                    ->inRandomOrder()
-                    ->first();
+        ->inRandomOrder()
+        ->first();
 
 <a name="removing-existing-orderings"></a>
 #### 既存の順序の削除
@@ -1003,24 +1003,24 @@ where exists (
 ご想像のとおり、`groupBy`メソッドと`having`メソッドを使用してクエリ結果をグループ化できます。`having`メソッドの引数は`where`メソッドの引数の使い方に似ています。
 
     $users = DB::table('users')
-                    ->groupBy('account_id')
-                    ->having('account_id', '>', 100)
-                    ->get();
+        ->groupBy('account_id')
+        ->having('account_id', '>', 100)
+        ->get();
 
 havingBetween`メソッドを使うと、指定した範囲内の結果をフィルタリングできます。
 
     $report = DB::table('orders')
-                    ->selectRaw('count(id) as number_of_orders, customer_id')
-                    ->groupBy('customer_id')
-                    ->havingBetween('number_of_orders', [5, 15])
-                    ->get();
+        ->selectRaw('count(id) as number_of_orders, customer_id')
+        ->groupBy('customer_id')
+        ->havingBetween('number_of_orders', [5, 15])
+        ->get();
 
 `groupBy`メソッドに複数の引数を渡して、複数のカラムでグループ化できます。
 
     $users = DB::table('users')
-                    ->groupBy('first_name', 'status')
-                    ->having('account_id', '>', 100)
-                    ->get();
+        ->groupBy('first_name', 'status')
+        ->having('account_id', '>', 100)
+        ->get();
 
 より高度な`having`ステートメントを作成するには、[`havingRaw`](#raw-methods)メソッドを参照してください。
 
@@ -1037,9 +1037,9 @@ havingBetween`メソッドを使うと、指定した範囲内の結果をフィ
 または、`limit`メソッドと`offset`メソッドを使用することもできます。これらのメソッドは、それぞれ「take」メソッドと「skip」メソッドと機能的に同等です。
 
     $users = DB::table('users')
-                    ->offset(10)
-                    ->limit(5)
-                    ->get();
+        ->offset(10)
+        ->limit(5)
+        ->get();
 
 <a name="conditional-clauses"></a>
 ## 条件節
@@ -1049,10 +1049,10 @@ havingBetween`メソッドを使うと、指定した範囲内の結果をフィ
     $role = $request->input('role');
 
     $users = DB::table('users')
-                    ->when($role, function (Builder $query, string $role) {
-                        $query->where('role_id', $role);
-                    })
-                    ->get();
+        ->when($role, function (Builder $query, string $role) {
+            $query->where('role_id', $role);
+        })
+        ->get();
 
 `when`メソッドは、最初の引数が`true`の場合にのみ、指定されたクロージャを実行します。最初の引数が`false`の場合、クロージャは実行されません。したがって、上記の例では、`when`メソッドに指定されたクロージャは、`role`フィールドが受信リクエストに存在し、`true`と評価された場合にのみ呼び出されます。
 
@@ -1061,12 +1061,12 @@ havingBetween`メソッドを使うと、指定した範囲内の結果をフィ
     $sortByVotes = $request->boolean('sort_by_votes');
 
     $users = DB::table('users')
-                    ->when($sortByVotes, function (Builder $query, bool $sortByVotes) {
-                        $query->orderBy('votes');
-                    }, function (Builder $query) {
-                        $query->orderBy('name');
-                    })
-                    ->get();
+        ->when($sortByVotes, function (Builder $query, bool $sortByVotes) {
+            $query->orderBy('votes');
+        }, function (Builder $query) {
+            $query->orderBy('name');
+        })
+        ->get();
 
 <a name="insert-statements"></a>
 ## INSERT文
@@ -1175,8 +1175,8 @@ DB::table('users')->updateOrInsert(
 JSONカラムを更新する場合は、JSONオブジェクトの適切なキーを更新するため、`->`構文を使用する必要があります。この操作は、MariaDB10.3以上、MySQL5.7以上、PostgreSQL9.5以上をサポートしています。
 
     $affected = DB::table('users')
-                  ->where('id', 1)
-                  ->update(['options->enabled' => true]);
+        ->where('id', 1)
+        ->update(['options->enabled' => true]);
 
 <a name="increment-and-decrement"></a>
 ### 増分と減分
@@ -1217,16 +1217,16 @@ JSONカラムを更新する場合は、JSONオブジェクトの適切なキー
 クエリビルダには、`select`ステートメントを実行するときに「悲観的ロック」を行うために役立つ関数も含まれています。「共有ロック」を使用してステートメントを実行するには、`sharedLock`メソッドを呼び出すことができます。共有ロックは、トランザクションがコミットされるまで、選択した行が変更されないようにします。
 
     DB::table('users')
-            ->where('votes', '>', 100)
-            ->sharedLock()
-            ->get();
+        ->where('votes', '>', 100)
+        ->sharedLock()
+        ->get();
 
 または、`lockForUpdate`メソッドを使用することもできます。「更新用」ロックは、選択したレコードが変更されたり、別の共有ロックで選択されたりするのを防ぎます。
 
     DB::table('users')
-            ->where('votes', '>', 100)
-            ->lockForUpdate()
-            ->get();
+        ->where('votes', '>', 100)
+        ->lockForUpdate()
+        ->get();
 
 義務ではありませんが、悲観的ロックは[トランザクション](/docs/{{version}}/database#database-transactions)の中へラップすることを推奨します。これにより、操作全体が完了するまで、取得したデータがデータベース内で変更されないことが保証されます。失敗した場合、トランザクションは変更をロールバックし、ロックを自動的に解放します。
 

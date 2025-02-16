@@ -562,8 +562,8 @@ Laravelの組み込みバリデーションルールエラーメッセージの�
 
             if ($validator->fails()) {
                 return redirect('/post/create')
-                            ->withErrors($validator)
-                            ->withInput();
+                    ->withErrors($validator)
+                    ->withInput();
             }
 
             // バリデーション済みデータの取得
@@ -2021,6 +2021,16 @@ The arguments [accepted by the `DateTimeZone::listIdentifiers` method](https://w
 
     'email' => Rule::unique('users')->where(fn (Builder $query) => $query->where('account_id', 1))
 
+**uniqueチェックでソフトデリート済みレコードを無視する**
+
+uniqueルールはデフォルトで、一意性を決定する際にソフトデリート済みレコードを含めます。ソフトデリート済みレコードを一意性のチェックから除外するには、`withoutTrashed`メソッドを呼び出します。
+
+    Rule::unique('users')->withoutTrashed();
+
+モデルがソフトデリート済みレコードに`deleted_at`以外のカラム名を使用している場合、`withoutTrashed`メソッドを呼び出すときは、そのカラム名を指定してください。
+
+    Rule::unique('users')->withoutTrashed('was_deleted_at');
+
 <a name="rule-uppercase"></a>
 #### uppercase
 
@@ -2379,8 +2389,8 @@ public function boot(): void
         $rule = Password::min(8);
 
         return $this->app->isProduction()
-                    ? $rule->mixedCase()->uncompromised()
-                    : $rule;
+            ? $rule->mixedCase()->uncompromised()
+            : $rule;
     });
 }
 ```

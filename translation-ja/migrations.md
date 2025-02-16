@@ -458,7 +458,6 @@ php artisan migrate:fresh --database=admin
 [timeTz](#column-method-timeTz)
 [timestamp](#column-method-timestamp)
 [timestamps](#column-method-timestamps)
-[nullableTimestamps](#column-method-nullableTimestamps)
 [timestampsTz](#column-method-timestampsTz)
 [softDeletes](#column-method-softDeletes)
 [softDeletesTz](#column-method-softDeletesTz)
@@ -773,13 +772,6 @@ MySQLやMariaDBを使用する場合は、`MEDIUMBLOB`カラムを作成する�
 このメソッドは、ポリモーフィック[Eloquentリレーション](/docs/{{version}}/eloquent-relationships)に必要なカラムを定義するときに使用することを目的としています。次の例では、`taggable_id`カラムと`taggable_type`カラムが作成されます。
 
     $table->morphs('taggable');
-
-<a name="column-method-nullableTimestamps"></a>
-#### `nullableTimestamps()` {.collection-method}
-
-`nullableTimestamps`メソッドは[timestamps](#column-method-timestamps)メソッドのエイリアスです。
-
-    $table->nullableTimestamps(precision: 0);
 
 <a name="column-method-nullableMorphs"></a>
 #### `nullableMorphs()` {.collection-method}

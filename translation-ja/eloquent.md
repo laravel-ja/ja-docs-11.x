@@ -32,6 +32,7 @@
 - [クエリスコープ](#query-scopes)
     - [グローバルスコープ](#global-scopes)
     - [ローカルスコープ](#local-scopes)
+    - [属性の保持](#pending-attributes)
 - [モデルの比較](#comparing-models)
 - [イベント](#events)
     - [クロージャの使用](#events-using-closures)
@@ -1386,9 +1387,40 @@ Eloquentはクロージャを使用してグローバルスコープを定義す
         }
     }
 
-期待される引数をスコープメソッドの引数へ追加したら、スコープ呼び出し時に引数を渡すことができます。
+期待する引数をスコープメソッドの引数へ追加したら、スコープ呼び出し時に引数を渡すことができます。
 
     $users = User::ofType('admin')->get();
+
+<a name="pending-attributes"></a>
+### 属性の保持
+
+スコープを使用して、スコープを制約するために使用する属性と同じ属性を持つモデルを作成したい場合、スコープクエリを構築する際、`withAttributes`メソッドを使用してください。
+
+    <?php
+
+    namespace App\Models;
+
+    use Illuminate\Database\Eloquent\Builder;
+    use Illuminate\Database\Eloquent\Model;
+
+    class Post extends Model
+    {
+        /**
+         * クエリをドラフトだけにスコープ
+         */
+        public function scopeDraft(Builder $query): void
+        {
+            $query->withAttributes([
+                'hidden' => true,
+            ]);
+        }
+    }
+
+`withAttributes`メソッドは指定属性を使用して、`where`節制約をクエリへ追加します。そして、このスコープを使用して作成したモデルへ、指定属性を追加します。
+
+    $draft = Post::draft()->create(['title' => 'In Progress']);
+
+    $draft->hidden; // true
 
 <a name="comparing-models"></a>
 ## モデルの比較

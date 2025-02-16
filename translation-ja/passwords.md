@@ -74,8 +74,8 @@ Laravelのパスワードリセット機能を使用する前に、アプリケ�
         );
 
         return $status === Password::ResetLinkSent
-                    ? back()->with(['status' => __($status)])
-                    : back()->withErrors(['email' => __($status)]);
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
     })->middleware('guest')->name('password.email');
 
 先に進む前に、このルートをさらに詳しく調べてみましょう。最初に、リクエストの`email`属性が検証されます。次に、Laravelの組み込みの「パスワードブローカ」(`Password`ファサードが返す)を使用して、パスワードリセットリンクをユーザーに送信します。パスワードブローカは、指定するフィールド(この場合はメールアドレス)でユーザーを取得し、Laravelの組み込み[通知システム](/docs/{{version}}/notifications)を介してユーザーにパスワードリセットリンクを送信します。
@@ -137,8 +137,8 @@ Laravelのパスワードリセット機能を使用する前に、アプリケ�
         );
 
         return $status === Password::PasswordReset
-                    ? redirect()->route('login')->with('status', __($status))
-                    : back()->withErrors(['email' => [__($status)]]);
+            ? redirect()->route('login')->with('status', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
     })->middleware('guest')->name('password.update');
 
 先に進む前に、このルートをさらに詳しく調べてみましょう。最初に、リクエストの`token`、`email`、および`password`属性がバリデーションされます。次に、Laravelの組み込みの「パスワードブローカ」(`Password`ファサードが返す)を使用して、パスワードリセットリクエストの資格情報を検証します。

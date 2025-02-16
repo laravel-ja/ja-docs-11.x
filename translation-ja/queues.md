@@ -464,8 +464,8 @@ handleメソッドでレート制限を行う代わりに、レート制限を�
     {
         RateLimiter::for('backups', function (object $job) {
             return $job->user->vipCustomer()
-                        ? Limit::none()
-                        : Limit::perHour(1)->by($job->user->id);
+                ? Limit::none()
+                : Limit::perHour(1)->by($job->user->id);
         });
     }
 

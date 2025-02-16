@@ -8,6 +8,7 @@
     - [Has One Of Many](#has-one-of-many)
     - [Has One Through](#has-one-through)
     - [Has Many Through](#has-many-through)
+- [スコープ付きリレーション](#scoped-relationships)
 - [多対多リレーション](#many-to-many)
     - [中間テーブルカラムの取得](#retrieving-intermediate-table-columns)
     - [中間テーブルのカラムを使った関係のフィルタリング](#filtering-queries-via-intermediate-table-columns)
@@ -185,8 +186,8 @@ Eloquentは、`Comment`モデルの適切な外部キーカラムを自動的に
 すべての関係はクエリビルダとしても機能するため、`comments`メソッドを呼び出し、クエリに条件をチェーンし続けて、リレーションのクエリへさらに制約を追加できます。
 
     $comment = Post::find(1)->comments()
-                        ->where('title', 'foo')
-                        ->first();
+        ->where('title', 'foo')
+        ->first();
 
 `hasOne`メソッドと同様に、`hasMany`メソッドに追加の引数を渡すことにより、外部キーとローカルキーをオーバーライドすることもできます。
 
@@ -612,6 +613,53 @@ return $this->through('environments')->has('deployments');
 return $this->throughEnvironments()->hasDeployments();
 ```
 
+<a name="scoped-relationships"></a>
+### スコープ付きリレーション
+
+リレーションを制約するモデルへメソッドを追加することはよく起きます。例として、`posts`リレーションへオプションの`where`制約を追加する`featuredPosts`メソッドを`User`モデルへ追加してみましょう。
+
+    <?php
+
+    namespace App\Models;
+
+    use Illuminate\Database\Eloquent\Model;
+    use Illuminate\Database\Eloquent\Relations\HasMany;
+
+    class User extends Model
+    {
+        /**
+         * ユーザーのポストを取得
+         */
+        public function posts(): HasMany
+        {
+            return $this->hasMany(Post::class)->latest();
+        }
+
+        /**
+         * ユーザーのフューチャーしたポストを取得
+         */
+        public function featuredPosts(): HasMany
+        {
+            return $this->posts()->where('featured', true);
+        }
+    }
+
+しかし、`featuredPosts`メソッドでモデルを作成しようとしても、`featured`属性は`true`へ設定しません。リレーションメソッドでモデルを作成し、そのリレーションで作成したすべてのモデルへ追加する属性を指定したい場合は、リレーションクエリを作成する際に、`withAttributes`メソッドを使用してください。
+
+    /**
+     * ユーザーのフューチャーしたポストを取得
+     */
+    public function featuredPosts(): HasMany
+    {
+        return $this->posts()->withAttributes(['featured' => true]);
+    }
+
+`withAttributes`メソッドは、指定属性を使用し、`where`節制約をクエリへ追加し、リレーションメソッドで作成したモデルにも指定属性を追加します。
+
+    $post = $user->featuredPosts()->create(['title' => 'Featured Post']);
+
+    $post->featured; // true
+
 <a name="many-to-many"></a>
 ## 多対多リレーション
 
@@ -740,8 +788,8 @@ return $this->throughEnvironments()->hasDeployments();
 たとえば、アプリケーションにポッドキャストを購読する可能性のあるユーザーが含まれている場合、ユーザーとポッドキャストの間には多対多の関係があるでしょう。この場合、中間テーブル属性の名前を`pivot`ではなく`subscription`に変更することを推奨します。リレーションを定義するときに`as`メソッドを使用して指定できます。
 
     return $this->belongsToMany(Podcast::class)
-                    ->as('subscription')
-                    ->withTimestamps();
+        ->as('subscription')
+        ->withTimestamps();
 
 カスタム中間テーブル属性を指定し終えると、カスタマイズした名前を使用して中間テーブルのデータへアクセスできます。
 
@@ -757,29 +805,34 @@ return $this->throughEnvironments()->hasDeployments();
 リレーションを定義するときに、`wherePivot`、`wherePivotIn`、`wherePivotNotIn`、`wherePivotBetween`、`wherePivotNotBetween`、`wherePivotNull`、`wherePivotNotNull`メソッドを使用し、`belongsToMany`関係クエリによって返される結果をフィルタリングすることもできます。
 
     return $this->belongsToMany(Role::class)
-                    ->wherePivot('approved', 1);
+        ->wherePivot('approved', 1);
 
     return $this->belongsToMany(Role::class)
-                    ->wherePivotIn('priority', [1, 2]);
+        ->wherePivotIn('priority', [1, 2]);
 
     return $this->belongsToMany(Role::class)
-                    ->wherePivotNotIn('priority', [1, 2]);
+        ->wherePivotNotIn('priority', [1, 2]);
 
     return $this->belongsToMany(Podcast::class)
-                    ->as('subscriptions')
-                    ->wherePivotBetween('created_at', ['2020-01-01 00:00:00', '2020-12-31 00:00:00']);
+        ->as('subscriptions')
+        ->wherePivotBetween('created_at', ['2020-01-01 00:00:00', '2020-12-31 00:00:00']);
 
     return $this->belongsToMany(Podcast::class)
-                    ->as('subscriptions')
-                    ->wherePivotNotBetween('created_at', ['2020-01-01 00:00:00', '2020-12-31 00:00:00']);
+        ->as('subscriptions')
+        ->wherePivotNotBetween('created_at', ['2020-01-01 00:00:00', '2020-12-31 00:00:00']);
 
     return $this->belongsToMany(Podcast::class)
-                    ->as('subscriptions')
-                    ->wherePivotNull('expired_at');
+        ->as('subscriptions')
+        ->wherePivotNull('expired_at');
 
     return $this->belongsToMany(Podcast::class)
-                    ->as('subscriptions')
-                    ->wherePivotNotNull('expired_at');
+        ->as('subscriptions')
+        ->wherePivotNotNull('expired_at');
+
+`wherePivot`メソッドは、クエリへwhere節制約を追加しますが、定義したリレーションを介して新しいモデルを作成する場合、指定値を追加しません。特定のピボット値でクエリとリレーション作成の両方を行う必要がある場合は、`withPivotValue`メソッドを使用します。
+
+    return $this->belongsToMany(Role::class)
+            ->withPivotValue('approved', 1);
 
 <a name="ordering-queries-via-intermediate-table-columns"></a>
 ### 中間テーブルカラムによるクエリの並び替え
@@ -787,8 +840,8 @@ return $this->throughEnvironments()->hasDeployments();
  `belongsToMany` リレーションクエリが返す結果は、`orderByPivot`メソッドを使用して並び替えできます。以下の例では、そのユーザーの最新バッジをすべて取得します。
 
     return $this->belongsToMany(Badge::class)
-                    ->where('rank', 'gold')
-                    ->orderByPivot('created_at', 'desc');
+        ->where('rank', 'gold')
+        ->orderByPivot('created_at', 'desc');
 
 <a name="defining-custom-intermediate-table-models"></a>
 ### カスタム中間テーブルモデルの定義
@@ -1354,11 +1407,11 @@ where user_id = ? and active = 1 or votes >= 100
     use Illuminate\Database\Eloquent\Builder;
 
     $user->posts()
-            ->where(function (Builder $query) {
-                return $query->where('active', 1)
-                             ->orWhere('votes', '>=', 100);
-            })
-            ->get();
+        ->where(function (Builder $query) {
+            return $query->where('active', 1)
+                ->orWhere('votes', '>=', 100);
+        })
+        ->get();
 
 上記の例は、以下のSQLを生成します。論理グループ化によって制約が適切にグループ化され、クエリは特定のユーザーを制約したままであることに注意してください。
 
@@ -1505,8 +1558,8 @@ Eloquentリレーションクエリへ制約を追加する必要がない場合
 "Morph To"リレーションの親の子を問い合わせたいことも時々あるでしょう。この場合は`whereMorphedTo`と`whereNotMorphedTo`メソッドを使い、指定モデルの適切なモーフタイプマッピングを自動的に決定できます。これらのメソッドは、`morphTo`リレーションの名前を第１引数として、関連する親モデルを第２引数として取ります。
 
     $comments = Comment::whereMorphedTo('commentable', $post)
-                          ->orWhereMorphedTo('commentable', $video)
-                          ->get();
+        ->orWhereMorphedTo('commentable', $video)
+        ->get();
 
 <a name="querying-all-morph-to-related-models"></a>
 #### 関連するすべてのモデルのクエリ
@@ -1581,8 +1634,8 @@ Eloquentリレーションクエリへ制約を追加する必要がない場合
 `withCount`を`select`ステートメントと組み合わせる場合は、`select`メソッドの後に`withCount`を呼び出してください。
 
     $posts = Post::select(['title', 'body'])
-                    ->withCount('comments')
-                    ->get();
+        ->withCount('comments')
+        ->get();
 
 <a name="other-aggregate-functions"></a>
 ### その他の集計関数
@@ -1614,8 +1667,8 @@ Eloquentは、`withCount`メソッドに加えて、`withMin`、`withMax`、`wit
 これらの集約メソッドを`select`ステートメントと組み合わせる場合は、`select`メソッドの後に集約メソッドのメソッドを呼び出してください。
 
     $posts = Post::select(['title', 'body'])
-                    ->withExists('comments')
-                    ->get();
+        ->withExists('comments')
+        ->get();
 
 <a name="counting-related-models-on-morph-to-relationships"></a>
 ### Morph Toリレーションの関連モデルのカウント
