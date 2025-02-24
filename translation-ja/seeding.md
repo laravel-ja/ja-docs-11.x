@@ -70,9 +70,9 @@ php artisan make:seeder UserSeeder
     public function run(): void
     {
         User::factory()
-                ->count(50)
-                ->hasPosts(1)
-                ->create();
+            ->count(50)
+            ->hasPosts(1)
+            ->create();
     }
 
 <a name="calling-additional-seeders"></a>

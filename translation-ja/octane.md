@@ -589,15 +589,15 @@ Swooleでは、指定した秒数ごとに実行される"tick"オペレーシ�
 
 ```php
 Octane::tick('simple-ticker', fn () => ray('Ticking...'))
-        ->seconds(10);
+    ->seconds(10);
 ```
 
 `immediate`メソッドを使用すると，Octaneサーバが最初に起動したときに，直ちにtickコールバックを起動し，その後はN秒ごとに起動するように指示できます。
 
 ```php
 Octane::tick('simple-ticker', fn () => ray('Ticking...'))
-        ->seconds(10)
-        ->immediate();
+    ->seconds(10)
+    ->immediate();
 ```
 
 <a name="the-octane-cache"></a>

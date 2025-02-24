@@ -47,7 +47,7 @@
 
     Route::get('/home', function () {
         return response('Hello World', 200)
-                      ->header('Content-Type', 'text/plain');
+            ->header('Content-Type', 'text/plain');
     });
 
 <a name="eloquent-models-and-collections"></a>
@@ -67,18 +67,18 @@
 レスポンスインスタンスをスラスラと構築できるように、ほとんどのレスポンスメソッドはチェーンとしてつなげられることを覚えておきましょう。たとえば、ユーザーにレスポンスを送り返す前に、`header`メソッドでいくつかのヘッダを追加できます。
 
     return response($content)
-                ->header('Content-Type', $type)
-                ->header('X-Header-One', 'Header Value')
-                ->header('X-Header-Two', 'Header Value');
+        ->header('Content-Type', $type)
+        ->header('X-Header-One', 'Header Value')
+        ->header('X-Header-Two', 'Header Value');
 
 もしくは、`withHeaders`メソッドで、レスポンスへ追加したいヘッダの配列を指定します。
 
     return response($content)
-                ->withHeaders([
-                    'Content-Type' => $type,
-                    'X-Header-One' => 'Header Value',
-                    'X-Header-Two' => 'Header Value',
-                ]);
+        ->withHeaders([
+            'Content-Type' => $type,
+            'X-Header-One' => 'Header Value',
+            'X-Header-Two' => 'Header Value',
+        ]);
 
 <a name="cache-control-middleware"></a>
 #### キャッシュコントロール・ミドルウェア
@@ -255,8 +255,8 @@ Eloquentモデルの"ID"をルートパラメータとしてリダイレクト�
 レスポンスのステータスやヘッダをコントロールしながらも、レスポンス内容として[ビュー](/docs/{{version}}/views)を返す必要がある場合は、`view`メソッドを使用してください。
 
     return response()
-                ->view('hello', $data, 200)
-                ->header('Content-Type', $type);
+        ->view('hello', $data, 200)
+        ->header('Content-Type', $type);
 
 もちろん、カスタムHTTPステータスコードやカスタムヘッダを渡す必要がない場合は、グローバルな`view`ヘルパ関数が使用できます。
 
@@ -273,8 +273,8 @@ Eloquentモデルの"ID"をルートパラメータとしてリダイレクト�
 JSONPレスポンスを生成したい場合は、`json`メソッドと`withCallback`メソッドを組み合わせてください。
 
     return response()
-                ->json(['name' => 'Abigail', 'state' => 'CA'])
-                ->withCallback($request->input('callback'));
+        ->json(['name' => 'Abigail', 'state' => 'CA'])
+        ->withCallback($request->input('callback'));
 
 <a name="file-downloads"></a>
 ### Fileダウンロード
@@ -334,6 +334,39 @@ JSONデータを徐々にストリーミングする必要がある場合は、`
         ]);
     });
 
+<a name="event-streams"></a>
+#### イベントストリーム
+
+`eventStream`メソッドは、`text/event-stream`コンテントタイプを使用して、サーバ送信イベント （SSE）ストリームレスポンスを返すために使用します。`eventStream`メソッドは、レスポンスが利用可能になったら、ストリームに対するクロージャを[yield](https://www.php.net/manual/ja/language.generators.overview.php)するクロージャを引数に取ります。
+
+```php
+Route::get('/chat', function () {
+    return response()->eventStream(function () {
+        $stream = OpenAI::client()->chat()->createStreamed(...);
+
+        foreach ($stream as $response) {
+            yield $response->choices[0];
+        }
+    });
+});
+```
+
+このイベントストリームは、アプリケーションのフロントエンドにより、[EventSource](https://developer.mozilla.org/en-US/docs/Web/API/EventSource)オブジェクトを介して使用されるでしょう。イベントストリームが完了すると、`eventStream`メソッドは自動的にイベントストリームへ`</stream>`アップデートを送信します。
+
+```js
+const source = new EventSource('/chat');
+
+source.addEventListener('update', (event) => {
+    if (event.data === '</stream>') {
+        source.close();
+
+        return;
+    }
+
+    console.log(event.data);
+})
+```
+
 <a name="streamed-downloads"></a>
 #### ストリームダウンロード
 
@@ -343,8 +376,8 @@ JSONデータを徐々にストリーミングする必要がある場合は、`
 
     return response()->streamDownload(function () {
         echo GitHub::api('repo')
-                    ->contents()
-                    ->readme('laravel', 'laravel')['contents'];
+            ->contents()
+            ->readme('laravel', 'laravel')['contents'];
     }, 'laravel-readme.md');
 
 <a name="response-macros"></a>

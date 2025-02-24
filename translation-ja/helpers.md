@@ -9,6 +9,7 @@
     - [抽選](#lottery)
     - [パイプライン](#pipeline)
     - [スリープ](#sleep)
+    - [Timebox](#timebox)
 
 <a name="introduction"></a>
 ## イントロダクション
@@ -65,6 +66,7 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
 [Arr::pull](#method-array-pull)
 [Arr::query](#method-array-query)
 [Arr::random](#method-array-random)
+[Arr::reject](#method-array-reject)
 [Arr::set](#method-array-set)
 [Arr::shuffle](#method-array-shuffle)
 [Arr::sort](#method-array-sort)
@@ -754,6 +756,21 @@ Laravelはさまざまな、グローバル「ヘルパ」PHP関数を用意し�
     $items = Arr::random($array, 2);
 
     // [2, 5] - (retrieved randomly)
+
+<a name="method-array-reject"></a>
+#### `Arr::reject()` {.collection-method}
+
+`Arr::reject`メソッドは、指定クロージャを使い、配列から項目を削除します。
+
+    use Illuminate\Support\Arr;
+
+    $array = [100, '200', 300, '400', 500];
+
+    $filtered = Arr::reject($array, function (string|int $value, int $key) {
+        return is_string($value);
+    });
+
+    // [0 => 100, 2 => 300, 4 => 500]
 
 <a name="method-array-set"></a>
 #### `Arr::set()` {.collection-method}
@@ -2576,19 +2593,19 @@ use App\Models\User;
 use Illuminate\Support\Facades\Pipeline;
 
 $user = Pipeline::send($user)
-            ->through([
-                function (User $user, Closure $next) {
-                    // ...
+    ->through([
+        function (User $user, Closure $next) {
+            // ...
 
-                    return $next($user);
-                },
-                function (User $user, Closure $next) {
-                    // ...
+            return $next($user);
+        },
+        function (User $user, Closure $next) {
+            // ...
 
-                    return $next($user);
-                },
-            ])
-            ->then(fn (User $user) => $user);
+            return $next($user);
+        },
+    ])
+    ->then(fn (User $user) => $user);
 ```
 
 ご覧のように、パイプライン中の呼び出し可能な各クラスやクロージャには、入力と`$next`クロージャを引数に渡します。`next`クロージャが呼び出されると、パイプラインの次の呼び出し可能なクラスを呼び出します。お気づきかもしれませんが、これは [ミドルウェア](/docs/{{version}}/middleware) と非常によく似ています。
@@ -2599,12 +2616,12 @@ $user = Pipeline::send($user)
 
 ```php
 $user = Pipeline::send($user)
-            ->through([
-                GenerateProfilePhoto::class,
-                ActivateSubscription::class,
-                SendWelcomeEmail::class,
-            ])
-            ->then(fn (User $user) => $user);
+    ->through([
+        GenerateProfilePhoto::class,
+        ActivateSubscription::class,
+        SendWelcomeEmail::class,
+    ])
+    ->then(fn (User $user) => $user);
 ```
 
 <a name="sleep"></a>
@@ -2769,3 +2786,22 @@ $start->diffForHumans(); // 1 second ago
 ```
 
 Laravelは実行を一時停止するとき、にいつでも内部的に`Sleep`クラスを使用しています。例えば、[`retry`](#method-retry)ヘルパはスリープ時に`Sleep`クラスを使用し、そのヘルパを使用する際のテストの実行性を上げています。
+
+<a name="timebox"></a>
+### Timebox
+
+Laravelの`Timebox`クラスは、指定したコールバックの実際の実行が早く完了しても、実行にかかる時間が常に一定であることを保証します。これは、攻撃者が実行時間のばらつきを悪用して機密情報を推測する可能性がある暗号操作やユーザー認証チェックで特に有用です。
+
+実行時間が固定時間を超えた場合、`Timebox`は何の効果もありません。最悪のシナリオを考慮して、固定時間として十分に長い時間を選択するかは開発者次第です。
+
+callメソッドは、クロージャとマイクロ秒単位の制限時間を受け取り、クロージャを実行し、制限時間に達するまで待ちます。
+
+```php
+use Illuminate\Support\Timebox;
+
+(new Timebox)->call(function ($timebox) {
+    // ...
+}, microseconds: 10000);
+```
+
+クロージャ内で例外が投げられた場合、このクラスは定義された遅延を尊重し、遅延後に例外を再び投げます。

@@ -2860,9 +2860,9 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
     use Illuminate\Support\Stringable;
 
     $string = Str::of('Taylor')
-                    ->when(true, function (Stringable $string) {
-                        return $string->append(' Otwell');
-                    });
+        ->when(true, function (Stringable $string) {
+            return $string->append(' Otwell');
+        });
 
     // 'Taylor Otwell'
 
@@ -2877,9 +2877,9 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
     use Illuminate\Support\Stringable;
 
     $string = Str::of('tony stark')
-                ->whenContains('tony', function (Stringable $string) {
-                    return $string->title();
-                });
+        ->whenContains('tony', function (Stringable $string) {
+            return $string->title();
+        });
 
     // 'Tony Stark'
 
@@ -2891,9 +2891,9 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
     use Illuminate\Support\Stringable;
 
     $string = Str::of('tony stark')
-                ->whenContains(['tony', 'hulk'], function (Stringable $string) {
-                    return $string->title();
-                });
+        ->whenContains(['tony', 'hulk'], function (Stringable $string) {
+            return $string->title();
+        });
 
     // Tony Stark
 
@@ -2906,9 +2906,9 @@ The `snake` method converts the given string to `snake`メソッドは、文字�
     use Illuminate\Support\Stringable;
 
     $string = Str::of('tony stark')
-                    ->whenContainsAll(['tony', 'stark'], function (Stringable $string) {
-                        return $string->title();
-                    });
+        ->whenContainsAll(['tony', 'stark'], function (Stringable $string) {
+            return $string->title();
+        });
 
     // 'Tony Stark'
 
@@ -3100,6 +3100,6 @@ Str::of('Hello, world!')->wordCount(); // 2
 
     // "Laravel"
 
-    Str::is('is')->wrap(before: 'This ', after: ' Laravel!');
+    Str::of('is')->wrap(before: 'This ', after: ' Laravel!');
 
     // This is Laravel!

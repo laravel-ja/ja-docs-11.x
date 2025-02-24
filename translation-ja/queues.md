@@ -415,16 +415,16 @@ handleメソッドでレート制限を行う代わりに、レート制限を�
         public function handle(object $job, Closure $next): void
         {
             Redis::throttle('key')
-                    ->block(0)->allow(1)->every(5)
-                    ->then(function () use ($job, $next) {
-                        // ロック取得
-
-                        $next($job);
-                    }, function () use ($job) {
-                        // ロックの取得失敗
-
-                        $job->release(5);
-                    });
+                ->block(0)->allow(1)->every(5)
+                ->then(function () use ($job, $next) {
+                    // Lock obtained...
+    
+                    $next($job);
+                }, function () use ($job) {
+                    // Could not obtain lock...
+    
+                    $job->release(5);
+                });
         }
     }
 
@@ -790,7 +790,7 @@ Laravelは、例外をスロットルすることができる`Illuminate\Queue\M
             // ...
 
             ProcessPodcast::dispatch($podcast)
-                        ->delay(now()->addMinutes(10));
+                ->delay(now()->addMinutes(10));
 
             return redirect('/podcasts');
         }
@@ -1058,8 +1058,8 @@ public function handle(): void
 `onConnection`メソッドと`onQueue`メソッドをチェーンして、ジョブの接続とキューを指定できます。
 
     ProcessPodcast::dispatch($podcast)
-                  ->onConnection('sqs')
-                  ->onQueue('processing');
+        ->onConnection('sqs')
+        ->onQueue('processing');
 
 または、ジョブのコンストラクター内で`onConnection`メソッドを呼び出すことにより、ジョブの接続を指定することもできます。
 
@@ -2186,11 +2186,11 @@ public function boot(): void
 {
     Event::listen(function (QueueBusy $event) {
         Notification::route('mail', 'dev@example.com')
-                ->notify(new QueueHasLongWaitTime(
-                    $event->connection,
-                    $event->queue,
-                    $event->size
-                ));
+            ->notify(new QueueHasLongWaitTime(
+                $event->connection,
+                $event->queue,
+                $event->size
+            ));
     });
 }
 ```

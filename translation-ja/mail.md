@@ -490,8 +490,8 @@ Mailableクラスの`content`メソッド内で`view`、つまりメールのコ
     {
         return [
             Attachment::fromPath('/path/to/file')
-                    ->as('name.pdf')
-                    ->withMime('application/pdf'),
+                ->as('name.pdf')
+                ->withMime('application/pdf'),
         ];
     }
 
@@ -523,8 +523,8 @@ Mailableクラスの`content`メソッド内で`view`、つまりメールのコ
     {
         return [
             Attachment::fromStorage('/path/to/file')
-                    ->as('name.pdf')
-                    ->withMime('application/pdf'),
+                ->as('name.pdf')
+                ->withMime('application/pdf'),
         ];
     }
 
@@ -539,8 +539,8 @@ Mailableクラスの`content`メソッド内で`view`、つまりメールのコ
     {
         return [
             Attachment::fromStorageDisk('s3', '/path/to/file')
-                    ->as('name.pdf')
-                    ->withMime('application/pdf'),
+                ->as('name.pdf')
+                ->withMime('application/pdf'),
         ];
     }
 
@@ -558,7 +558,7 @@ Mailableクラスの`content`メソッド内で`view`、つまりメールのコ
     {
         return [
             Attachment::fromData(fn () => $this->pdf, 'Report.pdf')
-                    ->withMime('application/pdf'),
+                ->withMime('application/pdf'),
         ];
     }
 
@@ -644,8 +644,8 @@ Mailableクラスの`content`メソッド内で`view`、つまりメールのコ
 Laravelは、添付ファイルをカスタマイズするために使用できる追加メソッドも提供しています。例えば、`as`や`withMime`メソッドを使用して、ファイル名やMIMEタイプをカスタマイズできます。
 
     return Attachment::fromPath('/path/to/file')
-            ->as('Photo Name')
-            ->withMime('image/jpeg');
+        ->as('Photo Name')
+        ->withMime('image/jpeg');
 
 <a name="headers"></a>
 ### ヘッダ
@@ -885,8 +885,8 @@ LaravelのMarkdownコンポーネント用にまったく新しいテーマを�
 デフォルトでは、Laravelはアプリケーションの`mail`設定ファイルで`default`メーラーとして設定されたメーラーを使用してメールを送信します。しかし、`mailer`メソッドを使用して、特定のメーラー設定を使用してメッセージを送信することができます。
 
     Mail::mailer('postmark')
-            ->to($request->user())
-            ->send(new OrderShipped($order));
+        ->to($request->user())
+        ->send(new OrderShipped($order));
 
 <a name="queueing-mail"></a>
 ### メールのキュー投入
@@ -919,8 +919,8 @@ LaravelのMarkdownコンポーネント用にまったく新しいテーマを�
 `make:mail`コマンドを使用して生成したすべてのMailableクラスは`Illuminate\Bus\Queueable`トレイトを利用するため、任意のMailableクラスインスタンスで`onQueue`メソッドと`onConnection`メソッドを呼び出して、メッセージに使う接続とキュー名を指定できます。
 
     $message = (new OrderShipped($order))
-                    ->onConnection('sqs')
-                    ->onQueue('emails');
+        ->onConnection('sqs')
+        ->onQueue('emails');
 
     Mail::to($request->user())
         ->cc($moreUsers)
@@ -1223,8 +1223,8 @@ class ExampleTest extends TestCase
     Mail::assertSent(OrderShipped::class, function (OrderShipped $mail) {
         return $mail->hasAttachment(
             Attachment::fromPath('/path/to/file')
-                    ->as('name.pdf')
-                    ->withMime('application/pdf')
+                ->as('name.pdf')
+                ->withMime('application/pdf')
         );
     });
 

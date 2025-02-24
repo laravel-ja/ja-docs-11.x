@@ -175,10 +175,10 @@ php artisan schedule:list
 
     // ウィークデーの８時から１７時まで１時間ごとに実行
     Schedule::command('foo')
-              ->weekdays()
-              ->hourly()
-              ->timezone('America/Chicago')
-              ->between('8:00', '17:00');
+        ->weekdays()
+        ->hourly()
+        ->timezone('America/Chicago')
+        ->between('8:00', '17:00');
 
 追加のスケジュール制約のリストを以下にリストします。
 
@@ -211,8 +211,8 @@ php artisan schedule:list
     use Illuminate\Support\Facades\Schedule;
 
     Schedule::command('emails:send')
-                    ->hourly()
-                    ->days([0, 3]);
+        ->hourly()
+        ->days([0, 3]);
 
 または、タスクを実行する日を定義するときに、`Illuminate\Console\Scheduling\Schedule`クラスで使用可能な定数を使用することもできます。
 
@@ -220,8 +220,8 @@ php artisan schedule:list
     use Illuminate\Console\Scheduling\Schedule;
 
     Facades\Schedule::command('emails:send')
-                    ->hourly()
-                    ->days([Schedule::SUNDAY, Schedule::WEDNESDAY]);
+        ->hourly()
+        ->days([Schedule::SUNDAY, Schedule::WEDNESDAY]);
 
 <a name="between-time-constraints"></a>
 #### 時間制限
@@ -229,14 +229,14 @@ php artisan schedule:list
 `between`メソッドは一日の時間に基づき、実行時間を制限するために使用します。
 
     Schedule::command('emails:send')
-                        ->hourly()
-                        ->between('7:00', '22:00');
+        ->hourly()
+        ->between('7:00', '22:00');
 
 同じように、`unlessBetween`メソッドは、その時間にタスクの実行を除外するために使用します。
 
     Schedule::command('emails:send')
-                        ->hourly()
-                        ->unlessBetween('23:00', '4:00');
+        ->hourly()
+        ->unlessBetween('23:00', '4:00');
 
 <a name="truth-test-constraints"></a>
 #### 論理テスト制約
@@ -261,8 +261,8 @@ php artisan schedule:list
 `environments`メソッドは、指定する環境でのみタスクを実行するために使用できます（`APP_ENV`[環境変数](/docs/{{version}}/configuration#environment-configuration)で定義されます。）
 
     Schedule::command('emails:send')
-                ->daily()
-                ->environments(['staging', 'production']);
+        ->daily()
+        ->environments(['staging', 'production']);
 
 <a name="timezones"></a>
 ### タイムゾーン
@@ -272,8 +272,8 @@ php artisan schedule:list
     use Illuminate\Support\Facades\Schedule;
 
     Schedule::command('report:generate')
-             ->timezone('America/New_York')
-             ->at('2:00')
+        ->timezone('America/New_York')
+        ->at('2:00')
 
 すべてのスケジュールタスクに同じタイムゾーンを繰り返し割り当てている場合は、アプリケーションの`app`設定ファイルで`schedule_timezone`オプションを定義すれば、すべてのスケジュールに割り当てるタイムゾーンを指定できます。
 
@@ -314,9 +314,9 @@ php artisan schedule:list
     use Illuminate\Support\Facades\Schedule;
 
     Schedule::command('report:generate')
-                    ->fridays()
-                    ->at('17:00')
-                    ->onOneServer();
+        ->fridays()
+        ->at('17:00')
+        ->onOneServer();
 
 <a name="naming-unique-jobs"></a>
 #### サーバジョブに一意名を付ける
@@ -325,14 +325,14 @@ Laravelに対して単一サーバ上でジョブの各順列を実行するよ�
 
 ```php
 Schedule::job(new CheckUptime('https://laravel.com'))
-            ->name('check_uptime:laravel.com')
-            ->everyFiveMinutes()
-            ->onOneServer();
+    ->name('check_uptime:laravel.com')
+    ->everyFiveMinutes()
+    ->onOneServer();
 
 Schedule::job(new CheckUptime('https://vapor.laravel.com'))
-            ->name('check_uptime:vapor.laravel.com')
-            ->everyFiveMinutes()
-            ->onOneServer();
+    ->name('check_uptime:vapor.laravel.com')
+    ->everyFiveMinutes()
+    ->onOneServer();
 ```
 
 同様に、１サーバで実行することを意図している場合、スケジュールするクロージャへ名前を割り当てる必要があります。
@@ -352,8 +352,8 @@ Schedule::call(fn () => User::resetApiRequestCount())
     use Illuminate\Support\Facades\Schedule;
 
     Schedule::command('analytics:report')
-             ->daily()
-             ->runInBackground();
+        ->daily()
+        ->runInBackground();
 
 > [!WARNING]
 > `runInBackground`メソッドは`command`か`exec`メソッドにより、タスクをスケジュールするときにのみ使用してください。
@@ -444,27 +444,27 @@ Laravelスケジューラはスケジュールしたタスクが生成する出�
     use Illuminate\Support\Facades\Schedule;
 
     Schedule::command('emails:send')
-             ->daily()
-             ->sendOutputTo($filePath);
+        ->daily()
+        ->sendOutputTo($filePath);
 
 出力を指定したファイルに追加したい場合は、`appendOutputTo`メソッドを使います。
 
     Schedule::command('emails:send')
-             ->daily()
-             ->appendOutputTo($filePath);
+        ->daily()
+        ->appendOutputTo($filePath);
 
 `emailOutputTo`メソッドを使用して、選択した電子メールアドレスへ出力を電子メールで送信できます。タスクの出力をメールで送信する前に、Laravelの[メールサービス](/docs/{{version}}/mail)を設定する必要があります。
 
     Schedule::command('report:generate')
-             ->daily()
-             ->sendOutputTo($filePath)
-             ->emailOutputTo('taylor@example.com');
+        ->daily()
+        ->sendOutputTo($filePath)
+        ->emailOutputTo('taylor@example.com');
 
 スケジュールしたArtisanまたはシステムコマンドが、ゼロ以外の終了コードで終了した場合にのみ出力を電子メールで送信する場合は、`emailOutputOnFailure`メソッドを使用します。
 
     Schedule::command('report:generate')
-             ->daily()
-             ->emailOutputOnFailure('taylor@example.com');
+        ->daily()
+        ->emailOutputOnFailure('taylor@example.com');
 
 > [!WARNING]
 > `emailOutputTo`、 `emailOutputOnFailure`、`sendOutputTo`、`appendOutputTo`メソッドは、`command`と`exec`メソッドに対してのみ指定できます。
@@ -477,37 +477,37 @@ Laravelスケジューラはスケジュールしたタスクが生成する出�
     use Illuminate\Support\Facades\Schedule;
 
     Schedule::command('emails:send')
-             ->daily()
-             ->before(function () {
-                 // タスクが実行されようとしている
-             })
-             ->after(function () {
-                 // タスクが実行された
-             });
+        ->daily()
+        ->before(function () {
+            // The task is about to execute...
+        })
+        ->after(function () {
+            // The task has executed...
+        });
 
 `onSuccess`メソッドと`onFailure`メソッドを使用すると、スケジュールされたタスクが成功または失敗した場合に実行されるコードを指定できます。失敗は、スケジュールされたArtisanまたはシステムコマンドがゼロ以外の終了コードで終了したことを示します。
 
     Schedule::command('emails:send')
-             ->daily()
-             ->onSuccess(function () {
-                 // タスク成功時…
-             })
-             ->onFailure(function () {
-                 // タスク失敗時…
-             });
+        ->daily()
+        ->onSuccess(function () {
+            // The task succeeded...
+        })
+        ->onFailure(function () {
+            // The task failed...
+        });
 
 コマンドから出力を利用できる場合は、フックのクロージャの定義で`$output`引数として`Illuminate\Support\Stringable`インスタンスを型指定することで、`after`、`onSuccess`、または`onFailure`フックでアクセスできます。
 
     use Illuminate\Support\Stringable;
 
     Schedule::command('emails:send')
-             ->daily()
-             ->onSuccess(function (Stringable $output) {
-                 // タスク成功時…
-             })
-             ->onFailure(function (Stringable $output) {
-                 // タスク失敗時…
-             });
+        ->daily()
+        ->onSuccess(function (Stringable $output) {
+            // The task succeeded...
+        })
+        ->onFailure(function (Stringable $output) {
+            // The task failed...
+        });
 
 <a name="pinging-urls"></a>
 #### URLへのPing
@@ -515,28 +515,28 @@ Laravelスケジューラはスケジュールしたタスクが生成する出�
 `pingBefore`メソッドと`thenPing`メソッドを使用すると、スケジューラーはタスクの実行前または実行後に、指定するURLに自動的にpingを実行できます。このメソッドは、[Envoyer](https://envoyer.io)などの外部サービスに、スケジュールされたタスクが実行を開始または終了したことを通知するのに役立ちます。
 
     Schedule::command('emails:send')
-             ->daily()
-             ->pingBefore($url)
-             ->thenPing($url);
+        ->daily()
+        ->pingBefore($url)
+        ->thenPing($url);
 
 `pingOnSuccess`と`pingOnFailure`メソッドを使用すると、タスクが成功または失敗した場合にのみ、指定したURLへpingを送信できます。失敗とは、スケジュールしたArtisanまたはシステムコマンドがゼロ以外の終了コードで終了したことを表します。
 
     Schedule::command('emails:send')
-             ->daily()
-             ->pingOnSuccess($successUrl)
-             ->pingOnFailure($failureUrl);
+        ->daily()
+        ->pingOnSuccess($successUrl)
+        ->pingOnFailure($failureUrl);
 
 `pingBeforeIf`、`thenPingIf`、`pingOnSuccessIf`、`pingOnFailureIf`メソッドを使用すると、指定した条件が`true`である場合にのみ、指定したURLへpingを送信できます。
 
     Schedule::command('emails:send')
-             ->daily()
-             ->pingBeforeIf($condition, $url)
-             ->thenPingIf($condition, $url);
+        ->daily()
+        ->pingBeforeIf($condition, $url)
+        ->thenPingIf($condition, $url);             
 
     Schedule::command('emails:send')
-             ->daily()
-             ->pingOnSuccessIf($condition, $successUrl)
-             ->pingOnFailureIf($condition, $failureUrl);
+        ->daily()
+        ->pingOnSuccessIf($condition, $successUrl)
+        ->pingOnFailureIf($condition, $failureUrl);
 
 <a name="events"></a>
 ## イベント

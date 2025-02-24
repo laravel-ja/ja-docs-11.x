@@ -515,7 +515,7 @@ Eloquentでは、属性の値をPHPの[Enum](https://www.php.net/manual/ja/langu
     $users = User::select([
         'users.*',
         'last_posted_at' => Post::selectRaw('MAX(created_at)')
-                ->whereColumn('user_id', 'users.id')
+            ->whereColumn('user_id', 'users.id')
     ])->get();
 
 このクエリ結果の`last_posted_at`属性は単純な文字列になります。クエリを実行するときに、この属性に「datetime」キャストを適用できれば素晴らしいと思うでしょう。幸運なことに、`withCasts`メソッドを使用してこれができます。
@@ -523,7 +523,7 @@ Eloquentでは、属性の値をPHPの[Enum](https://www.php.net/manual/ja/langu
     $users = User::select([
         'users.*',
         'last_posted_at' => Post::selectRaw('MAX(created_at)')
-                ->whereColumn('user_id', 'users.id')
+            ->whereColumn('user_id', 'users.id')
     ])->withCasts([
         'last_posted_at' => 'datetime'
     ])->get();

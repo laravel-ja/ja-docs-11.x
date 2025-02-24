@@ -1882,7 +1882,7 @@ Stripeの料金を払い戻す必要がある場合は、`refund`メソッドを
 
 インボイスPDFを生成する前にComposerを使い、CashierのデフォルトインボイスレンダラであるDompdfライブラリをインストールする必要があります。
 
-```php
+```shell
 composer require dompdf/dompdf
 ```
 

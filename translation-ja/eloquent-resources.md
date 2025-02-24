@@ -738,9 +738,9 @@ In addition to conditionally loading attributes, you may conditionally include r
 ルートまたはコントローラでリソースインスタンスを構築するときに、トップレベルのデータを追加することもできます。すべてのリソースで使用できる`additional`メソッドは、リソースレスポンスへ追加する必要のあるデータの配列を引数に取ります。
 
     return (new UserCollection(User::all()->load('roles')))
-                    ->additional(['meta' => [
-                        'key' => 'value',
-                    ]]);
+        ->additional(['meta' => [
+            'key' => 'value',
+        ]]);
 
 <a name="resource-responses"></a>
 ## リソースレスポンス
@@ -761,8 +761,8 @@ In addition to conditionally loading attributes, you may conditionally include r
 
     Route::get('/user', function () {
         return (new UserResource(User::find(1)))
-                    ->response()
-                    ->header('X-Value', 'True');
+            ->response()
+            ->header('X-Value', 'True');
     });
 
 もう一つの方法は、リソース自身の中で`withResponse`メソッドを定義することです。このメソッドは、リソースがレスポンスにおいて最も外側のリソースとして返されるときに呼び出されます。

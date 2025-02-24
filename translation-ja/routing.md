@@ -620,10 +620,10 @@ Laravelは、タイプヒントの変数名がルートセグメント名と一�
     use Illuminate\Support\Facades\Redirect;
 
     Route::get('/locations/{location:slug}', [LocationsController::class, 'show'])
-            ->name('locations.view')
-            ->missing(function (Request $request) {
-                return Redirect::route('locations.index');
-            });
+        ->name('locations.view')
+        ->missing(function (Request $request) {
+            return Redirect::route('locations.index');
+        });
 
 <a name="implicit-enum-binding"></a>
 ### 暗黙のEnumバインディング

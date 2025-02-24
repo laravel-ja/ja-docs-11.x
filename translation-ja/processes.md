@@ -111,16 +111,16 @@ $result = Process::timeout(60)->idleTimeout(30)->run('bash import.sh');
 
 ```php
 $result = Process::forever()
-            ->env(['IMPORT_PATH' => __DIR__])
-            ->run('bash import.sh');
+    ->env(['IMPORT_PATH' => __DIR__])
+    ->run('bash import.sh');
 ```
 
 呼び出したプロセスから継承した環境変数を削除したい場合は、その環境変数に`false`値を指定してください。
 
 ```php
 $result = Process::forever()
-            ->env(['LOAD_PATH' => false])
-            ->run('bash import.sh');
+    ->env(['LOAD_PATH' => false])
+    ->run('bash import.sh');
 ```
 
 <a name="tty-mode"></a>
@@ -504,8 +504,8 @@ Process::fake([
 ```php
 Process::fake([
     'ls *' => Process::sequence()
-                ->push(Process::result('First invocation'))
-                ->push(Process::result('Second invocation')),
+        ->push(Process::result('First invocation'))
+        ->push(Process::result('Second invocation')),
 ]);
 ```
 
@@ -537,11 +537,11 @@ Route::get('/import', function () {
 ```php
 Process::fake([
     'bash import.sh' => Process::describe()
-            ->output('First line of standard output')
-            ->errorOutput('First line of error output')
-            ->output('Second line of standard output')
-            ->exitCode(0)
-            ->iterations(3),
+        ->output('First line of standard output')
+        ->errorOutput('First line of error output')
+        ->output('Second line of standard output')
+        ->exitCode(0)
+        ->iterations(3),
 ]);
 ```
 

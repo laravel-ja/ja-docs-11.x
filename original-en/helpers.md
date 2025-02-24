@@ -9,6 +9,7 @@
     - [Lottery](#lottery)
     - [Pipeline](#pipeline)
     - [Sleep](#sleep)
+    - [Timebox](#timebox)
 
 <a name="introduction"></a>
 ## Introduction
@@ -65,6 +66,7 @@ Laravel includes a variety of global "helper" PHP functions. Many of these funct
 [Arr::pull](#method-array-pull)
 [Arr::query](#method-array-query)
 [Arr::random](#method-array-random)
+[Arr::reject](#method-array-reject)
 [Arr::set](#method-array-set)
 [Arr::shuffle](#method-array-shuffle)
 [Arr::sort](#method-array-sort)
@@ -754,6 +756,21 @@ You may also specify the number of items to return as an optional second argumen
     $items = Arr::random($array, 2);
 
     // [2, 5] - (retrieved randomly)
+
+<a name="method-array-reject"></a>
+#### `Arr::reject()` {.collection-method}
+
+The `Arr::reject` method removes items from an array using the given closure:
+
+    use Illuminate\Support\Arr;
+
+    $array = [100, '200', 300, '400', 500];
+
+    $filtered = Arr::reject($array, function (string|int $value, int $key) {
+        return is_string($value);
+    });
+
+    // [0 => 100, 2 => 300, 4 => 500]
 
 <a name="method-array-set"></a>
 #### `Arr::set()` {.collection-method}
@@ -2576,19 +2593,19 @@ use App\Models\User;
 use Illuminate\Support\Facades\Pipeline;
 
 $user = Pipeline::send($user)
-            ->through([
-                function (User $user, Closure $next) {
-                    // ...
-
-                    return $next($user);
-                },
-                function (User $user, Closure $next) {
-                    // ...
-
-                    return $next($user);
-                },
-            ])
-            ->then(fn (User $user) => $user);
+    ->through([
+        function (User $user, Closure $next) {
+            // ...
+    
+            return $next($user);
+        },
+        function (User $user, Closure $next) {
+            // ...
+    
+            return $next($user);
+        },
+    ])
+    ->then(fn (User $user) => $user);
 ```
 
 As you can see, each invokable class or closure in the pipeline is provided the input and a `$next` closure. Invoking the `$next` closure will invoke the next callable in the pipeline. As you may have noticed, this is very similar to [middleware](/docs/{{version}}/middleware).
@@ -2599,12 +2616,12 @@ Of course, as discussed previously, you are not limited to providing closures to
 
 ```php
 $user = Pipeline::send($user)
-            ->through([
-                GenerateProfilePhoto::class,
-                ActivateSubscription::class,
-                SendWelcomeEmail::class,
-            ])
-            ->then(fn (User $user) => $user);
+    ->through([
+        GenerateProfilePhoto::class,
+        ActivateSubscription::class,
+        SendWelcomeEmail::class,
+    ])
+    ->then(fn (User $user) => $user);
 ```
 
 <a name="sleep"></a>
@@ -2769,3 +2786,22 @@ $start->diffForHumans(); // 1 second ago
 ```
 
 Laravel uses the `Sleep` class internally whenever it is pausing execution. For example, the [`retry`](#method-retry) helper uses the `Sleep` class when sleeping, allowing for improved testability when using that helper.
+
+<a name="timebox"></a>
+### Timebox
+
+Laravel's `Timebox` class ensures that the given callback always takes a fixed amount of time to execute, even if its actual execution completes sooner. This is particularly useful for cryptographic operations and user authentication checks, where attackers might exploit variations in execution time to infer sensitive information.
+
+If the execution exceeds the fixed duration, `Timebox` has no effect. It is up to the developer to choose a sufficiently long time as the fixed duration to account for worst-case scenarios.
+
+The call method accepts a closure and a time limit in microseconds, and then executes the closure and waits until the time limit is reached:
+
+```php
+use Illuminate\Support\Timebox;
+
+(new Timebox)->call(function ($timebox) {
+    // ...
+}, microseconds: 10000);
+```
+
+If an exception is thrown within the closure, this class will respect the defined delay and re-throw the exception after the delay.

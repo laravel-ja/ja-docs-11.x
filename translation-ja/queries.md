@@ -169,8 +169,8 @@ DB::table('users')->where(function ($query) {
 })->chunkById(100, function (Collection $users) {
     foreach ($users as $user) {
         DB::table('users')
-          ->where('id', $user->id)
-          ->update(['credits' => 3]);
+            ->where('id', $user->id)
+            ->update(['credits' => 3]);
     }
 });
 ```
@@ -380,7 +380,7 @@ DB::table('users')->where('active', false)
     DB::table('users')
         ->join('contacts', function (JoinClause $join) {
             $join->on('users.id', '=', 'contacts.user_id')
-                 ->where('contacts.user_id', '>', 5);
+                ->where('contacts.user_id', '>', 5);
         })
         ->get();
 
@@ -1137,8 +1137,8 @@ havingBetween`メソッドを使うと、指定した範囲内の結果をフィ
 データベースにレコードを挿入することに加え、クエリビルダは`update`メソッドを使用して既存のレコードを更新することもできます。`update`メソッドは、`insert`メソッドと同様に、更新するカラムを示すカラムと値のペアの配列を受け入れます。`update`メソッドは、影響を受けた行数を返します。`where`句を使用して`update`クエリを制約できます。
 
     $affected = DB::table('users')
-                  ->where('id', 1)
-                  ->update(['votes' => 1]);
+        ->where('id', 1)
+        ->update(['votes' => 1]);
 
 <a name="update-or-insert"></a>
 #### UpdateかInsert

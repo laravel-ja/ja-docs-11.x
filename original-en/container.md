@@ -222,16 +222,16 @@ Sometimes you may have two classes that utilize the same interface, but you wish
     use Illuminate\Support\Facades\Storage;
 
     $this->app->when(PhotoController::class)
-              ->needs(Filesystem::class)
-              ->give(function () {
-                  return Storage::disk('local');
-              });
+        ->needs(Filesystem::class)
+        ->give(function () {
+            return Storage::disk('local');
+        });
 
     $this->app->when([VideoController::class, UploadController::class])
-              ->needs(Filesystem::class)
-              ->give(function () {
-                  return Storage::disk('s3');
-              });
+        ->needs(Filesystem::class)
+        ->give(function () {
+            return Storage::disk('s3');
+        });
 
 <a name="contextual-attributes"></a>
 ### Contextual Attributes
@@ -312,34 +312,38 @@ Route::get('/user', function (#[CurrentUser] User $user) {
 
 You can create your own contextual attributes by implementing the `Illuminate\Contracts\Container\ContextualAttribute` contract. The container will call your attribute's `resolve` method, which should resolve the value that should be injected into the class utilizing the attribute. In the example below, we will re-implement Laravel's built-in `Config` attribute:
 
-    <?php
+```php
+<?php
 
-    namespace App\Attributes;
+namespace App\Attributes;
 
-    use Illuminate\Contracts\Container\ContextualAttribute;
+use Attribute;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Container\ContextualAttribute;
 
-    #[Attribute(Attribute::TARGET_PARAMETER)]
-    class Config implements ContextualAttribute
+#[Attribute(Attribute::TARGET_PARAMETER)]
+class Config implements ContextualAttribute
+{
+    /**
+     * Create a new attribute instance.
+     */
+    public function __construct(public string $key, public mixed $default = null)
     {
-        /**
-         * Create a new attribute instance.
-         */
-        public function __construct(public string $key, public mixed $default = null)
-        {
-        }
-
-        /**
-         * Resolve the configuration value.
-         *
-         * @param  self  $attribute
-         * @param  \Illuminate\Contracts\Container\Container  $container
-         * @return mixed
-         */
-        public static function resolve(self $attribute, Container $container)
-        {
-            return $container->make('config')->get($attribute->key, $attribute->default);
-        }
     }
+
+    /**
+     * Resolve the configuration value.
+     *
+     * @param  self  $attribute
+     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @return mixed
+     */
+    public static function resolve(self $attribute, Container $container)
+    {
+        return $container->make('config')->get($attribute->key, $attribute->default);
+    }
+}
+```
 
 <a name="binding-primitives"></a>
 ### Binding Primitives
@@ -349,8 +353,8 @@ Sometimes you may have a class that receives some injected classes, but also nee
     use App\Http\Controllers\UserController;
 
     $this->app->when(UserController::class)
-              ->needs('$variableName')
-              ->give($value);
+        ->needs('$variableName')
+        ->give($value);
 
 Sometimes a class may depend on an array of [tagged](#tagging) instances. Using the `giveTagged` method, you may easily inject all of the container bindings with that tag:
 
@@ -397,24 +401,24 @@ Occasionally, you may have a class that receives an array of typed objects using
 Using contextual binding, you may resolve this dependency by providing the `give` method with a closure that returns an array of resolved `Filter` instances:
 
     $this->app->when(Firewall::class)
-              ->needs(Filter::class)
-              ->give(function (Application $app) {
-                    return [
-                        $app->make(NullFilter::class),
-                        $app->make(ProfanityFilter::class),
-                        $app->make(TooLongFilter::class),
-                    ];
-              });
+        ->needs(Filter::class)
+        ->give(function (Application $app) {
+              return [
+                  $app->make(NullFilter::class),
+                  $app->make(ProfanityFilter::class),
+                  $app->make(TooLongFilter::class),
+              ];
+        });
 
 For convenience, you may also just provide an array of class names to be resolved by the container whenever `Firewall` needs `Filter` instances:
 
     $this->app->when(Firewall::class)
-              ->needs(Filter::class)
-              ->give([
-                  NullFilter::class,
-                  ProfanityFilter::class,
-                  TooLongFilter::class,
-              ]);
+        ->needs(Filter::class)
+        ->give([
+            NullFilter::class,
+            ProfanityFilter::class,
+            TooLongFilter::class,
+        ]);
 
 <a name="variadic-tag-dependencies"></a>
 #### Variadic Tag Dependencies

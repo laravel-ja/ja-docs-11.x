@@ -403,9 +403,9 @@ Model::preventSilentlyDiscardingAttributes(! $this->app->isProduction());
 Eloquentの`all`メソッドは、モデルのテーブルにあるすべての結果を返します。しかし、各Eloquentモデルは[クエリビルダ](/docs/{{version}}/queries)として機能するため、クエリに制約を追加してから`get`メソッドを呼び出し、結果を取得することもできます。
 
     $flights = Flight::where('active', 1)
-                   ->orderBy('name')
-                   ->take(10)
-                   ->get();
+        ->orderBy('name')
+        ->take(10)
+        ->get();
 
 > [!NOTE]
 > Eloquentモデルはクエリビルダであるため、Laravelの[クエリビルダ](/docs/{{version}}/queries)が提供するすべてのメソッドを確認する必要があります。Eloquentでクエリを作成するときは、それらすべてのメソッドを使用できます。
@@ -745,8 +745,8 @@ Eloquentモデルを操作するときは、Laravel [クエリビルダ](/docs/{
 特定のクエリに一致するモデルに対して更新を実行することもできます。この例では、「アクティブ（`active`）」で`destination`が`San Diego`のすべてのフライトが遅延（delayed）としてマークされます。
 
     Flight::where('active', 1)
-          ->where('destination', 'San Diego')
-          ->update(['delayed' => 1]);
+        ->where('destination', 'San Diego')
+        ->update(['delayed' => 1]);
 
 `update`メソッドは、更新する必要のあるカラムを表すカラム名と値のペアの配列を引数に取ります。`update`メソッドは、影響を受けた行数を返します。
 
@@ -1038,8 +1038,8 @@ Eloquentリレーションクエリを作成するときに、`forceDelete`メ�
     use App\Models\Flight;
 
     $flights = Flight::withTrashed()
-                    ->where('account_id', 1)
-                    ->get();
+        ->where('account_id', 1)
+        ->get();
 
 `withTrashed`メソッドは、[リレーション](/docs/{{version}}/eloquent-relationships)クエリを作成するときにも呼び出すことができます。
 
@@ -1051,8 +1051,8 @@ Eloquentリレーションクエリを作成するときに、`forceDelete`メ�
 `onlyTrashed`メソッドは、ソフトデリートしたモデル**のみ**取得します。
 
     $flights = Flight::onlyTrashed()
-                    ->where('airline_id', 1)
-                    ->get();
+        ->where('airline_id', 1)
+        ->get();
 
 <a name="pruning-models"></a>
 ## モデルの整理

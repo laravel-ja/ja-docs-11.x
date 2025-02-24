@@ -112,8 +112,8 @@ php artisan make:view greeting
 データの完全な配列を`view`ヘルパ関数に渡す代わりに、`with`メソッドを使用して個々のデータをビューへ追加することもできます。`with`メソッドはビューオブジェクトのインスタンスを返すため、ビューを返す前にメソッドのチェーンを続けられます。
 
     return view('greeting')
-                ->with('name', 'Victoria')
-                ->with('occupation', 'Astronaut');
+        ->with('name', 'Victoria')
+        ->with('occupation', 'Astronaut');
 
 <a name="sharing-data-with-all-views"></a>
 ### すべてのビューでデータを共有

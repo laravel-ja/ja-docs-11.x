@@ -303,7 +303,7 @@ class ExampleTest extends TestCase
 }
 ```
 
-Alternatively, you may use the `dd`, `ddHeaders`, and `ddSession` methods to dump information about the response and then stop execution:
+Alternatively, you may use the `dd`, `ddHeaders`, `ddSession`, and `ddJson` methods to dump information about the response and then stop execution:
 
 ```php tab=Pest
 <?php
@@ -312,9 +312,8 @@ test('basic test', function () {
     $response = $this->get('/');
 
     $response->ddHeaders();
-
     $response->ddSession();
-
+    $response->ddJson();
     $response->dd();
 });
 ```
@@ -729,7 +728,7 @@ You may only want to assert that the properties in the JSON response are of a ce
 
     $response->assertJson(fn (AssertableJson $json) =>
         $json->whereType('id', 'integer')
-             ->whereAllType([
+            ->whereAllType([
                 'users.0.name' => 'string',
                 'meta' => 'array'
             ])
@@ -739,7 +738,7 @@ You may specify multiple types using the `|` character, or passing an array of t
 
     $response->assertJson(fn (AssertableJson $json) =>
         $json->whereType('name', 'string|null')
-             ->whereType('id', ['string', 'integer'])
+            ->whereType('id', ['string', 'integer'])
     );
 
 The `whereType` and `whereAllType` methods recognize the following types: `string`, `integer`, `double`, `boolean`, `array`, and `null`.
@@ -947,6 +946,7 @@ Laravel's `Illuminate\Testing\TestResponse` class provides a variety of custom a
 [assertMovedPermanently](#assert-moved-permanently)
 [assertContent](#assert-content)
 [assertNoContent](#assert-no-content)
+[assertStreamed](#assert-streamed)
 [assertStreamedContent](#assert-streamed-content)
 [assertNotFound](#assert-not-found)
 [assertOk](#assert-ok)
@@ -1345,6 +1345,13 @@ Assert that the given string matches the response content:
 Assert that the response has the given HTTP status code and no content:
 
     $response->assertNoContent($status = 204);
+
+<a name="assert-streamed"></a>
+#### assertStreamed
+
+Assert that the response was a streamed response:
+
+    $response->assertStreamed();
 
 <a name="assert-streamed-content"></a>
 #### assertStreamedContent

@@ -222,16 +222,16 @@ $this->app->singletonIf(Transistor::class, function (Application $app) {
     use Illuminate\Support\Facades\Storage;
 
     $this->app->when(PhotoController::class)
-              ->needs(Filesystem::class)
-              ->give(function () {
-                  return Storage::disk('local');
-              });
+        ->needs(Filesystem::class)
+        ->give(function () {
+            return Storage::disk('local');
+        });
 
     $this->app->when([VideoController::class, UploadController::class])
-              ->needs(Filesystem::class)
-              ->give(function () {
-                  return Storage::disk('s3');
-              });
+        ->needs(Filesystem::class)
+        ->give(function () {
+            return Storage::disk('s3');
+        });
 
 <a name="contextual-attributes"></a>
 ### コンテキスト属性
@@ -312,34 +312,38 @@ Route::get('/user', function (#[CurrentUser] User $user) {
 
 `Illuminate\Contracts\Container\ContextualAttribute`契約を実装すれば、独自のコンテキスト属性が作成できます。コンテナは属性の`resolve`メソッドを呼び出し、属性を利用するクラスへ注入する値を解決します。以下の例では、Laravelの組み込みの`Config`属性を再実装しています。
 
-    <?php
+```php
+<?php
 
-    namespace App\Attributes;
+namespace App\Attributes;
 
-    use Illuminate\Contracts\Container\ContextualAttribute;
+use Attribute;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Contracts\Container\ContextualAttribute;
 
-    #[Attribute(Attribute::TARGET_PARAMETER)]
-    class Config implements ContextualAttribute
+#[Attribute(Attribute::TARGET_PARAMETER)]
+class Config implements ContextualAttribute
+{
+    /**
+     * 新しい属性インスタンスの生成
+     */
+    public function __construct(public string $key, public mixed $default = null)
     {
-        /**
-         * 新属性インスタンスの生成
-         */
-        public function __construct(public string $key, public mixed $default = null)
-        {
-        }
-
-        /**
-         * 設定値の解決
-         *
-         * @param  self  $attribute
-         * @param  \Illuminate\Contracts\Container\Container  $container
-         * @return mixed
-         */
-        public static function resolve(self $attribute, Container $container)
-        {
-            return $container->make('config')->get($attribute->key, $attribute->default);
-        }
     }
+
+    /**
+     * 設定値の解決
+     *
+     * @param  self  $attribute
+     * @param  \Illuminate\Contracts\Container\Container  $container
+     * @return mixed
+     */
+    public static function resolve(self $attribute, Container $container)
+    {
+        return $container->make('config')->get($attribute->key, $attribute->default);
+    }
+}
+```
 
 <a name="binding-primitives"></a>
 ### プリミティブの結合
@@ -349,8 +353,8 @@ Route::get('/user', function (#[CurrentUser] User $user) {
     use App\Http\Controllers\UserController;
 
     $this->app->when(UserController::class)
-              ->needs('$variableName')
-              ->give($value);
+        ->needs('$variableName')
+        ->give($value);
 
 クラスが[タグ付き](#tagging)インスタンスの配列へ依存する場合があります。`giveTagged`メソッドを使用すると、そのタグを使用してすべてのコンテナバインディングを簡単に挿入できます。
 
@@ -397,24 +401,24 @@ Route::get('/user', function (#[CurrentUser] User $user) {
 文脈による結合を使用すると、依存解決した`Filter`インスタンスの配列を返すクロージャを`give`メソッドへ渡すことで、この依存関係を解決できます。
 
     $this->app->when(Firewall::class)
-              ->needs(Filter::class)
-              ->give(function (Application $app) {
-                    return [
-                        $app->make(NullFilter::class),
-                        $app->make(ProfanityFilter::class),
-                        $app->make(TooLongFilter::class),
-                    ];
-              });
+        ->needs(Filter::class)
+        ->give(function (Application $app) {
+              return [
+                  $app->make(NullFilter::class),
+                  $app->make(ProfanityFilter::class),
+                  $app->make(TooLongFilter::class),
+              ];
+        });
 
 利便性のため、いつでも`Firewall`が`Filter`インスタンスを必要とするときは、コンテナが解決するクラス名の配列も渡せます。
 
     $this->app->when(Firewall::class)
-              ->needs(Filter::class)
-              ->give([
-                  NullFilter::class,
-                  ProfanityFilter::class,
-                  TooLongFilter::class,
-              ]);
+        ->needs(Filter::class)
+        ->give([
+            NullFilter::class,
+            ProfanityFilter::class,
+            TooLongFilter::class,
+        ]);
 
 <a name="variadic-tag-dependencies"></a>
 #### 可変引数タグの依存

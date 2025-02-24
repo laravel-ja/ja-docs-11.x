@@ -303,7 +303,7 @@ class ExampleTest extends TestCase
 }
 ```
 
-あるいは、`dd`、`ddHeaders`、`ddSession`メソッドを使って、レスポンスに関する情報をダンプしてから、実行を停止することもできます。
+あるいは、`dd`、`ddHeaders`、`ddSession`、`ddJson`メソッドを使って、レスポンスに関する情報をダンプしてから、実行を停止することもできます。
 
 ```php tab=Pest
 <?php
@@ -312,9 +312,8 @@ test('basic test', function () {
     $response = $this->get('/');
 
     $response->ddHeaders();
-
     $response->ddSession();
-
+    $response->ddJson();
     $response->dd();
 });
 ```
@@ -729,7 +728,7 @@ JSONレスポンス内のプロパティが特定の型のものであること�
 
     $response->assertJson(fn (AssertableJson $json) =>
         $json->whereType('id', 'integer')
-             ->whereAllType([
+            ->whereAllType([
                 'users.0.name' => 'string',
                 'meta' => 'array'
             ])
@@ -739,7 +738,7 @@ JSONレスポンス内のプロパティが特定の型のものであること�
 
     $response->assertJson(fn (AssertableJson $json) =>
         $json->whereType('name', 'string|null')
-             ->whereType('id', ['string', 'integer'])
+            ->whereType('id', ['string', 'integer'])
     );
 
 `whereType`と`whereAllType`メソッドは、`string`、`integer`、`double`、`boolean`、`array`、`null`タイプを認識します。
@@ -947,6 +946,7 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 [assertMovedPermanently](#assert-moved-permanently)
 [assertContent](#assert-content)
 [assertNoContent](#assert-no-content)
+[assertStreamed](#assert-streamed)
 [assertStreamedContent](#assert-streamed-content)
 [assertNotFound](#assert-not-found)
 [assertOk](#assert-ok)
@@ -1345,6 +1345,13 @@ Laravelの`Illuminate\Testing\TestResponse`クラスは、アプリケーショ�
 レスポンスに指定するHTTPステータスコードがあり、コンテンツがないことを宣言します。
 
     $response->assertNoContent($status = 204);
+
+<a name="assert-streamed"></a>
+#### assertStreamed
+
+レスポンスがストリーム・レスポンスであることを宣言します。
+
+    $response->assertStreamed();
 
 <a name="assert-streamed-content"></a>
 #### assertStreamedContent

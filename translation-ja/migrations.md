@@ -1255,9 +1255,9 @@ Laravelは、データベースレベルで参照整合性を強制するため�
 必要なアクションに"on delete"や"on update"の制約プロパティを指定することもできます。
 
     $table->foreignId('user_id')
-          ->constrained()
-          ->onUpdate('cascade')
-          ->onDelete('cascade');
+        ->constrained()
+        ->onUpdate('cascade')
+        ->onDelete('cascade');
 
 これらのアクションには、表現力の高い別構文も用意しています。
 
@@ -1279,8 +1279,8 @@ Laravelは、データベースレベルで参照整合性を強制するため�
 追加の[カラム修飾子](#column-modifiers)は、`constrained`メソッドの前に呼び出す必要があります。
 
     $table->foreignId('user_id')
-          ->nullable()
-          ->constrained();
+        ->nullable()
+        ->constrained();
 
 <a name="dropping-foreign-keys"></a>
 #### 外部キーの削除
