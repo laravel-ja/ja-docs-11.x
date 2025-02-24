@@ -32,7 +32,7 @@
 <a name="reporting-exceptions"></a>
 ### 例外のレポート
 
-Laravelでは、例外レポートを使用して、例外をログに記録したり、外部サービスの[Sentry](https://github.com/getsentry/sentry-laravel)、[Flare](https://flareapp.io)へ送信したりします。例外はデフォルトで、[ログ](/docs/{{version}}/logging)設定に基づき、ログへ記録します。しかし、例外をどのようにログに記録するかは自由です。
+Laravelでは、例外レポートを使用して例外をログに記録したり、[Sentry](https://github.com/getsentry/sentry-laravel)や[Flare](https://flareapp.io)のような外部サービスへ送信したりします。例外はデフォルトで、[ログ](/docs/{{version}}/logging)設定に基づき、ログへ記録します。しかし、例外をどのようにログに記録するかは自由です。
 
 異なるタイプの例外を別々の方法で報告する必要がある場合、アプリケーションの`bootstrap/app.php`で`report`例外メソッドを使用して、特定タイプの例外を報告する必要があるときに実行するクロージャを登録できます。Laravelは、クロージャのタイプヒントを調べ、クロージャが報告する例外のタイプを決定します。
 
